@@ -8,7 +8,6 @@ Fixes/resolves # (issue)
 Please include any screenshots or media that illustrates the changes made
 
 ## Type of change
-
 Please delete options that are not relevant.
 
 - [ ] **Bug fix** (non-breaking change which fixes an issue)
@@ -18,6 +17,7 @@ Please delete options that are not relevant.
 - [ ] This change requires a documentation update
 
 # Checklist:
+Leave blank if not applicable
 
 - [ ] My code follows the style guidelines of this project
 - [ ] I have performed a self-review of my code
