@@ -1,3 +1,6 @@
 # https://docs.github.com/en/repositories/managing-your-repositorys-settings-and-features/customizing-your-repository/about-code-owners
 
 * @701-T4/team-4
+
+packages/backend @701-T4/back-end
+packages/frontend @701-T4/front-end

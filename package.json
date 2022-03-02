@@ -1,0 +1,18 @@
+{
+  "name": "root",
+  "private": true,
+  "devDependencies": {
+    "husky": "^7.0.4",
+    "lerna": "^4.0.0",
+    "lint-staged": "^12.3.4",
+    "prettier": "^2.5.1"
+  },
+  "lint-staged": {
+    "*.{js,css,md,ts,jsx,tsx}": "prettier --write"
+  },
+  "scripts": {
+    "prepare": "husky install",
+    "postinstall": "lerna bootstrap",
+    "start": "lerna run --parallel start"
+  }
+}
