@@ -1,0 +1,12 @@
+{
+  "name": "platform-backend",
+  "version": "0.1.0",
+  "description": "Backend code for 701-T4 project",
+  "main": "index.js",
+  "repository": "https://github.com/701-T4/platform",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "echo hello"
+  }
+}
