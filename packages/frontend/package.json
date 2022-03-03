@@ -22,7 +22,7 @@
     "web-vitals": "^2.1.0"
   },
   "scripts": {
-    "start:dev": "run-p start:dev",
+    "start:dev": "run-p start",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
