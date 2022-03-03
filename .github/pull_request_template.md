@@ -39,5 +39,5 @@ Complete these steps as you work through the issue:
 
 Complete these steps when finishing work on an issue:
 - [ ] If the work is significant, I have added a row to the [contributors page](https://github.com/701-T4/platform/wiki/Contributors)
-- [ ] I have marked the PR as ready for review
-- [ ] I have moved the linked issue to the Review in Progress column
+- [ ] I have marked the PR as **Ready for review**
+- [ ] I have moved the linked issue to the **Review in Progress** column
