@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { RouterModule } from '@nestjs/core';
 import { APIController } from './api.controller';
 import { UsersModule } from './users/users.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   controllers: [APIController],
@@ -15,6 +16,7 @@ import { UsersModule } from './users/users.module';
       isGlobal: true,
     }),
     UsersModule,
+    MongooseModule.forRoot('mongodb://localhost/nest'),
   ],
 })
 export class AppModule {}
