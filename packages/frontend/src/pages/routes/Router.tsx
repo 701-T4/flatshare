@@ -5,8 +5,8 @@ import UnauthenticatedRoutes from "./UnauthenticatedRoutes";
 interface RouterProps {}
 
 const Router: React.FC<RouterProps> = () => {
-  const [authLoaded, setAuthLoaded] = useState(true);
-  const [signedIn, setSignedIn] = useState(false);
+  const [authLoaded] = useState(true);
+  const [signedIn] = useState(false);
 
   if (!authLoaded) {
     return null;
