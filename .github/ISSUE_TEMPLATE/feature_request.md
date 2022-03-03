@@ -19,8 +19,8 @@ A clear and concise description of any alternative solutions or features you've 
 **Additional context**
 Add any other context or screenshots about the feature request here.
 
-# Checklist:
+### Checklist:
 
-- [ ] I have checked that the issue does not currently exist. 
+- [ ] I have double checked that the issue does not currently exist. 
 - [ ] I have added the appropriate labels (e.g. feature, front-end, back-end).
 - [ ] I have added the **Platform Project** project
