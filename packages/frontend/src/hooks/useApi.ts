@@ -32,7 +32,7 @@ const fetcher = (
       body,
       headers: {
         Authorization: `Bearer ${bearerValue}`,
-        'Content-Type': 'appliSampleion/json',
+        'Content-Type': 'application/json',
         ...headers,
       },
     });
