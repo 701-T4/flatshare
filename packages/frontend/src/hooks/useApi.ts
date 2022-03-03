@@ -1,4 +1,4 @@
-import useSWR from "swr";
+import useSWR from 'swr';
 
 interface UseApiArgs {
   /** The method, i.e. GET, POST */
@@ -15,7 +15,7 @@ interface UseApiArgs {
 
 const fetcher = (
   { headers, method, body, queryParams, parser }: UseApiArgs,
-  bearer?: Promise<string>
+  bearer?: Promise<string>,
 ) => {
   return async (url: string) => {
     const bearerValue = await bearer;
@@ -32,7 +32,7 @@ const fetcher = (
       body,
       headers: {
         Authorization: `Bearer ${bearerValue}`,
-        "Content-Type": "application/json",
+        'Content-Type': 'application/json',
         ...headers,
       },
     });
@@ -43,19 +43,19 @@ const fetcher = (
 /**
  * Make a request to our API
  *
- * @param url the url to the api, i.e. /api/ping
+ * @param url the url to the api, i.e. /api/v1/ping
  * @param options the options to pass to the request
  * @returns the response from the api. If data is undefined, but there is no error, then it is loading.
  *
- * @example const {data: pingData, error: pingError} = useApi("/api/ping", {method: "GET"});
+ * @example const {data: pingData, error: pingError} = useApi("/api/v1/ping", {method: "GET"});
  */
 export const useApi = (
   url: string,
-  { method = "GET", parser = (res) => res.json(), ...options }: UseApiArgs = {}
+  { method = 'GET', parser = (res) => res.json(), ...options }: UseApiArgs = {},
 ) => {
   const { data, error, ...rest } = useSWR(
     url,
-    fetcher({ method, parser, ...options })
+    fetcher({ method, parser, ...options }),
   );
   const loading = !data && !error;
 
@@ -63,8 +63,8 @@ export const useApi = (
 };
 
 const getUrl = (url: string) => {
-  if (!url.startsWith("/")) {
-    url = "/" + url;
+  if (!url.startsWith('/')) {
+    url = '/' + url;
   }
   return process.env.REACT_APP_ENDPOINT + url;
 };
