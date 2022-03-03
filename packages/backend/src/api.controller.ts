@@ -10,6 +10,9 @@ export class APIController {
   @Get('ping')
   @ApiOkResponse({ description: 'ping successful', type: PingResponse })
   getPing(): PingResponse {
-    return { time: new Date(), env: this.configService.get<string>('PING_TEXT') };
+    return {
+      time: new Date(),
+      env: this.configService.get<string>('PING_TEXT'),
+    };
   }
 }

@@ -8,7 +8,10 @@ import { UsersModule } from './users/users.module';
   controllers: [APIController],
   imports: [
     ConfigModule.forRoot({
-      envFilePath: process.env.NODE_ENV === 'development' ? '.env.development.template' : '.env.production',
+      envFilePath:
+        process.env.NODE_ENV === 'development'
+          ? '.env.development.template'
+          : '.env.production',
       isGlobal: true,
     }),
     UsersModule,
