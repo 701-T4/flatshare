@@ -13,6 +13,7 @@
   "scripts": {
     "prepare": "husky install",
     "postinstall": "lerna bootstrap",
-    "start": "lerna run --parallel start"
+    "start": "lerna run --parallel start",
+    "start:dev": "lerna run --parallel start:dev"
   }
 }
