@@ -5,6 +5,7 @@ import { AppModule } from './app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
 
+  // Attach endpoint documentation
   const documentConfig = new DocumentBuilder()
     .setTitle('API Documentation')
     .setDescription('Documentation for backend API endpoints')
@@ -13,6 +14,7 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, documentConfig);
   SwaggerModule.setup('api', app, document);
 
+  // Begin server
   await app.listen(3000);
 }
 bootstrap();
