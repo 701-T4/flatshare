@@ -9,10 +9,12 @@ interface UseApiArgs {
   headers?: { [key: string]: string };
   /** Query parameters to pass onto the request, to avoid having to manually add to the url. */
   queryParams?: { [key: string]: string | number };
+  /** How to parse the response. Will by default parse as json. */
+  parser?: (res: Response) => Promise<any>;
 }
 
 const fetcher = (
-  { headers, method, body, queryParams }: UseApiArgs,
+  { headers, method, body, queryParams, parser }: UseApiArgs,
   bearer?: Promise<string>
 ) => {
   return async (url: string) => {
@@ -25,7 +27,7 @@ const fetcher = (
       });
     }
 
-    return fetch(request.toString(), {
+    const result = await fetch(request.toString(), {
       method,
       body,
       headers: {
@@ -33,7 +35,8 @@ const fetcher = (
         "Content-Type": "application/json",
         ...headers,
       },
-    }).then((r) => r.json());
+    });
+    return await parser?.(result);
   };
 };
 
@@ -48,9 +51,12 @@ const fetcher = (
  */
 export const useApi = (
   url: string,
-  { method = "GET", ...options }: UseApiArgs = {}
+  { method = "GET", parser = (res) => res.json(), ...options }: UseApiArgs = {}
 ) => {
-  const { data, error, ...rest } = useSWR(url, fetcher({ method, ...options }));
+  const { data, error, ...rest } = useSWR(
+    url,
+    fetcher({ method, parser, ...options })
+  );
   const loading = !data && !error;
 
   return { data, error, ...rest, loading };
