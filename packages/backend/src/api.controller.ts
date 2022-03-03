@@ -1,9 +1,9 @@
 import { Controller, Get } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { ApiOkResponse } from '@nestjs/swagger';
-import PingResponse from '../schemas/pingResponse';
+import PingResponse from './schemas/pingResponse';
 
-@Controller()
+@Controller('api/v1')
 export class APIController {
   constructor(private configService: ConfigService) {}
 
