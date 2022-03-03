@@ -19,4 +19,4 @@ jobs:
       - name: Test Backend
         working-directory: ./packages/backend
         run:
-          yarn test --reporters="jest-junit"
+          yarn test
