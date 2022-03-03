@@ -1,4 +1,4 @@
-FROM node:alpine
+FROM node:16-alpine
 
 WORKDIR /platform/packages/backend
 COPY . /platform/packages/backend
