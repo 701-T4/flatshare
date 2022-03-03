@@ -26,6 +26,5 @@ Add any other context or screenshots about the feature request here.
 ### Checklist:
 
 - [ ] I have double checked that the issue does not currently exist. 
-- [ ] I have filled out the above template.
 - [ ] I have added the appropriate labels (e.g. feature, front-end, back-end).
 - [ ] I have added the **Platform Project** project

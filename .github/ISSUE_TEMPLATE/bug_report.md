@@ -47,6 +47,5 @@ Add any other context about the problem here.
 ### Checklist:
 
 - [ ] I have double checked that the issue does not currently exist. 
-- [ ] I have filled out the above template.
 - [ ] I have added the appropriate labels (e.g. bug, front-end, back-end).
 - [ ] I have added the **Platform Project** project
