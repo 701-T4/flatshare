@@ -19,7 +19,7 @@ Please delete options that are not relevant.
 # Checklist:
 Leave blank if not applicable
 
-I have completed these steps before making this pull request:
+I have completed these steps when making this pull request:
 - [ ] The issue is currently located in the [Ready for Development](https://github.com/701-T4/platform/projects/1#column-17919789) column
 - [ ] I have messaged my technical lead to check that the issue is available
 - [ ] I have assigned my name to the issue
