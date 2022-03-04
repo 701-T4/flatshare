@@ -29,7 +29,8 @@
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "generate": "npx openapi-typescript http://localhost:4200/api-json --output ./src/typing.ts"
+    "generate:api-types": "npx openapi-typescript http://localhost:4200/api-json --output ./src/types/api-schema.ts",
+    "generate": "run-p generate:*"
   },
   "eslintConfig": {
     "extends": [
