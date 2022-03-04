@@ -19,6 +19,13 @@ Please delete options that are not relevant.
 # Checklist:
 Leave blank if not applicable
 
+I have completed these steps when making this pull request:
+- [ ] I have assigned my name to the issue
+- [ ] I have moved the issue to the **In Progress** column
+- [ ] I have labelled the PR appropriately
+- [ ] I have assigned myself to the PR
+
+Before opening the PR for review:
 - [ ] My code follows the style guidelines of this project
 - [ ] I have performed a self-review of my code
 - [ ] I have commented my code, particularly in hard-to-understand areas
@@ -26,3 +33,4 @@ Leave blank if not applicable
 - [ ] My changes generate no new warnings
 - [ ] I have added tests that prove my fix is effective or that my feature works
 - [ ] New and existing unit tests pass locally with my changes
+- [ ] I have moved the linked issue to the **Review in Progress** column
