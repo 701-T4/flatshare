@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { SampleService } from './db.service';
+import { SampleService } from './sample.service';
 import { getModelToken } from '@nestjs/mongoose';
-import { Sample } from './schemas/sample.schema';
+import { Sample } from './sample.schema';
 import { Model } from 'mongoose';
 
 const mockSample = {
@@ -14,7 +14,7 @@ describe('SampleService', () => {
   let service: SampleService;
   let model: Model<Sample>;
 
-  const SamplesArray = [
+  const samplesArray = [
     {
       name: 'Sample #1',
       breed: 'Breed #1',
@@ -52,15 +52,15 @@ describe('SampleService', () => {
     expect(service).toBeDefined();
   });
 
-  it('should return all Samples', async () => {
+  it('should return all samples', async () => {
     jest.spyOn(model, 'find').mockReturnValue({
-      exec: jest.fn().mockResolvedValueOnce(SamplesArray),
+      exec: jest.fn().mockResolvedValueOnce(samplesArray),
     } as any);
-    const Samples = await service.findAll();
-    expect(Samples).toEqual(SamplesArray);
+    const samples = await service.findAll();
+    expect(samples).toEqual(samplesArray);
   });
 
-  it('should insert a new Sample', async () => {
+  it('should insert a new sample', async () => {
     jest.spyOn(model, 'create').mockImplementationOnce(() =>
       Promise.resolve({
         name: 'Sample #1',

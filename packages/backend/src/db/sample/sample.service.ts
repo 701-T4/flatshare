@@ -1,8 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-import { CreateSampleDto } from './dto/create-sample.dto';
-import { Sample, SampleDocument } from './schemas/sample.schema';
+import { Sample, SampleDocument, SampleModel } from './sample.schema';
 
 @Injectable()
 export class SampleService {
@@ -11,8 +10,8 @@ export class SampleService {
     private readonly sampleModel: Model<SampleDocument>,
   ) {}
 
-  async create(createdSampleDto: CreateSampleDto): Promise<Sample> {
-    const createdSample = await this.sampleModel.create(createdSampleDto);
+  async create(createdSampleModel: SampleModel): Promise<Sample> {
+    const createdSample = await this.sampleModel.create(createdSampleModel);
     return createdSample;
   }
 
@@ -25,9 +24,9 @@ export class SampleService {
   }
 
   async delete(id: string) {
-    const deletedCat = await this.sampleModel
+    const deletedSample = await this.sampleModel
       .findByIdAndRemove({ _id: id })
       .exec();
-    return deletedCat;
+    return deletedSample;
   }
 }

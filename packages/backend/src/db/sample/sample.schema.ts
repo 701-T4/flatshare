@@ -16,3 +16,9 @@ export class Sample {
 }
 
 export const SampleSchema = SchemaFactory.createForClass(Sample);
+
+export class SampleModel {
+  readonly name: string;
+  readonly age: number;
+  readonly breed: string;
+}
