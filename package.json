@@ -15,11 +15,6 @@
     "postinstall": "lerna bootstrap",
     "start": "lerna run --parallel start",
     "start:dev": "lerna run --parallel start:dev",
-    "test": "lerna run --parallel test",
-    "generate": "npx openapi-typescript http://localhost:4200/api-json --output packages/frontend/src/typing.ts"
-  },
-  "dependencies": {
-    "openapi-typescript": "^5.2.0",
-    "openapi-typescript-fetch": "^1.1.2"
+    "test": "lerna run --parallel test"
   }
 }
