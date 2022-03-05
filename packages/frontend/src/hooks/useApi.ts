@@ -72,7 +72,7 @@ export const useApi = <
   return { data, error, ...rest, loading };
 };
 
-const getUrl = (url: string) => {
+export const getUrl = (url: string) => {
   if (!url.startsWith('/')) {
     url = '/' + url;
   }
@@ -106,7 +106,7 @@ export const useUntypedApi = (
  *
  * @example substitutePathParams("/api/{id}", [3]) // => "/api/3"
  */
-const substitutePathParams = (
+export const substitutePathParams = (
   url: string,
   params?: Record<string, number | string>,
 ) => {
