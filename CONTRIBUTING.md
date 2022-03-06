@@ -20,6 +20,6 @@ This project uses Firebase for authentication. You may want to set up your own F
 
 3. Copy the firebaseConfig code. It should be a single JS object.
 
-4. Paste that object in the indicated location in `scripts/FirebaseConfigPrinter.js` and run the script.
+4. Paste that object in a new file named `scripts/firebase-config/data.js`, replacing the name of the object with `module.exports` and run the script next to that file.
 
 5. The script will save information to your clipboard. Paste that into the REACT_APP_FIREBASE_CONFIG environment variable, replacing all existing contents.
