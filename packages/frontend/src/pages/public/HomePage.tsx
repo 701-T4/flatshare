@@ -1,3 +1,4 @@
+import { Button, Text } from '@nextui-org/react';
 import React from 'react';
 import { useApi } from '../../hooks/useApi';
 
@@ -12,7 +13,12 @@ const HomePage: React.FC<HomePageProps> = () => {
     console.log({ env, time });
   }
 
-  return <div>Hello</div>;
+  return (
+    <div>
+      <Text h1> Hello </Text>
+      <Button size="sm">Small</Button>
+    </div>
+  );
 };
 
 export default HomePage;
