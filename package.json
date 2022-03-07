@@ -11,6 +11,7 @@
     "*.{js,css,md,ts,jsx,tsx}": "prettier --write"
   },
   "scripts": {
+    "build": "lerna run build",
     "prepare": "husky install",
     "postinstall": "lerna bootstrap",
     "start": "lerna run --parallel start",
