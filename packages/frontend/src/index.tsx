@@ -9,7 +9,9 @@ import './styles/index.css';
 
 ReactDOM.render(
   <NextUIProvider theme={mainTheme}>
-    <App />
+    <React.StrictMode>
+      <App />
+    </React.StrictMode>
   </NextUIProvider>,
   document.getElementById('root'),
 );
