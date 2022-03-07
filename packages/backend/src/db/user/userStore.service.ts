@@ -23,6 +23,10 @@ export class UserStoreService {
     return this.userModel.find().exec();
   }
 
+  async update(id: string, updateUserModel: Partial<UserModel>) {
+    await this.userModel.findOneAndUpdate({ _id: id }, updateUserModel);
+  }
+
   async delete(id: string) {
     const deletedUser = await this.userModel
       .findByIdAndRemove({ _id: id })

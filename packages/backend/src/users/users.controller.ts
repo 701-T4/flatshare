@@ -30,6 +30,11 @@ export class UsersController {
     return await this.userStoreService.findOne(id);
   }
 
+  @Patch(':id')
+  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+    return await this.userStoreService.update(id, updateUserDto);
+  }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return this.userStoreService.delete(id);

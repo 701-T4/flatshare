@@ -11,8 +11,8 @@ import { DbModule } from './db/db.module';
     ConfigModule.forRoot({
       envFilePath:
         process.env.NODE_ENV === 'development'
-          ? '.env.development.template'
-          : '.env.production.template',
+          ? '.env.development'
+          : '.env.production',
       isGlobal: true,
     }),
     UsersModule,
