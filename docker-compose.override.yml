@@ -1,19 +1,12 @@
 version: '3'
 services:
-  frontend:
-    container_name: frontend
-    image: frontend
+  platform:
+    container_name: platform
+    image: platform
     restart: always
-    build: ./packages/frontend
+    build: ./
     ports:
-      - "80:3000"
-  backend:
-    container_name: backend
-    image: backend
-    restart: always
-    build: ./packages/backend
-    ports:
-      - "4200:4200"
+      - "1200:1200"
     links:
       - mongodb_container
     depends_on:
