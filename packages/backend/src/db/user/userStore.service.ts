@@ -23,8 +23,8 @@ export class UserStoreService {
     return this.userModel.find().exec();
   }
 
-  async update(id: string, updateUserModel: Partial<UserModel>) {
-    await this.userModel.findOneAndUpdate({ _id: id }, updateUserModel).exec();
+  async update(id: string, updateUserModel: Partial<UserModel>): Promise<User> {
+    return this.userModel.findOneAndUpdate({ _id: id }, updateUserModel).exec();
   }
 
   async delete(id: string) {
