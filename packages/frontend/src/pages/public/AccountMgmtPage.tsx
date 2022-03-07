@@ -14,12 +14,17 @@ const AccountMgmtPage: React.FC<AccountMgmtPageProps> = () => {
 
   return (
     <Container style={{ position: 'absolute', top: '50%' }}>
-      <Row gap={2}>
+      <Row gap={5}>
         <Col>
-          <Btn content="CREATE" bordered={true}></Btn>
+          <Btn
+            content="CREATE"
+            bordered={true}
+            width="100%"
+            padding="30px"
+          ></Btn>
         </Col>
         <Col>
-          <Btn content="JOIN" bordered={true}></Btn>
+          <Btn content="JOIN" bordered={true} width="100%" padding="30px"></Btn>
         </Col>
       </Row>
     </Container>

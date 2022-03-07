@@ -4,12 +4,14 @@ import React from 'react';
 export interface BtnProps {
   content: string;
   bordered: boolean;
+  width?: any;
+  padding?: string;
 }
 
 const Btn: React.FC<BtnProps> = (props: BtnProps) => {
-  const btnStyle = {
-    width: '100%',
-    //background: "transparent",
+  const btnStyle = props.width && {
+    width: props.width,
+    padding: props.padding,
   };
 
   return (
