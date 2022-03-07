@@ -15,12 +15,12 @@ export class UserStoreService {
     return createdUser;
   }
 
-  async findAll(): Promise<User[]> {
-    return this.userModel.find().exec();
-  }
-
   async findOne(id: string): Promise<User> {
     return this.userModel.findOne({ _id: id }).exec();
+  }
+
+  async findAll(): Promise<User[]> {
+    return this.userModel.find().exec();
   }
 
   async delete(id: string) {

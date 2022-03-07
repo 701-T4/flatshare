@@ -12,11 +12,11 @@ import { DbModule } from './db/db.module';
       envFilePath:
         process.env.NODE_ENV === 'development'
           ? '.env.development.template'
-          : '.env.production',
+          : '.env.production.template',
       isGlobal: true,
     }),
     UsersModule,
-    MongooseModule.forRoot('mongodb://localhost/nest'),
+    MongooseModule.forRoot(process.env.DATABASE_URL),
   ],
 })
 export class AppModule {}
