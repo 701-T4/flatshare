@@ -4,6 +4,7 @@ import {
   Col,
   Container,
   Input,
+  Link,
   Modal,
   Row,
   Text,
@@ -23,7 +24,8 @@ const btnStyle = {
 const AccountMgmtPage: React.FC<AccountMgmtPageProps> = (
   props: AccountMgmtPageProps,
 ) => {
-  // get the house status
+  // get the house status, if its new users showing the account management page
+  // if not, direct to the house they joined
   // const { data } = useApi('/api/v1/ping', {
   //   method: 'get',
   // });
@@ -32,21 +34,17 @@ const AccountMgmtPage: React.FC<AccountMgmtPageProps> = (
   const handler = () => setVisible(true);
   const closeHandler = () => {
     setVisible(false);
-    console.log('closed');
   };
 
-  function handleCreatingHouse(): void {
-    //direct to the creating house page
-  }
-
   function handleJoiningHouse(): void {
-    // pop up a window that allows users to enter the code
+    // pass the data to the backend
+    // direct the page to the house dahsboard
   }
 
   return (
     <div>
       <Avatar
-        text={props.userName}
+        text="John"
         color="secondary"
         size="xl"
         squared
@@ -59,11 +57,14 @@ const AccountMgmtPage: React.FC<AccountMgmtPageProps> = (
       <Container style={{ position: 'absolute', top: '50%' }}>
         <Row gap={5}>
           <Col>
-            <Button color="secondary" bordered={true} style={btnStyle}>
-              <Text color="secondary" size="2em">
-                CREATE
-              </Text>
-            </Button>
+            {/* direct the users to the creating house page */}
+            <Link href="/create" style={{ display: 'inherit' }}>
+              <Button color="secondary" bordered={true} style={btnStyle}>
+                <Text color="secondary" size="2em">
+                  CREATE
+                </Text>
+              </Button>
+            </Link>
           </Col>
           <Col>
             <Button
