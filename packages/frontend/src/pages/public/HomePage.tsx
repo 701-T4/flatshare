@@ -17,9 +17,7 @@ const HomePage: React.FC<HomePageProps> = () => {
     <div className="h-screen overflow-y-auto bg-gradient-to-b from-land_page_bg_start to-land_page_bg_end">
       <div className="flex flex-row items-center justify-between p-12">
         <div className="flex flex-row items-center justify-start gap-12">
-          <Text h1 size={50} color="white" weight="bold">
-            LOGO
-          </Text>
+          <div className="w-24 h-12 bg-center bg-no-repeat bg-contain bg-logo" />
           <Text h1 size={50} color="white" weight="bold">
             RentShare
           </Text>
@@ -35,7 +33,7 @@ const HomePage: React.FC<HomePageProps> = () => {
         </Button>
       </div>
 
-      <div className="grid max-w-screen-xl grid-cols-1 px-12 m-auto pt-14 lg:grid-cols-2">
+      <div className="grid max-w-screen-xl grid-cols-1 gap-4 px-12 m-auto pt-14 lg:grid-cols-2">
         <div className="flex flex-col items-start">
           <Text h1 size={65} color="white" weight="bold">
             Flexible. Smart
@@ -64,9 +62,7 @@ const HomePage: React.FC<HomePageProps> = () => {
             </Button>
           </div>
         </div>
-        <Text h1 size={60} color="white" weight="bold" css={{ m: 100 }}>
-          Image <br></br>Placeholder
-        </Text>
+        <div className="w-full bg-center bg-no-repeat bg-contain h-96 bg-house" />
       </div>
     </div>
   );
