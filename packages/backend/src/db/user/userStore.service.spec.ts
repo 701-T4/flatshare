@@ -3,10 +3,19 @@ import { getModelToken } from '@nestjs/mongoose';
 import { UserStoreService } from './userStore.service';
 import { User } from './user.schema';
 import { Model } from 'mongoose';
+import { House } from '../house/house.schema';
 
 const mockUser = {
   name: 'User #1',
   age: 4,
+};
+
+const mockHouse = {
+  name: 'House #1',
+  email: 'whatever@gmail.com',
+  address: 'lol',
+  code: 'hhh',
+  user: mockUser,
 };
 
 describe('UserStoreService', () => {
@@ -67,6 +76,7 @@ describe('UserStoreService', () => {
     const newUser = await service.create({
       name: 'User #1',
       age: 4,
+      house: null,
     });
     expect(newUser).toEqual(mockUser);
   });
