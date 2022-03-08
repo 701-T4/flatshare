@@ -9,7 +9,7 @@ import {
   Text,
 } from '@nextui-org/react';
 import React from 'react';
-import { useApi } from '../../hooks/useApi';
+// import { useApi } from '../../hooks/useApi';
 
 interface AccountMgmtPageProps {
   userName?: string;
@@ -24,9 +24,9 @@ const AccountMgmtPage: React.FC<AccountMgmtPageProps> = (
   props: AccountMgmtPageProps,
 ) => {
   // get the house status
-  const { data } = useApi('/api/v1/ping', {
-    method: 'get',
-  });
+  // const { data } = useApi('/api/v1/ping', {
+  //   method: 'get',
+  // });
 
   const [visible, setVisible] = React.useState(false);
   const handler = () => setVisible(true);
@@ -60,7 +60,9 @@ const AccountMgmtPage: React.FC<AccountMgmtPageProps> = (
         <Row gap={5}>
           <Col>
             <Button color="secondary" bordered={true} style={btnStyle}>
-              CREATE
+              <Text color="secondary" size="2em">
+                CREATE
+              </Text>
             </Button>
           </Col>
           <Col>
@@ -70,7 +72,9 @@ const AccountMgmtPage: React.FC<AccountMgmtPageProps> = (
               style={btnStyle}
               onClick={handler}
             >
-              JOIN
+              <Text color="secondary" size="2em">
+                JOIN
+              </Text>
             </Button>
           </Col>
         </Row>
