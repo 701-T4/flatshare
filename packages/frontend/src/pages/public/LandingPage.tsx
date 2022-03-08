@@ -17,6 +17,7 @@ const LandingPage: React.FC<LandingPageProps> = () => {
   return (
     <div className="h-screen overflow-y-auto bg-gradient-to-b from-land_page_bg_start to-land_page_bg_end">
       <div className="flex flex-row items-center justify-between p-12">
+        {/* Top bar with logo and the button */}
         <div className="flex flex-row items-center justify-start gap-12">
           <div className="w-24 h-12 bg-center bg-no-repeat bg-contain bg-logo" />
           <Text h1 size={50} color="white" weight="bold">
@@ -37,6 +38,7 @@ const LandingPage: React.FC<LandingPageProps> = () => {
       </div>
 
       <div className="grid max-w-screen-xl grid-cols-1 gap-4 px-12 m-auto pt-14 lg:grid-cols-2">
+        {/* left side area with texts */}
         <div className="flex flex-col items-start">
           <Text h1 size={65} color="white" weight="bold">
             Flexible. Smart
@@ -65,6 +67,7 @@ const LandingPage: React.FC<LandingPageProps> = () => {
             </Button>
           </div>
         </div>
+        {/* right side image */}
         <div className="w-full bg-center bg-no-repeat bg-contain h-96 bg-house" />
       </div>
     </div>
