@@ -4,13 +4,5 @@
 
 html,
 body {
-  height: 100%;
-  background: linear-gradient(
-    180deg,
-    #2596a4 0%,
-    #238778 0.01%,
-    #2596a6 73.44%,
-    #2595a2 87.5%,
-    #2596a4 100%
-  );
+  @apply h-full bg-gradient-to-b from-teal-400 to-teal-600;
 }
