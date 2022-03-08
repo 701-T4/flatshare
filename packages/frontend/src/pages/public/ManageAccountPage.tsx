@@ -12,7 +12,7 @@ import {
 import React from 'react';
 // import { useApi } from '../../hooks/useApi';
 
-interface AccountMgmtPageProps {
+interface ManageAccountPageProps {
   userName?: string;
 }
 
@@ -21,8 +21,8 @@ const btnStyle = {
   padding: '30px',
 };
 
-const AccountMgmtPage: React.FC<AccountMgmtPageProps> = (
-  props: AccountMgmtPageProps,
+const ManageAccountPage: React.FC<ManageAccountPageProps> = (
+  props: ManageAccountPageProps,
 ) => {
   // get the house status, if its new users showing the account management page
   // if not, direct to the house they joined
@@ -112,4 +112,4 @@ const AccountMgmtPage: React.FC<AccountMgmtPageProps> = (
   );
 };
 
-export default AccountMgmtPage;
+export default ManageAccountPage;
