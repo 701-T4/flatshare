@@ -1,0 +1,25 @@
+version: '3'
+services:
+  platform:
+    container_name: platform
+    image: platform
+    restart: always
+    build: ./
+    ports:
+      - "1200:1200"
+    links:
+      - mongodb_container
+    depends_on:
+      - "mongodb_container"
+  mongodb_container:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
+volumes:
+  mongodb_data_container: 
