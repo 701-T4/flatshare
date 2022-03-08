@@ -3,12 +3,11 @@ import {
   Button,
   Container,
   Input,
-  Loading,
   Modal,
   Text,
 } from '@nextui-org/react';
-import React from 'react';
-import { DuplicateIcon, LinkIcon } from '@heroicons/react/outline';
+import React, { useState } from 'react';
+import { DuplicateIcon, LinkIcon, CheckIcon } from '@heroicons/react/outline';
 import { UserAddIcon } from '@heroicons/react/solid';
 
 interface ShareLinkModalProps {
@@ -25,22 +24,34 @@ const ShareLinkModal: React.FC<ShareLinkModalProps> = ({
     return { data: 'house12345678' };
   };
   const { data: code } = getHouseCode();
+  // ==============================================
+
+  const link = `${window.location.origin}?join=${code}`;
+  const [copied, setCopied] = useState(false);
+  const [icon, setIcon] = useState(<DuplicateIcon className="h-5 w-5" />);
+  const copyHandler = () => {
+    setCopied(true);
+    navigator.clipboard.writeText(link);
+    setIcon(<CheckIcon className="h-5 w-5 text-teal-600" />);
+    setTimeout(setIcon, 1500, <DuplicateIcon className="h-5 w-5" />);
+  };
+
+  const closeHandler = () => {
+    setVisible(false);
+    setCopied(false);
+  };
 
   const copyButton = () => {
     return (
       <Avatar
-        rounded
-        icon={<DuplicateIcon className="h-5 w-5" />}
-        onClick={() => console.log('copied!')}
+        squared
+        icon={icon}
+        onClick={copyHandler}
         css={{ p: 10 }}
         as="button"
+        pointer
       />
     );
-  };
-  // ==============================================
-
-  const closeHandler = () => {
-    setVisible(false);
   };
 
   return (
@@ -68,15 +79,30 @@ const ShareLinkModal: React.FC<ShareLinkModalProps> = ({
           </Container>
         </Modal.Header>
         <Modal.Body>
-          <Input
-            label="Share this link to add flatmates"
-            readOnly
-            initialValue={`localhost:3000?join=${code}`}
-            contentLeft={<LinkIcon className="h-5 w-5" />}
-            contentRight={copyButton()}
-          />
+          <Container
+            direction="row"
+            display="flex"
+            alignItems="flex-end"
+            justify="space-between"
+            css={{ p: 0 }}
+          >
+            <Input
+              label="Share this link to add flatmates"
+              readOnly
+              initialValue={link}
+              contentLeft={<LinkIcon className="h-5 w-5" />}
+              width="86%"
+            />
+            {copyButton()}
+          </Container>
         </Modal.Body>
         <Modal.Footer>
+          {copied ? (
+            <Text b color="primary" margin="0 8px">
+              Copied!
+            </Text>
+          ) : null}
+
           <Button auto rounded onClick={closeHandler}>
             Done
           </Button>

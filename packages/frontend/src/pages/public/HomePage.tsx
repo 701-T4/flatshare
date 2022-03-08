@@ -9,7 +9,6 @@ interface HomePageProps {}
 
 // TODO: file to be reverted back and changes to be moved to dashboard feature
 const HomePage: React.FC<HomePageProps> = () => {
-  console.log(window.location.href);
   // Logic to be moved ================================
   const [visible, setVisible] = useState(false);
   const onClick = () => {
