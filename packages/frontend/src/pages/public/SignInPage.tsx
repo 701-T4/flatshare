@@ -15,8 +15,6 @@ const SignInPage: React.FC<SignInPageProps> = () => {
     callbacks: {
       signInSuccessWithAuthResult: () => {
         setSignedIn(true);
-        console.log(auth.currentUser);
-
         const R = require('ramda');
         const userParam = R.pickAll(['displayName', 'email'], auth.currentUser);
         setUser(userParam);
