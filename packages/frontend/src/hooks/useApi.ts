@@ -1,3 +1,4 @@
+import { getAuth } from 'firebase/auth';
 import useSWR from 'swr';
 import { paths } from '../types/api-schema';
 
@@ -59,13 +60,14 @@ export const useApi = <
     ...options
   }: UseApiArgs<TUrl, TMethod, TBodyContentType, TResponseContentType> = {},
 ) => {
+  const bearer = getAuth().currentUser?.getIdToken();
   const { data, error, ...rest } = useSWR<
     // @ts-ignore
     paths[TUrl][TMethod]['responses'][200]['content'][TResponseContentType],
     any
   >(
     substitutePathParams(url, pathParams),
-    fetcher({ method, parser, ...options }),
+    fetcher({ method, parser, ...options }, bearer),
   );
   const loading = !data && !error;
 
@@ -91,9 +93,11 @@ export const useUntypedApi = (
   url: string,
   { parser, pathParams, method, ...options }: UseApiArgs<any, any, any, any>,
 ) => {
+  const bearer = getAuth().currentUser?.getIdToken();
+
   const { data, error, ...rest } = useSWR(
     substitutePathParams(url, pathParams),
-    fetcher({ method, parser, ...options }),
+    fetcher({ method, parser, ...options }, bearer),
   );
   const loading = !data && !error;
 

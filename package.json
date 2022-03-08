@@ -11,10 +11,13 @@
     "*.{js,css,md,ts,jsx,tsx}": "prettier --write"
   },
   "scripts": {
+    "build": "lerna run build",
     "prepare": "husky install",
     "postinstall": "lerna bootstrap",
     "start": "lerna run --parallel start",
     "start:dev": "lerna run --parallel start:dev",
-    "test": "lerna run --parallel test"
+    "test": "lerna run --parallel test",
+    "start:docker": "docker-compose up",
+    "test:docker": "docker-compose -f docker-compose.override.yml up"
   }
 }

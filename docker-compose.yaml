@@ -1,0 +1,32 @@
+version: '3'
+services:
+  frontend:
+    container_name: frontend
+    image: frontend
+    restart: always
+    build: ./packages/frontend
+    ports:
+      - "80:3000"
+  backend:
+    container_name: backend
+    image: backend
+    restart: always
+    build: ./packages/backend
+    ports:
+      - "4200:4200"
+    links:
+      - mongodb_container
+    depends_on:
+      - "mongodb_container"
+  mongodb_container:
+    image: mongo:latest
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    ports:
+      - 27017:27017
+    volumes:
+      - mongodb_data_container:/data/db
+
+volumes:
+  mongodb_data_container: 
