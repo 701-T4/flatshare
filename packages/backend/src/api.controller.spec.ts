@@ -26,7 +26,7 @@ describe('V1 ApiController', () => {
 
   describe('root', () => {
     it('should return time', () => {
-      const result = apiController.getPing();
+      const result = apiController.getPing(undefined);
       expect(result.time).toEqual(new Date(2022, 7, 23));
     });
   });
