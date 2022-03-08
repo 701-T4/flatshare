@@ -1,6 +1,7 @@
 import { Button, Text } from '@nextui-org/react';
 import React from 'react';
 import { useApi } from '../../hooks/useApi';
+import { useAuth } from '../../hooks/useAuth';
 
 interface HomePageProps {}
 
@@ -12,6 +13,7 @@ const HomePage: React.FC<HomePageProps> = () => {
     const { env, time } = data;
     console.log({ env, time });
   }
+  const { user } = useAuth();
 
   return (
     <div className="h-screen overflow-y-auto bg-gradient-to-b from-land_page_bg_start to-land_page_bg_end">
