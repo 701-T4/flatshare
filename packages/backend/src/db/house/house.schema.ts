@@ -18,7 +18,8 @@ export class House {
   @Prop()
   code: string;
 
-  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
+  //https://docs.nestjs.com/techniques/mongodb
+  @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: 'User' }] })
   users: User[];
 }
 
