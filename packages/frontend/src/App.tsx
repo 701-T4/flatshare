@@ -5,7 +5,7 @@ import { AuthProvider } from './hooks/useAuth';
 import Router from './pages/routes/Router';
 import { mainTheme } from './theme';
 
-interface AppProps { }
+interface AppProps {}
 
 const App: React.FC<AppProps> = () => {
   return (
@@ -16,7 +16,6 @@ const App: React.FC<AppProps> = () => {
         </BrowserRouter>
       </AuthProvider>
     </NextUIProvider>
-
   );
 };
 
