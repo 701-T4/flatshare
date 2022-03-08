@@ -4,6 +4,7 @@ import App from './App';
 
 import './services/firebase';
 import './styles/index.css';
+import 'firebase/compat/auth';
 
 ReactDOM.render(
   <React.StrictMode>
