@@ -1,4 +1,3 @@
-import firebase from 'firebase/compat/app';
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { useApi } from '../../hooks/useApi';
