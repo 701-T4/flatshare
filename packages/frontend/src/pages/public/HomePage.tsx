@@ -1,5 +1,5 @@
-import { Button, Text } from '@nextui-org/react';
 import React from 'react';
+import { Button, Text } from '@nextui-org/react';
 import { useApi } from '../../hooks/useApi';
 import { useAuth } from '../../hooks/useAuth';
 
@@ -13,6 +13,7 @@ const HomePage: React.FC<HomePageProps> = () => {
     const { env, time } = data;
     console.log({ env, time });
   }
+
   const { user } = useAuth();
 
   return (
