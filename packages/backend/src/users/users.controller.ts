@@ -7,10 +7,14 @@ import {
   Param,
   Delete,
   Put,
+  Query,
 } from '@nestjs/common';
+import { query } from 'express';
+import { UserModel } from 'src/db/user/user.schema';
 import { UserStoreService } from '../db/user/userStore.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
+import { User } from './entities/user.entity';
 
 @Controller('/api/v1/users')
 export class UsersController {
@@ -18,7 +22,7 @@ export class UsersController {
 
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
-    return await this.userStoreService.create(createUserDto);
+    return this.userStoreService.create(createUserDto);
   }
 
   @Get()
@@ -41,13 +45,13 @@ export class UsersController {
     return this.userStoreService.delete(id);
   }
 
-  @Get('house')
+  @Get('house/:userId')
   async getHouse(@Param('userId') userId: string) {
     const user = await this.userStoreService.findOne(userId);
     return user.house;
   }
 
-  @Put('house')
+  @Put('house/:userId/:houseCode')
   async joinHouse(
     @Param('userId') userId: string,
     @Param('houseCode') houseCode: string,

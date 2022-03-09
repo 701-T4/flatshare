@@ -14,7 +14,7 @@ export class User {
   age: number;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'House' })
-  house: House;
+  house: MongooseSchema.Types.ObjectId;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
@@ -22,5 +22,5 @@ export const UserSchema = SchemaFactory.createForClass(User);
 export class UserModel {
   readonly name: string;
   readonly age: number;
-  readonly house: House;
+  house: MongooseSchema.Types.ObjectId;
 }

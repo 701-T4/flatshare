@@ -9,7 +9,6 @@ export class UserStoreService {
   constructor(
     @InjectModel(User.name)
     private readonly userModel: Model<UserDocument>,
-
     private houseStoreService: HouseStoreService,
   ) {}
 
@@ -39,6 +38,6 @@ export class UserStoreService {
 
   async joinHouse(house_code: string, id: string) {
     const house = await this.houseStoreService.findOneByCode(house_code);
-    this.update(id, house);
+    this.update(id, { house: house._id });
   }
 }
