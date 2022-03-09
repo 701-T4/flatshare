@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import AuthenticatedRoutes from './AuthenticatedRoutes';
 import UnauthenticatedRoutes from './UnauthenticatedRoutes';
 import { getAuth } from 'firebase/auth';
@@ -13,9 +13,7 @@ const Router: React.FC<RouterProps> = () => {
     // returns function to stop the listener
     const clearListener = getAuth().onAuthStateChanged((user) => {
       setAuthLoaded(true);
-      const R = require('ramda');
-      const userParam = R.pickAll(['displayName', 'email'], user);
-      setUser(userParam);
+      setUser(user);
     });
     return () => {
       clearListener();

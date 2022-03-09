@@ -19,7 +19,7 @@ const HomePage: React.FC<HomePageProps> = () => {
   return (
     <div>
       <Text h1> Hello </Text>
-      <p>{user.displayName}</p>
+      <p>{user?.displayName}</p>
       <Button size="sm">Small</Button>
     </div>
   );
