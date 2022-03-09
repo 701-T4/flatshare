@@ -1,13 +1,13 @@
+import { User } from 'firebase/auth';
 import React, { createContext, useState } from 'react';
-import { UserType } from '../types/user-type';
 
 interface authContext {
   authLoaded: boolean;
   setAuthLoaded: React.Dispatch<React.SetStateAction<boolean>>;
   signedIn: boolean;
   setSignedIn: React.Dispatch<React.SetStateAction<boolean>>;
-  user: UserType;
-  setUser: React.Dispatch<React.SetStateAction<UserType>>;
+  user: User | null;
+  setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 const AuthContext = createContext<authContext>({
@@ -15,7 +15,7 @@ const AuthContext = createContext<authContext>({
   setAuthLoaded: () => false,
   signedIn: false,
   setSignedIn: () => null,
-  user: { displayName: '1', email: '' },
+  user: null,
   setUser: () => null,
 });
 
@@ -24,7 +24,7 @@ const AuthContext = createContext<authContext>({
 export const AuthProvider: React.FC<{}> = ({ children }) => {
   const [authLoaded, setAuthLoaded] = useState(true);
   const [signedIn, setSignedIn] = useState(false);
-  const [user, setUser] = useState({ displayName: '', email: '' });
+  const [user, setUser] = useState<User | null>(null);
 
   return (
     <AuthContext.Provider

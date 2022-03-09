@@ -23,12 +23,13 @@ const HomePage: React.FC<HomePageProps> = () => {
     const { env, time } = data;
     console.log({ env, time });
   }
+
   const { user } = useAuth();
 
   return (
     <div>
       <Text h1> Hello </Text>
-      <p>{user.displayName}</p>
+      <p>{user?.displayName}</p>
       <Button size="sm">Small</Button>
       {/* Logic to be moved ==========================*/}
       <Spacer y={1} />
