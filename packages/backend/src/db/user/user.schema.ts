@@ -1,7 +1,5 @@
-import { Type } from '@nestjs/common';
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types, Schema as MongooseSchema } from 'mongoose';
-import { House } from '../house/house.schema';
 
 export type UserDocument = User & Document;
 

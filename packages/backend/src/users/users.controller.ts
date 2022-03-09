@@ -7,14 +7,10 @@ import {
   Param,
   Delete,
   Put,
-  Query,
 } from '@nestjs/common';
-import { query } from 'express';
-import { UserModel } from 'src/db/user/user.schema';
 import { UserStoreService } from '../db/user/userStore.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { User } from './entities/user.entity';
 
 @Controller('/api/v1/users')
 export class UsersController {
@@ -57,6 +53,5 @@ export class UsersController {
     @Param('houseCode') houseCode: string,
   ) {
     return this.userStoreService.joinHouse(houseCode, userId);
-    //const house = await this.userStoreService.findHouse(user.house_id);
   }
 }

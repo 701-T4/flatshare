@@ -6,7 +6,6 @@ export type HouseDocument = House & Document;
 
 @Schema()
 export class House {
-  // @Prop()
   _id: string;
 
   @Prop()
@@ -20,10 +19,6 @@ export class House {
 
   @Prop()
   code: string;
-
-  //https://docs.nestjs.com/techniques/mongodb
-  // @Prop({ type: [{ type: MongooseSchema.Types.ObjectId, ref: 'User' }] })
-  // users: User[];
 }
 
 export const HouseSchema = SchemaFactory.createForClass(House);
@@ -33,5 +28,4 @@ export class HouseModel {
   readonly email: string;
   readonly address: string;
   code: string;
-  // users: User[];
 }
