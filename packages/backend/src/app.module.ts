@@ -16,9 +16,8 @@ import { DbModule } from './db/db.module';
           : '.env.production',
       isGlobal: true,
     }),
-    // UsersModule,
-    // HouseModule,
-    DbModule,
+    UsersModule,
+    HouseModule,
     MongooseModule.forRoot(process.env.DATABASE_URL),
   ],
 })
