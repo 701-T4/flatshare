@@ -8,7 +8,7 @@ interface AuthenticatedRoutesProps {}
 const AuthenticatedRoutes: React.FC<AuthenticatedRoutesProps> = () => {
   return (
     <Routes>
-      <Route path="home" element={<HomePage />} />
+      <Route path="home" element={<HomePage alreadyInFlat={false}/>} />
       <Route path="*" element={<Navigate to="/home" replace />} />
     </Routes>
   );

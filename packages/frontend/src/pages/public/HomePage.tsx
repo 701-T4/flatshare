@@ -4,16 +4,23 @@ import { useApi } from '../../hooks/useApi';
 import { useAuth } from '../../hooks/useAuth';
 import ShareLinkModal from '../../components/ShareLinkModal';
 import { LinkIcon } from '@heroicons/react/outline';
+import HouseConflictModal from '../../components/HouseConflictModal';
 
-interface HomePageProps {}
+interface HomePageProps {
+  alreadyInFlat: boolean
+}
 
 // TODO: file to be reverted back and changes to be moved to dashboard feature
-const HomePage: React.FC<HomePageProps> = () => {
+const HomePage: React.FC<HomePageProps> = ({alreadyInFlat}: HomePageProps) => {
+
+  console.log(alreadyInFlat);
   // Logic to be moved ================================
   const [visible, setVisible] = useState(false);
   const onClick = () => {
     setVisible(true);
   };
+
+  const [conflictVisible, conflictsetVisible] = useState(alreadyInFlat);
   // ==================================================
 
   const { data } = useApi('/api/v1/ping', {
@@ -28,6 +35,7 @@ const HomePage: React.FC<HomePageProps> = () => {
 
   return (
     <div>
+      <HouseConflictModal visible={conflictVisible} setVisible={conflictsetVisible} />
       <Text h1> Hello </Text>
       <p>{user?.displayName}</p>
       <Button size="sm">Small</Button>
