@@ -9,12 +9,11 @@ import {
   Row,
   Text,
 } from '@nextui-org/react';
+import { getAuth } from 'firebase/auth';
 import React from 'react';
-// import { useApi } from '../../hooks/useApi';
+import { useAuth } from '../../hooks/useAuth';
 
-interface ManageAccountPageProps {
-  userName?: string;
-}
+interface ManageAccountPageProps {}
 
 const btnStyle = {
   width: '100%',
@@ -24,12 +23,6 @@ const btnStyle = {
 const ManageAccountPage: React.FC<ManageAccountPageProps> = (
   props: ManageAccountPageProps,
 ) => {
-  // get the house status, if its new users showing the account management page
-  // if not, direct to the house they joined
-  // const { data } = useApi('/api/v1/ping', {
-  //   method: 'get',
-  // });
-
   const [visible, setVisible] = React.useState(false);
   const handler = () => setVisible(true);
   const closeHandler = () => {
@@ -41,10 +34,14 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
     // direct the page to the house dahsboard
   }
 
+  // get the house status, if its new users showing the account management page
+  // if not, direct to the house they joined
+  const userData = useAuth().user;
+
   return (
-    <div>
+    <div className="h-screen overflow-y-auto bg-gradient-to-b from-land_page_bg_start to-land_page_bg_end">
       <Avatar
-        text="John"
+        text={userData.displayName}
         color="secondary"
         size="xl"
         squared

@@ -4,5 +4,5 @@
 
 html,
 body {
-  @apply h-full bg-gradient-to-b from-teal-400 to-teal-600;
+  @apply h-full;
 }
