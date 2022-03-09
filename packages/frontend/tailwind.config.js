@@ -1,7 +1,16 @@
 module.exports = {
-  content: ["./src/**/*.{js,jsx,ts,tsx}"],
+  content: ['./src/**/*.{js,jsx,ts,tsx}'],
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        land_page_bg_start: '#238778',
+        land_page_bg_end: '#2596A4',
+      },
+      backgroundImage: {
+        logo: "url('/public/logo.png')",
+        house: "url('/public/house.png')",
+      },
+    },
   },
   plugins: [],
 };
