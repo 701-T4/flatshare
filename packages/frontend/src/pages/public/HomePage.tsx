@@ -1,5 +1,5 @@
 import { Button, Spacer, Text } from '@nextui-org/react';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useApi } from '../../hooks/useApi';
 import { useAuth } from '../../hooks/useAuth';
 import ShareLinkModal from '../../components/ShareLinkModal';
@@ -7,21 +7,29 @@ import { LinkIcon } from '@heroicons/react/outline';
 import HouseConflictModal from '../../components/HouseConflictModal';
 
 interface HomePageProps {
-  alreadyInFlat: boolean
+  alreadyInFlat: boolean;
 }
 
-// TODO: file to be reverted back and changes to be moved to dashboard feature
-const HomePage: React.FC<HomePageProps> = ({alreadyInFlat}: HomePageProps) => {
-
-  console.log(alreadyInFlat);
-  // Logic to be moved ================================
+const HomePage: React.FC<HomePageProps> = ({
+  alreadyInFlat,
+}: HomePageProps) => {
+  const { user } = useAuth();
   const [visible, setVisible] = useState(false);
   const onClick = () => {
     setVisible(true);
   };
 
+  // TODO: call api endpoint
+  const joinHouse = () => {
+    if (localStorage.getItem('code')) {
+      console.log('user added to the house');
+    }
+  };
+  useEffect(() => {
+    joinHouse();
+  }, []);
+
   const [conflictVisible, conflictsetVisible] = useState(alreadyInFlat);
-  // ==================================================
 
   const { data } = useApi('/api/v1/ping', {
     method: 'get',
@@ -31,15 +39,15 @@ const HomePage: React.FC<HomePageProps> = ({alreadyInFlat}: HomePageProps) => {
     console.log({ env, time });
   }
 
-  const { user } = useAuth();
-
   return (
     <div>
-      <HouseConflictModal visible={conflictVisible} setVisible={conflictsetVisible} />
+      <HouseConflictModal
+        visible={conflictVisible}
+        setVisible={conflictsetVisible}
+      />
       <Text h1> Hello </Text>
       <p>{user?.displayName}</p>
       <Button size="sm">Small</Button>
-      {/* Logic to be moved ==========================*/}
       <Spacer y={1} />
       <Button
         auto
@@ -50,7 +58,6 @@ const HomePage: React.FC<HomePageProps> = ({alreadyInFlat}: HomePageProps) => {
         Get Link
       </Button>
       <ShareLinkModal visible={visible} setVisible={setVisible} />
-      {/* ============================================*/}
     </div>
   );
 };
