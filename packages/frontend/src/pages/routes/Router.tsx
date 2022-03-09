@@ -35,6 +35,7 @@ const Router: React.FC<RouterProps> = () => {
   if (!signedIn) {
     let path = location.pathname
     // To Do: Add to House
+    // To-do: Check if user house object is empty
     if (code === path.slice(path.indexOf("=") + 1)){
       return <UnauthenticatedRoutes alreadyInFlat={true}/>;
     }
