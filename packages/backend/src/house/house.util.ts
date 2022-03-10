@@ -1,18 +1,15 @@
 // Generate random house code
 // Inspired by:
-// https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript/1349426#1349426
+// https://nodejs.org/api/crypto.html#cryptorandombytessize-callback
 
 import { Injectable } from '@nestjs/common';
+
 @Injectable()
 export class HouseUtil {
   generateString(length) {
-    const characters =
-      'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    const charactersLength = characters.length;
-    for (let i = 0; i < length; i++) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-    }
-    return result;
+    return require('crypto')
+      .randomBytes(length / 2)
+      .toString('hex')
+      .toUpperCase();
   }
 }
