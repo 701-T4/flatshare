@@ -11,8 +11,7 @@ export class HouseStoreService {
   ) {}
 
   async create(createdHouseModel: HouseModel): Promise<HouseDocument> {
-    const createdHouse = this.HouseModel.create(createdHouseModel);
-    return createdHouse;
+    return this.HouseModel.create(createdHouseModel);
   }
 
   async findOne(id: string): Promise<HouseDocument> {
@@ -30,7 +29,7 @@ export class HouseStoreService {
   async update(
     id: string,
     updateHouseModel: Partial<HouseModel>,
-  ): Promise<House> {
+  ): Promise<HouseDocument> {
     return this.HouseModel.findOneAndUpdate(
       { _id: id },
       updateHouseModel,

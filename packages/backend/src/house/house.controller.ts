@@ -1,13 +1,4 @@
-import {
-  Controller,
-  Post,
-  Body,
-  Param,
-  Get,
-  Put,
-  Query,
-  UseGuards,
-} from '@nestjs/common';
+import { Controller, Post, Body, Get, Put, UseGuards } from '@nestjs/common';
 import { UserStoreService } from '../db/user/userStore.service';
 import { HouseStoreService } from '../db/house/houseStore.service';
 import { CreateHouseDto } from './dto/create-house.dto';
@@ -36,7 +27,7 @@ export class HouseController {
       await this.userStoreService.findOneByFirebaseId(user.uid)
     )._id;
     const house = await this.houseStoreService.create(createHouseDto);
-    await this.userStoreService.updateByFirebaseId(user.uid, {
+    this.userStoreService.updateByFirebaseId(user.uid, {
       house: house._id,
     });
     return house;

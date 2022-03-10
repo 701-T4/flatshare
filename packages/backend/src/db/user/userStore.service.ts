@@ -36,7 +36,7 @@ export class UserStoreService {
   async updateByFirebaseId(
     firebaseId: string,
     updateUserModel: Partial<UserModel>,
-  ): Promise<User> {
+  ): Promise<UserDocument> {
     return this.userModel
       .findOneAndUpdate({ firebaseId: firebaseId }, updateUserModel)
       .exec();
