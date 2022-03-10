@@ -7,17 +7,15 @@ import PingResponse from './schemas/pingResponse';
 import { User } from './util/user.decorator';
 
 @Controller('/api/v1')
-@UseGuards(FirebaseGuard)
 export class APIController {
   constructor(private configService: ConfigService) {}
 
   @Get('ping')
   @ApiOkResponse({ description: 'ping successful', type: PingResponse })
-  getPing(@User() user?: DecodedIdToken): PingResponse {
+  getPing(): PingResponse {
     return {
       time: new Date(),
       env: this.configService.get<string>('PING_TEXT'),
-      user,
     };
   }
 }

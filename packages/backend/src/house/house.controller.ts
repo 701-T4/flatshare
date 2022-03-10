@@ -1,10 +1,24 @@
-import { Controller, Post, Body, Param, Get, Put, Query } from '@nestjs/common';
+import {
+  Controller,
+  Post,
+  Body,
+  Param,
+  Get,
+  Put,
+  Query,
+  UseGuards,
+} from '@nestjs/common';
 import { UserStoreService } from '../db/user/userStore.service';
 import { HouseStoreService } from '../db/house/houseStore.service';
 import { CreateHouseDto } from './dto/create-house.dto';
 import { HouseUtil } from './house.util';
+import { FirebaseGuard } from '../guards/firebase.guard';
+import { User } from '../util/user.decorator';
+import { DecodedIdToken } from 'firebase-admin/auth';
+import { JoinHouseDto } from './dto/join-house.dto';
 
 @Controller('/api/v1/house')
+@UseGuards(FirebaseGuard)
 export class HouseController {
   constructor(
     private readonly houseStoreService: HouseStoreService,
@@ -15,27 +29,32 @@ export class HouseController {
   @Post()
   async create(
     @Body() createHouseDto: CreateHouseDto,
-    @Query('firebaseId') firebaseId: string,
+    @User() user?: DecodedIdToken,
   ) {
-    const code = this.houseUtil.generateString(8);
-    createHouseDto.code = code;
+    createHouseDto.code = this.houseUtil.generateString(8);
     const house = await this.houseStoreService.create(createHouseDto);
-    this.userStoreService.updateByFirebaseId(firebaseId, { house: house._id });
+    await this.userStoreService.updateByFirebaseId(user.uid, {
+      house: house._id,
+    });
     return house;
   }
 
   @Get()
-  async getHouse(@Query('userId') userId: string) {
-    const user = await this.userStoreService.findOne(userId);
-    return user.house;
+  async getHouse(@User() user?: DecodedIdToken) {
+    const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
+    return userDoc.house;
   }
 
   @Put()
   async joinHouse(
-    @Query('firebaseId') firebaseId: string,
-    @Query('houseCode') houseCode: string,
+    @Body() joinHouseDto: JoinHouseDto,
+    @User() user?: DecodedIdToken,
   ) {
-    const house = await this.houseStoreService.findOneByCode(houseCode);
-    this.userStoreService.updateByFirebaseId(firebaseId, { house: house._id });
+    const house = await this.houseStoreService.findOneByCode(
+      joinHouseDto.houseCode,
+    );
+    await this.userStoreService.updateByFirebaseId(user.uid, {
+      house: house._id,
+    });
   }
 }

@@ -10,16 +10,15 @@ export class UserStoreService {
     private readonly userModel: Model<UserDocument>,
   ) {}
 
-  async create(createdUserModel: UserModel): Promise<User> {
-    const createdUser = await this.userModel.create(createdUserModel);
-    return createdUser;
+  async create(createdUserModel: UserModel): Promise<UserDocument> {
+    return this.userModel.create(createdUserModel);
   }
 
-  async findOne(id: string): Promise<User> {
+  async findOne(id: string): Promise<UserDocument> {
     return this.userModel.findOne({ _id: id }).exec();
   }
 
-  async findAll(): Promise<User[]> {
+  async findAll(): Promise<UserDocument[]> {
     return this.userModel.find().exec();
   }
 
@@ -27,7 +26,10 @@ export class UserStoreService {
     return this.userModel.findOne({ firebaseId: firebaseId }).exec();
   }
 
-  async update(id: string, updateUserModel: Partial<UserModel>): Promise<User> {
+  async update(
+    id: string,
+    updateUserModel: Partial<UserModel>,
+  ): Promise<UserDocument> {
     return this.userModel.findOneAndUpdate({ _id: id }, updateUserModel).exec();
   }
 
@@ -41,9 +43,6 @@ export class UserStoreService {
   }
 
   async delete(id: string) {
-    const deletedUser = await this.userModel
-      .findByIdAndRemove({ _id: id })
-      .exec();
-    return deletedUser;
+    return this.userModel.findByIdAndRemove({ _id: id }).exec();
   }
 }

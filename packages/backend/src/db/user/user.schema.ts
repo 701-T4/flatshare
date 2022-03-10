@@ -8,7 +8,7 @@ export class User {
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'House' })
   house: MongooseSchema.Types.ObjectId;
 
-  @Prop()
+  @Prop({ unique: true })
   firebaseId: string;
 }
 

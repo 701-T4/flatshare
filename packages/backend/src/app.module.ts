@@ -4,9 +4,9 @@ import { APIController } from './api.controller';
 import { UsersModule } from './users/users.module';
 import { HouseModule } from './house/house.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { DbModule } from './db/db.module';
 import { PassportModule } from '@nestjs/passport';
 import { FirebaseAuthStrategy } from './guards/firebase.auth';
+import { UserStoreService } from './db/user/userStore.service';
 
 @Module({
   controllers: [APIController],
@@ -23,6 +23,6 @@ import { FirebaseAuthStrategy } from './guards/firebase.auth';
     MongooseModule.forRoot(process.env.DATABASE_URL),
     PassportModule,
   ],
-  providers: [FirebaseAuthStrategy],
+  // providers: [FirebaseAuthStrategy, UserStoreService],
 })
 export class AppModule {}
