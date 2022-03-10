@@ -3,25 +3,15 @@ import { getModelToken } from '@nestjs/mongoose';
 import { UserStoreService } from './userStore.service';
 import { User } from './user.schema';
 import { Model } from 'mongoose';
-import { House } from '../house/house.schema';
 
 const mockUser = {
   name: 'User #1',
   age: 4,
 };
 
-const mockHouse = {
-  name: 'House #1',
-  email: 'whatever@gmail.com',
-  address: 'lol',
-  code: 'hhh',
-  user: mockUser,
-};
-
 describe('UserStoreService', () => {
-  let service: UserStoreService;
+  let userService: UserStoreService;
   let model: Model<User>;
-
   const usersArray = [
     {
       name: 'User #1',
@@ -43,26 +33,28 @@ describe('UserStoreService', () => {
             new: jest.fn().mockResolvedValue(mockUser),
             constructor: jest.fn().mockResolvedValue(mockUser),
             find: jest.fn(),
-            create: jest.fn(),
+            findOne: jest.fn(),
+            findOneAndUpdate: jest.fn(),
             exec: jest.fn(),
+            create: jest.fn(),
           },
         },
       ],
     }).compile();
 
-    service = module.get<UserStoreService>(UserStoreService);
+    userService = module.get<UserStoreService>(UserStoreService);
     model = module.get<Model<User>>(getModelToken('User'));
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(userService).toBeDefined();
   });
 
   it('should return all users', async () => {
     jest.spyOn(model, 'find').mockReturnValue({
       exec: jest.fn().mockResolvedValueOnce(usersArray),
     } as any);
-    const users = await service.findAll();
+    const users = await userService.findAll();
     expect(users).toEqual(usersArray);
   });
 
@@ -73,10 +65,11 @@ describe('UserStoreService', () => {
         age: 4,
       }),
     );
-    const newUser = await service.create({
+    const newUser = await userService.create({
       name: 'User #1',
       age: 4,
       house: null,
+      firebaseId: null,
     });
     expect(newUser).toEqual(mockUser);
   });

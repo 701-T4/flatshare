@@ -1,27 +1,40 @@
-import { Controller, Post, Body, Param } from '@nestjs/common';
+import { Controller, Post, Body, Param, Get, Put, Query } from '@nestjs/common';
+import { UserStoreService } from '../db/user/userStore.service';
 import { HouseStoreService } from '../db/house/houseStore.service';
 import { CreateHouseDto } from './dto/create-house.dto';
+import { generateString } from './util/house.util';
 
 @Controller('/api/v1/house')
 export class HouseController {
-  constructor(private readonly houseStoreService: HouseStoreService) {}
+  constructor(
+    private readonly houseStoreService: HouseStoreService,
+    private readonly userStoreService: UserStoreService,
+  ) {}
 
   @Post()
-  async create(@Body() createHouseDto: CreateHouseDto) {
+  async create(
+    @Body() createHouseDto: CreateHouseDto,
+    @Query('firebaseId') firebaseId: string,
+  ) {
     const code = generateString(8);
     createHouseDto.code = code;
-    return await this.houseStoreService.create(createHouseDto);
+    const house = await this.houseStoreService.create(createHouseDto);
+    this.userStoreService.updateByFirebaseId(firebaseId, { house: house._id });
+    return house;
   }
-}
 
-// Generate random house code
-function generateString(length) {
-  const characters =
-    'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-  let result = '';
-  const charactersLength = characters.length;
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  @Get()
+  async getHouse(@Query('userId') userId: string) {
+    const user = await this.userStoreService.findOne(userId);
+    return user.house;
   }
-  return result;
+
+  @Put()
+  async joinHouse(
+    @Query('firebaseId') firebaseId: string,
+    @Query('houseCode') houseCode: string,
+  ) {
+    const house = await this.houseStoreService.findOneByCode(houseCode);
+    this.userStoreService.updateByFirebaseId(firebaseId, { house: house._id });
+  }
 }

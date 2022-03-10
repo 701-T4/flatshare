@@ -41,6 +41,7 @@ describe('HouseStoreService', () => {
             constructor: jest.fn().mockResolvedValue(mockHouse),
             find: jest.fn(),
             create: jest.fn(),
+            findOne: jest.fn(),
             exec: jest.fn(),
           },
         },
@@ -63,6 +64,14 @@ describe('HouseStoreService', () => {
     expect(Houses).toEqual(HousesArray);
   });
 
+  it('should return one house', async () => {
+    jest.spyOn(model, 'findOne').mockReturnValue({
+      exec: jest.fn().mockResolvedValueOnce(mockHouse),
+    } as any);
+    const House = await service.findOneByCode('lol');
+    expect(House).toEqual(mockHouse);
+  });
+
   it('should insert a new House', async () => {
     jest.spyOn(model, 'create').mockImplementationOnce(() =>
       Promise.resolve({
@@ -77,6 +86,7 @@ describe('HouseStoreService', () => {
       email: 'whatever@gmail.com',
       address: 'Mars',
       code: 'lol',
+      owner: null,
     });
     expect(newHouse).toEqual(mockHouse);
   });

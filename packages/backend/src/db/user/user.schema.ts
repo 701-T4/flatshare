@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Types, Schema as MongooseSchema } from 'mongoose';
+import { Document, Schema as MongooseSchema } from 'mongoose';
 
 export type UserDocument = User & Document;
 
@@ -13,6 +13,9 @@ export class User {
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'House' })
   house: MongooseSchema.Types.ObjectId;
+
+  @Prop()
+  firebaseId: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
@@ -21,4 +24,5 @@ export class UserModel {
   readonly name: string;
   readonly age: number;
   house: MongooseSchema.Types.ObjectId;
+  firebaseId: string;
 }

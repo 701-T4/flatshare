@@ -6,7 +6,7 @@ export type HouseDocument = House & Document;
 
 @Schema()
 export class House {
-  _id: string;
+  _id: MongooseSchema.Types.ObjectId;
 
   @Prop()
   name: string;
@@ -19,6 +19,9 @@ export class House {
 
   @Prop()
   code: string;
+
+  @Prop()
+  owner: string;
 }
 
 export const HouseSchema = SchemaFactory.createForClass(House);
@@ -28,4 +31,5 @@ export class HouseModel {
   readonly email: string;
   readonly address: string;
   code: string;
+  owner: string;
 }
