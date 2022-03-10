@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Button, Checkbox, Input, Row, Text } from '@nextui-org/react';
+import React from 'react';
+import { Text } from '@nextui-org/react';
 import { auth } from '../../services/firebase';
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import firebase from 'firebase/compat/app';
