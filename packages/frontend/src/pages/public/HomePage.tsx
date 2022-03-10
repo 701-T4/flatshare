@@ -10,8 +10,8 @@ const HomePage: React.FC<HomePageProps> = () => {
     method: 'get',
   });
   if (data) {
-    const { env, time } = data;
-    console.log({ env, time });
+    const { env, time, user } = data;
+    console.log({ env, time, user });
   }
   const { user } = useAuth();
 

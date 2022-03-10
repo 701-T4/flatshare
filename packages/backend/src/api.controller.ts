@@ -13,11 +13,11 @@ export class APIController {
 
   @Get('ping')
   @ApiOkResponse({ description: 'ping successful', type: PingResponse })
-  getPing(@User() user: DecodedIdToken): PingResponse {
-    console.log(user);
+  getPing(@User() user?: DecodedIdToken): PingResponse {
     return {
       time: new Date(),
       env: this.configService.get<string>('PING_TEXT'),
+      user,
     };
   }
 }
