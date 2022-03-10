@@ -38,6 +38,7 @@ const Router: React.FC<RouterProps> = () => {
     localStorage.setItem('code', inviteCode);
 
     // To Do: Add to House
+    // To-do: Check if user house object is empty
     // if (code === inviteCode) {
     //   return <UnauthenticatedRoutes alreadyInFlat={true} />;
     // }
