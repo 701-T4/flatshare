@@ -1,6 +1,6 @@
 const fs = require('fs');
-const path_dev = './packages/backend/.env.development';
-const path_prod = './packages/backend/.env.production';
+const path_dev = '../.env.development';
+const path_prod = '../.env.production';
 
 /**
  * configure the environment for .env.development and .env.production if not existing
@@ -93,5 +93,6 @@ const validateEnvironmentFile = (filePath) => {
   );
 };
 
-configureEnvironmentFile(path_dev);
-configureEnvironmentFile(path_prod);
+export default configureEnvironmentFile;
+// configureEnvironmentFile(path_dev);
+// configureEnvironmentFile(path_prod);
