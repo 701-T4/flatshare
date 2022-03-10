@@ -29,3 +29,8 @@ jobs:
         working-directory: ./packages/backend
         run:
           yarn test
+
+      - name: build frontend
+        working-directory: ./packages/frontend
+        run:
+          yarn build
