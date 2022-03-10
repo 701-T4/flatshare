@@ -23,10 +23,17 @@ const btnStyle = {
 const ManageAccountPage: React.FC<ManageAccountPageProps> = (
   props: ManageAccountPageProps,
 ) => {
+  // Hook for the Join Button Modal to be configured
   const [visible, setVisible] = React.useState(false);
   const handler = () => setVisible(true);
   const closeHandler = () => {
     setVisible(false);
+  };
+  // Hook for the Create Button Modal to be configured
+  const [createVisible, setCreateVisible] = React.useState(false);
+  const createHandler = () => setCreateVisible(true);
+  const closeCreateHandler = () => {
+    setCreateVisible(false);
   };
 
   function handleJoiningHouse(): void {
@@ -60,14 +67,16 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
       <Container style={{ position: 'absolute', top: '50%' }}>
         <Row gap={5}>
           <Col>
-            {/* direct the users to the creating house page */}
-            <Link href="/create" style={{ display: 'inherit' }}>
-              <Button color="secondary" bordered={true} style={btnStyle}>
-                <Text color="secondary" size="2em">
-                  CREATE
-                </Text>
-              </Button>
-            </Link>
+            <Button
+              color="secondary"
+              bordered={true}
+              style={btnStyle}
+              onClick={createHandler}
+            >
+              <Text color="secondary" size="2em">
+                CREATE
+              </Text>
+            </Button>
           </Col>
           <Col>
             <Button
@@ -84,6 +93,60 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
         </Row>
       </Container>
 
+      {/* Modal component that pops up once users press the CREATE button and asks for an user's details to create their flat */}
+      <Modal
+        closeButton
+        aria-labelledby="create-modal"
+        open={createVisible}
+        width={'50%'}
+        onClose={closeCreateHandler}
+      >
+        <Modal.Header>
+          <Text id="modal-title-create" size={'1.75rem'}>
+            Let's create your first flat!
+          </Text>
+        </Modal.Header>
+        <Modal.Body>
+          <Text size={'1.25rem'} margin="2%">
+            Name
+          </Text>
+          <Input
+            clearable
+            bordered
+            placeholder="Enter your name"
+            size="xl"
+            color="primary"
+          />
+          <Text size={'1.25rem'} margin="2%">
+            Address
+          </Text>
+          <Input
+            clearable
+            bordered
+            placeholder="Enter your address"
+            size="xl"
+            color="primary"
+          />
+          <Text size={'1.25rem'} margin="2%">
+            Phone Number
+          </Text>
+          <Input
+            clearable
+            bordered
+            placeholder="Enter your phone number"
+            size="xl"
+            color="primary"
+          />
+        </Modal.Body>
+
+        <Modal.Footer>
+          <Button auto onClick={closeCreateHandler} size="lg">
+            Create!
+          </Button>
+        </Modal.Footer>
+      </Modal>
+
+      {/* Modal component that pops up once users press the JOIN button and asks for a house code to join a particular house/flat */}
       <Modal
         closeButton
         aria-labelledby="modal-title"
@@ -91,7 +154,7 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
         onClose={closeHandler}
       >
         <Modal.Header>
-          <Text id="modal-title" size={18}>
+          <Text id="modal-title" size={'1.75rem'}>
             Enter House Code
           </Text>
         </Modal.Header>
@@ -101,12 +164,12 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
             bordered
             fullWidth
             color="primary"
-            size="lg"
+            size="xl"
             placeholder="House Code"
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button auto onClick={closeHandler}>
+          <Button auto onClick={closeHandler} size="lg">
             Submit
           </Button>
         </Modal.Footer>
