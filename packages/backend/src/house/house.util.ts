@@ -5,7 +5,6 @@
 import { Injectable } from '@nestjs/common';
 @Injectable()
 export class HouseUtil {
-  constructor() {}
   generateString(length) {
     const characters =
       'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
