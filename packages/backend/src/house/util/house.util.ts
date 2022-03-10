@@ -1,4 +1,6 @@
 // Generate random house code
+// Inspired by:
+// https://stackoverflow.com/questions/1349404/generate-random-string-characters-in-javascript/1349426#1349426
 export function generateString(length) {
   const characters =
     'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
