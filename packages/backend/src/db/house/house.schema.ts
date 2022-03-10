@@ -6,8 +6,6 @@ export type HouseDocument = House & Document;
 
 @Schema()
 export class House {
-  _id: MongooseSchema.Types.ObjectId;
-
   @Prop()
   name: string;
 
@@ -17,7 +15,7 @@ export class House {
   @Prop()
   address: string;
 
-  @Prop()
+  @Prop({ unique: true })
   code: string;
 
   @Prop()

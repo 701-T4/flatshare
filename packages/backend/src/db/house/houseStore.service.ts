@@ -10,12 +10,12 @@ export class HouseStoreService {
     private readonly HouseModel: Model<HouseDocument>,
   ) {}
 
-  async create(createdHouseModel: HouseModel): Promise<House> {
-    const createdHouse = await this.HouseModel.create(createdHouseModel);
+  async create(createdHouseModel: HouseModel): Promise<HouseDocument> {
+    const createdHouse = this.HouseModel.create(createdHouseModel);
     return createdHouse;
   }
 
-  async findOne(id: string): Promise<House> {
+  async findOne(id: string): Promise<HouseDocument> {
     return this.HouseModel.findOne({ _id: id }).exec();
   }
 
@@ -23,7 +23,7 @@ export class HouseStoreService {
     return this.HouseModel.findOne({ code: code }).exec();
   }
 
-  async findAll(): Promise<House[]> {
+  async findAll(): Promise<HouseDocument[]> {
     return this.HouseModel.find().exec();
   }
 
@@ -38,9 +38,8 @@ export class HouseStoreService {
   }
 
   async delete(id: string) {
-    const deletedHouse = await this.HouseModel.findByIdAndRemove({
+    return this.HouseModel.findByIdAndRemove({
       _id: id,
     }).exec();
-    return deletedHouse;
   }
 }
