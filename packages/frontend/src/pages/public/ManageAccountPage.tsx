@@ -41,7 +41,13 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
   return (
     <div className="h-screen overflow-y-auto bg-gradient-to-b from-land_page_bg_start to-land_page_bg_end">
       <Avatar
-        text={userData.displayName}
+        icon={
+          <img
+            alt="Avatar"
+            className="rounded-full"
+            src={user?.photoURL ?? ''}
+          />
+        }
         color="secondary"
         size="xl"
         squared
