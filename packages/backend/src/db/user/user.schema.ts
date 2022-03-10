@@ -5,11 +5,11 @@ export type UserDocument = User & Document;
 
 @Schema()
 export class User {
-  @Prop()
-  name: string;
+  // @Prop()
+  // name: string;
 
-  @Prop()
-  age: number;
+  // @Prop()
+  // age: number;
 
   @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'House' })
   house: MongooseSchema.Types.ObjectId;
@@ -21,8 +21,8 @@ export class User {
 export const UserSchema = SchemaFactory.createForClass(User);
 
 export class UserModel {
-  readonly name: string;
-  readonly age: number;
+  // name: string;
+  // age: number;
   house: MongooseSchema.Types.ObjectId;
   firebaseId: string;
 }

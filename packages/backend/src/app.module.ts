@@ -6,7 +6,7 @@ import { HouseModule } from './house/house.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DbModule } from './db/db.module';
 import { PassportModule } from '@nestjs/passport';
-import { FirebaseAuthStrategy } from './guards/firebare.auth';
+import { FirebaseAuthStrategy } from './guards/firebase.auth';
 
 @Module({
   controllers: [APIController],

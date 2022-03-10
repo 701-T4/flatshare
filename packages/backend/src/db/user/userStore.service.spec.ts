@@ -5,8 +5,10 @@ import { User } from './user.schema';
 import { Model } from 'mongoose';
 
 const mockUser = {
-  name: 'User #1',
-  age: 4,
+  // name: 'User #1',
+  // age: 4,
+  house: null,
+  firebaseId: 'blablabla',
 };
 
 describe('UserStoreService', () => {
@@ -14,12 +16,16 @@ describe('UserStoreService', () => {
   let model: Model<User>;
   const usersArray = [
     {
-      name: 'User #1',
-      age: 4,
+      // name: 'User #1',
+      // age: 4,
+      house: null,
+      firebaseId: 'blablabla',
     },
     {
-      name: 'User #2',
-      age: 2,
+      // name: 'User #2',
+      // age: 2,
+      house: null,
+      firebaseId: 'www',
     },
   ];
 
@@ -61,15 +67,17 @@ describe('UserStoreService', () => {
   it('should insert a new user', async () => {
     jest.spyOn(model, 'create').mockImplementationOnce(() =>
       Promise.resolve({
-        name: 'User #1',
-        age: 4,
+        // name: 'User #1',
+        // age: 4,
+        house: null,
+        firebaseId: 'blablabla',
       }),
     );
     const newUser = await userService.create({
-      name: 'User #1',
-      age: 4,
+      // name: null,
+      // age: null,
       house: null,
-      firebaseId: null,
+      firebaseId: 'blablabla',
     });
     expect(newUser).toEqual(mockUser);
   });
