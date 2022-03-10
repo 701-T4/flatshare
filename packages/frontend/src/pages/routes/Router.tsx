@@ -3,15 +3,17 @@ import AuthenticatedRoutes from './AuthenticatedRoutes';
 import UnauthenticatedRoutes from './UnauthenticatedRoutes';
 import { getAuth } from 'firebase/auth';
 import { useAuth } from '../../hooks/useAuth';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 interface RouterProps {}
 
 const Router: React.FC<RouterProps> = () => {
   const { authLoaded, setAuthLoaded, signedIn, setUser } = useAuth();
+  const [searchParams] = useSearchParams();
+  const inviteCode = searchParams.get('code') ?? '';
 
-  const location = useLocation()
-  // change to  api call 
+  const location = useLocation();
+  // change to  api call
   const getUserHouseCode = () => {
     return { data: '123456' };
   };
@@ -33,13 +35,14 @@ const Router: React.FC<RouterProps> = () => {
   }
 
   if (!signedIn) {
-    let path = location.pathname
+    // Route to sign-in page with stored code
+    localStorage.setItem('code', inviteCode);
+
     // To Do: Add to House
-    // To-do: Check if user house object is empty
-    if (code === path.slice(path.indexOf("=") + 1)){
-      return <UnauthenticatedRoutes alreadyInFlat={true}/>;
-    }
-    return <UnauthenticatedRoutes alreadyInFlat={false}/>;
+    // if (code === inviteCode) {
+    //   return <UnauthenticatedRoutes alreadyInFlat={true} />;
+    // }
+    return <UnauthenticatedRoutes alreadyInFlat={false} />;
   }
 
   return <AuthenticatedRoutes />;

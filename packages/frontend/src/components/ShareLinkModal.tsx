@@ -19,14 +19,13 @@ const ShareLinkModal: React.FC<ShareLinkModalProps> = ({
   visible,
   setVisible,
 }) => {
-  // TODO: change to valid api call ===============
+  // TODO: change to valid api call
   const getHouseCode = () => {
     return { data: 'house12345678' };
   };
   const { data: code } = getHouseCode();
-  // ==============================================
 
-  const link = `${window.location.origin}?join=${code}`;
+  const link = `${window.location.origin}/join?code=${code}`;
   const [copied, setCopied] = useState(false);
   const [icon, setIcon] = useState(<DuplicateIcon className="h-5 w-5" />);
   const copyHandler = () => {
