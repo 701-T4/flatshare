@@ -2,6 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { UserStoreService } from '../db/user/userStore.service';
 import { HouseStoreService } from '../db/house/houseStore.service';
 import { HouseController } from './house.controller';
+import { HouseUtil } from './house.util';
 
 describe('HouseController', () => {
   let controller: HouseController;
@@ -12,6 +13,7 @@ describe('HouseController', () => {
       providers: [
         { provide: HouseStoreService, useValue: {} },
         { provide: UserStoreService, useValue: {} },
+        { provide: HouseUtil, useValue: {} },
       ],
     }).compile();
 

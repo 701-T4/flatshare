@@ -2,13 +2,14 @@ import { Controller, Post, Body, Param, Get, Put, Query } from '@nestjs/common';
 import { UserStoreService } from '../db/user/userStore.service';
 import { HouseStoreService } from '../db/house/houseStore.service';
 import { CreateHouseDto } from './dto/create-house.dto';
-import { generateString } from './util/house.util';
+import { HouseUtil } from './house.util';
 
 @Controller('/api/v1/house')
 export class HouseController {
   constructor(
     private readonly houseStoreService: HouseStoreService,
     private readonly userStoreService: UserStoreService,
+    private readonly houseUtil: HouseUtil,
   ) {}
 
   @Post()
@@ -16,7 +17,7 @@ export class HouseController {
     @Body() createHouseDto: CreateHouseDto,
     @Query('firebaseId') firebaseId: string,
   ) {
-    const code = generateString(8);
+    const code = this.houseUtil.generateString(8);
     createHouseDto.code = code;
     const house = await this.houseStoreService.create(createHouseDto);
     this.userStoreService.updateByFirebaseId(firebaseId, { house: house._id });
