@@ -24,6 +24,7 @@ export interface components {
       /** Format: date-time */
       time: string;
       env: string;
+      user: { [key: string]: unknown };
     };
     CreateUserDto: { [key: string]: unknown };
     UpdateUserDto: { [key: string]: unknown };

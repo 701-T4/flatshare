@@ -4,6 +4,8 @@ import { APIController } from './api.controller';
 import { UsersModule } from './users/users.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { DbModule } from './db/db.module';
+import { PassportModule } from '@nestjs/passport';
+import { FirebaseAuthStrategy } from './guards/firebare.auth';
 
 @Module({
   controllers: [APIController],
@@ -17,6 +19,8 @@ import { DbModule } from './db/db.module';
     }),
     UsersModule,
     MongooseModule.forRoot(process.env.DATABASE_URL),
+    PassportModule,
   ],
+  providers: [FirebaseAuthStrategy],
 })
 export class AppModule {}
