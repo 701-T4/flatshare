@@ -18,8 +18,8 @@ export class House {
   @Prop({ unique: true })
   code: string;
 
-  @Prop()
-  owner: string;
+  @Prop({ type: MongooseSchema.Types.ObjectId, ref: 'User' })
+  owner: MongooseSchema.Types.ObjectId;
 }
 
 export const HouseSchema = SchemaFactory.createForClass(House);
@@ -29,5 +29,5 @@ export class HouseModel {
   readonly email: string;
   readonly address: string;
   code: string;
-  owner: string;
+  owner: MongooseSchema.Types.ObjectId;
 }

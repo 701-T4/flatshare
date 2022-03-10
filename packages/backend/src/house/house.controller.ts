@@ -32,6 +32,9 @@ export class HouseController {
     @User() user?: DecodedIdToken,
   ) {
     createHouseDto.code = this.houseUtil.generateString(8);
+    createHouseDto.owner = await (
+      await this.userStoreService.findOneByFirebaseId(user.uid)
+    )._id;
     const house = await this.houseStoreService.create(createHouseDto);
     await this.userStoreService.updateByFirebaseId(user.uid, {
       house: house._id,
