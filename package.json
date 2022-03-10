@@ -18,6 +18,7 @@
     "start:dev": "lerna run --parallel start:dev",
     "test": "lerna run --parallel test",
     "start:docker": "docker-compose up",
-    "test:docker": "docker-compose -f docker-compose.override.yml up"
+    "test:docker": "docker-compose -f docker-compose.override.yml up",
+    "configure:env" : "node configure-env.js"
   }
 }
