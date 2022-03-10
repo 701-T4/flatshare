@@ -36,7 +36,7 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
 
   // get the house status, if its new users showing the account management page
   // if not, direct to the house they joined
-  const userData = useAuth().user;
+  const { user } = useAuth();
 
   return (
     <div className="h-screen overflow-y-auto bg-gradient-to-b from-land_page_bg_start to-land_page_bg_end">
