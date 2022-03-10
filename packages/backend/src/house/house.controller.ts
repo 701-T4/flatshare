@@ -20,7 +20,7 @@ export class HouseController {
   @Post()
   async create(
     @Body() createHouseDto: CreateHouseDto,
-    @User() user?: DecodedIdToken,
+    @User() user: DecodedIdToken,
   ) {
     createHouseDto.code = this.houseUtil.generateString(8);
     createHouseDto.owner = (
@@ -34,7 +34,7 @@ export class HouseController {
   }
 
   @Get()
-  async getHouse(@User() user?: DecodedIdToken) {
+  async getHouse(@User() user: DecodedIdToken) {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
     return userDoc.house;
   }
@@ -42,7 +42,7 @@ export class HouseController {
   @Put()
   async joinHouse(
     @Body() joinHouseDto: JoinHouseDto,
-    @User() user?: DecodedIdToken,
+    @User() user: DecodedIdToken,
   ) {
     const house = await this.houseStoreService.findOneByCode(
       joinHouseDto.houseCode,
