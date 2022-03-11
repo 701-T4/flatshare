@@ -1,22 +1,33 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import AuthenticatedRoutes from './AuthenticatedRoutes';
 import UnauthenticatedRoutes from './UnauthenticatedRoutes';
 import { getAuth } from 'firebase/auth';
 import { useAuth } from '../../hooks/useAuth';
-import { useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 
 interface RouterProps {}
 
 const Router: React.FC<RouterProps> = () => {
   const { authLoaded, setAuthLoaded, setUser, signedIn } = useAuth();
   const [searchParams] = useSearchParams();
-  const inviteCode = searchParams.get('code') ?? '';
+  const inviteCode1 = searchParams.get('code') ?? '';
+
+  const location = useLocation();
+  let path = location.pathname;
+  const inviteCode = path.slice(path.indexOf('=') + 1);
+  const joinCheck = path.slice(1, 5);
 
   // change to  api call
   const getUserHouseCode = () => {
-    return { data: '123456' };
+    return { data: null };
   };
   const { data: code } = getUserHouseCode();
+
+  const joinHouse = () => {
+    if (localStorage.getItem('code')) {
+      console.log('user added to the house');
+    }
+  };
 
   useEffect(() => {
     // returns function to stop the listener
@@ -27,9 +38,9 @@ const Router: React.FC<RouterProps> = () => {
     return () => {
       clearListener();
     };
-  }, [setAuthLoaded, setUser]);
+  }, [setUser, setAuthLoaded]);
 
-  console.log({ authLoaded, signedIn });
+  // console.log({ authLoaded, signedIn });
 
   if (!authLoaded) {
     return null;
@@ -37,17 +48,38 @@ const Router: React.FC<RouterProps> = () => {
 
   if (!signedIn) {
     // Route to sign-in page with stored code
-    localStorage.setItem('code', inviteCode);
 
-    // To Do: Add to House
-    // To-do: Check if user house object is empty
-    // if (code === inviteCode) {
-    //   return <UnauthenticatedRoutes alreadyInFlat={true} />;
-    // }
-    return <UnauthenticatedRoutes alreadyInFlat={false} />;
+    if (joinCheck === 'join') {
+      localStorage.setItem('code', inviteCode);
+      console.log('Stored');
+    }
+    return <UnauthenticatedRoutes />;
   }
 
-  return <AuthenticatedRoutes />;
+  if (signedIn) {
+    if (joinCheck === 'join') {
+      if (localStorage.getItem('code')) {
+        localStorage.getItem('code');
+        console.log('Retrieved Code');
+        if (code === null) {
+          joinHouse();
+          console.log('1.');
+        } else {
+          return <AuthenticatedRoutes alreadyInFlat={true} />;
+        }
+        localStorage.removeItem('code');
+        console.log('Removed Code');
+        return <AuthenticatedRoutes alreadyInFlat={false} />;
+      } else if (code === null) {
+        joinHouse();
+        console.log('2.');
+        return <AuthenticatedRoutes alreadyInFlat={false} />;
+      }
+      return <AuthenticatedRoutes alreadyInFlat={true} />;
+    }
+  }
+
+  return <AuthenticatedRoutes alreadyInFlat={false} />;
 };
 
 export default Router;

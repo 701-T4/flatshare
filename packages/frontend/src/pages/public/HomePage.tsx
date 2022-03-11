@@ -19,6 +19,7 @@ const HomePage: React.FC<HomePageProps> = ({
     setVisible(true);
   };
 
+  console.log(alreadyInFlat);
   // TODO: call api endpoint
   const joinHouse = () => {
     if (localStorage.getItem('code')) {
@@ -30,14 +31,6 @@ const HomePage: React.FC<HomePageProps> = ({
   }, []);
 
   const [conflictVisible, conflictsetVisible] = useState(alreadyInFlat);
-
-  // const { data } = useApi('/api/v1/ping', {
-  //   method: 'get',
-  // });
-  // if (data) {
-  //   const { env, time, user } = data;
-  //   console.log({ env, time, user });
-  // }
 
   return (
     <div>
