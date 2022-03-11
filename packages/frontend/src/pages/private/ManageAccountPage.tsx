@@ -26,6 +26,9 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
   const [houseCode, setHouseCode] = useState('');
   const [joinedHouse, setJoinedHouse] = useState(false);
   const [houseData, setHouseData] = useState();
+  const [newPhoneNumber, setNewPhoneNumber] = useState('');
+  const [newAddress, setNewAddress] = useState('');
+  const [newHouseName, setNewHouseName] = useState('');
   const { user } = useAuth();
 
   // Hook for the Join Button Modal to be configured
@@ -43,9 +46,20 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
   function handleJoiningHouse() {
     setJoinVisible(false);
     HouseServices.joinHouse(houseCode).then((data) => {
-      console.log(data);
-      //setHouseData(data? '');
+      setHouseData(data);
     });
+  }
+
+  async function handleCreatingHouse() {
+    try {
+      setCreateVisible(false);
+      const newHouse = {
+        address: newAddress,
+        name: newHouseName,
+        phoneNumber: newPhoneNumber,
+      };
+      const response = await HouseServices.createHouse(newHouse);
+    } catch (e) {}
   }
 
   // If the user joined house then cannot create house.
@@ -147,6 +161,7 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
             placeholder="Enter your name"
             size="xl"
             color="primary"
+            onChange={(e) => setNewHouseName(e.target.value)}
           />
           <Text size={'1.25rem'} margin="2%">
             Address
@@ -157,6 +172,7 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
             placeholder="Enter your address"
             size="xl"
             color="primary"
+            onChange={(e) => setNewAddress(e.target.value)}
           />
           <Text size={'1.25rem'} margin="2%">
             Phone Number
@@ -167,11 +183,12 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
             placeholder="Enter your phone number"
             size="xl"
             color="primary"
+            onChange={(e) => setNewPhoneNumber(e.target.value)}
           />
         </Modal.Body>
 
         <Modal.Footer>
-          <Button auto onClick={closeCreateHandler} size="lg">
+          <Button auto onClick={handleCreatingHouse} size="lg">
             Create!
           </Button>
         </Modal.Footer>
