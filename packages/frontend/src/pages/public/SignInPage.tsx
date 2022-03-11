@@ -4,6 +4,7 @@ import { auth } from '../../services/firebase';
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import firebase from 'firebase/compat/app';
 import { useAuth } from '../../hooks/useAuth';
+import '../../styles/firebaseui-styling.global.css';
 
 interface SignInPageProps {}
 
@@ -25,12 +26,12 @@ const SignInPage: React.FC<SignInPageProps> = () => {
   return (
     <div className="h-screen flex flex-row justify-center items-center  bg-gradient-to-b from-land_page_bg_start to-land_page_bg_end">
       <div className="flex w-full lg:w-1/2 item-center justify-center">
-        <div className="flex flex-col items-center border-4 rounded-xl drop-shadow-xl">
-          <Text h1 size={48} className="pt-10" color="white" weight="bold">
+        <div className="flex flex-col items-center bg-white rounded-xl drop-shadow-xl">
+          <Text h1 size={48} className="pt-10" color="black" weight="bold">
             Log in
           </Text>
           {/* container for all user login input*/}
-          <div className="px-10 pt-20 pb-10 flex flex-col">
+          <div className="px-14 pt-20 pb-10 flex flex-col">
             <StyledFirebaseAuth
               className="w-full"
               uiConfig={uiConfig}
