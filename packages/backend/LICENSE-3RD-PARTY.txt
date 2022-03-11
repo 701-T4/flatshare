@@ -9,6 +9,7 @@
 | @nestjs/config | 1.2.0 | - | Nest - modern, fast, powerful node.js web framework (@config) |  MIT |
 | @nestjs/core | 8.4.0 | https://nestjs.com | Nest - modern, fast, powerful node.js web framework (@core) |  MIT |
 | @nestjs/mongoose | 9.0.2 | - | Nest - modern, fast, powerful node.js web framework (@mongoose) |  MIT |
+| @nestjs/passport | 8.2.1 | - | Nest - modern, fast, powerful node.js web framework (@passport) |  MIT |
 | @nestjs/platform-express | 8.4.0 | https://nestjs.com | Nest - modern, fast, powerful node.js web framework (@platform-express) |  MIT |
 | @nestjs/schematics | 8.0.7 | https://github.com/nestjs/schematics#readme | Nest - modern, fast, powerful node.js web framework (@schematics) |  MIT |
 | @nestjs/swagger | 5.2.0 | - | Nest - modern, fast, powerful node.js web framework (@swagger) |  MIT |
@@ -20,13 +21,15 @@
 | @types/supertest | 2.0.11 | - | TypeScript definitions for SuperTest |  MIT |
 | @typescript-eslint/eslint-plugin | 5.13.0 | - | TypeScript plugin for ESLint |  MIT |
 | @typescript-eslint/parser | 5.13.0 | - | An ESLint custom parser which leverages TypeScript ESTree |  BSD-2-Clause |
-| @wbmnky/license-report-generator | 2.1.3 | https://github.com/sebastianroming/license-report-generator#readme | Generates a license report, using your bower/npm dependencies |  MIT |
 | cross-env | 7.0.3 | https://github.com/kentcdodds/cross-env#readme | Run scripts that set and use environment variables across platforms |  MIT |
 | eslint | 8.10.0 | https://eslint.org | An AST-based pattern checker for JavaScript. |  MIT |
 | eslint-config-prettier | 8.5.0 | - | Turns off all rules that are unnecessary or might conflict with Prettier. |  MIT |
 | eslint-plugin-prettier | 4.0.0 | https://github.com/prettier/eslint-plugin-prettier#readme | Runs prettier as an eslint rule |  MIT |
+| firebase-admin | 10.0.2 | https://firebase.google.com/ | Firebase admin SDK for Node.js |  Apache-2.0 |
 | jest | 27.5.1 | https://jestjs.io/ | Delightful JavaScript Testing. |  MIT |
 | mongoose | 6.2.4 | https://mongoosejs.com | Mongoose MongoDB ODM |  MIT |
+| passport | 0.5.2 | https://www.passportjs.org/ | Simple, unobtrusive authentication for Node.js. |  MIT |
+| passport-firebase-jwt | 1.2.1 | https://github.com/Mawi137/passport-firebase-jwt | Passport authentication strategy for Firebase JWT token |  MIT |
 | prettier | 2.5.1 | https://prettier.io | Prettier is an opinionated code formatter |  MIT |
 | reflect-metadata | 0.1.13 | http://rbuckton.github.io/reflect-metadata | Polyfill for Metadata Reflection API |  Apache-2.0 |
 | rimraf | 3.0.2 | - | A deep deletion module for node (like `rm -rf`) |  ISC |
