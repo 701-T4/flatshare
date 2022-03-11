@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import * as Mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { House, HouseDocument, HouseModel } from './house.schema';
 
@@ -14,7 +15,7 @@ export class HouseStoreService {
     return this.HouseModel.create(createdHouseModel);
   }
 
-  async findOne(id: string): Promise<HouseDocument> {
+  async findOne(id: string | Mongoose.Types.ObjectId): Promise<HouseDocument> {
     return this.HouseModel.findOne({ _id: id }).exec();
   }
 
