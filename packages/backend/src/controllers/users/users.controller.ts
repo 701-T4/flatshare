@@ -51,7 +51,7 @@ export class UsersController {
     const houseDoc = await this.houseStoreService.findOne(userDoc.house);
     return {
       firebaseId: userDoc.firebaseId,
-      house: houseDoc.code,
+      house: houseDoc?.code,
     };
   }
 }
