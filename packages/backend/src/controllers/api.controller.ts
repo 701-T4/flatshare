@@ -1,23 +1,26 @@
 import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ApiOkResponse } from '@nestjs/swagger';
-import { DecodedIdToken } from 'firebase-admin/auth';
-import { FirebaseGuard } from './guards/firebase.guard';
-import PingResponse from './schemas/pingResponse';
-import { User } from './util/user.decorator';
+import { ApiOkResponse, ApiOperation, ApiProperty } from '@nestjs/swagger';
+
+class PingResponse {
+  @ApiProperty()
+  time: Date;
+
+  @ApiProperty()
+  env: string;
+}
 
 @Controller('/api/v1')
-@UseGuards(FirebaseGuard)
 export class APIController {
   constructor(private configService: ConfigService) {}
 
   @Get('ping')
+  @ApiOperation({ summary: 'simple endpoint to test api health' })
   @ApiOkResponse({ description: 'ping successful', type: PingResponse })
-  getPing(@User() user?: DecodedIdToken): PingResponse {
+  getPing(): PingResponse {
     return {
       time: new Date(),
       env: this.configService.get<string>('PING_TEXT'),
-      user,
     };
   }
 }
