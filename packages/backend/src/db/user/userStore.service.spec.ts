@@ -5,22 +5,21 @@ import { User } from './user.schema';
 import { Model } from 'mongoose';
 
 const mockUser = {
-  name: 'User #1',
-  age: 4,
+  house: null,
+  firebaseId: 'blablabla',
 };
 
 describe('UserStoreService', () => {
-  let service: UserStoreService;
+  let userService: UserStoreService;
   let model: Model<User>;
-
   const usersArray = [
     {
-      name: 'User #1',
-      age: 4,
+      house: null,
+      firebaseId: 'blablabla',
     },
     {
-      name: 'User #2',
-      age: 2,
+      house: null,
+      firebaseId: 'www',
     },
   ];
 
@@ -34,39 +33,41 @@ describe('UserStoreService', () => {
             new: jest.fn().mockResolvedValue(mockUser),
             constructor: jest.fn().mockResolvedValue(mockUser),
             find: jest.fn(),
-            create: jest.fn(),
+            findOne: jest.fn(),
+            findOneAndUpdate: jest.fn(),
             exec: jest.fn(),
+            create: jest.fn(),
           },
         },
       ],
     }).compile();
 
-    service = module.get<UserStoreService>(UserStoreService);
+    userService = module.get<UserStoreService>(UserStoreService);
     model = module.get<Model<User>>(getModelToken('User'));
   });
 
   it('should be defined', () => {
-    expect(service).toBeDefined();
+    expect(userService).toBeDefined();
   });
 
   it('should return all users', async () => {
     jest.spyOn(model, 'find').mockReturnValue({
       exec: jest.fn().mockResolvedValueOnce(usersArray),
     } as any);
-    const users = await service.findAll();
+    const users = await userService.findAll();
     expect(users).toEqual(usersArray);
   });
 
   it('should insert a new user', async () => {
     jest.spyOn(model, 'create').mockImplementationOnce(() =>
       Promise.resolve({
-        name: 'User #1',
-        age: 4,
+        house: null,
+        firebaseId: 'blablabla',
       }),
     );
-    const newUser = await service.create({
-      name: 'User #1',
-      age: 4,
+    const newUser = await userService.create({
+      house: null,
+      firebaseId: 'blablabla',
     });
     expect(newUser).toEqual(mockUser);
   });
