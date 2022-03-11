@@ -7,12 +7,14 @@ import {
   MailIcon,
   LockOpenIcon,
   ExclamationCircleIcon,
+  UserIcon,
 } from '@heroicons/react/outline';
 import '../../styles/firebaseui-styling.global.css';
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  updateProfile,
 } from 'firebase/auth';
 import { useAlert } from '../../components/common/util/CornerAlert';
 import { FirebaseError } from 'firebase/app';
@@ -46,6 +48,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
   };
 
   const [isLogin, setIsLogin] = useState(true);
+  const [name, setName] = useState<string | null>(null);
   const [email, setEmail] = useState<string | null>(null);
   const [password, setPassword] = useState<string | null>(null);
   const [confirmPassword, setConfirmPassword] = useState<string | null>(null);
@@ -84,7 +87,12 @@ const SignInPage: React.FC<SignInPageProps> = () => {
 
   const handleCreateEmailAccount = async (email: string, password: string) => {
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const user = await (
+        await createUserWithEmailAndPassword(auth, email, password)
+      ).user;
+      await updateProfile(user, {
+        displayName: name,
+      });
     } catch (error) {
       console.error(error);
       if (error instanceof FirebaseError) {
@@ -99,6 +107,10 @@ const SignInPage: React.FC<SignInPageProps> = () => {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (error) {
       console.error(error);
+      if (error instanceof FirebaseError) {
+        console.log(error.message);
+        createSigninErrorAlert(error.message);
+      }
     }
   };
 
@@ -127,6 +139,18 @@ const SignInPage: React.FC<SignInPageProps> = () => {
               <div className="flex-grow border-t border-black"></div>
             </div>
             {/* input fields group starts */}
+            {isLogin ? (
+              <></>
+            ) : (
+              <>
+                <Input
+                  onChange={(v) => setName(v.target.value)}
+                  contentLeft={<UserIcon style={{ height: '100%' }} />}
+                  placeholder="Name"
+                />
+                <Spacer y={0.5} />
+              </>
+            )}
             <Input
               onChange={(v) => setEmail(v.target.value)}
               contentLeft={<MailIcon style={{ height: '100%' }} />}
