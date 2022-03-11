@@ -1,9 +1,10 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
-import { APIController } from './api.controller';
-import { UsersModule } from './users/users.module';
+import { APIController } from './controllers/api.controller';
+import { UsersModule } from './controllers/users/users.module';
+import { HouseModule } from './controllers/house/house.module';
 import { MongooseModule } from '@nestjs/mongoose';
-import { DbModule } from './db/db.module';
+import { PassportModule } from '@nestjs/passport';
 
 @Module({
   controllers: [APIController],
@@ -16,7 +17,9 @@ import { DbModule } from './db/db.module';
       isGlobal: true,
     }),
     UsersModule,
+    HouseModule,
     MongooseModule.forRoot(process.env.DATABASE_URL),
+    PassportModule,
   ],
 })
 export class AppModule {}

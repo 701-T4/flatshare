@@ -14,6 +14,8 @@ This project uses a Lerna Monorepo. Lerna is a tool used to manage multiple Java
 
 This project uses Firebase for authentication. You may want to set up your own Firebase project for development of this application.
 
+## Frontend
+
 1. Go to the [Firebase Console](https://console.firebase.google.com/) and create a new project.
 
 2. Go to the top left cog > Project Settings > Scroll down to the "Your apps" section and add a new web app.
@@ -23,3 +25,17 @@ This project uses Firebase for authentication. You may want to set up your own F
 4. Paste that object in a new file named `scripts/firebase-config/data.js`, replacing the name of the object with `module.exports` and run the script next to that file.
 
 5. The script will save information to your clipboard. Paste that into the REACT_APP_FIREBASE_CONFIG environment variable, replacing all existing contents.
+
+## Backend
+
+### If You Created a New Project in the Previous Step
+
+1. Go to service accounts and generate a new private key
+
+2. Name the downloaded file `firebase.json` and place it in the /keys directory. DO NOT COMMIT THIS FILE.
+
+### Using an Existing Project
+
+1. Ask the project owner for a private key.
+
+2. Rename this file `firebase.json` and place it in the /keys directory. DO NOT COMMIT THIS FILE.

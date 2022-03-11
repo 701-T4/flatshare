@@ -1,13 +1,21 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, UseGuards } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { ApiOkResponse } from '@nestjs/swagger';
-import PingResponse from './schemas/pingResponse';
+import { ApiOkResponse, ApiOperation, ApiProperty } from '@nestjs/swagger';
+
+class PingResponse {
+  @ApiProperty()
+  time: Date;
+
+  @ApiProperty()
+  env: string;
+}
 
 @Controller('/api/v1')
 export class APIController {
   constructor(private configService: ConfigService) {}
 
   @Get('ping')
+  @ApiOperation({ summary: 'simple endpoint to test api health' })
   @ApiOkResponse({ description: 'ping successful', type: PingResponse })
   getPing(): PingResponse {
     return {
