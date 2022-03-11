@@ -3,16 +3,16 @@ import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { Strategy, ExtractJwt } from 'passport-firebase-jwt';
 import { initializeApp, cert } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
+import { UserStoreService } from 'src/db/user/userStore.service';
+import { UserModel } from 'src/db/user/user.schema';
 
 @Injectable()
 export class FirebaseAuthStrategy extends PassportStrategy(
   Strategy,
   'firebase-auth',
 ) {
-  constructor() {
-    super({
-      jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
-    });
+  constructor(private readonly userStoreService: UserStoreService) {
+    super({ jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken() });
     initializeApp({
       credential: cert(require('../../../../keys/firebase.json')),
     });
@@ -29,6 +29,14 @@ export class FirebaseAuthStrategy extends PassportStrategy(
       throw new UnauthorizedException();
     }
 
+    if (
+      (await this.userStoreService.findOneByFirebaseId(firebaseUser.uid)) ===
+      null
+    ) {
+      const userModel = new UserModel();
+      userModel.firebaseId = firebaseUser.uid;
+      await this.userStoreService.create(userModel);
+    }
     return firebaseUser;
   }
 }

@@ -5,25 +5,22 @@ interface authContext {
   authLoaded: boolean;
   setAuthLoaded: React.Dispatch<React.SetStateAction<boolean>>;
   signedIn: boolean;
-  setSignedIn: React.Dispatch<React.SetStateAction<boolean>>;
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<User | null>>;
 }
 
 const AuthContext = createContext<authContext>({
-  authLoaded: true,
+  authLoaded: false,
   setAuthLoaded: () => false,
-  signedIn: false,
-  setSignedIn: () => null,
   user: null,
   setUser: () => null,
+  signedIn: false,
 });
 
 // This context provider is wrapped around the whole project
 // so when the authentication status changes the project re-renders
 export const AuthProvider: React.FC<{}> = ({ children }) => {
-  const [authLoaded, setAuthLoaded] = useState(true);
-  const [signedIn, setSignedIn] = useState(false);
+  const [authLoaded, setAuthLoaded] = useState(false);
   const [user, setUser] = useState<User | null>(null);
 
   return (
@@ -31,10 +28,9 @@ export const AuthProvider: React.FC<{}> = ({ children }) => {
       value={{
         authLoaded,
         setAuthLoaded,
-        signedIn,
-        setSignedIn,
         user,
         setUser,
+        signedIn: !!user,
       }}
     >
       {children}

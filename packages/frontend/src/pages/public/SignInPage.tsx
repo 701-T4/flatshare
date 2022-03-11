@@ -2,26 +2,45 @@ import React from 'react';
 import { Text, Input, Spacer, Button } from '@nextui-org/react';
 import { auth } from '../../services/firebase';
 import { StyledFirebaseAuth } from 'react-firebaseui';
-import firebase from 'firebase/compat/app';
 import { useAuth } from '../../hooks/useAuth';
 import { MailIcon, LockOpenIcon } from '@heroicons/react/outline';
 import '../../styles/firebaseui-styling.global.css';
+import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 
 interface SignInPageProps {}
 
 const SignInPage: React.FC<SignInPageProps> = () => {
-  const { setSignedIn, setUser } = useAuth();
+  const { setUser } = useAuth();
 
   const uiConfig = {
     signInFlow: 'popup',
-    signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+    signInOptions: [GoogleAuthProvider.PROVIDER_ID],
     callbacks: {
       signInSuccessWithAuthResult: () => {
-        setSignedIn(true);
         setUser(auth.currentUser);
         return false;
       },
     },
+  };
+
+  const handleCreateEmailAccount = async (email: string, password: string) => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleEmailSignIn = async (email: string, password: string) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
