@@ -91,14 +91,15 @@ export const useApiMutation = <
   const bearer = getAuth().currentUser?.getIdToken();
 
   return ({
-    method,
     pathParams,
     ...newOptions
-  }: UseApiArgs<TUrl, TMethod, TBodyContentType, TResponseContentType>) =>
-    fetcher(
-      { method, parser, ...{ ...options, ...newOptions } },
+  }: UseApiArgs<TUrl, TMethod, TBodyContentType, TResponseContentType>) => {
+    const newBody = JSON.stringify(newOptions.body ?? options.body ?? {});
+    return fetcher(
+      { method, parser, ...{ ...options, ...newOptions }, body: newBody },
       bearer,
     )(substitutePathParams(url, pathParams));
+  };
 };
 
 export const getUrl = (url: string) => {
@@ -129,22 +130,6 @@ export const useUntypedApi = (
   const loading = !data && !error;
 
   return { data, error, ...rest, loading };
-};
-
-export const useMutatingApi = (url: string) => {
-  const bearer = getAuth().currentUser?.getIdToken();
-
-  return ({
-    parser,
-    pathParams,
-    method,
-    ...options
-  }: UseApiArgs<any, any, any, any>) => {
-    fetcher(
-      { method, parser, ...options },
-      bearer,
-    )(substitutePathParams(url, pathParams));
-  };
 };
 
 /**
