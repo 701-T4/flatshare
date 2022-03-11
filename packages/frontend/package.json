@@ -29,11 +29,12 @@
     "start:dev": "run-p start",
     "start": "react-scripts start",
     "build": "react-scripts build",
+    "postinstall": "yarn run license-report",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "generate:api-types": "npx openapi-typescript http://localhost:4200/api-json --output ./src/types/api-schema.ts",
     "generate": "run-p generate:*",
-    "generate:license-report": "license-report license-report --output=table --config license-report-config.json > LICENSE-3RD-PARTY.txt"
+    "license-report": "license-report-generator --table true --out-file LICENSE-3RD-PARTY.txt --with-dev-dependencies true"
   },
   "eslintConfig": {
     "extends": [

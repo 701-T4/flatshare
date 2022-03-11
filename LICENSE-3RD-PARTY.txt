@@ -1,7 +1,11 @@
-The following attributions are for the third party dependencies used in the project:
-name         license type  link                                           installed version  author
-----         ------------  ----                                           -----------------  ------
-husky        MIT           git+https://github.com/typicode/husky.git      7.0.4              Typicode typicode@gmail.com
-lerna        MIT           git+https://github.com/lerna/lerna.git         4.0.0              Sebastian McKenzie sebmck@gmail.com  
-lint-staged  MIT           git+https://github.com/okonet/lint-staged.git  12.3.4             Andrey Okonetchnikov andrey@okonet.ru
-prettier     MIT           git+https://github.com/prettier/prettier.git   2.5.1              James Long
+# Dependency Licenses
+## root ()
+-------------------
+
+| Package Name | Version | URL | Description | License |
+| ------------ | ------- | --- | ----------- | ------- |
+| husky | 7.0.4 | https://typicode.github.io/husky | Modern native Git hooks made easy |  MIT |
+| lerna | 4.0.0 | https://github.com/lerna/lerna#readme | A tool for managing JavaScript projects with multiple packages. |  MIT |
+| lint-staged | 12.3.4 | - | Lint files staged by git |  MIT |
+| prettier | 2.5.1 | https://prettier.io | Prettier is an opinionated code formatter |  MIT |
+

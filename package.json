@@ -13,12 +13,13 @@
   "scripts": {
     "build": "lerna run build",
     "prepare": "husky install",
-    "postinstall": "lerna bootstrap",
+    "preinstall": "npm i -g @wbmnky/license-report-generator",
+    "postinstall": "lerna bootstrap && npm run license-report",
     "start": "lerna run --parallel start",
     "start:dev": "lerna run --parallel start:dev",
     "test": "lerna run --parallel test",
     "start:docker": "docker-compose up",
     "test:docker": "docker-compose -f docker-compose.override.yml up",
-    "generate:license-report": "license-report license-report --output=table --config license-report-config.json > LICENSE-3RD-PARTY.txt"
+    "license-report": "license-report-generator --table true --out-file LICENSE-3RD-PARTY.txt --with-dev-dependencies true"
   }
 }
