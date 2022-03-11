@@ -29,7 +29,7 @@ const ShareLinkModal: React.FC<ShareLinkModalProps> = ({
     }
   };
 
-  const link = `${window.location.origin}/?join=${getHouseCode}`;
+  const link = `${window.location.origin}/?join=${getHouseCode()}`;
   const [copied, setCopied] = useState(false);
   const [icon, setIcon] = useState(<DuplicateIcon className="h-5 w-5" />);
   const copyHandler = () => {
