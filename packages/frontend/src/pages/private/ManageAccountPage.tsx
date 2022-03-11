@@ -24,10 +24,10 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
   props: ManageAccountPageProps,
 ) => {
   // Hook for the Join Button Modal to be configured
-  const [visible, setVisible] = React.useState(false);
-  const handler = () => setVisible(true);
+  const [joinVisible, setJoinVisible] = React.useState(false);
+  const handler = () => setJoinVisible(true);
   const closeHandler = () => {
-    setVisible(false);
+    setJoinVisible(false);
   };
   // Hook for the Create Button Modal to be configured
   const [createVisible, setCreateVisible] = React.useState(false);
@@ -47,23 +47,30 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
 
   return (
     <div className="h-screen overflow-y-auto bg-gradient-to-b from-land_page_bg_start to-land_page_bg_end">
-      <Avatar
-        icon={
-          <img
-            alt="Avatar"
-            className="rounded-full"
-            src={user?.photoURL ?? ''}
-          />
-        }
-        color="secondary"
-        size="xl"
-        squared
-        style={{
-          float: 'right',
-          margin: '20px',
-        }}
-      />
-
+      <div className="flex flex-row items-center justify-between p-12">
+        <div className="flex flex-row items-center justify-start gap-12">
+          <div className="w-24 h-12 bg-center bg-no-repeat bg-contain bg-logo" />
+          <Text h1 size={50} color="white" weight="bold">
+            RentShare
+          </Text>
+        </div>
+        <Avatar
+          icon={
+            <img
+              alt="Avatar"
+              className="rounded-full"
+              src={user?.photoURL ?? ''}
+            />
+          }
+          color="secondary"
+          size="xl"
+          squared
+          style={{
+            float: 'right',
+            margin: '20px',
+          }}
+        />
+      </div>
       <Container style={{ position: 'absolute', top: '50%' }}>
         <Row gap={5}>
           <Col>
@@ -150,7 +157,7 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
       <Modal
         closeButton
         aria-labelledby="modal-title"
-        open={visible}
+        open={joinVisible}
         onClose={closeHandler}
       >
         <Modal.Header>
