@@ -28,17 +28,12 @@ For more detail, view `CONTRIBUTING.md`.
 
 ## Attributing third party dependencies
 
-Ensure license-report is installed as a global dependency:
-Run `npm install -g license-report`
+All third party dependencies used in this project are attributed in the LICENSE-3RD-PARTY files. The files are generated automatically when there is an update to the dependecies used.
 
-To generate LICENSE-3RD-PARTY.txt:
-Run `yarn run generate:license-report`
+To mannually generate a LICENSE-3RD-PARTY.txt:
+Run `yarn run license-report`
 
-Ensure to run the command three times, one for the entire project, one for the front-end project and one for the back-end project. Before running the command, please ensure to change to the corresponding repositories using the `cd <relative path>` command.
-
-Note: When generating the files for the front-end and back-end projects, please manually add the `license-report-config.json` to the same directory as `package.json`.
-
-For further information on utilising the license-report package, please visit https://github.com/ironSource/license-report.
+For further information on the license-report-generator package, please visit npmjs.com/package/@wbmnky/license-report-generator.
 
 ## Attributing resources
 
