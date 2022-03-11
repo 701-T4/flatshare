@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
+import * as mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { User, UserDocument, UserModel } from './user.schema';
 
@@ -14,7 +15,7 @@ export class UserStoreService {
     return this.userModel.create(createdUserModel);
   }
 
-  async findOne(id: string): Promise<UserDocument> {
+  async findOne(id: string | mongoose.Types.ObjectId): Promise<UserDocument> {
     return this.userModel.findOne({ _id: id }).exec();
   }
 
