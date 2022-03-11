@@ -7,17 +7,14 @@ import { useAuth } from '../../hooks/useAuth';
 interface SignInPageProps {}
 
 const SignInPage: React.FC<SignInPageProps> = () => {
-  const { setSignedIn, setUser } = useAuth();
+  const { setUser } = useAuth();
 
   const uiConfig = {
     signInFlow: 'popup',
     signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
     callbacks: {
       signInSuccessWithAuthResult: () => {
-        setSignedIn(true);
-        const R = require('ramda');
-        const userParam = R.pickAll(['displayName', 'email'], auth.currentUser);
-        setUser(userParam);
+        setUser(auth.currentUser);
         return false;
       },
     },
