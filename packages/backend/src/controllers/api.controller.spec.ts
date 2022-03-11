@@ -1,6 +1,5 @@
-import { ConfigModule, ConfigService } from '@nestjs/config';
+import { ConfigModule } from '@nestjs/config';
 import { Test, TestingModule } from '@nestjs/testing';
-import { AppModule } from './app.module';
 import { APIController } from './api.controller';
 
 describe('V1 ApiController', () => {
