@@ -10,8 +10,8 @@ const AuthenticatedRoutes: React.FC<AuthenticatedRoutesProps> = () => {
   return (
     <Routes>
       <Route path="home" element={<HomePage />} />
-      <Route path="*" element={<Navigate to="/home" replace />} />
       <Route path="account" element={<ManageAccountPage />} />
+      <Route path="*" element={<Navigate to="/home" replace />} />
     </Routes>
   );
 };
