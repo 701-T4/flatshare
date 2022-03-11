@@ -1,20 +1,35 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Text, Input, Spacer, Button } from '@nextui-org/react';
 import { auth } from '../../services/firebase';
 import { StyledFirebaseAuth } from 'react-firebaseui';
 import { useAuth } from '../../hooks/useAuth';
-import { MailIcon, LockOpenIcon } from '@heroicons/react/outline';
+import {
+  MailIcon,
+  LockOpenIcon,
+  ExclamationCircleIcon,
+} from '@heroicons/react/outline';
 import '../../styles/firebaseui-styling.global.css';
 import {
   GoogleAuthProvider,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
 } from 'firebase/auth';
+import { useAlert } from '../../components/common/util/CornerAlert';
+import { FirebaseError } from 'firebase/app';
 
 interface SignInPageProps {}
 
 const SignInPage: React.FC<SignInPageProps> = () => {
   const { setUser } = useAuth();
+  const { createAlert } = useAlert();
+
+  const createSigninErrorAlert = (message: string) => {
+    createAlert({
+      icon: <ExclamationCircleIcon />,
+      message: message,
+      mode: 'warning',
+    });
+  };
 
   const uiConfig = {
     signInFlow: 'popup',
@@ -27,11 +42,20 @@ const SignInPage: React.FC<SignInPageProps> = () => {
     },
   };
 
+  const [isLogin, setIsLogin] = useState(true);
+  const [email, setEmail] = useState<string | null>(null);
+  const [password, setPassword] = useState<string | null>(null);
+  const [confirmPassword, setConfirmPassword] = useState<string | null>(null);
+
   const handleCreateEmailAccount = async (email: string, password: string) => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
     } catch (error) {
       console.error(error);
+      if (error instanceof FirebaseError) {
+        console.log(error.message);
+        createSigninErrorAlert(error.message);
+      }
     }
   };
 
@@ -41,6 +65,23 @@ const SignInPage: React.FC<SignInPageProps> = () => {
     } catch (error) {
       console.error(error);
     }
+  };
+
+  const validateSignUpUser = async () => {
+    console.log([email, password, confirmPassword]);
+    if (!confirmPassword) createSigninErrorAlert('Please Confirm Password');
+    if (!password) createSigninErrorAlert('Please enter password');
+    if (!email) createSigninErrorAlert('Please enter email');
+
+    if (password === confirmPassword) {
+      await handleCreateEmailAccount(email!, password!);
+    } else {
+      createSigninErrorAlert('Please reconfirm your password');
+    }
+  };
+
+  const validateLoginUser = async () => {
+    console.log([email, password, confirmPassword]);
   };
 
   return (
@@ -67,16 +108,19 @@ const SignInPage: React.FC<SignInPageProps> = () => {
             </div>
             {/* input fields group starts */}
             <Input
+              onChange={(v) => setEmail(v.target.value)}
               contentLeft={<MailIcon style={{ height: '100%' }} />}
               placeholder="Your email"
             />
             <Spacer y={0.5} />
-            <Input
+            <Input.Password
+              onChange={(v) => setPassword(v.target.value)}
               contentLeft={<LockOpenIcon style={{ height: '100%' }} />}
               placeholder="Your password"
             />
             <Spacer y={0.5} />
-            <Input
+            <Input.Password
+              onChange={(v) => setConfirmPassword(v.target.value)}
               contentLeft={<LockOpenIcon style={{ height: '100%' }} />}
               placeholder="Confirm password"
             />
@@ -85,6 +129,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
               style={{
                 backgroundColor: '#2596A4',
               }}
+              onClick={() => validateSignUpUser()}
             >
               Sign Up
             </Button>
