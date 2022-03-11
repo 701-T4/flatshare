@@ -1,7 +1,9 @@
 import { Controller, Get, Post, Body } from '@nestjs/common';
-import { UserStoreService } from '../db/user/userStore.service';
-import { Auth } from '../util/auth.decorator';
+import { UserStoreService } from '../../db/user/userStore.service';
+import { Auth } from '../../util/auth.decorator';
 import { CreateUserDto } from './dto/create-user.dto';
+import { User } from '../../util/user.decorator';
+import { DecodedIdToken } from 'firebase-admin/auth';
 
 @Controller('/api/v1/users')
 export class UsersController {
@@ -14,7 +16,7 @@ export class UsersController {
 
   @Get()
   @Auth()
-  async currentUsers() {
-    return await this.userStoreService.findAll();
+  async currentUser(@User() user: DecodedIdToken) {
+    return await this.userStoreService.findOneByFirebaseId(user.uid);
   }
 }

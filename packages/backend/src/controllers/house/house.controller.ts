@@ -1,11 +1,10 @@
 import { Controller, Post, Body, Get, Put, UseGuards } from '@nestjs/common';
-import { UserStoreService } from '../db/user/userStore.service';
-import { HouseStoreService } from '../db/house/houseStore.service';
-import { Auth } from '../util/auth.decorator';
+import { UserStoreService } from '../../db/user/userStore.service';
+import { HouseStoreService } from '../../db/house/houseStore.service';
+import { Auth } from '../../util/auth.decorator';
 import { CreateHouseDto } from './dto/create-house.dto';
 import { HouseUtil } from './house.util';
-import { FirebaseGuard } from '../guards/firebase.guard';
-import { User } from '../util/user.decorator';
+import { User } from '../../util/user.decorator';
 import { DecodedIdToken } from 'firebase-admin/auth';
 import { JoinHouseDto } from './dto/join-house.dto';
 

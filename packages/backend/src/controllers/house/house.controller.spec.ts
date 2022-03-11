@@ -1,6 +1,6 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { UserStoreService } from '../db/user/userStore.service';
-import { HouseStoreService } from '../db/house/houseStore.service';
+import { UserStoreService } from '../../db/user/userStore.service';
+import { HouseStoreService } from '../../db/house/houseStore.service';
 import { HouseController } from './house.controller';
 import { HouseUtil } from './house.util';
 
