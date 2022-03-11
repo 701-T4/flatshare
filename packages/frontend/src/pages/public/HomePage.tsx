@@ -6,38 +6,17 @@ import ShareLinkModal from '../../components/ShareLinkModal';
 import { LinkIcon } from '@heroicons/react/outline';
 import HouseConflictModal from '../../components/HouseConflictModal';
 
-interface HomePageProps {
-  alreadyInFlat: boolean;
-}
+interface HomePageProps {}
 
-const HomePage: React.FC<HomePageProps> = ({
-  alreadyInFlat,
-}: HomePageProps) => {
+const HomePage: React.FC<HomePageProps> = () => {
   const { user } = useAuth();
   const [visible, setVisible] = useState(false);
   const onClick = () => {
     setVisible(true);
   };
 
-  console.log(alreadyInFlat);
-  // TODO: call api endpoint
-  const joinHouse = () => {
-    if (localStorage.getItem('code')) {
-      console.log('user added to the house');
-    }
-  };
-  useEffect(() => {
-    joinHouse();
-  }, []);
-
-  const [conflictVisible, conflictsetVisible] = useState(alreadyInFlat);
-
   return (
     <div>
-      <HouseConflictModal
-        visible={conflictVisible}
-        setVisible={conflictsetVisible}
-      />
       <Text h1> Hello </Text>
       <p>{user?.displayName}</p>
       <Button size="sm">Small</Button>

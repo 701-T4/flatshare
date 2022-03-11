@@ -9,6 +9,7 @@ import {
 import React, { useState } from 'react';
 import { DuplicateIcon, LinkIcon, CheckIcon } from '@heroicons/react/outline';
 import { UserAddIcon } from '@heroicons/react/solid';
+import { useApi } from '../hooks/useApi';
 
 interface ShareLinkModalProps {
   visible: boolean;
@@ -20,12 +21,15 @@ const ShareLinkModal: React.FC<ShareLinkModalProps> = ({
   setVisible,
 }) => {
   // TODO: change to valid api call
-  const getHouseCode = () => {
-    return { data: 'house12345678' };
-  };
-  const { data: code } = getHouseCode();
+  const { data, loading } = useApi('/api/v1/house', { method: 'get' });
 
-  const link = `${window.location.origin}/join?code=${code}`;
+  const getHouseCode = () => {
+    if (!loading) {
+      return data?.code;
+    }
+  };
+
+  const link = `${window.location.origin}/?join=${getHouseCode}`;
   const [copied, setCopied] = useState(false);
   const [icon, setIcon] = useState(<DuplicateIcon className="h-5 w-5" />);
   const copyHandler = () => {

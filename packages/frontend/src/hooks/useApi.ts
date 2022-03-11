@@ -74,6 +74,33 @@ export const useApi = <
   return { data, error, ...rest, loading };
 };
 
+export const useApiMutation = <
+  TUrl extends keyof paths,
+  TMethod extends keyof paths[TUrl],
+  TBodyContentType extends string = 'application/json',
+  TResponseContentType extends string = 'application/json',
+>(
+  url: TUrl,
+  {
+    method,
+    parser = (res) => res.json(),
+    pathParams,
+    ...options
+  }: UseApiArgs<TUrl, TMethod, TBodyContentType, TResponseContentType> = {},
+) => {
+  const bearer = getAuth().currentUser?.getIdToken();
+
+  return ({
+    method,
+    pathParams,
+    ...newOptions
+  }: UseApiArgs<TUrl, TMethod, TBodyContentType, TResponseContentType>) =>
+    fetcher(
+      { method, parser, ...{ ...options, ...newOptions } },
+      bearer,
+    )(substitutePathParams(url, pathParams));
+};
+
 export const getUrl = (url: string) => {
   if (!url.startsWith('/')) {
     url = '/' + url;
@@ -102,6 +129,22 @@ export const useUntypedApi = (
   const loading = !data && !error;
 
   return { data, error, ...rest, loading };
+};
+
+export const useMutatingApi = (url: string) => {
+  const bearer = getAuth().currentUser?.getIdToken();
+
+  return ({
+    parser,
+    pathParams,
+    method,
+    ...options
+  }: UseApiArgs<any, any, any, any>) => {
+    fetcher(
+      { method, parser, ...options },
+      bearer,
+    )(substitutePathParams(url, pathParams));
+  };
 };
 
 /**

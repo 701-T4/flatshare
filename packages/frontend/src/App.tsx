@@ -3,6 +3,7 @@ import { NextUIProvider } from '@nextui-org/react';
 import { BrowserRouter } from 'react-router-dom';
 import { AuthProvider } from './hooks/useAuth';
 import Router from './pages/routes/Router';
+import QueryParamHandler from './pages/routes/QueryParamHandler';
 import { mainTheme } from './theme';
 import { CornerAlertManager } from './components/common/util/CornerAlert';
 
@@ -14,7 +15,9 @@ const App: React.FC<AppProps> = () => {
       <AuthProvider>
         <CornerAlertManager>
           <BrowserRouter>
-            <Router />
+            <QueryParamHandler>
+              <Router />
+            </QueryParamHandler>
           </BrowserRouter>
         </CornerAlertManager>
       </AuthProvider>
