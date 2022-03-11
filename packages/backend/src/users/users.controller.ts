@@ -9,7 +9,6 @@ import {
 } from '@nestjs/common';
 import { UserStoreService } from '../db/user/userStore.service';
 import { CreateUserDto } from './dto/create-user.dto';
-import { UpdateUserDto } from './dto/update-user.dto';
 
 @Controller('/api/v1/users')
 export class UsersController {
@@ -21,22 +20,7 @@ export class UsersController {
   }
 
   @Get()
-  async findAll() {
+  async currentUsers() {
     return await this.userStoreService.findAll();
-  }
-
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    return await this.userStoreService.findOne(id);
-  }
-
-  @Patch(':id')
-  async update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-    return await this.userStoreService.update(id, updateUserDto);
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.userStoreService.delete(id);
   }
 }
