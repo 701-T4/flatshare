@@ -1,54 +1,43 @@
 // import fs from 'fs';
 import * as fs from 'fs';
 
-const path_dev = '../.env.development';
-const path_prod = '../.env.production';
+const PATH_DEV = './.env.development';
+const PATH_PROD = './.env.production';
 
 /**
  * configure the environment for .env.development and .env.production if not existing
  * @param  {} filePath - The path of environment files in backend
  */
-const configureEnvironmentFile = (filePath) => {
+// const configureEnvironmentFile = (filePath) => {
+function validateEnvironmentFile(filePath) {
   console.log(`Checking the existence of ${filePath}`);
 
-  fs.access(filePath, fs.constants.F_OK, (err) => {
-    // If this is not case because of not found files, perform early return
+  try {
+    fs.accessSync(filePath, fs.constants.F_OK);
+    console.log(`${filePath} exists`);
+    return validateKeys(filePath);
+  } catch (error) {
+    console.error(
+      `An unexpected error ${error} is encountered \n'${filePath}' file does not exist, creating from '${filePath}.template '`,
+    );
 
-    if (err) {
-      console.error(
-        `An unexpected error ${err} is encountered \n'${filePath}' file does not exist, creating from '${filePath}.template '`,
-      );
+    // copy the data from template file and paste to wanted files
+    const data = fs.readFileSync(`${filePath}.template`, 'utf-8');
 
-      // Check the existence of template file
-      fs.access(`${filePath}.template`, fs.constants.F_OK, (err) => {
-        if (err) {
-          console.error(
-            `Fail to find the template file '${filePath}.template' for '${filePath}'.`,
-          );
-        }
-        return;
-      });
+    fs.writeFileSync(filePath, data);
 
-      // copy the data from template file and paste to wanted files
-      const data = fs.readFileSync(`${filePath}.template`, 'utf-8');
-
-      fs.writeFileSync(filePath, data);
-
-      console.log(`'${filePath}' file created successfully`);
-    } else {
-      console.log(`${filePath} exists`);
-      validateEnvironmentFile(filePath);
-    }
-  });
-
-  return 1;
-};
+    console.log(
+      `'${filePath}' file created successfully \n Please start it again.`,
+    );
+    return false;
+  }
+}
 
 /**
- * compare the content between environment files and environment template files
+ * Check the environment contains all keys from its template files
  * @param  {} filePath - The path of environment files in backend
  */
-const validateEnvironmentFile = (filePath) => {
+function validateKeys(filePath) {
   console.log(`Starting to validate ${filePath}`);
 
   // Checks the existence of the environment template file
@@ -58,19 +47,35 @@ const validateEnvironmentFile = (filePath) => {
   const data = fs.readFileSync(`${filePath}`, 'utf-8');
   const dataTemplate = fs.readFileSync(`${filePath}.template`, 'utf-8');
 
-  //Compare the existing file to its template
-  if (data.toString() !== dataTemplate.toString()) {
-    console.error(
-      `There is a difference between '${filePath}' and '${filePath}.template', make sure you have the correct configuration in '${filePath}'`,
+  // Use Regular Expression to retrieve every key followed with an = symbol. E.g. PORT=
+  const regex = /(.*=)/g;
+  const environmentKeys = data.match(regex);
+  const templateKeys = dataTemplate.match(regex);
+
+  // Checks the current environment contains all the required keys from the template
+  const isValidated = templateKeys.every((r) => environmentKeys.includes(r));
+
+  if (!isValidated) {
+    console.log(
+      `Verification fail. The current environment '${filePath}' does not contain all the required keys from its template '${filePath}.template'`,
     );
-    return;
+  } else {
+    console.log(
+      `Verification succeed. The current environment '${filePath}' contains all the required keys from its template '${filePath}.template'`,
+    );
   }
 
-  console.log(
-    `File validation succeed, there is no difference between '${filePath}' and '${filePath}.template' `,
-  );
-};
+  return isValidated;
+}
+/**
+ * Verfiy the current environment files for development and production
+ */
+function configureEnvironmentFiles() {
+  const isDevEnvironmentValidated = validateEnvironmentFile(PATH_DEV);
+  const isProdEnvironmentValidated = validateEnvironmentFile(PATH_PROD);
+  return isProdEnvironmentValidated && isDevEnvironmentValidated;
+}
 
-export default configureEnvironmentFile;
+export default configureEnvironmentFiles;
 // configureEnvironmentFile(path_dev);
 // configureEnvironmentFile(path_prod);
