@@ -1,36 +1,42 @@
-name                              license type  link                                                               installed version  author
-----                              ------------  ----                                                               -----------------  ------
-@nestjs/common                    MIT           git+https://github.com/nestjs/nest.git                             8.0.0              Kamil Mysliwiec
-@nestjs/config                    MIT           git+https://github.com/nestjs/config.git                           1.2.0              Kamil Mysliwiec
-@nestjs/core                      MIT           git+https://github.com/nestjs/nest.git                             8.0.0              Kamil Mysliwiec
-@nestjs/mongoose                  MIT           git+https://github.com/nestjs/mongoose.git                         9.0.2              Kamil Mysliwiec
-@nestjs/platform-express          MIT           git+https://github.com/nestjs/nest.git                             8.0.0              Kamil Mysliwiec
-@nestjs/swagger                   MIT           git+https://github.com/nestjs/swagger.git                          5.2.0              Kamil Mysliwiec
-mongoose                          MIT           git://github.com/Automattic/mongoose.git                           6.2.4              Guillermo Rauch guillermo@learnboost.com
-reflect-metadata                  Apache-2.0    git+https://github.com/rbuckton/reflect-metadata.git               0.1.13             Ron Buckton ron.buckton@microsoft.com http://github.com/rbuckton
-rimraf                            ISC           git://github.com/isaacs/rimraf.git                                 3.0.2              Isaac Z. Schlueter i@izs.me http://blog.izs.me/
-rxjs                              Apache-2.0    git+https://github.com/reactivex/rxjs.git                          7.2.0              Ben Lesh ben@benlesh.com
-swagger-ui-express                MIT           git+ssh://git@github.com/scottie1984/swagger-ui-express.git        4.3.0              Stephen Scott scottie1984@gmail.com    
-@nestjs/cli                       MIT           git+https://github.com/nestjs/nest-cli.git                         8.0.0
-@nestjs/schematics                MIT           git+https://github.com/nestjs/schematics.git                       8.0.0
-@nestjs/testing                   MIT           git+https://github.com/nestjs/nest.git                             8.0.0              Kamil Mysliwiec
-@types/express                    MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git             4.17.13
-@types/jest                       MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git             27.4.1
-@types/mongoose                   MIT           https://registry.npmjs.org/@types/mongoose/-/mongoose-5.11.97.tgz  5.11.97
-@types/node                       MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git             16.0.0
-@types/supertest                  MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git             2.0.11
-@typescript-eslint/eslint-plugin  MIT           git+https://github.com/typescript-eslint/typescript-eslint.git     5.0.0
-@typescript-eslint/parser         BSD-2-Clause  git+https://github.com/typescript-eslint/typescript-eslint.git     5.0.0
-cross-env                         MIT           git+https://github.com/kentcdodds/cross-env.git                    7.0.3              Kent C. Dodds me@kentcdodds.com https://kentcdodds.com
-eslint                            MIT           git+https://github.com/eslint/eslint.git                           8.0.1              Nicholas C. Zakas nicholas+npm@nczconsulting.com
-eslint-config-prettier            MIT           git+https://github.com/prettier/eslint-config-prettier.git         8.3.0              Simon Lydell
-eslint-plugin-prettier            MIT           git+https://github.com/prettier/eslint-plugin-prettier.git         4.0.0              Teddy Katz
-jest                              MIT           git+https://github.com/facebook/jest.git                           27.2.5
-prettier                          MIT           git+https://github.com/prettier/prettier.git                       2.3.2              James Long
-source-map-support                MIT           git+https://github.com/evanw/node-source-map-support.git           0.5.20
-supertest                         MIT           https://github.com/visionmedia/supertest.git                       6.1.3              TJ Holowaychuk
-ts-jest                           MIT           git+https://github.com/kulshekhar/ts-jest.git                      27.0.3             Kulshekhar Kabra kulshekhar@users.noreply.github.com https://github.com/kulshekhar
-ts-loader                         MIT           git+https://github.com/TypeStrong/ts-loader.git                    9.2.3              John Reilly johnny_reilly@hotmail.com https://blog.johnnyreilly.com
-ts-node                           MIT           git://github.com/TypeStrong/ts-node.git                            10.0.0             Blake Embrey hello@blakeembrey.com http://blakeembrey.me
-tsconfig-paths                    MIT           https://github.com/dividab/tsconfig-paths                          3.10.1             Jonas Kello
-typescript                        Apache-2.0    https://github.com/Microsoft/TypeScript.git                        4.3.5              Microsoft Corp.
+# Dependency Licenses
+## platform-backend (0.1.0)
+-------------------
+
+| Package Name | Version | URL | Description | License |
+| ------------ | ------- | --- | ----------- | ------- |
+| @nestjs/cli | 8.2.1 | https://github.com/nestjs/nest-cli#readme | Nest - modern, fast, powerful node.js web framework (@cli) |  MIT |
+| @nestjs/common | 8.4.0 | https://nestjs.com | Nest - modern, fast, powerful node.js web framework (@common) |  MIT |
+| @nestjs/config | 1.2.0 | - | Nest - modern, fast, powerful node.js web framework (@config) |  MIT |
+| @nestjs/core | 8.4.0 | https://nestjs.com | Nest - modern, fast, powerful node.js web framework (@core) |  MIT |
+| @nestjs/mongoose | 9.0.2 | - | Nest - modern, fast, powerful node.js web framework (@mongoose) |  MIT |
+| @nestjs/platform-express | 8.4.0 | https://nestjs.com | Nest - modern, fast, powerful node.js web framework (@platform-express) |  MIT |
+| @nestjs/schematics | 8.0.7 | https://github.com/nestjs/schematics#readme | Nest - modern, fast, powerful node.js web framework (@schematics) |  MIT |
+| @nestjs/swagger | 5.2.0 | - | Nest - modern, fast, powerful node.js web framework (@swagger) |  MIT |
+| @nestjs/testing | 8.4.0 | https://nestjs.com | Nest - modern, fast, powerful node.js web framework (@testing) |  MIT |
+| @types/express | 4.17.13 | https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/express | TypeScript definitions for Express |  MIT |
+| @types/jest | 27.4.1 | https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/jest | TypeScript definitions for Jest |  MIT |
+| @types/mongoose | 5.11.97 | - | Stub TypeScript definitions entry for mongoose, which provides its own types definitions |  MIT |
+| @types/node | 16.11.26 | https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/node | TypeScript definitions for Node.js |  MIT |
+| @types/supertest | 2.0.11 | - | TypeScript definitions for SuperTest |  MIT |
+| @typescript-eslint/eslint-plugin | 5.13.0 | - | TypeScript plugin for ESLint |  MIT |
+| @typescript-eslint/parser | 5.13.0 | - | An ESLint custom parser which leverages TypeScript ESTree |  BSD-2-Clause |
+| @wbmnky/license-report-generator | 2.1.3 | https://github.com/sebastianroming/license-report-generator#readme | Generates a license report, using your bower/npm dependencies |  MIT |
+| cross-env | 7.0.3 | https://github.com/kentcdodds/cross-env#readme | Run scripts that set and use environment variables across platforms |  MIT |
+| eslint | 8.10.0 | https://eslint.org | An AST-based pattern checker for JavaScript. |  MIT |
+| eslint-config-prettier | 8.5.0 | - | Turns off all rules that are unnecessary or might conflict with Prettier. |  MIT |
+| eslint-plugin-prettier | 4.0.0 | https://github.com/prettier/eslint-plugin-prettier#readme | Runs prettier as an eslint rule |  MIT |
+| jest | 27.5.1 | https://jestjs.io/ | Delightful JavaScript Testing. |  MIT |
+| mongoose | 6.2.4 | https://mongoosejs.com | Mongoose MongoDB ODM |  MIT |
+| prettier | 2.5.1 | https://prettier.io | Prettier is an opinionated code formatter |  MIT |
+| reflect-metadata | 0.1.13 | http://rbuckton.github.io/reflect-metadata | Polyfill for Metadata Reflection API |  Apache-2.0 |
+| rimraf | 3.0.2 | - | A deep deletion module for node (like `rm -rf`) |  ISC |
+| rxjs | 7.5.4 | https://rxjs.dev | Reactive Extensions for modern JavaScript |  Apache-2.0 |
+| source-map-support | 0.5.21 | - | Fixes stack traces for files with source maps |  MIT |
+| supertest | 6.2.2 | - | SuperAgent driven library for testing HTTP servers |  MIT |
+| swagger-ui-express | 4.3.0 | https://github.com/scottie1984/swagger-ui-express | Swagger UI Express |  MIT |
+| ts-jest | 27.1.3 | https://kulshekhar.github.io/ts-jest | A Jest transformer with source map support that lets you use Jest to test projects written in TypeScript |  MIT |
+| ts-loader | 9.2.7 | https://github.com/TypeStrong/ts-loader | TypeScript loader for webpack |  MIT |
+| ts-node | 10.6.0 | https://typestrong.org/ts-node | TypeScript execution environment and REPL for node.js, with source map support |  MIT |
+| tsconfig-paths | 3.12.0 | - | Load node modules according to tsconfig paths, in run-time or via API. |  MIT |
+| typescript | 4.6.2 | https://www.typescriptlang.org/ | TypeScript is a language for application scale JavaScript development |  Apache-2.0 |
+

@@ -1,30 +1,36 @@
-name                          license type  link                                                                    installed version  author
-----                          ------------  ----                                                                    -----------------  ------
-@heroicons/react              MIT           git+https://github.com/tailwindlabs/heroicons.git                       1.0.6
-@nextui-org/react             MIT           git+https://github.com/nextui-org/nextui.git                            1.0.2-beta.4       Junior Garcia jrgarciadev@gmail.com
-@testing-library/jest-dom     MIT           git+https://github.com/testing-library/jest-dom.git                     5.14.1             Ernesto Garcia gnapse@gmail.com http://gnapse.github.io
-@testing-library/react        MIT           git+https://github.com/testing-library/react-testing-library.git        12.0.0             Kent C. Dodds me@kentcdodds.com https://kentcdodds.com@testing-library/user-event   MIT           git+https://github.com/testing-library/user-event.git                   13.2.1             Giorgio Polvara polvara@gmail.com
-@types/jest                   MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git                  27.0.1
-@types/node                   MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git                  16.7.13
-@types/react                  MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git                  17.0.20
-@types/react-dom              MIT           https://github.com/DefinitelyTyped/DefinitelyTyped.git                  17.0.9
-classnames                    MIT           git+https://github.com/JedWatson/classnames.git                         2.3.1              Jed Watson
-firebase                      Apache-2.0    git+https://github.com/firebase/firebase-js-sdk.git                     9.6.8              Firebase firebase-support@google.com https://firebase.google.com/
-openapi-typescript            MIT           git+https://github.com/drwpow/openapi-typescript.git                    5.2.0              drew@pow.rs
-openapi-typescript-fetch      MIT           git+https://github.com/ajaishankar/openapi-typescript-fetch.git         1.1.2              Ajai Shankar
-react                         MIT           git+https://github.com/facebook/react.git                               17.0.2
-react-dom                     MIT           git+https://github.com/facebook/react.git                               17.0.2
-react-firebaseui              Apache-2.0    git+https://github.com/firebase/firebaseui-web-react.git                6.0.0              Google
-react-router-dom              MIT           git+https://github.com/remix-run/react-router.git                       6.2.2              Remix Software hello@remix.run
-react-scripts                 MIT           git+https://github.com/facebook/create-react-app.git                    5.0.0
-swr                           MIT           git+https://github.com/vercel/swr.git                                   1.2.2
-typescript                    Apache-2.0    https://github.com/Microsoft/TypeScript.git                             4.4.2              Microsoft Corp.
-web-vitals                    Apache-2.0    git+https://github.com/GoogleChrome/web-vitals.git                      2.1.0              Philip Walton philip@philipwalton.com http://philipwalton.com
-@testing-library/react-hooks  MIT           git+https://github.com/testing-library/react-hooks-testing-library.git  7.0.2              Michael Peyper mpeyper7@gmail.com
-autoprefixer                  MIT           git+https://github.com/postcss/autoprefixer.git                         10.4.2             Andrey Sitnik andrey@sitnik.ru
-clipboardy                    MIT           git+https://github.com/sindresorhus/clipboardy.git                      3.0.0              Sindre Sorhus sindresorhus@gmail.com https://sindresorhus.com
-npm-run-all                   MIT           git+https://github.com/mysticatea/npm-run-all.git                       4.1.5              Toru Nagashima
-postcss                       MIT           git+https://github.com/postcss/postcss.git                              8.4.7              Andrey Sitnik andrey@sitnik.ru
-ramda                         MIT           git://github.com/ramda/ramda.git                                        0.28.0             Scott Sauyet scott@sauyet.com scott.sauyet.com        
-rimraf                        ISC           git://github.com/isaacs/rimraf.git                                      3.0.2              Isaac Z. Schlueter i@izs.me http://blog.izs.me/       
-tailwindcss                   MIT           git+https://github.com/tailwindlabs/tailwindcss.git                     3.0.23
+# Dependency Licenses
+## frontend (0.1.0)
+-------------------
+
+| Package Name | Version | URL | Description | License |
+| ------------ | ------- | --- | ----------- | ------- |
+| @heroicons/react | 1.0.6 | https://github.com/tailwindlabs/heroicons#readme | - |  MIT |
+| @nextui-org/react | 1.0.2-beta.4 | https://nextui.org | 🚀 Beautiful and modern React UI library. |  MIT |
+| @testing-library/jest-dom | 5.16.2 | https://github.com/testing-library/jest-dom#readme | Custom jest matchers to test the state of the DOM |  MIT |
+| @testing-library/react | 12.1.3 | https://github.com/testing-library/react-testing-library#readme | Simple and complete React DOM testing utilities that encourage good testing practices. |  MIT |
+| @testing-library/react-hooks | 7.0.2 | - | Simple and complete React hooks testing utilities that encourage good testing practices. |  MIT |
+| @testing-library/user-event | 13.5.0 | https://github.com/testing-library/user-event#readme | Fire events the same way the user does |  MIT |
+| @types/jest | 27.4.1 | https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/jest | TypeScript definitions for Jest |  MIT |
+| @types/node | 16.11.26 | https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/node | TypeScript definitions for Node.js |  MIT |
+| @types/react | 17.0.39 | https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react | TypeScript definitions for React |  MIT |
+| @types/react-dom | 17.0.13 | https://github.com/DefinitelyTyped/DefinitelyTyped/tree/master/types/react-dom | TypeScript definitions for React (react-dom) |  MIT |
+| autoprefixer | 10.4.2 | - | Parse CSS and add vendor prefixes to CSS rules using values from the Can I Use website |  MIT |
+| classnames | 2.3.1 | - | A simple utility for conditionally joining classNames together |  MIT |
+| clipboardy | 3.0.0 | - | Access the system clipboard (copy/paste) |  MIT |
+| firebase | 9.6.8 | https://firebase.google.com/ | Firebase JavaScript library for web and Node.js |  Apache-2.0 |
+| npm-run-all | 4.1.5 | https://github.com/mysticatea/npm-run-all | A CLI tool to run multiple npm-scripts in parallel or sequential. |  MIT |
+| openapi-typescript | 5.2.0 | https://github.com/drwpow/openapi-typescript#readme | Generate TypeScript types from Swagger OpenAPI specs |  MIT |
+| openapi-typescript-fetch | 1.1.2 | https://github.com/ajaishankar/openapi-typescript-fetch#readme | A typed fetch client for openapi-typescript |  MIT |
+| postcss | 8.4.7 | https://postcss.org/ | Tool for transforming styles with JS plugins |  MIT |
+| ramda | 0.28.0 | https://ramdajs.com/ | A practical functional library for JavaScript programmers. |  MIT |
+| react | 17.0.2 | https://reactjs.org/ | React is a JavaScript library for building user interfaces. |  MIT |
+| react-dom | 17.0.2 | https://reactjs.org/ | React package for working with the DOM. |  MIT |
+| react-firebaseui | 6.0.0 | - | React wrapper for firebaseui: Javascript library for customizable UI on top of Firebase SDK |  Apache-2.0 |
+| react-router-dom | 6.2.2 | - | Declarative routing for React web applications |  MIT |
+| react-scripts | 5.0.0 | - | Configuration and scripts for Create React App. |  MIT |
+| rimraf | 3.0.2 | - | A deep deletion module for node (like `rm -rf`) |  ISC |
+| swr | 1.2.2 | https://swr.vercel.app | React Hooks library for remote data fetching |  MIT |
+| tailwindcss | 3.0.23 | https://tailwindcss.com | A utility-first CSS framework for rapidly building custom user interfaces. |  MIT |
+| typescript | 4.6.2 | https://www.typescriptlang.org/ | TypeScript is a language for application scale JavaScript development |  Apache-2.0 |
+| web-vitals | 2.1.4 | - | Easily measure performance metrics in JavaScript |  Apache-2.0 |
+
