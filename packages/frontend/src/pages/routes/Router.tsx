@@ -27,8 +27,6 @@ const Router: React.FC<RouterProps> = () => {
     return null;
   }
 
-  return <LoaderPage />;
-
   if (!signedIn) {
     return <UnauthenticatedRoutes />;
   }
