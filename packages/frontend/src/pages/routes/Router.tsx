@@ -3,16 +3,15 @@ import AuthenticatedRoutes from './AuthenticatedRoutes';
 import UnauthenticatedRoutes from './UnauthenticatedRoutes';
 import { getAuth } from 'firebase/auth';
 import { useAuth } from '../../hooks/useAuth';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 
 interface RouterProps {}
 
 const Router: React.FC<RouterProps> = () => {
-  const { authLoaded, setAuthLoaded, signedIn, setUser } = useAuth();
+  const { authLoaded, setAuthLoaded, setUser, signedIn } = useAuth();
   const [searchParams] = useSearchParams();
   const inviteCode = searchParams.get('code') ?? '';
 
-  const location = useLocation();
   // change to  api call
   const getUserHouseCode = () => {
     return { data: '123456' };
@@ -22,13 +21,15 @@ const Router: React.FC<RouterProps> = () => {
   useEffect(() => {
     // returns function to stop the listener
     const clearListener = getAuth().onAuthStateChanged((user) => {
-      setAuthLoaded(true);
       setUser(user);
+      setAuthLoaded(true);
     });
     return () => {
       clearListener();
     };
   }, [setAuthLoaded, setUser]);
+
+  console.log({ authLoaded, signedIn });
 
   if (!authLoaded) {
     return null;
@@ -39,6 +40,7 @@ const Router: React.FC<RouterProps> = () => {
     localStorage.setItem('code', inviteCode);
 
     // To Do: Add to House
+    // To-do: Check if user house object is empty
     // if (code === inviteCode) {
     //   return <UnauthenticatedRoutes alreadyInFlat={true} />;
     // }
