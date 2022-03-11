@@ -1,26 +1,43 @@
 import React from 'react';
 import { auth } from '../../services/firebase';
 import { StyledFirebaseAuth } from 'react-firebaseui';
-import firebase from 'firebase/compat/app';
 import { useAuth } from '../../hooks/useAuth';
+import {
+  GoogleAuthProvider,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+} from 'firebase/auth';
 
 interface SignInPageProps {}
 
 const SignInPage: React.FC<SignInPageProps> = () => {
-  const { setSignedIn, setUser } = useAuth();
+  const { setUser } = useAuth();
 
   const uiConfig = {
     signInFlow: 'popup',
-    signInOptions: [firebase.auth.GoogleAuthProvider.PROVIDER_ID],
+    signInOptions: [GoogleAuthProvider.PROVIDER_ID],
     callbacks: {
       signInSuccessWithAuthResult: () => {
-        setSignedIn(true);
-        const R = require('ramda');
-        const userParam = R.pickAll(['displayName', 'email'], auth.currentUser);
-        setUser(userParam);
+        setUser(auth.currentUser);
         return false;
       },
     },
+  };
+
+  const handleCreateEmailAccount = async (email: string, password: string) => {
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleEmailSignIn = async (email: string, password: string) => {
+    try {
+      await signInWithEmailAndPassword(auth, email, password);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (
