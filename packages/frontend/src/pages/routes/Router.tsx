@@ -3,6 +3,7 @@ import AuthenticatedRoutes from './AuthenticatedRoutes';
 import UnauthenticatedRoutes from './UnauthenticatedRoutes';
 import { getAuth } from 'firebase/auth';
 import { useAuth } from '../../hooks/useAuth';
+import LoaderPage from '../public/LoaderPage';
 
 interface RouterProps {}
 
@@ -25,6 +26,8 @@ const Router: React.FC<RouterProps> = () => {
   if (!authLoaded) {
     return null;
   }
+
+  return <LoaderPage />;
 
   if (!signedIn) {
     return <UnauthenticatedRoutes />;
