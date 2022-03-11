@@ -11,6 +11,7 @@ async function bootstrap() {
     .setTitle('API Documentation')
     .setDescription('Documentation for backend API endpoints')
     .setVersion(process.env.npm_package_version)
+    .addBearerAuth()
     .build();
   const document = SwaggerModule.createDocument(app, documentConfig);
   SwaggerModule.setup('api', app, document);
