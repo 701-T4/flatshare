@@ -1,49 +1,66 @@
 import {
   Avatar,
   Button,
-  Col,
   Container,
   Input,
-  Link,
   Modal,
-  Row,
+  Spacer,
   Text,
 } from '@nextui-org/react';
-import { getAuth } from 'firebase/auth';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import { useApi } from '../../hooks/useApi';
 import { useAuth } from '../../hooks/useAuth';
+import { HouseServices } from '../../services/HouseService';
 
 interface ManageAccountPageProps {}
 
 const btnStyle = {
-  width: '100%',
-  padding: '30px',
+  padding: '40px',
 };
 
 const ManageAccountPage: React.FC<ManageAccountPageProps> = (
   props: ManageAccountPageProps,
 ) => {
+  const [joinVisible, setJoinVisible] = useState(false);
+  const [createVisible, setCreateVisible] = useState(false);
+  const [houseCode, setHouseCode] = useState('');
+  const [joinedHouse, setJoinedHouse] = useState(false);
+  const [houseData, setHouseData] = useState();
+  const { user } = useAuth();
+
   // Hook for the Join Button Modal to be configured
-  const [joinVisible, setJoinVisible] = React.useState(false);
   const handler = () => setJoinVisible(true);
-  const closeHandler = () => {
+  const closeJoinHandler = () => {
     setJoinVisible(false);
   };
+
   // Hook for the Create Button Modal to be configured
-  const [createVisible, setCreateVisible] = React.useState(false);
   const createHandler = () => setCreateVisible(true);
   const closeCreateHandler = () => {
     setCreateVisible(false);
   };
 
-  function handleJoiningHouse(): void {
-    // pass the data to the backend
-    // direct the page to the house dahsboard
+  function handleJoiningHouse() {
+    setJoinVisible(false);
+    HouseServices.joinHouse(houseCode).then((data) => {
+      console.log(data);
+      //setHouseData(data? '');
+    });
   }
 
-  // get the house status, if its new users showing the account management page
-  // if not, direct to the house they joined
-  const { user } = useAuth();
+  // If the user joined house then cannot create house.
+  // use
+  const { data } = useApi('/api/v1/house', {
+    method: 'get',
+  });
+
+  console.log(data);
+
+  useEffect(() => {
+    if (data?.code) {
+      setJoinedHouse(true);
+    }
+  }, [data]);
 
   return (
     <div className="h-screen overflow-y-auto bg-gradient-to-b from-land_page_bg_start to-land_page_bg_end">
@@ -71,33 +88,40 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
           }}
         />
       </div>
-      <Container style={{ position: 'absolute', top: '50%' }}>
-        <Row gap={5}>
-          <Col>
-            <Button
-              color="secondary"
-              bordered={true}
-              style={btnStyle}
-              onClick={createHandler}
-            >
-              <Text color="secondary" size="2em">
-                CREATE
-              </Text>
-            </Button>
-          </Col>
-          <Col>
-            <Button
-              color="secondary"
-              bordered={true}
-              style={btnStyle}
-              onClick={handler}
-            >
-              <Text color="secondary" size="2em">
-                JOIN
-              </Text>
-            </Button>
-          </Col>
-        </Row>
+      {/* // position: 'absolute', top: '50%', transform: 'translate(0, -50%)' */}
+      <Container
+        style={{
+          position: 'absolute',
+          top: '50%',
+          left: '50%',
+          transform: 'translate(-10%, -50%)',
+        }}
+      >
+        {joinedHouse && (
+          <Button
+            color="secondary"
+            bordered={true}
+            style={btnStyle}
+            onClick={createHandler}
+          >
+            <Text color="secondary" size="2em">
+              CREATE
+            </Text>
+          </Button>
+        )}
+
+        <Spacer x={50} />
+
+        <Button
+          color="secondary"
+          bordered={true}
+          style={btnStyle}
+          onClick={handler}
+        >
+          <Text color="secondary" size="2em">
+            JOIN
+          </Text>
+        </Button>
       </Container>
 
       {/* Modal component that pops up once users press the CREATE button and asks for an user's details to create their flat */}
@@ -158,7 +182,7 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
         closeButton
         aria-labelledby="modal-title"
         open={joinVisible}
-        onClose={closeHandler}
+        onClose={closeJoinHandler}
       >
         <Modal.Header>
           <Text id="modal-title" size={'1.75rem'}>
@@ -173,10 +197,17 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
             color="primary"
             size="xl"
             placeholder="House Code"
+            onChange={(e) => setHouseCode(e.target.value)}
           />
         </Modal.Body>
         <Modal.Footer>
-          <Button auto onClick={closeHandler} size="lg">
+          <Button
+            auto
+            onClick={() => {
+              handleJoiningHouse();
+            }}
+            size="lg"
+          >
             Submit
           </Button>
         </Modal.Footer>
