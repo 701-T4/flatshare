@@ -24,11 +24,14 @@ const SignInPage: React.FC<SignInPageProps> = () => {
   const { createAlert } = useAlert();
 
   const createSigninErrorAlert = (message: string) => {
-    createAlert({
-      icon: <ExclamationCircleIcon />,
-      message: message,
-      mode: 'warning',
-    });
+    createAlert(
+      {
+        icon: <ExclamationCircleIcon />,
+        message: message,
+        mode: 'warning',
+      },
+      2000,
+    );
   };
 
   const uiConfig = {
@@ -104,7 +107,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
       <div className="flex justify-center w-full lg:w-1/2 item-center">
         <div className="flex flex-col items-center bg-white rounded-xl drop-shadow-xl">
           <Text h1 size={48} className="pt-10" color="black" weight="bold">
-            {isLogin ? 'Log in' : 'Sign up'}
+            {isLogin ? 'Login' : 'Sign Up'}
           </Text>
           {/* container for all user login input*/}
           <div className="flex flex-col pb-10 px-14">
@@ -168,7 +171,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
             <div className="flex justify-center">
               {/* Button for switch login/signup */}
               <Button size="xs" light onClick={() => setIsLogin(!isLogin)}>
-                <Text size={12} className="underline">
+                <Text size={12}>
                   {isLogin
                     ? "Don't have an account? Click here to sign up"
                     : 'Already have an account?'}
