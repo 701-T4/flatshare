@@ -47,6 +47,22 @@ const SignInPage: React.FC<SignInPageProps> = () => {
   const [password, setPassword] = useState<string | null>(null);
   const [confirmPassword, setConfirmPassword] = useState<string | null>(null);
 
+  const validateUserInputs = async () => {
+    console.log([email, password, confirmPassword]);
+    if (!email) createSigninErrorAlert('Please enter email');
+    else if (!email?.includes('@'))
+      createSigninErrorAlert('Please enter a valid email');
+    else if (!password) createSigninErrorAlert('Please enter password');
+    else if (!isLogin && !confirmPassword)
+      createSigninErrorAlert('Please Confirm Password');
+    else if (!isLogin && !(password === confirmPassword)) {
+      createSigninErrorAlert('Passwords must match');
+    } else {
+      if (isLogin) await handleEmailSignIn(email!, password!);
+      else await handleCreateEmailAccount(email!, password!);
+    }
+  };
+
   const handleCreateEmailAccount = async (email: string, password: string) => {
     try {
       await createUserWithEmailAndPassword(auth, email, password);
@@ -67,23 +83,6 @@ const SignInPage: React.FC<SignInPageProps> = () => {
     }
   };
 
-  const validateSignUpUser = async () => {
-    console.log([email, password, confirmPassword]);
-    if (!confirmPassword) createSigninErrorAlert('Please Confirm Password');
-    if (!password) createSigninErrorAlert('Please enter password');
-    if (!email) createSigninErrorAlert('Please enter email');
-
-    if (password === confirmPassword) {
-      await handleCreateEmailAccount(email!, password!);
-    } else {
-      createSigninErrorAlert('Please reconfirm your password');
-    }
-  };
-
-  const validateLoginUser = async () => {
-    console.log([email, password, confirmPassword]);
-  };
-
   return (
     <div className="flex flex-row items-center justify-center h-screen bg-gradient-to-b from-land_page_bg_start to-land_page_bg_end">
       <div className="flex justify-center w-full lg:w-1/2 item-center">
@@ -102,7 +101,9 @@ const SignInPage: React.FC<SignInPageProps> = () => {
             <div className="flex items-center py-5 ">
               <div className="flex-grow border-t border-black"></div>
               <div className="px-2 pb-1">
-                <Text weight="semibold">Or sign up with e-mail</Text>
+                <Text weight="semibold">
+                  {isLogin ? 'Login with E-mail' : 'Or sign up with E-mail'}
+                </Text>
               </div>
               <div className="flex-grow border-t border-black"></div>
             </div>
@@ -119,23 +120,41 @@ const SignInPage: React.FC<SignInPageProps> = () => {
               placeholder="Your password"
             />
             <Spacer y={0.5} />
-            <Input.Password
-              onChange={(v) => setConfirmPassword(v.target.value)}
-              contentLeft={<LockOpenIcon style={{ height: '100%' }} />}
-              placeholder="Confirm password"
-            />
+            {/* Show forgot password on login, and show another password input field on sign up */}
+            {isLogin ? (
+              <div>
+                <div className="flex justify-end">
+                  <Button size="xs" light>
+                    <Text size={12}>Forgot You Password?</Text>
+                  </Button>
+                </div>
+                <Spacer y={0.75} />
+              </div>
+            ) : (
+              <Input.Password
+                onChange={(v) => setConfirmPassword(v.target.value)}
+                contentLeft={<LockOpenIcon style={{ height: '100%' }} />}
+                placeholder="Confirm password"
+              />
+            )}
+            {/* Button for sigup/login */}
             <Button
               className="my-5"
               style={{
                 backgroundColor: '#2596A4',
               }}
-              onClick={() => validateSignUpUser()}
+              onClick={() => validateUserInputs()}
             >
-              Sign Up
+              {isLogin ? 'Login' : 'Sign Up'}
             </Button>
             <div className="flex justify-center">
-              <Button size="xs" light>
-                <Text size={12}>Already have an account?</Text>
+              {/* Button for switch login/signup */}
+              <Button size="xs" light onClick={() => setIsLogin(!isLogin)}>
+                <Text size={12}>
+                  {isLogin
+                    ? "Don't have an account? Click here to sign up"
+                    : 'Already have an account?'}
+                </Text>
               </Button>
             </div>
           </div>
