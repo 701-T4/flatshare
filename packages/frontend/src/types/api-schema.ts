@@ -7,14 +7,15 @@ export interface paths {
   '/api/v1/ping': {
     get: operations['APIController_getPing'];
   };
-  '/api/v1/users': {
-    get: operations['UsersController_findAll'];
+  '/api/v1/user': {
+    get: operations['UsersController_currentUser'];
+    /** User must be linked to a firebase ID */
     post: operations['UsersController_create'];
   };
-  '/api/v1/users/{id}': {
-    get: operations['UsersController_findOne'];
-    delete: operations['UsersController_remove'];
-    patch: operations['UsersController_update'];
+  '/api/v1/house': {
+    get: operations['HouseController_getHouse'];
+    put: operations['HouseController_joinHouse'];
+    post: operations['HouseController_create'];
   };
 }
 
@@ -25,8 +26,28 @@ export interface components {
       time: string;
       env: string;
     };
-    CreateUserDto: { [key: string]: unknown };
-    UpdateUserDto: { [key: string]: unknown };
+    CreateUserDto: {
+      firebaseId: string;
+    };
+    UserResponseDto: {
+      house?: string;
+      firebaseId: string;
+    };
+    CreateHouseDto: {
+      name: string;
+      email: string;
+      address: string;
+    };
+    HouseResponseDto: {
+      name: string;
+      email: string;
+      address: string;
+      code: string;
+      owner: string;
+    };
+    JoinHouseDto: {
+      houseCode: string;
+    };
   };
 }
 
@@ -42,16 +63,27 @@ export interface operations {
       };
     };
   };
-  UsersController_findAll: {
+  UsersController_currentUser: {
     parameters: {};
     responses: {
-      200: unknown;
+      /** returns the user information */
+      200: {
+        content: {
+          'application/json': components['schemas']['UserResponseDto'];
+        };
+      };
     };
   };
+  /** User must be linked to a firebase ID */
   UsersController_create: {
     parameters: {};
     responses: {
-      201: unknown;
+      /** User successfully created */
+      201: {
+        content: {
+          'application/json': components['schemas']['UserResponseDto'];
+        };
+      };
     };
     requestBody: {
       content: {
@@ -59,38 +91,50 @@ export interface operations {
       };
     };
   };
-  UsersController_findOne: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
+  HouseController_getHouse: {
+    parameters: {};
     responses: {
-      200: unknown;
+      /** house retrieved successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['HouseResponseDto'];
+        };
+      };
+      /** user does not have a house */
+      404: unknown;
     };
   };
-  UsersController_remove: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
+  HouseController_joinHouse: {
+    parameters: {};
     responses: {
-      200: unknown;
-    };
-  };
-  UsersController_update: {
-    parameters: {
-      path: {
-        id: string;
+      /** house joined successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['HouseResponseDto'];
+        };
       };
-    };
-    responses: {
-      200: unknown;
+      /** house not found */
+      404: unknown;
     };
     requestBody: {
       content: {
-        'application/json': components['schemas']['UpdateUserDto'];
+        'application/json': components['schemas']['JoinHouseDto'];
+      };
+    };
+  };
+  HouseController_create: {
+    parameters: {};
+    responses: {
+      /** house created successfully */
+      201: {
+        content: {
+          'application/json': components['schemas']['HouseResponseDto'];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateHouseDto'];
       };
     };
   };

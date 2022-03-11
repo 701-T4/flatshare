@@ -17,7 +17,7 @@
     "start": "lerna run --parallel start",
     "start:dev": "lerna run --parallel start:dev",
     "test": "lerna run --parallel test",
-    "start:docker": "docker-compose up",
-    "test:docker": "docker-compose -f docker-compose.override.yml up"
+    "start:docker": "docker-compose -f docker-compose.yaml up",
+    "test:docker": "docker-compose -f docker-compose.override.yaml up"
   }
 }
