@@ -33,10 +33,7 @@ export class UserStoreService {
     id: string,
     updateUserModel: Partial<UserModel>,
   ): Promise<UserDocument> {
-    return this.userModel
-      .findOneAndUpdate({ _id: id }, updateUserModel)
-      .setOptions({ sanitizeFilter: true })
-      .exec();
+    return this.userModel.findOneAndUpdate({ _id: id }, updateUserModel).exec();
   }
 
   async updateByFirebaseId(
@@ -45,14 +42,10 @@ export class UserStoreService {
   ): Promise<UserDocument> {
     return this.userModel
       .findOneAndUpdate({ firebaseId: firebaseId }, updateUserModel)
-      .setOptions({ sanitizeFilter: true })
       .exec();
   }
 
   async delete(id: string) {
-    return this.userModel
-      .findByIdAndRemove({ _id: id })
-      .setOptions({ sanitizeFilter: true })
-      .exec();
+    return this.userModel.findByIdAndRemove({ _id: id }).exec();
   }
 }
