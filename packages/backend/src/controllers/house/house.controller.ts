@@ -10,7 +10,7 @@ import {
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
-  ApiNotFoundResponse,
+  ApiNoContentResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -68,7 +68,7 @@ export class HouseController {
     description: 'house retrieved successfully',
     type: HouseResponseDto,
   })
-  @ApiNotFoundResponse({ description: 'user is not in a house' })
+  @ApiNoContentResponse({ description: 'user is not in a house' })
   async getHouse(
     @User() user: DecodedIdToken,
   ): Promise<HouseResponseDto | null> {
@@ -86,7 +86,7 @@ export class HouseController {
       }
     }
 
-    throw new HttpException('user is not in a house', HttpStatus.NOT_FOUND);
+    throw new HttpException('user is not in a house', HttpStatus.NO_CONTENT);
   }
 
   @Put()

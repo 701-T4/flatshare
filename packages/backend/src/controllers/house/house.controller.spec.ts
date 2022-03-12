@@ -50,7 +50,7 @@ describe('HouseController', () => {
     } as UserDocument);
 
     expect(() => controller.getHouse(userToken)).rejects.toThrow(
-      new HttpException('user is not in a house', HttpStatus.NOT_FOUND),
+      new HttpException('user is not in a house', HttpStatus.NO_CONTENT),
     );
   });
 });
