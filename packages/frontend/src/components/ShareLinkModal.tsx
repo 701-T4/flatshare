@@ -20,7 +20,6 @@ const ShareLinkModal: React.FC<ShareLinkModalProps> = ({
   visible,
   setVisible,
 }) => {
-  // TODO: change to valid api call
   const { data, loading } = useApi('/api/v1/house', { method: 'get' });
 
   const getHouseCode = () => {

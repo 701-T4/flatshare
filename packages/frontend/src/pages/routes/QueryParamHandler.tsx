@@ -33,14 +33,12 @@ const useJoinCode = () => {
 
   useEffect(() => {
     const joinHouse = (houseCode: string) => {
-      console.log(`Try join ${houseCode}`);
       joinHouseMutation({
         body: { houseCode },
       });
     };
 
     const clearParam = () => {
-      console.log('Clearing Params');
       localStorage.removeItem('joinCode');
       searchParams.delete('joinCode');
       setSearchParams(searchParams);
