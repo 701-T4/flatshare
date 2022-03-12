@@ -1,8 +1,16 @@
 .firebaseui-idp-button {
-  background: #2596a4 !important ;
-  border-radius: 20px !important;
+  border-radius: 14px !important;
+  max-width: 100% !important;
 }
 
-.firebaseui-idp-text {
-  color: white !important ;
+.firebaseui-card-content {
+  padding: 0 !important;
+}
+
+.firebaseui-idp-text-long {
+  padding-left: 40px !important;
+}
+
+.firebaseui-idp-text-short {
+  padding-left: 40px !important;
 }

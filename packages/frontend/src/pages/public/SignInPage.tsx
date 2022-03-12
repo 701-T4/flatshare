@@ -78,18 +78,16 @@ const SignInPage: React.FC<SignInPageProps> = () => {
     if (!validateUserInputs()) {
       return;
     }
-    if (password !== confirmPassword) {
-      createSigninErrorAlert('Passwords must match');
-    } else {
-      await handleCreateEmailAccount(email!, password!);
+    if (!(password === confirmPassword)) {
+      return createSigninErrorAlert('Passwords must match');
     }
+    await handleCreateEmailAccount(email!, password!);
   };
 
   const handleCreateEmailAccount = async (email: string, password: string) => {
     try {
-      const user = await (
-        await createUserWithEmailAndPassword(auth, email, password)
-      ).user;
+      const user = (await createUserWithEmailAndPassword(auth, email, password))
+        .user;
       await updateProfile(user, {
         displayName: name,
       });
