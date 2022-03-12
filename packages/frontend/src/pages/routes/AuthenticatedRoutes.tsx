@@ -10,7 +10,6 @@ interface AuthenticatedRoutesProps {}
 const AuthenticatedRoutes: React.FC<AuthenticatedRoutesProps> = () => {
   return (
     <Routes>
-      <Route path="landing" element={<LandingPage />} />
       <Route path="home" element={<HomePage />} />
       <Route path="account" element={<ManageAccountPage />} />
       <Route path="*" element={<Navigate to="/home" replace />} />

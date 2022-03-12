@@ -68,11 +68,12 @@ export class HouseController {
     description: 'house retrieved successfully',
     type: HouseResponseDto,
   })
-  @ApiNotFoundResponse({ description: 'user does not have a house' })
-  async getHouse(@User() user: DecodedIdToken): Promise<HouseResponseDto> {
+  async getHouse(
+    @User() user: DecodedIdToken,
+  ): Promise<HouseResponseDto | null> {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
     const house = await this.houseStoreService.findOne(userDoc.house);
-    if (house)
+    if (house) {
       return {
         code: house.code,
         address: house.address,
@@ -80,11 +81,9 @@ export class HouseController {
         owner: user.uid,
         name: house.name,
       };
-    else
-      throw new HttpException(
-        'user does not have a house',
-        HttpStatus.NOT_FOUND,
-      );
+    } else {
+      return null;
+    }
   }
 
   @Put()
