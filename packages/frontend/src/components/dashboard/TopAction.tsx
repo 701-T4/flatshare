@@ -20,10 +20,10 @@ export const TopAction: React.FC<TopActionProps> = ({
   description,
 }) => {
   return (
-    <div className="w-full h-44 rounded-lg p-2 relative overflow-hidden shadow-md">
+    <div className="w-full h-32 md:h-44 rounded-lg p-2 relative overflow-hidden shadow-md">
       <img
         draggable={false}
-        className="cursor-pointer z-10 w-full absolute left-0 top-0 h-full object-cover hover:rotate-3 scale-105 hover:scale-110 transform transition-all back-ease"
+        className="cursor-pointer z-10 w-full absolute left-0 top-0 h-full object-cover hover:rotate-3 scale-105 hover:scale-110 transform transition-all back-ease brightness-75"
         src={img}
         onClick={onClick}
         alt=""
