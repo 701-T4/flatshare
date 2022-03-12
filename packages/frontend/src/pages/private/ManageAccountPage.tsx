@@ -1,8 +1,8 @@
 import { Avatar, Button, Container, Spacer, Text } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import CreateHouseModal from '../../components/CreateHouseModal';
-import JoinHouseModal from '../../components/JoinHouseModal';
+import CreateHouseModal from '../../components/account/CreateHouseModal';
+import JoinHouseModal from '../../components/account/JoinHouseModal';
 import { useApi } from '../../hooks/useApi';
 import { useAuth } from '../../hooks/useAuth';
 
