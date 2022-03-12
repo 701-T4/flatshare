@@ -9,7 +9,9 @@ export class UserStoreService {
   constructor(
     @InjectModel(User.name)
     private readonly userModel: Model<UserDocument>,
-  ) {}
+  ) {
+    mongoose.set('sanitizeFilter', true);
+  }
 
   async create(createdUserModel: UserModel): Promise<UserDocument> {
     return this.userModel.create(createdUserModel);
