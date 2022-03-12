@@ -57,7 +57,7 @@ const CreateHouseModal: React.FC<CreateHouseModalProps> = ({
           <Input
             clearable
             bordered
-            placeholder="Enter  a name for your flat"
+            placeholder="Enter a name for your flat"
             size="xl"
             color="primary"
             onChange={(e) =>
