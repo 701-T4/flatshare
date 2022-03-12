@@ -9,7 +9,7 @@ interface PageProps {}
  */
 const Page: React.FC<PageProps> = ({ children }) => {
   return (
-    <div className="flex flex-col w-full h-screen bg-gray-50">
+    <div className="flex flex-col w-full min-h-screen bg-gray-50">
       <Navigation />
 
       <div className="flex-grow self-center px-10 max-w-5xl w-full">
