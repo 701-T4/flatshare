@@ -12,18 +12,17 @@ import { HouseServices } from '../services/HouseService';
 interface CreateHouseModalProps {
   joinVisible: boolean;
   setJoinVisible(value: boolean): void;
-  setHouseCode: any;
 }
 const JoinHouseModal: React.FC<CreateHouseModalProps> = ({
   joinVisible,
   setJoinVisible,
-  setHouseCode,
 }) => {
   const closeJoinHandler = () => {
     setJoinVisible(false);
   };
 
   const [houseData, setHouseData] = useState();
+  const [houseCode, setHouseCode] = useState('');
 
   async function handleJoiningHouse() {
     setJoinVisible(false);
