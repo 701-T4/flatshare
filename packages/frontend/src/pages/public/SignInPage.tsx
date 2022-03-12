@@ -78,7 +78,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
     if (!validateUserInputs()) {
       return;
     }
-    if (!(password === confirmPassword)) {
+    if (password !== confirmPassword) {
       createSigninErrorAlert('Passwords must match');
     } else {
       await handleCreateEmailAccount(email!, password!);
