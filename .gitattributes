@@ -1,2 +1,2 @@
 * text=auto eol=lf
-“*.ai” filter=lfs diff=lfs merge=lfs -text
+*.ai filter=lfs diff=lfs merge=lfs -text
