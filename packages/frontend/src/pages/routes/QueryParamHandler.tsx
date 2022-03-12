@@ -1,11 +1,8 @@
-import { InformationCircleIcon } from '@heroicons/react/outline';
 import { ExclamationCircleIcon } from '@heroicons/react/solid';
 import React, { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAlert } from '../../components/common/util/CornerAlert';
-import { useApi, useApiMutation } from '../../hooks/useApi';
 import { useAuth } from '../../hooks/useAuth';
-import { useSWRConfig } from 'swr';
 
 interface QueryParamHandlerProps {}
 
