@@ -78,7 +78,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
     if (!validateUserInputs()) {
       return;
     }
-    if (!(password === confirmPassword)) {
+    if (password !== confirmPassword) {
       return createSigninErrorAlert('Passwords must match');
     }
     await handleCreateEmailAccount(email!, password!);
@@ -107,14 +107,22 @@ const SignInPage: React.FC<SignInPageProps> = () => {
       console.error(error);
       if (error instanceof FirebaseError) {
         console.log(error.message);
-        createSigninErrorAlert(error.message);
+        if (error.code == 'auth/invalid-email') {
+          createSigninErrorAlert('Please enter a valid email');
+        } else if (error.code == 'auth/user-not-found') {
+          createSigninErrorAlert('No such user');
+        } else if (error.code == 'auth/wrong-password') {
+          createSigninErrorAlert('Wrong Password');
+        } else {
+          createSigninErrorAlert(error.message);
+        }
       }
     }
   };
 
   return (
     <div className="flex flex-row items-center justify-center h-screen bg-gradient-to-b from-land_page_bg_start to-land_page_bg_end">
-      <div className="flex justify-center w-full lg:w-1/2 item-center">
+      <div className="flex justify-center w-full item-center">
         <div className="flex flex-col items-center bg-white rounded-xl drop-shadow-xl">
           <Text h1 size={32} className="py-10 text-gray-900" weight="bold">
             {isLogin ? 'LOGIN' : 'SIGN UP'}
@@ -203,8 +211,6 @@ const SignInPage: React.FC<SignInPageProps> = () => {
           </div>
         </div>
       </div>
-      {/* right side image on large screen only*/}
-      <div className="hidden w-1/3 -mt-12 bg-center bg-no-repeat bg-contain lg:flex lg:h-96 bg-house" />
     </div>
   );
 };
