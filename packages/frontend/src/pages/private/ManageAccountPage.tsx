@@ -8,6 +8,7 @@ import {
   Text,
 } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import CreateHouseModal from '../../components/CreateHouseModal';
 import JoinHouseModal from '../../components/JoinHouseModal';
 import { useApi } from '../../hooks/useApi';
@@ -38,6 +39,10 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
   useEffect(() => {
     if (data?.code) {
       setJoinedHouse(true);
+    } else {
+      // if the users already joined a house, go to the home.
+      const navigate = useNavigate();
+      navigate('/home');
     }
   }, [data]);
 

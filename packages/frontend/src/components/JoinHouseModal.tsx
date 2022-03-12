@@ -7,6 +7,7 @@ import {
   Text,
 } from '@nextui-org/react';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { HouseServices } from '../services/HouseService';
 
 interface CreateHouseModalProps {
@@ -28,6 +29,10 @@ const JoinHouseModal: React.FC<CreateHouseModalProps> = ({
     setJoinVisible(false);
     const response = await HouseServices.joinHouse(houseCode);
     setHouseData(response);
+
+    //navigate the users to home after joined a house
+    const navigate = useNavigate();
+    navigate('/home');
   }
 
   return (
