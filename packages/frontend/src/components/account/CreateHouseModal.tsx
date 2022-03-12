@@ -1,5 +1,6 @@
 import { Button, Input, Modal, Text } from '@nextui-org/react';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { HouseServices } from '../../services/HouseService';
 
 interface CreateHouseModalProps {
@@ -21,6 +22,7 @@ const CreateHouseModal: React.FC<CreateHouseModalProps> = ({
     address: '',
     name: '',
   });
+  const navigate = useNavigate();
 
   const closeCreateHandler = () => {
     setCreateVisible(false);
@@ -29,7 +31,8 @@ const CreateHouseModal: React.FC<CreateHouseModalProps> = ({
   async function handleCreatingHouse() {
     try {
       setCreateVisible(false);
-      const response = await HouseServices.createHouse(newHouseouseDetails);
+      await HouseServices.createHouse(newHouseouseDetails);
+      navigate('/home');
     } catch (e) {}
   }
 
