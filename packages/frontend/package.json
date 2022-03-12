@@ -34,7 +34,7 @@
     "eject": "react-scripts eject",
     "generate:api-types": "npx openapi-typescript http://localhost:4200/api-json --output ./src/types/api-schema.ts",
     "generate": "run-p generate:*",
-    "license-report": "license-report-generator --table true --out-file LICENSE-3RD-PARTY.txt --with-dev-dependencies true"
+    "license-report": "license-report-generator --table true --out-file LICENSE-3RD-PARTY.md --with-dev-dependencies true"
   },
   "eslintConfig": {
     "extends": [

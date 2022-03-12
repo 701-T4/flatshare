@@ -37,4 +37,4 @@ For further information on the license-report-generator package, please visit np
 
 ## Attributing resources
 
-If you have used any images or other resources that belongs to someone else, please attribute them appropriately in the `ATTRIBUTIONS.txt`.
+If you have used any images or other resources that belongs to someone else, please attribute them appropriately in the `ATTRIBUTIONS.md`.
