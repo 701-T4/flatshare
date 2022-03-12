@@ -14,10 +14,6 @@ import { HouseServices } from '../../services/HouseService';
 
 interface ManageAccountPageProps {}
 
-const btnStyle = {
-  padding: '40px',
-};
-
 const ManageAccountPage: React.FC<ManageAccountPageProps> = (
   props: ManageAccountPageProps,
 ) => {
@@ -68,8 +64,6 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
     method: 'get',
   });
 
-  console.log(data);
-
   useEffect(() => {
     if (data?.code) {
       setJoinedHouse(true);
@@ -102,9 +96,9 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
       <Container className="absolute top-1/2 left-1/2 -translate-x-[10%] -translate-y-1/2">
         {joinedHouse && (
           <Button
+            className="p-10"
             color="secondary"
             bordered={true}
-            style={btnStyle}
             onClick={createHandler}
           >
             <Text color="secondary" size="2em">
@@ -116,9 +110,9 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
         <Spacer x={50} />
 
         <Button
+          className="p-10"
           color="secondary"
           bordered={true}
-          style={btnStyle}
           onClick={handler}
         >
           <Text color="secondary" size="2em">
