@@ -1,10 +1,8 @@
-import { Button, Spacer, Text } from '@nextui-org/react';
-import React, { useState, useEffect } from 'react';
-import { useApi } from '../../hooks/useApi';
-import { useAuth } from '../../hooks/useAuth';
-import ShareLinkModal from '../../components/ShareLinkModal';
 import { LinkIcon } from '@heroicons/react/outline';
-import HouseConflictModal from '../../components/HouseConflictModal';
+import { Button, Spacer, Text } from '@nextui-org/react';
+import React, { useState } from 'react';
+import ShareLinkModal from '../../components/ShareLinkModal';
+import { useAuth } from '../../hooks/useAuth';
 
 interface HomePageProps {}
 

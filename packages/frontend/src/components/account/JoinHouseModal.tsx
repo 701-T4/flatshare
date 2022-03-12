@@ -1,11 +1,4 @@
-import {
-  Avatar,
-  Button,
-  Container,
-  Input,
-  Modal,
-  Text,
-} from '@nextui-org/react';
+import { Button, Input, Modal, Text } from '@nextui-org/react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { HouseServices } from '../../services/HouseService';
