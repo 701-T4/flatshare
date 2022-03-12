@@ -1,19 +1,10 @@
-import {
-  Avatar,
-  Button,
-  Container,
-  Input,
-  Modal,
-  Spacer,
-  Text,
-} from '@nextui-org/react';
+import { Avatar, Button, Container, Spacer, Text } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import CreateHouseModal from '../../components/CreateHouseModal';
 import JoinHouseModal from '../../components/JoinHouseModal';
 import { useApi } from '../../hooks/useApi';
 import { useAuth } from '../../hooks/useAuth';
-import { HouseServices } from '../../services/HouseService';
 
 interface ManageAccountPageProps {}
 
@@ -24,7 +15,7 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
   const [createVisible, setCreateVisible] = useState(false);
   const [joinedHouse, setJoinedHouse] = useState(false);
   const { user } = useAuth();
-
+  const navigate = useNavigate();
   // Hook for the Join Button Modal to be configured
   const joinHandler = () => setJoinVisible(true);
 
@@ -39,9 +30,7 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
   useEffect(() => {
     if (data?.code) {
       setJoinedHouse(true);
-    } else {
       // if the users already joined a house, go to the home.
-      const navigate = useNavigate();
       navigate('/home');
     }
   }, [data]);

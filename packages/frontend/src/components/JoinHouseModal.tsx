@@ -24,14 +24,14 @@ const JoinHouseModal: React.FC<CreateHouseModalProps> = ({
 
   const [houseData, setHouseData] = useState();
   const [houseCode, setHouseCode] = useState('');
+  const navigate = useNavigate();
 
   async function handleJoiningHouse() {
     setJoinVisible(false);
     const response = await HouseServices.joinHouse(houseCode);
     setHouseData(response);
 
-    //navigate the users to home after joined a house
-    const navigate = useNavigate();
+    //navigate the users to home after joining a house
     navigate('/home');
   }
 
