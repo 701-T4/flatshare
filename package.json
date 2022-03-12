@@ -2,6 +2,7 @@
   "name": "root",
   "private": true,
   "devDependencies": {
+    "@wbmnky/license-report-generator": "^2.1.3",
     "husky": "^7.0.4",
     "lerna": "^4.0.0",
     "lint-staged": "^12.3.4",
@@ -13,13 +14,12 @@
   "scripts": {
     "build": "lerna run build",
     "prepare": "husky install",
-    "preinstall": "npm i -g @wbmnky/license-report-generator",
-    "postinstall": "lerna bootstrap && npm run license-report",
+    "postinstall": "lerna bootstrap && yarn run license-report",
     "start": "lerna run --parallel start",
     "start:dev": "lerna run --parallel start:dev",
     "test": "lerna run --parallel test",
     "start:docker": "docker-compose -f docker-compose.yaml up",
     "test:docker": "docker-compose -f docker-compose.override.yaml up",
-    "license-report": "license-report-generator --table true --out-file LICENSE-3RD-PARTY.md --with-dev-dependencies true"
+    "license-report": "yarn license-report-generator --table true --out-file LICENSE-3RD-PARTY.md --with-dev-dependencies true && lerna run --parallel license-report"
   }
 }
