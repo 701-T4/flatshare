@@ -68,6 +68,7 @@ export class HouseController {
     description: 'house retrieved successfully',
     type: HouseResponseDto,
   })
+  @ApiNotFoundResponse({ description: 'user is not in a house' })
   async getHouse(
     @User() user: DecodedIdToken,
   ): Promise<HouseResponseDto | null> {
@@ -82,7 +83,7 @@ export class HouseController {
         name: house.name,
       };
     } else {
-      return null;
+      throw new HttpException('user is not in a house', HttpStatus.NOT_FOUND);
     }
   }
 
@@ -114,10 +115,6 @@ export class HouseController {
         owner: owner.firebaseId,
         name: house.name,
       };
-    } else
-      throw new HttpException(
-        'the house could not be found',
-        HttpStatus.NOT_FOUND,
-      );
+    } else throw new HttpException('code is invalid', HttpStatus.NOT_FOUND);
   }
 }
