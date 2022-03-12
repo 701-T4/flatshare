@@ -9,7 +9,9 @@ export class UserStoreService {
   constructor(
     @InjectModel(User.name)
     private readonly userModel: Model<UserDocument>,
-  ) {}
+  ) {
+    mongoose.set('sanitizeFilter', true);
+  }
 
   async create(createdUserModel: UserModel): Promise<UserDocument> {
     return this.userModel.create(createdUserModel);
@@ -31,7 +33,10 @@ export class UserStoreService {
     id: string,
     updateUserModel: Partial<UserModel>,
   ): Promise<UserDocument> {
-    return this.userModel.findOneAndUpdate({ _id: id }, updateUserModel).exec();
+    return this.userModel
+      .findOneAndUpdate({ _id: id }, updateUserModel)
+      .setOptions({ sanitizeFilter: true })
+      .exec();
   }
 
   async updateByFirebaseId(
@@ -40,10 +45,14 @@ export class UserStoreService {
   ): Promise<UserDocument> {
     return this.userModel
       .findOneAndUpdate({ firebaseId: firebaseId }, updateUserModel)
+      .setOptions({ sanitizeFilter: true })
       .exec();
   }
 
   async delete(id: string) {
-    return this.userModel.findByIdAndRemove({ _id: id }).exec();
+    return this.userModel
+      .findByIdAndRemove({ _id: id })
+      .setOptions({ sanitizeFilter: true })
+      .exec();
   }
 }
