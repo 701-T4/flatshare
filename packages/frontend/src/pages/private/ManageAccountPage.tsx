@@ -96,21 +96,10 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
           color="secondary"
           size="xl"
           squared
-          style={{
-            float: 'right',
-            margin: '20px',
-          }}
+          className="float-right m-5"
         />
       </div>
-      {/* // position: 'absolute', top: '50%', transform: 'translate(0, -50%)' */}
-      <Container
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-10%, -50%)',
-        }}
-      >
+      <Container className="absolute top-1/2 left-1/2 -translate-x-[10%] -translate-y-1/2">
         {joinedHouse && (
           <Button
             color="secondary"
