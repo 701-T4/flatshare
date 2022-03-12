@@ -98,7 +98,6 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
       <JoinHouseModal
         joinVisible={joinVisible}
         setJoinVisible={setJoinVisible}
-        setHouseCode={setHouseCode}
       />
     </div>
   );
