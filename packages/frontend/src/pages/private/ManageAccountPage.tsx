@@ -8,12 +8,9 @@ import { useAuth } from '../../hooks/useAuth';
 
 interface ManageAccountPageProps {}
 
-const ManageAccountPage: React.FC<ManageAccountPageProps> = (
-  props: ManageAccountPageProps,
-) => {
+const ManageAccountPage: React.FC<ManageAccountPageProps> = () => {
   const [joinVisible, setJoinVisible] = useState(false);
   const [createVisible, setCreateVisible] = useState(false);
-  const [joinedHouse, setJoinedHouse] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
   // Hook for the Join Button Modal to be configured
@@ -29,7 +26,6 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
 
   useEffect(() => {
     if (data?.code) {
-      setJoinedHouse(true);
       // if the users already joined a house, go to the home.
       navigate('/home');
     }
@@ -59,18 +55,17 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
         />
       </div>
       <Container className="absolute top-1/2 left-1/2 -translate-x-[10%] -translate-y-1/2">
-        {joinedHouse && (
-          <Button
-            className="p-10"
-            color="secondary"
-            bordered={true}
-            onClick={createHandler}
-          >
-            <Text color="secondary" size="2em">
-              CREATE
-            </Text>
-          </Button>
-        )}
+        <Button
+          className="p-10"
+          color="secondary"
+          bordered={true}
+          onClick={createHandler}
+        >
+          <Text color="secondary" size="2em">
+            CREATE
+          </Text>
+        </Button>
+
         <Spacer x={50} />
         <Button
           className="p-10"
