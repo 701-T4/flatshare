@@ -1,19 +1,17 @@
-import React, { useState } from 'react';
+import React from 'react';
 import Page from '../../components/common/layout/Page';
-import QuickAccessPanel from '../../components/dashboard/QuickAccessPanel';
 import GradientUnderlinedText from '../../components/dashboard/GradientUnderlinedText';
-import { useAuth } from '../../hooks/useAuth';
-import { useHouse } from '../../hooks/useFlat';
-import { ShareIcon } from '@heroicons/react/outline';
+import InviteButton from '../../components/dashboard/invite/InviteButton';
+import InviteButtonController from '../../components/dashboard/invite/InviteButtonController';
+import QuickAccessPanel from '../../components/dashboard/QuickAccessPanel';
 import NoUpcomingTasks from '../../components/dashboard/upcoming-tasks/NoUpcomingTasks';
 import UpcomingTask from '../../components/dashboard/upcoming-tasks/UpcomingTask';
+import { useHouse } from '../../hooks/useFlat';
 
 interface DashboardProps {}
 
 const DashboardPage: React.FC<DashboardProps> = () => {
   const { name } = useHouse();
-
-  const [completed, setCompleted] = useState(false);
 
   return (
     <Page>
@@ -24,10 +22,7 @@ const DashboardPage: React.FC<DashboardProps> = () => {
             {name}
           </div>
         </GradientUnderlinedText>
-        <div className="items-center gap-x-1 flex -m-1 px-2 py-1 rounded-lg bg-opacity-0 hover:bg-opacity-5 bg-gray-700 cursor-pointer transition-all">
-          <span className="text-md font-semibold">Invite</span>
-          <ShareIcon className="w-6" />
-        </div>
+        <InviteButtonController />
       </div>
       <div className="my-4">
         <QuickAccessPanel />
@@ -50,8 +45,7 @@ const DashboardPage: React.FC<DashboardProps> = () => {
           dueString="Due Tomorrow"
           twColor={UpcomingTask.Variation.amber}
           type="Task"
-          completed={completed}
-          onCompleteClick={() => setCompleted(true)}
+          completed
         />
       </div>
       <NoUpcomingTasks />
