@@ -8,7 +8,7 @@ import {
 } from '@nextui-org/react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HouseServices } from '../services/HouseService';
+import { HouseServices } from '../../services/HouseService';
 
 interface CreateHouseModalProps {
   joinVisible: boolean;
