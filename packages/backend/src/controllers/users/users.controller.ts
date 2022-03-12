@@ -34,6 +34,7 @@ export class UsersController {
     const userDoc = await this.userStoreService.create(createUserDto);
     const houseDoc = await this.houseStoreService.findOne(userDoc.house);
     return {
+      name: userDoc.name,
       firebaseId: userDoc.firebaseId,
       house: houseDoc.code,
     };
@@ -50,6 +51,7 @@ export class UsersController {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
     const houseDoc = await this.houseStoreService.findOne(userDoc.house);
     return {
+      name: userDoc.name,
       firebaseId: userDoc.firebaseId,
       house: houseDoc?.code,
     };
