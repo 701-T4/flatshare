@@ -4,11 +4,11 @@ import {
   Body,
   Get,
   Put,
-  UseGuards,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
@@ -73,18 +73,20 @@ export class HouseController {
     @User() user: DecodedIdToken,
   ): Promise<HouseResponseDto | null> {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
-    const house = await this.houseStoreService.findOne(userDoc.house);
-    if (house) {
-      return {
-        code: house.code,
-        address: house.address,
-        email: house.email,
-        owner: user.uid,
-        name: house.name,
-      };
-    } else {
-      throw new HttpException('user is not in a house', HttpStatus.NOT_FOUND);
+    if (userDoc.house != undefined) {
+      const house = await this.houseStoreService.findOne(userDoc.house);
+      if (house != undefined) {
+        return {
+          code: house.code,
+          address: house.address,
+          email: house.email,
+          owner: user.uid,
+          name: house.name,
+        };
+      }
     }
+
+    throw new HttpException('user is not in a house', HttpStatus.NOT_FOUND);
   }
 
   @Put()
@@ -93,7 +95,7 @@ export class HouseController {
     description: 'house joined successfully',
     type: HouseResponseDto,
   })
-  @ApiNotFoundResponse({ description: 'house not found' })
+  @ApiBadRequestResponse({ description: 'code is invalid' })
   async joinHouse(
     @Body() joinHouseDto: JoinHouseDto,
     @User() user: DecodedIdToken,
@@ -115,6 +117,6 @@ export class HouseController {
         owner: owner.firebaseId,
         name: house.name,
       };
-    } else throw new HttpException('code is invalid', HttpStatus.NOT_FOUND);
+    } else throw new HttpException('code is invalid', HttpStatus.BAD_REQUEST);
   }
 }
