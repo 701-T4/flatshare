@@ -22,10 +22,18 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
   const [houseCode, setHouseCode] = useState('');
   const [joinedHouse, setJoinedHouse] = useState(false);
   const [houseData, setHouseData] = useState();
-  const [newPhoneNumber, setNewPhoneNumber] = useState('');
-  const [newAddress, setNewAddress] = useState('');
-  const [newHouseName, setNewHouseName] = useState('');
   const { user } = useAuth();
+
+  interface NewHouseDetails {
+    phone: string;
+    address: string;
+    name: string;
+  }
+  const [newHouseouseDetails, setNewHouseDetails] = useState<NewHouseDetails>({
+    phone: '',
+    address: '',
+    name: '',
+  });
 
   // Hook for the Join Button Modal to be configured
   const handler = () => setJoinVisible(true);
@@ -49,12 +57,7 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
   async function handleCreatingHouse() {
     try {
       setCreateVisible(false);
-      const newHouse = {
-        address: newAddress,
-        name: newHouseName,
-        phoneNumber: newPhoneNumber,
-      };
-      const response = await HouseServices.createHouse(newHouse);
+      const response = await HouseServices.createHouse(newHouseouseDetails);
     } catch (e) {}
   }
 
@@ -144,7 +147,12 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
             placeholder="Enter your name"
             size="xl"
             color="primary"
-            onChange={(e) => setNewHouseName(e.target.value)}
+            onChange={(e) =>
+              setNewHouseDetails((prevState) => ({
+                ...prevState,
+                name: e.target.value,
+              }))
+            }
           />
           <Text size={'1.25rem'} margin="2%">
             Address
@@ -155,7 +163,12 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
             placeholder="Enter your address"
             size="xl"
             color="primary"
-            onChange={(e) => setNewAddress(e.target.value)}
+            onChange={(e) =>
+              setNewHouseDetails((prevState) => ({
+                ...prevState,
+                address: e.target.value,
+              }))
+            }
           />
           <Text size={'1.25rem'} margin="2%">
             Phone Number
@@ -166,7 +179,12 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
             placeholder="Enter your phone number"
             size="xl"
             color="primary"
-            onChange={(e) => setNewPhoneNumber(e.target.value)}
+            onChange={(e) =>
+              setNewHouseDetails((prevState) => ({
+                ...prevState,
+                phone: e.target.value,
+              }))
+            }
           />
         </Modal.Body>
 
