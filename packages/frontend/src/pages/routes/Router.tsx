@@ -7,18 +7,20 @@ import { useAuth } from '../../hooks/useAuth';
 interface RouterProps {}
 
 const Router: React.FC<RouterProps> = () => {
-  const { authLoaded, setAuthLoaded, signedIn, setUser } = useAuth();
+  const { authLoaded, setAuthLoaded, setUser, signedIn } = useAuth();
 
   useEffect(() => {
     // returns function to stop the listener
     const clearListener = getAuth().onAuthStateChanged((user) => {
-      setAuthLoaded(true);
       setUser(user);
+      setAuthLoaded(true);
     });
     return () => {
       clearListener();
     };
   }, [setAuthLoaded, setUser]);
+
+  console.log({ authLoaded, signedIn });
 
   if (!authLoaded) {
     return null;
