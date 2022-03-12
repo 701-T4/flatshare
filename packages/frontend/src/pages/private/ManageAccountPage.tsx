@@ -8,6 +8,8 @@ import {
   Text,
 } from '@nextui-org/react';
 import React, { useEffect, useState } from 'react';
+import CreateHouseModal from '../../components/CreateHouseModal';
+import JoinHouseModal from '../../components/JoinHouseModal';
 import { useApi } from '../../hooks/useApi';
 import { useAuth } from '../../hooks/useAuth';
 import { HouseServices } from '../../services/HouseService';
@@ -21,48 +23,15 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
   const [createVisible, setCreateVisible] = useState(false);
   const [houseCode, setHouseCode] = useState('');
   const [joinedHouse, setJoinedHouse] = useState(false);
-  const [houseData, setHouseData] = useState();
   const { user } = useAuth();
 
-  interface NewHouseDetails {
-    phone: string;
-    address: string;
-    name: string;
-  }
-  const [newHouseouseDetails, setNewHouseDetails] = useState<NewHouseDetails>({
-    phone: '',
-    address: '',
-    name: '',
-  });
-
   // Hook for the Join Button Modal to be configured
-  const handler = () => setJoinVisible(true);
-  const closeJoinHandler = () => {
-    setJoinVisible(false);
-  };
+  const joinHandler = () => setJoinVisible(true);
 
   // Hook for the Create Button Modal to be configured
   const createHandler = () => setCreateVisible(true);
-  const closeCreateHandler = () => {
-    setCreateVisible(false);
-  };
-
-  function handleJoiningHouse() {
-    setJoinVisible(false);
-    HouseServices.joinHouse(houseCode).then((data) => {
-      setHouseData(data);
-    });
-  }
-
-  async function handleCreatingHouse() {
-    try {
-      setCreateVisible(false);
-      const response = await HouseServices.createHouse(newHouseouseDetails);
-    } catch (e) {}
-  }
 
   // If the user joined house then cannot create house.
-  // use
   const { data } = useApi('/api/v1/house', {
     method: 'get',
   });
@@ -97,26 +66,24 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
         />
       </div>
       <Container className="absolute top-1/2 left-1/2 -translate-x-[10%] -translate-y-1/2">
-        {joinedHouse && (
-          <Button
-            className="p-10"
-            color="secondary"
-            bordered={true}
-            onClick={createHandler}
-          >
-            <Text color="secondary" size="2em">
-              CREATE
-            </Text>
-          </Button>
-        )}
-
-        <Spacer x={50} />
-
+        (
         <Button
           className="p-10"
           color="secondary"
           bordered={true}
-          onClick={handler}
+          onClick={createHandler}
+        >
+          <Text color="secondary" size="2em">
+            CREATE
+          </Text>
+        </Button>
+        )
+        <Spacer x={50} />
+        <Button
+          className="p-10"
+          color="secondary"
+          bordered={true}
+          onClick={joinHandler}
         >
           <Text color="secondary" size="2em">
             JOIN
@@ -124,112 +91,16 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = (
         </Button>
       </Container>
 
-      {/* Modal component that pops up once users press the CREATE button and asks for an user's details to create their flat */}
-      <Modal
-        closeButton
-        aria-labelledby="create-modal"
-        open={createVisible}
-        width={'50%'}
-        onClose={closeCreateHandler}
-      >
-        <Modal.Header>
-          <Text id="modal-title-create" size={'1.75rem'}>
-            Let's create your first flat!
-          </Text>
-        </Modal.Header>
-        <Modal.Body>
-          <Text size={'1.25rem'} margin="2%">
-            Name
-          </Text>
-          <Input
-            clearable
-            bordered
-            placeholder="Enter your name"
-            size="xl"
-            color="primary"
-            onChange={(e) =>
-              setNewHouseDetails((prevState) => ({
-                ...prevState,
-                name: e.target.value,
-              }))
-            }
-          />
-          <Text size={'1.25rem'} margin="2%">
-            Address
-          </Text>
-          <Input
-            clearable
-            bordered
-            placeholder="Enter your address"
-            size="xl"
-            color="primary"
-            onChange={(e) =>
-              setNewHouseDetails((prevState) => ({
-                ...prevState,
-                address: e.target.value,
-              }))
-            }
-          />
-          <Text size={'1.25rem'} margin="2%">
-            Phone Number
-          </Text>
-          <Input
-            clearable
-            bordered
-            placeholder="Enter your phone number"
-            size="xl"
-            color="primary"
-            onChange={(e) =>
-              setNewHouseDetails((prevState) => ({
-                ...prevState,
-                phone: e.target.value,
-              }))
-            }
-          />
-        </Modal.Body>
+      <CreateHouseModal
+        createVisible={createVisible}
+        setCreateVisible={setCreateVisible}
+      />
 
-        <Modal.Footer>
-          <Button auto onClick={handleCreatingHouse} size="lg">
-            Create!
-          </Button>
-        </Modal.Footer>
-      </Modal>
-
-      {/* Modal component that pops up once users press the JOIN button and asks for a house code to join a particular house/flat */}
-      <Modal
-        closeButton
-        aria-labelledby="modal-title"
-        open={joinVisible}
-        onClose={closeJoinHandler}
-      >
-        <Modal.Header>
-          <Text id="modal-title" size={'1.75rem'}>
-            Enter House Code
-          </Text>
-        </Modal.Header>
-        <Modal.Body>
-          <Input
-            clearable
-            bordered
-            fullWidth
-            color="primary"
-            size="xl"
-            placeholder="House Code"
-            onChange={(e) => setHouseCode(e.target.value)}
-          />
-        </Modal.Body>
-        <Modal.Footer>
-          <Button
-            auto
-            onClick={() => {
-              handleJoiningHouse();
-            }}
-            size="lg"
-          >
-            Submit
-          </Button>
-        </Modal.Footer>
-      </Modal>
+      <JoinHouseModal
+        joinVisible={joinVisible}
+        setJoinVisible={setJoinVisible}
+        setHouseCode={setHouseCode}
+      />
     </div>
   );
 };
