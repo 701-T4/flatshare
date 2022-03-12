@@ -1,8 +1,7 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router';
+import { Navigate, Route, Routes } from 'react-router';
 import LandingPage from '../public/LandingPage';
 import SignInPage from '../public/SignInPage';
-import HomePage from '../public/HomePage';
 
 interface UnauthenticatedRoutesProps {}
 

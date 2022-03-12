@@ -1,9 +1,8 @@
 import React from 'react';
 import { Routes } from 'react-router';
 import { Navigate, Route } from 'react-router-dom';
-import HomePage from '../public/HomePage';
 import ManageAccountPage from '../private/ManageAccountPage';
-import LandingPage from '../public/LandingPage';
+import HomePage from '../public/HomePage';
 
 interface AuthenticatedRoutesProps {}
 
