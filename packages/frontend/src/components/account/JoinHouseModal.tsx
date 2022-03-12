@@ -1,7 +1,7 @@
 import { Button, Input, Modal, Text } from '@nextui-org/react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HouseServices } from '../../services/HouseService';
+import { useApiMutation } from '../../hooks/useApi';
 
 interface CreateHouseModalProps {
   joinVisible: boolean;
@@ -18,9 +18,11 @@ const JoinHouseModal: React.FC<CreateHouseModalProps> = ({
   const [houseCode, setHouseCode] = useState('');
   const navigate = useNavigate();
 
+  const joinHouse = useApiMutation('/api/v1/house', { method: 'put' });
+
   async function handleJoiningHouse() {
     setJoinVisible(false);
-    await HouseServices.joinHouse(houseCode);
+    await joinHouse({ body: { houseCode } });
 
     //navigate the users to home after joining a house
     navigate('/home');

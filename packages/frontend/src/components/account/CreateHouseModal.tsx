@@ -1,7 +1,7 @@
 import { Button, Input, Modal, Text } from '@nextui-org/react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HouseServices } from '../../services/HouseService';
+import { useApiMutation } from '../../hooks/useApi';
 
 interface CreateHouseModalProps {
   createVisible: boolean;
@@ -17,7 +17,7 @@ const CreateHouseModal: React.FC<CreateHouseModalProps> = ({
     name: string;
   }
 
-  const [newHouseouseDetails, setNewHouseDetails] = useState<NewHouseDetails>({
+  const [newHouseDetails, setNewHouseDetails] = useState<NewHouseDetails>({
     phone: '',
     address: '',
     name: '',
@@ -28,10 +28,13 @@ const CreateHouseModal: React.FC<CreateHouseModalProps> = ({
     setCreateVisible(false);
   };
 
+  const createHouse = useApiMutation('/api/v1/house', { method: 'post' });
+
   async function handleCreatingHouse() {
     try {
       setCreateVisible(false);
-      await HouseServices.createHouse(newHouseouseDetails);
+      const { address, name, phone } = newHouseDetails;
+      await createHouse({ body: { address, name, email: phone } });
       navigate('/home');
     } catch (e) {}
   }

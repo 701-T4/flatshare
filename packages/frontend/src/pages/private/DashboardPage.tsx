@@ -1,7 +1,6 @@
 import React from 'react';
 import Page from '../../components/common/layout/Page';
 import GradientUnderlinedText from '../../components/dashboard/GradientUnderlinedText';
-import InviteButton from '../../components/dashboard/invite/InviteButton';
 import InviteButtonController from '../../components/dashboard/invite/InviteButtonController';
 import QuickAccessPanel from '../../components/dashboard/QuickAccessPanel';
 import NoUpcomingTasks from '../../components/dashboard/upcoming-tasks/NoUpcomingTasks';
