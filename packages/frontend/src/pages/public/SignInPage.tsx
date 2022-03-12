@@ -107,11 +107,11 @@ const SignInPage: React.FC<SignInPageProps> = () => {
       console.error(error);
       if (error instanceof FirebaseError) {
         console.log(error.message);
-        if (error.code == 'auth/invalid-email') {
+        if (error.code === 'auth/invalid-email') {
           createSigninErrorAlert('Please enter a valid email');
-        } else if (error.code == 'auth/user-not-found') {
+        } else if (error.code === 'auth/user-not-found') {
           createSigninErrorAlert('No such user');
-        } else if (error.code == 'auth/wrong-password') {
+        } else if (error.code === 'auth/wrong-password') {
           createSigninErrorAlert('Wrong Password');
         } else {
           createSigninErrorAlert(error.message);
