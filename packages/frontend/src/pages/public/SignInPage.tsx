@@ -118,8 +118,8 @@ const SignInPage: React.FC<SignInPageProps> = () => {
     <div className="flex flex-row items-center justify-center h-screen bg-gradient-to-b from-land_page_bg_start to-land_page_bg_end">
       <div className="flex justify-center w-full lg:w-1/2 item-center">
         <div className="flex flex-col items-center bg-white rounded-xl drop-shadow-xl">
-          <Text h1 size={48} className="pt-10" color="black" weight="bold">
-            {isLogin ? 'Login' : 'Sign Up'}
+          <Text h1 size={32} className="py-10 text-gray-900" weight="bold">
+            {isLogin ? 'LOGIN' : 'SIGN UP'}
           </Text>
           {/* container for all user login input*/}
           <div className="flex flex-col pb-10 px-14">
