@@ -94,8 +94,15 @@ const SignInPage: React.FC<SignInPageProps> = () => {
     } catch (error) {
       console.error(error);
       if (error instanceof FirebaseError) {
-        console.log(error.message);
-        createSigninErrorAlert(error.message);
+        if (error.code === 'auth/email-already-in-use') {
+          createSigninErrorAlert('Emails already in use');
+        } else if (error.code === 'auth/invalid-email') {
+          createSigninErrorAlert('Please enter a true email address');
+        } else if (error.code === 'auth/weak-password') {
+          createSigninErrorAlert('Please enter a stronger password');
+        } else {
+          createSigninErrorAlert(error.message);
+        }
       }
     }
   };
@@ -106,7 +113,6 @@ const SignInPage: React.FC<SignInPageProps> = () => {
     } catch (error) {
       console.error(error);
       if (error instanceof FirebaseError) {
-        console.log(error.message);
         if (error.code === 'auth/invalid-email') {
           createSigninErrorAlert('Please enter a valid email');
         } else if (error.code === 'auth/user-not-found') {
