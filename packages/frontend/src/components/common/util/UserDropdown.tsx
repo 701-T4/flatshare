@@ -1,11 +1,11 @@
 import { Popover, Transition } from '@headlessui/react';
 import {
-  ChevronDownIcon,
-  CogIcon,
-  SpeakerphoneIcon,
-  LogoutIcon,
-  CodeIcon,
   CheckCircleIcon,
+  ChevronDownIcon,
+  CodeIcon,
+  CogIcon,
+  LogoutIcon,
+  SpeakerphoneIcon,
 } from '@heroicons/react/outline';
 import React, { Fragment, useMemo, useState } from 'react';
 import { usePopper } from 'react-popper';
@@ -47,8 +47,9 @@ const UserDropdown: React.FC = () => {
       {
         name: 'Logout',
         description: 'Logout of the Application.',
-        action: () => {
-          auth.signOut();
+        action: async () => {
+          await auth.signOut();
+          window.location.reload();
           createAlert(
             {
               icon: <CheckCircleIcon />,
@@ -61,7 +62,7 @@ const UserDropdown: React.FC = () => {
         icon: () => <LogoutIcon className={iconClass} />,
       },
     ],
-    [],
+    [createAlert],
   );
 
   return (

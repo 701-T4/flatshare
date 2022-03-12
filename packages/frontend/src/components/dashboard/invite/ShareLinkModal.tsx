@@ -14,21 +14,17 @@ import { useApi } from '../../../hooks/useApi';
 interface ShareLinkModalProps {
   visible: boolean;
   setVisible(value: boolean): void;
+  houseCode?: string;
+  loading: boolean;
 }
 
 const ShareLinkModal: React.FC<ShareLinkModalProps> = ({
   visible,
   setVisible,
+  houseCode,
+  loading,
 }) => {
-  const { data, loading } = useApi('/api/v1/house', { method: 'get' });
-
-  const getHouseCode = () => {
-    if (!loading) {
-      return data?.code;
-    }
-  };
-
-  const link = `${window.location.origin}/?join=${getHouseCode()}`;
+  const link = `${window.location.origin}/auth?join=${houseCode}`;
   const [copied, setCopied] = useState(false);
   const [icon, setIcon] = useState(<DuplicateIcon className="h-5 w-5" />);
   const copyHandler = () => {
@@ -81,22 +77,26 @@ const ShareLinkModal: React.FC<ShareLinkModalProps> = ({
           </Container>
         </Modal.Header>
         <Modal.Body>
-          <Container
-            direction="row"
-            display="flex"
-            alignItems="flex-end"
-            justify="space-between"
-            css={{ p: 0 }}
-          >
-            <Input
-              label="Share this link to add flatmates"
-              readOnly
-              initialValue={link}
-              contentLeft={<LinkIcon className="h-5 w-5" />}
-              width="86%"
-            />
-            {copyButton()}
-          </Container>
+          {loading ? (
+            <>Loading...</>
+          ) : (
+            <Container
+              direction="row"
+              display="flex"
+              alignItems="flex-end"
+              justify="space-between"
+              css={{ p: 0 }}
+            >
+              <Input
+                label="Share this link to add flatmates"
+                readOnly
+                initialValue={link}
+                contentLeft={<LinkIcon className="h-5 w-5" />}
+                width="86%"
+              />
+              {copyButton()}
+            </Container>
+          )}
         </Modal.Body>
         <Modal.Footer>
           {copied ? (
