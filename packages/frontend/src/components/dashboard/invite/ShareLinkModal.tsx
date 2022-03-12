@@ -9,7 +9,7 @@ import {
 import React, { useState } from 'react';
 import { DuplicateIcon, LinkIcon, CheckIcon } from '@heroicons/react/outline';
 import { UserAddIcon } from '@heroicons/react/solid';
-import { useApi } from '../hooks/useApi';
+import { useApi } from '../../../hooks/useApi';
 
 interface ShareLinkModalProps {
   visible: boolean;

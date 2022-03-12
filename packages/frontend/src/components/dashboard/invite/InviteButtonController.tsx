@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import ShareLinkModal from '../../ShareLinkModal';
+import ShareLinkModal from './ShareLinkModal';
 import InviteButton from './InviteButton';
 
 interface InviteButtonControllerProps {}
