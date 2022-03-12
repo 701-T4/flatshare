@@ -1,9 +1,9 @@
 import React from 'react';
 import { Routes } from 'react-router';
 import { Navigate, Route } from 'react-router-dom';
+import { HouseContextProvider } from '../../hooks/useFlat';
 import DashboardPage from '../private/DashboardPage';
 import HomePage from '../public/HomePage';
-import LandingPage from '../public/LandingPage';
 
 interface AuthenticatedRoutesProps {}
 
@@ -17,4 +17,14 @@ const AuthenticatedRoutes: React.FC<AuthenticatedRoutesProps> = () => {
   );
 };
 
-export default AuthenticatedRoutes;
+const withContexts = (WrappedComponent: React.ComponentType) => {
+  const hoc = ({ ...props }) => (
+    <HouseContextProvider>
+      <WrappedComponent {...props} />
+    </HouseContextProvider>
+  );
+
+  return hoc;
+};
+
+export default withContexts(AuthenticatedRoutes);
