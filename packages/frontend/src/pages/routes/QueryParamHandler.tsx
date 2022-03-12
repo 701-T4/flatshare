@@ -1,10 +1,9 @@
+import { ExclamationCircleIcon } from '@heroicons/react/solid';
 import React, { useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAlert } from '../../components/common/util/CornerAlert';
-import { getUrl, useApi, useApiMutation } from '../../hooks/useApi';
+import { useApi, useApiMutation } from '../../hooks/useApi';
 import { useAuth } from '../../hooks/useAuth';
-import { ExclamationCircleIcon } from '@heroicons/react/solid';
-import { auth } from '../../services/firebase';
 
 interface QueryParamHandlerProps {}
 

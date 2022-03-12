@@ -16,7 +16,7 @@ For prebuilt UI components, you can use the NextUI package. More custom componen
 
 Running with Docker will ensure that users can quickly get environment up and running so they can quickly iterate on work. The application will work regardless of operating system and configuration.
 
-1. Download [Docker Desktop or Docker (for Linux)](https://docs.docker.com/get-docker/). 
-2. Ensure you have Docker running. You can set it to run on device startup in Docker Desktop so you can forget about it. If you are unable to install Docker Desktop, you can use the command `dockerd` to start Docker.  
-3. Build the Docker image using `docker build -f Dockerfile -t frontend .`  
-4. Run `docker run -it -p 80:3000 frontend` to run the frontend in a docker container.  
+1. Download [Docker Desktop or Docker (for Linux)](https://docs.docker.com/get-docker/).
+2. Ensure you have Docker running. You can set it to run on device startup in Docker Desktop so you can forget about it. If you are unable to install Docker Desktop, you can use the command `dockerd` to start Docker.
+3. Build the Docker image using `docker build -f Dockerfile -t frontend .`
+4. Run `docker run -it -p 80:3000 frontend` to run the frontend in a docker container.
