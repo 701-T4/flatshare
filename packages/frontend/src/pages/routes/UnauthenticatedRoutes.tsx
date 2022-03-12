@@ -1,6 +1,5 @@
 import React from 'react';
-import { Routes, Route, Navigate } from 'react-router-dom';
-
+import { Navigate, Route, Routes } from 'react-router';
 import LandingPage from '../public/LandingPage';
 import SignInPage from '../public/SignInPage';
 
