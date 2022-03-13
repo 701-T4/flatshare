@@ -8,9 +8,9 @@ interface UnauthenticatedRoutesProps {}
 const UnauthenticatedRoutes: React.FC<UnauthenticatedRoutesProps> = () => {
   return (
     <Routes>
-      <Route path="auth" element={<SignInPage />} />
-      <Route path="landing" element={<LandingPage />} />
-      <Route path="*" element={<Navigate to="/landing" replace />} />
+      <Route path="/" element={<LandingPage />} />
+      <Route path="/auth" element={<SignInPage />} />
+      <Route path="*" element={<Navigate to="/auth" replace />} />
     </Routes>
   );
 };
