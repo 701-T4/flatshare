@@ -42,7 +42,7 @@ describe('HouseController', () => {
     expect(controller).toBeDefined();
   });
 
-  it('should return 201 with getHouse if user does not have a house linked', () => {
+  it('should return 204 with getHouse if user does not have a house linked', () => {
     const userToken = getFakeUserToken();
     jest.spyOn(userStoreService, 'findOneByFirebaseId').mockResolvedValue({
       house: undefined,
