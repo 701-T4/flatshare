@@ -4,13 +4,13 @@ import {
   Body,
   Get,
   Put,
-  UseGuards,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiCreatedResponse,
-  ApiNotFoundResponse,
+  ApiNoContentResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -68,22 +68,25 @@ export class HouseController {
     description: 'house retrieved successfully',
     type: HouseResponseDto,
   })
+  @ApiNoContentResponse({ description: 'user is not in a house' })
   async getHouse(
     @User() user: DecodedIdToken,
   ): Promise<HouseResponseDto | null> {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
-    const house = await this.houseStoreService.findOne(userDoc.house);
-    if (house) {
-      return {
-        code: house.code,
-        address: house.address,
-        email: house.email,
-        owner: user.uid,
-        name: house.name,
-      };
-    } else {
-      return null;
+    if (userDoc.house != undefined) {
+      const house = await this.houseStoreService.findOne(userDoc.house);
+      if (house != undefined) {
+        return {
+          code: house.code,
+          address: house.address,
+          email: house.email,
+          owner: user.uid,
+          name: house.name,
+        };
+      }
     }
+
+    throw new HttpException('user is not in a house', HttpStatus.NO_CONTENT);
   }
 
   @Put()
@@ -92,7 +95,7 @@ export class HouseController {
     description: 'house joined successfully',
     type: HouseResponseDto,
   })
-  @ApiNotFoundResponse({ description: 'house not found' })
+  @ApiBadRequestResponse({ description: 'code is invalid' })
   async joinHouse(
     @Body() joinHouseDto: JoinHouseDto,
     @User() user: DecodedIdToken,
@@ -114,10 +117,6 @@ export class HouseController {
         owner: owner.firebaseId,
         name: house.name,
       };
-    } else
-      throw new HttpException(
-        'the house could not be found',
-        HttpStatus.NOT_FOUND,
-      );
+    } else throw new HttpException('code is invalid', HttpStatus.BAD_REQUEST);
   }
 }
