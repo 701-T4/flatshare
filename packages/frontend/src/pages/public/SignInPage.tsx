@@ -196,9 +196,16 @@ const SignInPage: React.FC<SignInPageProps> = () => {
               {/* Button for switch login/signup */}
               <Button size="xs" light onClick={() => setIsLogin(!isLogin)}>
                 <Text size={12}>
-                  {isLogin
-                    ? "Don't have an account? Click here to sign up"
-                    : 'Already have an account?'}
+                  {isLogin ? (
+                    <>
+                      {"Don't have an account? "}
+                      <span className="text-teal-500">
+                        {'Click here to sign up'}
+                      </span>
+                    </>
+                  ) : (
+                    'Already have an account?'
+                  )}
                 </Text>
               </Button>
             </div>
