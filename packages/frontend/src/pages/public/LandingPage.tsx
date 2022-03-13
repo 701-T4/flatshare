@@ -1,7 +1,6 @@
 import { Button, Text } from '@nextui-org/react';
-import { Link } from 'react-router-dom';
 import React from 'react';
-import { useApi } from '../../hooks/useApi';
+import { Link } from 'react-router-dom';
 
 interface LandingPageProps {}
 
