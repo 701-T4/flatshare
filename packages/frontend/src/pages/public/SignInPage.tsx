@@ -180,7 +180,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
               <div>
                 <div className="flex justify-end">
                   <Button size="xs" light>
-                    <Text size={12}>Forgot You Password?</Text>
+                    <Text size={12}>Forgot Your Password?</Text>
                   </Button>
                 </div>
                 <Spacer y={0.75} />
