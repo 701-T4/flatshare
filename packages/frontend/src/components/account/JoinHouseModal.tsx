@@ -53,6 +53,7 @@ const JoinHouseModal: React.FC<CreateHouseModalProps> = ({
         </Modal.Header>
         <Modal.Body>
           <Input
+            aria-label="House Code"
             clearable
             bordered
             fullWidth

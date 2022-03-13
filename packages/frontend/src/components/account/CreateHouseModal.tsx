@@ -58,6 +58,7 @@ const CreateHouseModal: React.FC<CreateHouseModalProps> = ({
             Name
           </Text>
           <Input
+            aria-label="house name"
             clearable
             bordered
             placeholder="Enter a name for your flat"
@@ -74,6 +75,7 @@ const CreateHouseModal: React.FC<CreateHouseModalProps> = ({
             Address
           </Text>
           <Input
+            aria-label="house address"
             clearable
             bordered
             placeholder="Enter your address"
@@ -90,6 +92,7 @@ const CreateHouseModal: React.FC<CreateHouseModalProps> = ({
             Phone Number
           </Text>
           <Input
+            aria-label="phone number"
             clearable
             bordered
             placeholder="Enter your phone number"
