@@ -137,9 +137,9 @@ export const useUntypedApi = (
 
 /**
  * Take a URL with path parameters, like /api/vi/{id}, and substitute the path
- * parameters with the params array.
+ * parameters with the params record.
  *
- * @example substitutePathParams("/api/{id}", [3]) // => "/api/3"
+ * @example substitutePathParams("/api/{id}", {id: 3}) // => "/api/3"
  */
 export const substitutePathParams = (
   url: string,
