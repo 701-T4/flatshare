@@ -1,29 +1,27 @@
 <h1 align="center">
   <br>
-  <img src="./resources/logo-text.svg" alt="FlatShare" width="400">
+  <img src="./resources/logo-text.svg?raw=true&sanitize=true" alt="FlatShare" width="400">
 </h1>
 
 <h4 align="center">Flat management made simple.</h4>
 
 <p align="center">
-<img alt="GitHub" src="https://img.shields.io/github/license/701-T4/platform?style=flat-square">
+  <img alt="GitHub" src="https://img.shields.io/github/license/701-T4/platform?style=flat-square">
   <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/701-T4/platform/PR%20Check?label=tests&logo=github&style=flat-square">
   <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/701-T4/platform?style=flat-square">
-<img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/701-T4/platform?logo=github&style=flat-square">
+  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/701-T4/platform?logo=github&style=flat-square">
 </p>
 
 <p align="center">
   <a href="#key-features">Features</a> •
   <a href="#installation">Installation</a> •
-  <a href="#running-tests">Tests</a> •
   <a href="#contributing">Contributing</a> •
-  <a href="#tech-stack">Tech</a> •
-  <a href="#license">License</a>
+  <a href="https://github.com/701-T4/flatshare/wiki">Documentation</a>
 </p>
 
 ## Screenshots
 
-![screenshot](./resources/sc-1.png)
+![dashboard screen](./resources/sc-1.png?raw=true 'Dashboard Screen')
 
 ## Key Features
 
@@ -37,10 +35,10 @@ To clone and run this application, you'll need [Git](https://git-scm.com), [Node
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/701-T4/platform
+$ git clone https://github.com/701-T4/flatshare
 
 # Go into the repository
-$ cd platform
+$ cd flatshare
 
 # Install dependencies
 $ yarn install
