@@ -2,6 +2,8 @@ import {
   ExclamationCircleIcon,
   InformationCircleIcon,
 } from '@heroicons/react/outline';
+import { useCallback } from 'react';
+import { useNavigate } from 'react-router';
 import { useApiMutation } from '../../../hooks/useApi';
 import { useHouse } from '../../../hooks/useHouse';
 import { useAlert } from './CornerAlert';
@@ -11,10 +13,11 @@ export const useLocalStorageJoinCode = () => {
   const { name, dataLoading } = useHouse();
   const { createAlert, resetAlert } = useAlert();
   const joinHouseMutation = useApiMutation('/api/v1/house', { method: 'put' });
+  const navigate = useNavigate();
 
-  const clearJoinCode = () => {
+  const clearJoinCode = useCallback(() => {
     localStorage.removeItem('joinCode');
-  };
+  }, []);
 
   useLocalStorage(
     'joinCode',
@@ -41,6 +44,7 @@ export const useLocalStorageJoinCode = () => {
         await joinHouseMutation({
           body: { houseCode },
         });
+        navigate('/dashboard');
         resetAlert();
         clearJoinCode();
       }

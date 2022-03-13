@@ -1,4 +1,5 @@
 import { getAuth } from 'firebase/auth';
+import { useCallback } from 'react';
 import useSWR from 'swr';
 import { paths } from '../types/api-schema';
 
@@ -87,18 +88,23 @@ export const useApiMutation = <
     ...options
   }: UseApiArgs<TUrl, TMethod, TBodyContentType, TResponseContentType> = {},
 ) => {
-  return ({
-    pathParams,
-    ...newOptions
-  }: UseApiArgs<TUrl, TMethod, TBodyContentType, TResponseContentType>) => {
-    const newBody = JSON.stringify(newOptions.body ?? options.body ?? {});
-    return fetcher({
-      method,
-      parser,
-      ...{ ...options, ...newOptions },
-      body: newBody,
-    })(substitutePathParams(url, pathParams));
-  };
+  const fn = useCallback(
+    ({
+      pathParams,
+      ...newOptions
+    }: UseApiArgs<TUrl, TMethod, TBodyContentType, TResponseContentType>) => {
+      const newBody = JSON.stringify(newOptions.body ?? options.body ?? {});
+      return fetcher({
+        method,
+        parser,
+        ...{ ...options, ...newOptions },
+        body: newBody,
+      })(substitutePathParams(url, pathParams));
+    },
+    [method, options, parser, url],
+  );
+
+  return fn;
 };
 
 export const getUrl = (url: string) => {

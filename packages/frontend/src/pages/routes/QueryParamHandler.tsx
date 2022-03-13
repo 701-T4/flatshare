@@ -1,5 +1,5 @@
 import { ExclamationCircleIcon } from '@heroicons/react/solid';
-import React, { useEffect } from 'react';
+import React, { useEffect, useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { useAlert } from '../../components/common/util/CornerAlert';
 import { useAuth } from '../../hooks/useAuth';
@@ -18,7 +18,10 @@ const useJoinCode = () => {
 
   // check if the url has a join code OR localstorage has a join code
   const [searchParams] = useSearchParams();
-  const urlJoinCode = searchParams.get('join') ?? '';
+  const urlJoinCode = useMemo(
+    () => searchParams.get('join') ?? '',
+    [searchParams],
+  );
 
   useEffect(() => {
     if (urlJoinCode) {
@@ -34,7 +37,7 @@ const useJoinCode = () => {
         );
       }
     }
-  }, [urlJoinCode]);
+  }, [urlJoinCode, signedIn, createAlert]);
 };
 
 export default QueryParamHandler;
