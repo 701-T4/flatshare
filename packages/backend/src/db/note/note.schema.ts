@@ -2,7 +2,11 @@ import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import { Document, Types } from 'mongoose';
 
 export type NoteDocument = Note & Document;
-export type NoteContents = 'PLAIN' | 'SECRET' | 'WIFI';
+export enum NoteContents {
+  PLAIN = 'PLAIN',
+  SECRET = 'SECRET',
+  WIFI = 'WIFI',
+}
 
 @Schema()
 export class Note {
@@ -29,5 +33,5 @@ export class NoteModel {
   value: string;
   readonly type: NoteContents;
   owner: Types.ObjectId;
-  readonly house: Types.ObjectId;
+  house: Types.ObjectId;
 }

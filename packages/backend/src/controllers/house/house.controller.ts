@@ -26,6 +26,8 @@ import { DecodedIdToken } from 'firebase-admin/auth';
 import { JoinHouseDto } from './dto/join-house.dto';
 import { NoteStoreService } from 'src/db/note/noteStore.service';
 import NoteResponseDto from './dto/note-response.dto';
+import { CreateNoteDto } from './dto/create-note.dto';
+import { NoteContents } from 'src/db/note/note.schema';
 
 @ApiTags('houses')
 @Controller('/api/v1/house')
@@ -44,7 +46,7 @@ export class HouseController {
     description: 'house created successfully',
     type: HouseResponseDto,
   })
-  async create(
+  async createHouse(
     @Body() createHouseDto: CreateHouseDto,
     @User() user: DecodedIdToken,
   ): Promise<HouseResponseDto> {
@@ -123,23 +125,50 @@ export class HouseController {
     } else throw new HttpException('code is invalid', HttpStatus.BAD_REQUEST);
   }
 
-  @Get('/notes')
-  @ApiOperation({ summary: 'get all notes assigned to the house' })
-  @ApiOkResponse({
-    description: 'notes retrieved successfully',
-    type: [NoteResponseDto],
+  /// XXX: If the user is not part of a hosue then throw some sort of error
+  @Post('/notes')
+  @ApiOperation({ summary: 'create a new note resource' })
+  @ApiCreatedResponse({
+    description: 'note created successfully',
+    type: NoteResponseDto,
   })
-  @ApiNoContentResponse({ description: 'no notes for house' })
-  async getNotes(houseCode: string): Promise<NoteResponseDto[] | null> {
-    const notes = await this.noteStoreService.findAllByHouse(houseCode);
-    if (notes) {
-      return notes.map((note) => ({
-        name: note.name,
-        value: note.value,
-        type: note.type,
-        owner: '',
-        house: '',
-      }));
-    } else throw new HttpException('no notes for house', HttpStatus.NO_CONTENT);
+  async createNote(
+    @Body() createNoteDto: CreateNoteDto,
+    @User() user: DecodedIdToken,
+  ): Promise<NoteResponseDto | null> {
+    // User
+    const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
+    createNoteDto.owner = userDoc._id;
+    if (userDoc.house != undefined) {
+      // throw some sort of error
+      //XXX: do i need this or can i just check if userDoc.house_id exists???
+      // Fetch house from user
+      const houseDoc = await this.houseStoreService.findOne(userDoc.house);
+      createNoteDto.house = houseDoc._id;
+      return this.noteStoreService.create(createNoteDto);
+    } else {
+      throw new HttpException('user is not in a house', HttpStatus.NO_CONTENT);
+    }
   }
+
+  // TODO: We need to handle house/user properly
+  // @Get('/notes')
+  // @ApiOperation({ summary: 'get all notes assigned to the house' })
+  // @ApiOkResponse({
+  //   description: 'notes retrieved successfully',
+  //   type: [NoteResponseDto],
+  // })
+  // @ApiNoContentResponse({ description: 'no notes for house' })
+  // async getNotes(houseCode: string): Promise<NoteResponseDto[] | null> {
+  //   const notes = await this.noteStoreService.findAllByHouse(houseCode);
+  //   if (notes) {
+  //     return notes.map((note) => ({
+  //       name: note.name,
+  //       value: note.value,
+  //       type: note.type,
+  //       owner: '',
+  //       house: '',
+  //     }));
+  //   } else throw new HttpException('no notes for house', HttpStatus.NO_CONTENT);
+  // }
 }

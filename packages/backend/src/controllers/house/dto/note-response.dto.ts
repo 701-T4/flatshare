@@ -1,15 +1,20 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { NoteContents } from 'src/db/note/note.schema';
+import { Types } from 'mongoose';
+// import { IsEnum } from 'class-validator';
 
 export default class NoteResponseDto {
-  @ApiProperty({ required: false })
+  @ApiProperty()
   name: string;
-  @ApiProperty({ required: false })
+  @ApiProperty()
   value: string;
-  @ApiProperty({ required: false })
+  // @IsEnum(NoteContents)
+  @ApiProperty({
+    enum: NoteContents,
+  })
   type: NoteContents;
-  @ApiProperty({ required: false })
-  owner: string;
-  @ApiProperty({ required: false })
-  house: string;
+  @ApiProperty()
+  owner: Types.ObjectId;
+  @ApiProperty()
+  house: Types.ObjectId;
 }

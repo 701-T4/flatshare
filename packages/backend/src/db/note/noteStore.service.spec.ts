@@ -1,13 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 import { NoteStoreService } from './noteStore.service';
-import { Note } from './note.schema';
+import { Note, NoteContents } from './note.schema';
 import { Model } from 'mongoose';
 
 const mockNote = {
   name: 'Note #1',
   value: 'Value #1',
-  type: 'PLAIN',
+  type: NoteContents.PLAIN,
   owner: null,
   house: null,
 };
@@ -20,14 +20,14 @@ describe('NoteStoreService', () => {
     {
       name: 'Note #1',
       value: 'Value #1',
-      type: 'PLAIN',
+      type: NoteContents.PLAIN,
       owner: null,
       house: null,
     },
     {
       name: 'Note #2',
       value: 'Value #2',
-      type: 'PLAIN',
+      type: NoteContents.PLAIN,
       owner: null,
       house: null,
     },
@@ -71,7 +71,7 @@ describe('NoteStoreService', () => {
       Promise.resolve({
         name: 'Note #1',
         value: 'Value #1',
-        type: 'PLAIN',
+        type: NoteContents.PLAIN,
         owner: null,
         house: null,
       }),
@@ -79,7 +79,7 @@ describe('NoteStoreService', () => {
     const newNote = await service.create({
       name: 'Note #1',
       value: 'Value #1',
-      type: 'PLAIN',
+      type: NoteContents.PLAIN,
       owner: null,
       house: null,
     });
