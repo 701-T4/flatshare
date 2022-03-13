@@ -24,6 +24,8 @@ import { HouseUtil } from './house.util';
 import { User } from '../../util/user.decorator';
 import { DecodedIdToken } from 'firebase-admin/auth';
 import { JoinHouseDto } from './dto/join-house.dto';
+import { NoteStoreService } from 'src/db/note/noteStore.service';
+import NoteResponseDto from './dto/note-response.dto';
 
 @ApiTags('houses')
 @Controller('/api/v1/house')
@@ -32,6 +34,7 @@ export class HouseController {
   constructor(
     private readonly houseStoreService: HouseStoreService,
     private readonly userStoreService: UserStoreService,
+    private readonly noteStoreService: NoteStoreService,
     private readonly houseUtil: HouseUtil,
   ) {}
 
@@ -118,5 +121,25 @@ export class HouseController {
         name: house.name,
       };
     } else throw new HttpException('code is invalid', HttpStatus.BAD_REQUEST);
+  }
+
+  @Get('/notes')
+  @ApiOperation({ summary: 'get all notes assigned to the house' })
+  @ApiOkResponse({
+    description: 'notes retrieved successfully',
+    type: [NoteResponseDto],
+  })
+  @ApiNoContentResponse({ description: 'no notes for house' })
+  async getNotes(houseCode: string): Promise<NoteResponseDto[] | null> {
+    const notes = await this.noteStoreService.findAllByHouse(houseCode);
+    if (notes) {
+      return notes.map((note) => ({
+        name: note.name,
+        value: note.value,
+        type: note.type,
+        owner: '',
+        house: '',
+      }));
+    } else throw new HttpException('no notes for house', HttpStatus.NO_CONTENT);
   }
 }
