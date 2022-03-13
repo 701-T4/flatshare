@@ -1,4 +1,3 @@
-import { randomUUID } from 'crypto';
 import { DecodedIdToken } from 'firebase-admin/auth';
 
 export function getFakeUserToken(

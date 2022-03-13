@@ -5,6 +5,8 @@ import { initializeApp, cert } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
 import { UserStoreService } from 'src/db/user/userStore.service';
 import { UserModel } from 'src/db/user/user.schema';
+import * as firebaseCredentials from '../../../../keys/firebase.json';
+import { ServiceAccount } from 'firebase-admin';
 
 @Injectable()
 export class FirebaseAuthStrategy extends PassportStrategy(
@@ -14,7 +16,7 @@ export class FirebaseAuthStrategy extends PassportStrategy(
   constructor(private readonly userStoreService: UserStoreService) {
     super({ jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken() });
     initializeApp({
-      credential: cert(require('../../../../keys/firebase.json')),
+      credential: cert(firebaseCredentials as ServiceAccount),
     });
   }
 

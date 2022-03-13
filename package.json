@@ -18,6 +18,7 @@
     "start:dev": "lerna run --parallel start:dev",
     "test": "lerna run --parallel test",
     "start:docker": "docker-compose -f docker-compose.yaml up",
-    "test:docker": "docker-compose -f docker-compose.override.yaml up"
+    "test:docker": "docker-compose -f docker-compose.override.yaml up",
+    "lint-backend": "cd packages/backend && eslint \"{src,apps,libs,test}/**/*.ts\" --fix --max-warnings 0"
   }
 }
