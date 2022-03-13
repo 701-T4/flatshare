@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { useAuth } from '../../../hooks/useAuth';
+import React from 'react';
 import UserDropdown from './UserDropdown';
 
 interface UserDisplayProps {}

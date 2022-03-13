@@ -5,7 +5,7 @@ import InviteButtonController from '../../components/dashboard/invite/InviteButt
 import QuickAccessPanel from '../../components/dashboard/QuickAccessPanel';
 import NoUpcomingTasks from '../../components/dashboard/upcoming-tasks/NoUpcomingTasks';
 import UpcomingTask from '../../components/dashboard/upcoming-tasks/UpcomingTask';
-import { useHouse } from '../../hooks/useFlat';
+import { useHouse } from '../../hooks/useHouse';
 
 interface DashboardProps {}
 

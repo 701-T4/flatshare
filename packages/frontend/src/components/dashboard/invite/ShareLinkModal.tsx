@@ -1,3 +1,5 @@
+import { CheckIcon, DuplicateIcon, LinkIcon } from '@heroicons/react/outline';
+import { UserAddIcon } from '@heroicons/react/solid';
 import {
   Avatar,
   Button,
@@ -7,9 +9,6 @@ import {
   Text,
 } from '@nextui-org/react';
 import React, { useState } from 'react';
-import { DuplicateIcon, LinkIcon, CheckIcon } from '@heroicons/react/outline';
-import { UserAddIcon } from '@heroicons/react/solid';
-import { useApi } from '../../../hooks/useApi';
 
 interface ShareLinkModalProps {
   visible: boolean;

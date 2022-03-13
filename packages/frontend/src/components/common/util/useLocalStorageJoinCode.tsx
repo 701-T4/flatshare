@@ -3,7 +3,7 @@ import {
   InformationCircleIcon,
 } from '@heroicons/react/outline';
 import { useApiMutation } from '../../../hooks/useApi';
-import { useHouse } from '../../../hooks/useFlat';
+import { useHouse } from '../../../hooks/useHouse';
 import { useAlert } from './CornerAlert';
 import { useLocalStorage } from './useLocalStorage';
 

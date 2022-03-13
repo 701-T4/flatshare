@@ -24,6 +24,13 @@ export const LoadingCountContextProvider: FC = ({ children }) => {
   );
 };
 
+/**
+ * Tool to render a full page loading screen if the passed in parameter is true,
+ * or a function that resolves to true.
+ *
+ * @param isLoading pass in a boolean representing if there should be a full
+ * page loading screen.
+ */
 export const useFullLoader = (isLoading: boolean | (() => boolean)) => {
   const loadingCount = useContext(LoaderCounterContext);
 
