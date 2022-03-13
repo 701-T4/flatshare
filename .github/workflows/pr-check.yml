@@ -72,11 +72,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Build Backend
-        working-directory: packages/backend
+        working-directory: ../packages/backend
         run:
           yarn build
       - name: Test Backend
-        working-directory: packages/backend
+        working-directory: ../packages/backend
         run:
           yarn test
 
@@ -86,11 +86,11 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Test Frontend
-        working-directory: packages/frontend
+        working-directory: ../packages/frontend
         run:
           yarn test
       - name: Build Frontend
-        working-directory: packages/frontend
+        working-directory: ../packages/frontend
         run:
           yarn build
 
