@@ -14,12 +14,12 @@
   "scripts": {
     "build": "lerna run build",
     "prepare": "husky install",
-    "postinstall": "lerna bootstrap && npm run license-report",
+    "postinstall": "lerna bootstrap && yarn run license-report",
     "start": "lerna run --parallel start",
     "start:dev": "lerna run --parallel start:dev",
     "test": "lerna run --parallel test",
     "start:docker": "docker-compose -f docker-compose.yaml up",
     "test:docker": "docker-compose -f docker-compose.override.yaml up",
-    "license-report": "yarn license-report-generator --table true --out-file LICENSE-3RD-PARTY.md --with-dev-dependencies true"
+    "license-report": "yarn license-report-generator --table true --out-file LICENSE-3RD-PARTY.md --with-dev-dependencies true && lerna run --parallel license-report"
   }
 }
