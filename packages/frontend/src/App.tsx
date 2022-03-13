@@ -7,6 +7,11 @@ import QueryParamHandler from './pages/routes/QueryParamHandler';
 import { mainTheme } from './theme';
 import { CornerAlertManager } from './components/common/util/CornerAlert';
 import { getAuth } from 'firebase/auth';
+import useFullLoader, {
+  LoadingCountContextProvider,
+  useIsLoading,
+} from './hooks/useFullLoader';
+import LoaderPage from './pages/public/LoaderPage';
 
 interface AppProps {}
 
@@ -15,7 +20,9 @@ const App: React.FC<AppProps> = () => {
     <NextUIProvider theme={mainTheme}>
       <AuthProvider>
         <CornerAlertManager>
-          <AuthAwareApp />
+          <LoadingCountContextProvider>
+            <AuthAwareApp />
+          </LoadingCountContextProvider>
         </CornerAlertManager>
       </AuthProvider>
     </NextUIProvider>
@@ -36,9 +43,7 @@ const AuthAwareApp: React.FC = () => {
     };
   }, [setUser, setAuthLoaded]);
 
-  if (!authLoaded) {
-    return null;
-  }
+  useFullLoader(() => !authLoaded);
 
   return (
     <BrowserRouter>
