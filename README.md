@@ -17,7 +17,8 @@
   <a href="#installation">Installation</a> •
   <a href="#contributing">Contributing</a> •
   <a href="https://github.com/701-T4/flatshare/wiki">Documentation</a> •
-  <a href="https://github.com/701-T4/flatshare/wiki/Trouble-Shooting">Troubleshooting</a>
+  <a href="https://github.com/701-T4/flatshare/wiki/Trouble-Shooting">Troubleshooting</a> •
+  <a href="https://flat-split.web.app/">Demo</a>
 </p>
 
 ## Screenshots

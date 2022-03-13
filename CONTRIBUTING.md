@@ -62,8 +62,8 @@ share one with other people.
    next to that file i.e. `node ./packages/frontend/scripts/firebase-config/FirebaseConfigToClipboard.js`.
 
 4. The script will save information to your clipboard. Paste that into the
-   REACT_APP_FIREBASE_CONFIG environment variable, replacing all existing
-   contents. Please note the .env.development is a COMMITTED file. If you are
+   `REACT_APP_FIREBASE_CONFIG` environment variable, replacing all existing
+   contents. Please note the `.env.development` is a **COMMITTED** file. If you are
    using a different environment, please create and use a new environment file,
    `.env.development.local`.
 
@@ -71,8 +71,7 @@ share one with other people.
 
 1. Ask the project owner for a private key.
 
-2. Rename this file `firebase.json` and place it in the /keys directory. DO NOT
-   COMMIT THIS FILE.
+2. Rename this file `firebase.json` and place it in the /keys directory. **`DO NOT COMMIT THIS FILE`**.
 
 ### MongoDB
 
