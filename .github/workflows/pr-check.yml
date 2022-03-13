@@ -11,21 +11,94 @@ on:
       - reopened
 
 jobs:
-  Test:
+  # codeQL checking
+  Analyze:
+    name: Analyze
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' || !github.event.pull_request.draft }}
+
+    permissions:
+      actions: read
+      contents: read
+      security-events: write
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+
+    # Initializes the CodeQL tools for scanning.
+    - name: Initialize CodeQL
+      uses: github/codeql-action/init@v1
+      with:
+        languages: 'javascript'
+        # If you wish to specify custom queries, you can do so here or in a config file.
+        # By default, queries listed here will override any specified in a config file.
+        # Prefix the list here with "+" to use these queries and those in the config file.
+        # queries: ./path/to/local/query, your-org/your-repo/queries@main
+
+    # Autobuild attempts to build any compiled languages  (C/C++, C#, or Java).
+    # If this step fails, then you should remove it and run the build manually (see below)
+    - name: Autobuild
+      uses: github/codeql-action/autobuild@v1
+
+    # ℹ️ Command-line programs to run using the OS shell.
+    # 📚 https://git.io/JvXDl
+
+    # ✏️ If the Autobuild fails above, remove it and uncomment the following three lines
+    #    and modify them (or add more) to build your code if your project
+    #    uses a compiled language
+
+    #- run: |
+    #   make bootstrap
+    #   make release
+
+    - name: Perform CodeQL Analysis
+      uses: github/codeql-action/analyze@v1
+
+  Backend:
     runs-on: ubuntu-latest
     if: ${{ github.event_name == 'push' || !github.event.pull_request.draft }}
 
     steps:
       - uses: actions/checkout@v2
-      - name: Use Node.js 16.x
+      - name: Setup
         uses: actions/setup-node@v2
         with:
           node-version: '16'
           cache: 'yarn'
-
-      - run: yarn install --prefer-offline --frozen-lockfile
-
-      - name: Test Backend
+      - name: Install Dependencies
+        working-directory: ./packages/backend
+        run: yarn install --prefer-offline --frozen-lockfile
+      - name: Build
+        working-directory: ./packages/backend
+        run:
+          yarn build
+      - name: Test
         working-directory: ./packages/backend
         run:
           yarn test
+
+
+  Frontend:
+    runs-on: ubuntu-latest
+    if: ${{ github.event_name == 'push' || !github.event.pull_request.draft }}
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'yarn'
+      - name: Install Dependencies
+        working-directory: ./packages/frontend
+        run: yarn install --prefer-offline --frozen-lockfile
+      - name: Test
+        working-directory: ./packages/frontend
+        run:
+          yarn test
+      - name: Build
+        working-directory: ./packages/frontend
+        run:
+          yarn build
+
