@@ -16,7 +16,8 @@
   <a href="#key-features">Features</a> •
   <a href="#installation">Installation</a> •
   <a href="#contributing">Contributing</a> •
-  <a href="https://github.com/701-T4/flatshare/wiki">Documentation</a>
+  <a href="https://github.com/701-T4/flatshare/wiki">Documentation</a> •
+  <a href="https://github.com/701-T4/flatshare/wiki/Trouble-Shooting">Troubleshooting</a>
 </p>
 
 ## Screenshots
