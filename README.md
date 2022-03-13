@@ -13,10 +13,11 @@
 </p>
 
 <p align="center">
-  <a href="#key-features">Key Features</a> •
+  <a href="#key-features">Features</a> •
   <a href="#installation">Installation</a> •
-  <a href="#credits">Credits</a> •
-  <a href="#related">Related</a> •
+  <a href="#running-tests">Tests</a> •
+  <a href="#contributing">Contributing</a> •
+  <a href="#tech-stack">Tech</a> •
   <a href="#license">License</a>
 </p>
 
