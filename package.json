@@ -2,7 +2,6 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "eslint": "^8.11.0",
     "husky": "^7.0.4",
     "lerna": "^4.0.0",
     "lint-staged": "^12.3.5",
@@ -20,7 +19,6 @@
     "start:dev": "lerna run --parallel start:dev",
     "test": "lerna run --parallel test",
     "start:docker": "docker-compose -f docker-compose.yaml up",
-    "test:docker": "docker-compose -f docker-compose.override.yaml up",
-    "lint": "lint-staged"
+    "test:docker": "docker-compose -f docker-compose.override.yaml up"
   }
 }
