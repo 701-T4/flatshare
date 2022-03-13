@@ -74,7 +74,7 @@ jobs:
 
       - run: yarn install --prefer-offline --frozen-lockfile
 
-  Build_Backend:
+  Backend:
     needs: Setup
     runs-on: ubuntu-latest
     steps:
@@ -82,15 +82,11 @@ jobs:
         working-directory: ./packages/backend
         run:
           yarn build
-
-  Test_Backend:
-    needs: Build_Backend
-    runs-on: ubuntu-latest
-    steps:
       - name: Test Backend
         working-directory: ./packages/backend
         run:
           yarn test
+
 
   Test_Frontend:
     needs: Setup
@@ -100,11 +96,6 @@ jobs:
         working-directory: ./packages/frontend
         run:
           yarn test
-
-  Build_Frontend:
-    needs: Test_Frontend
-    runs-on: ubuntu-latest
-    steps:
       - name: Build Frontend
         working-directory: ./packages/frontend
         run:
