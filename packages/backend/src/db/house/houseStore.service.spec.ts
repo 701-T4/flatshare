@@ -59,7 +59,7 @@ describe('HouseStoreService', () => {
   it('should return all Houses', async () => {
     jest.spyOn(model, 'find').mockReturnValue({
       exec: jest.fn().mockResolvedValueOnce(HousesArray),
-    } as any);
+    } as any); //eslint-disable-line  @typescript-eslint/no-explicit-any
     const Houses = await service.findAll();
     expect(Houses).toEqual(HousesArray);
   });
@@ -67,7 +67,7 @@ describe('HouseStoreService', () => {
   it('should return one house', async () => {
     jest.spyOn(model, 'findOne').mockReturnValue({
       exec: jest.fn().mockResolvedValueOnce(mockHouse),
-    } as any);
+    } as any); //eslint-disable-line  @typescript-eslint/no-explicit-any
     const House = await service.findOneByCode('lol');
     expect(House).toEqual(mockHouse);
   });

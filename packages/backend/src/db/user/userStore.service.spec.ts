@@ -53,7 +53,7 @@ describe('UserStoreService', () => {
   it('should return all users', async () => {
     jest.spyOn(model, 'find').mockReturnValue({
       exec: jest.fn().mockResolvedValueOnce(usersArray),
-    } as any);
+    } as any); //eslint-disable-line  @typescript-eslint/no-explicit-any
     const users = await userService.findAll();
     expect(users).toEqual(usersArray);
   });
