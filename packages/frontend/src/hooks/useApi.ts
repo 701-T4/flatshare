@@ -74,6 +74,34 @@ export const useApi = <
   return { data, error, ...rest, loading };
 };
 
+export const useApiMutation = <
+  TUrl extends keyof paths,
+  TMethod extends keyof paths[TUrl],
+  TBodyContentType extends string = 'application/json',
+  TResponseContentType extends string = 'application/json',
+>(
+  url: TUrl,
+  {
+    method,
+    parser = (res) => res.json(),
+    pathParams,
+    ...options
+  }: UseApiArgs<TUrl, TMethod, TBodyContentType, TResponseContentType> = {},
+) => {
+  const bearer = getAuth().currentUser?.getIdToken();
+
+  return ({
+    pathParams,
+    ...newOptions
+  }: UseApiArgs<TUrl, TMethod, TBodyContentType, TResponseContentType>) => {
+    const newBody = JSON.stringify(newOptions.body ?? options.body ?? {});
+    return fetcher(
+      { method, parser, ...{ ...options, ...newOptions }, body: newBody },
+      bearer,
+    )(substitutePathParams(url, pathParams));
+  };
+};
+
 export const getUrl = (url: string) => {
   if (!url.startsWith('/')) {
     url = '/' + url;
