@@ -156,6 +156,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
             ) : (
               <>
                 <Input
+                  aria-label="Name"
                   onChange={(v) => setName(v.target.value)}
                   contentLeft={<UserIcon style={{ height: '100%' }} />}
                   placeholder="Name"
@@ -164,12 +165,14 @@ const SignInPage: React.FC<SignInPageProps> = () => {
               </>
             )}
             <Input
+              aria-label="Email"
               onChange={(v) => setEmail(v.target.value)}
               contentLeft={<MailIcon style={{ height: '100%' }} />}
               placeholder="Your email"
             />
             <Spacer y={0.5} />
             <Input.Password
+              aria-label="Password"
               onChange={(v) => setPassword(v.target.value)}
               contentLeft={<LockOpenIcon style={{ height: '100%' }} />}
               placeholder="Your password"
@@ -187,6 +190,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
               </div>
             ) : (
               <Input.Password
+                aria-label="Confirm password"
                 onChange={(v) => setConfirmPassword(v.target.value)}
                 contentLeft={<LockOpenIcon style={{ height: '100%' }} />}
                 placeholder="Confirm password"

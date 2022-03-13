@@ -1,12 +1,15 @@
-import React, { useEffect } from 'react';
 import { NextUIProvider } from '@nextui-org/react';
-import { BrowserRouter } from 'react-router-dom';
-import { AuthProvider, useAuth } from './hooks/useAuth';
-import Router from './pages/routes/Router';
-import QueryParamHandler from './pages/routes/QueryParamHandler';
-import { mainTheme } from './theme';
-import { CornerAlertManager } from './components/common/util/CornerAlert';
 import { getAuth } from 'firebase/auth';
+import React, { useEffect } from 'react';
+import { BrowserRouter } from 'react-router-dom';
+import { CornerAlertManager } from './components/common/util/CornerAlert';
+import { AuthProvider, useAuth } from './hooks/useAuth';
+import useFullLoader, {
+  LoadingCountContextProvider,
+} from './hooks/useFullLoader';
+import QueryParamHandler from './pages/routes/QueryParamHandler';
+import Router from './pages/routes/Router';
+import { mainTheme } from './theme';
 
 interface AppProps {}
 
@@ -15,7 +18,9 @@ const App: React.FC<AppProps> = () => {
     <NextUIProvider theme={mainTheme}>
       <AuthProvider>
         <CornerAlertManager>
-          <AuthAwareApp />
+          <LoadingCountContextProvider>
+            <AuthAwareApp />
+          </LoadingCountContextProvider>
         </CornerAlertManager>
       </AuthProvider>
     </NextUIProvider>
@@ -36,9 +41,7 @@ const AuthAwareApp: React.FC = () => {
     };
   }, [setUser, setAuthLoaded]);
 
-  if (!authLoaded) {
-    return null;
-  }
+  useFullLoader(() => !authLoaded);
 
   return (
     <BrowserRouter>
