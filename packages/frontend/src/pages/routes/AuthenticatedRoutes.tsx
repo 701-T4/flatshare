@@ -28,6 +28,7 @@ const AuthenticatedRoutes: React.FC<AuthenticatedRoutesProps> = () => {
   return (
     <Routes>
       <Route path="dashboard" element={<DashboardPage />} />
+      <Route path="bills" element={<BillSplittingPage />} />
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   );
