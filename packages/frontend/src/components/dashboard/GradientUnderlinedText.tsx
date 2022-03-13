@@ -1,20 +1,22 @@
 import React from 'react';
 import cx from 'classnames';
 
-interface GradientUnderlinedTextProps {
+interface UnderlinedTextProps {
   className?: string;
+  colorClasses?: string;
 }
 
-const GradientUnderlinedText: React.FC<GradientUnderlinedTextProps> = ({
+const UnderlinedText: React.FC<UnderlinedTextProps> = ({
   children,
   className,
+  colorClasses,
 }) => {
   return (
     <div className={cx('w-fit', className)}>
       {children}
-      <div className="h-0.5 bg-gradient-to-r from-teal-500 via-teal-700 to-gray-900 w-full" />
+      <div className={cx('h-0.5 bg-gradient-to-r w-full', colorClasses)} />
     </div>
   );
 };
 
-export default GradientUnderlinedText;
+export default UnderlinedText;

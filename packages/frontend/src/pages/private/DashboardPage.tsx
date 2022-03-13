@@ -1,6 +1,6 @@
 import React from 'react';
 import Page from '../../components/common/layout/Page';
-import GradientUnderlinedText from '../../components/dashboard/GradientUnderlinedText';
+import UnderlinedText from '../../components/dashboard/GradientUnderlinedText';
 import InviteButtonController from '../../components/dashboard/invite/InviteButtonController';
 import QuickAccessPanel from '../../components/dashboard/QuickAccessPanel';
 import NoUpcomingTasks from '../../components/dashboard/upcoming-tasks/NoUpcomingTasks';
@@ -15,23 +15,20 @@ const DashboardPage: React.FC<DashboardProps> = () => {
   return (
     <Page>
       <div className="flex justify-between items-center pb-1">
-        <GradientUnderlinedText>
+        <UnderlinedText colorClasses="from-gray-800 via-teal-700 to-teal-500 ">
           <div className="text-lg font-medium">
-            <span className="text-teal-500 font-semibold">{'Welcome to '}</span>
-            {name}
+            {'Welcome to '}
+            <span className="text-teal-500 font-semibold">{name}</span>
           </div>
-        </GradientUnderlinedText>
+        </UnderlinedText>
         <InviteButtonController />
       </div>
       <div className="my-4">
         <QuickAccessPanel />
       </div>
-      <GradientUnderlinedText>
-        <div className="text-lg font-medium">
-          <span className="text-teal-500 font-semibold">{'Upcoming'}</span>
-          <span>{' Tasks'}</span>
-        </div>
-      </GradientUnderlinedText>
+      <UnderlinedText colorClasses="bg-gray-800">
+        <div className="text-lg font-semibold">Upcoming Tasks</div>
+      </UnderlinedText>
       <div className="mt-4 md:grid md:grid-cols-2 flex flex-col gap-4">
         <UpcomingTask
           title="Take out the Rubbish"
