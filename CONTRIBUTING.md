@@ -88,6 +88,6 @@ share one with other people.
    required for Lerna to work, as well as automatically install packages for the
    frontend and backend packages.
 
-3. Once again at the project root, run `npm run start:dec`. This will
-   automatically run the `start:dev` command in all nested packages, which will
-   simultaneously run the frontend and backend.
+3. Once again at the project root, run `npm run start:dev`. This will simultaneously run the frontend and backend.
+
+## Workflow

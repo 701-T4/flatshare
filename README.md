@@ -64,7 +64,7 @@ To run tests, run the following command
 
 Contributions are always welcome!
 
-See [`CONTRIBUTING.md`](/CONTRIBUTING.md) for ways to get started.
+See [`CONTRIBUTING.md`](/CONTRIBUTING.md) for ways to get started, as well as more detailed instructions on setting up the repository.
 
 Please adhere to this project's [`code of conduct`](/CODE_OF_CONDUCT.md).
 
