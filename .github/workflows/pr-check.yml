@@ -61,7 +61,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Backend Setup
+      - name: Setup
         working-directory: ./packages/backend
         uses: actions/setup-node@v2
         with:
@@ -69,11 +69,11 @@ jobs:
           cache: 'yarn'
         run:
           yarn install --prefer-offline --frozen-lockfile
-      - name: Build Backend
+      - name: Build
         working-directory: ./packages/backend
         run:
           yarn build
-      - name: Test Backend
+      - name: Test
         working-directory: ./packages/backend
         run:
           yarn test
@@ -85,7 +85,7 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - name: Frontend Setup
+      - name: Setup
         working-directory: ./packages/frontend
         uses: actions/setup-node@v2
         with:
@@ -93,11 +93,11 @@ jobs:
           cache: 'yarn'
         run:
           yarn install --prefer-offline --frozen-lockfile
-      - name: Test Frontend
+      - name: Test
         working-directory: ./packages/frontend
         run:
           yarn test
-      - name: Build Frontend
+      - name: Build
         working-directory: ./packages/frontend
         run:
           yarn build
