@@ -100,8 +100,6 @@ export interface operations {
           'application/json': components['schemas']['HouseResponseDto'];
         };
       };
-      /** user does not have a house */
-      404: unknown;
     };
   };
   HouseController_joinHouse: {

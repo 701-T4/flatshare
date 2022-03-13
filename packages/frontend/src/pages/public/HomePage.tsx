@@ -1,50 +1,20 @@
-import { Button, Spacer, Text } from '@nextui-org/react';
-import React, { useState, useEffect } from 'react';
-import { useApi } from '../../hooks/useApi';
-import { useAuth } from '../../hooks/useAuth';
-import ShareLinkModal from '../../components/ShareLinkModal';
 import { LinkIcon } from '@heroicons/react/outline';
-import HouseConflictModal from '../../components/HouseConflictModal';
+import { Button, Spacer, Text } from '@nextui-org/react';
+import React, { useState } from 'react';
+import ShareLinkModal from '../../components/ShareLinkModal';
+import { useAuth } from '../../hooks/useAuth';
 
-interface HomePageProps {
-  alreadyInFlat: boolean;
-}
+interface HomePageProps {}
 
-const HomePage: React.FC<HomePageProps> = ({
-  alreadyInFlat,
-}: HomePageProps) => {
+const HomePage: React.FC<HomePageProps> = () => {
   const { user } = useAuth();
   const [visible, setVisible] = useState(false);
   const onClick = () => {
     setVisible(true);
   };
 
-  // TODO: call api endpoint
-  const joinHouse = () => {
-    if (localStorage.getItem('code')) {
-      console.log('user added to the house');
-    }
-  };
-  useEffect(() => {
-    joinHouse();
-  }, []);
-
-  const [conflictVisible, conflictsetVisible] = useState(alreadyInFlat);
-
-  // const { data } = useApi('/api/v1/ping', {
-  //   method: 'get',
-  // });
-  // if (data) {
-  //   const { env, time, user } = data;
-  //   console.log({ env, time, user });
-  // }
-
   return (
     <div>
-      <HouseConflictModal
-        visible={conflictVisible}
-        setVisible={conflictsetVisible}
-      />
       <Text h1> Hello </Text>
       <p>{user?.displayName}</p>
       <Button size="sm">Small</Button>

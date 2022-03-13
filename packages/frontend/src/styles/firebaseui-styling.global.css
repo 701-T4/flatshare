@@ -1,0 +1,16 @@
+.firebaseui-idp-button {
+  border-radius: 14px !important;
+  max-width: 100% !important;
+}
+
+.firebaseui-card-content {
+  padding: 0 !important;
+}
+
+.firebaseui-idp-text-long {
+  padding-left: 40px !important;
+}
+
+.firebaseui-idp-text-short {
+  padding-left: 40px !important;
+}
