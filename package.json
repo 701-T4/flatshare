@@ -14,7 +14,7 @@
   "scripts": {
     "build": "lerna run build",
     "prepare": "husky install",
-    "postinstall": "lerna bootstrap && yarn run license-report",
+    "postinstall": "lerna bootstrap && npm run license-report",
     "start": "lerna run --parallel start",
     "start:dev": "lerna run --parallel start:dev",
     "test": "lerna run --parallel test",
