@@ -3,6 +3,7 @@
   "private": true,
   "devDependencies": {
     "@wbmnky/license-report-generator": "^2.1.3",
+    "dos2unix-cli": "^1.0.1",
     "husky": "^7.0.4",
     "lerna": "^4.0.0",
     "lint-staged": "^12.3.4",
@@ -20,6 +21,6 @@
     "test": "lerna run --parallel test",
     "start:docker": "docker-compose -f docker-compose.yaml up",
     "test:docker": "docker-compose -f docker-compose.override.yaml up",
-    "license-report": "./node_modules/.bin/license-report-generator --table true --out-file LICENSE-3RD-PARTY.md --with-dev-dependencies true && lerna run --parallel license-report"
+    "license-report": "yarn dos2unix ./node_modules/@wbmnky/license-report-generator/src/cli.ts && yarn license-report-generator --table true --out-file LICENSE-3RD-PARTY.md --with-dev-dependencies true && lerna run --parallel license-report"
   }
 }
