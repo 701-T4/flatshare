@@ -20,6 +20,6 @@
     "test": "lerna run --parallel test",
     "start:docker": "docker-compose -f docker-compose.yaml up",
     "test:docker": "docker-compose -f docker-compose.override.yaml up",
-    "license-report": "yarn license-report-generator --table true --out-file LICENSE-3RD-PARTY.md --with-dev-dependencies true && lerna run --parallel license-report"
+    "license-report": "./node_modules/.bin/license-report-generator --table true --out-file LICENSE-3RD-PARTY.md --with-dev-dependencies true && lerna run --parallel license-report"
   }
 }

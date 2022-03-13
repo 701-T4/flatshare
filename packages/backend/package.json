@@ -18,7 +18,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
-    "license-report": "yarn license-report-generator --table true --out-file LICENSE-3RD-PARTY.md --with-dev-dependencies true"
+    "license-report": "./node_modules/.bin/license-report-generator --table true --out-file LICENSE-3RD-PARTY.md --with-dev-dependencies true"
   },
   "dependencies": {
     "@nestjs/common": "^8.0.0",
