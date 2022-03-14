@@ -49,7 +49,7 @@ describe('HouseController', () => {
       firebaseId: userToken.uid,
     } as UserDocument);
 
-    expect(() => controller.getHouse(userToken)).rejects.toThrow(
+    expect(() => controller.get(userToken)).rejects.toThrow(
       new HttpException('user is not in a house', HttpStatus.NO_CONTENT),
     );
   });

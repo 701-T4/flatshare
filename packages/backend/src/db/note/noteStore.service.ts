@@ -25,8 +25,13 @@ export class NoteStoreService {
     return this.noteModel.find().exec();
   }
 
-  async findAllByHouse(id: string): Promise<NoteDocument[]> {
-    return this.noteModel.find({ 'house._id': { $eq: id } }).exec();
+  async findAllByHouse(
+    houseId: string | Mongoose.Types.ObjectId,
+  ): Promise<NoteDocument[]> {
+    return this.noteModel
+      .find()
+      .populate({ path: 'house', match: { _id: houseId } })
+      .exec();
   }
 
   async update(
@@ -36,7 +41,7 @@ export class NoteStoreService {
     return this.noteModel.findOneAndUpdate({ _id: id }, updateNoteModel).exec();
   }
 
-  async delete(id: string) {
+  async delete(id: string): Promise<NoteDocument> {
     return this.noteModel
       .findByIdAndRemove({
         _id: id,

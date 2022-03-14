@@ -171,8 +171,6 @@ const fetcher = (
 ) => {
   return async (url: string) => {
     const bearerValue = await bearer;
-    console.log(bearerValue);
-
     const request = new URL(getUrl(url));
     if (queryParams) {
       Object.keys(queryParams).forEach((key) => {
