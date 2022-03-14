@@ -35,10 +35,25 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
     },
   ];
   const [adhocPastBillIds, setAdhocPastBillIds] = useState([2, 4]);
+  const [newBill, setNewBill] = useState(false);
 
   return (
     <Page>
-      <div className="flex flex-col gap-4">
+      <Button
+        className="w-16 my-3 bg-teal-500"
+        onClick={() => (newBill ? setNewBill(false) : setNewBill(true))}
+      >
+        New Bill
+      </Button>
+      {newBill && (
+        <UpcomingTask
+          title="New Bill"
+          dueString="1"
+          twColor={UpcomingTask.Variation.red}
+          type="Bill"
+        />
+      )}
+      <div className="flex flex-col gap-4 pt-10">
         <UnderlinedText colorClasses="bg-gray-800">
           <div className="text-lg font-semibold">Upcoming Bills</div>
         </UnderlinedText>
