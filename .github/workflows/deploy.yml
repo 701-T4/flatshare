@@ -34,5 +34,5 @@ jobs:
         env:
           HD_PING_TEXT: "prod"
           HD_DATABASE_URL: ${{secrets.DATABASE_URI}}
-          HD_FIREBASE_SERVICE_ACCOUNT: ${{secrets.FIREBASE_KEY}}
+          HD_FIREBASE_SERVICE_ACCOUNT: ${{secrets.FIREBASE_SERVICE_ACCOUNT}}
           HD_PORT: 80
