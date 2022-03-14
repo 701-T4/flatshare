@@ -3,8 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@headlessui/react": "^1.5.0",
     "@heroicons/react": "^1.0.6",
     "@nextui-org/react": "^1.0.2-beta.4",
+    "@popperjs/core": "^2.11.2",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^12.0.0",
     "@testing-library/user-event": "^13.2.1",
@@ -19,6 +21,7 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "react-firebaseui": "^6.0.0",
+    "react-popper": "^2.2.5",
     "react-router-dom": "^6.2.2",
     "react-scripts": "5.0.0",
     "swr": "^1.2.2",
@@ -32,7 +35,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "generate:api-types": "npx openapi-typescript http://localhost:4200/api-json --output ./src/types/api-schema.ts",
-    "generate": "run-p generate:*"
+    "generate": "run-p generate:*",
+    "license-report": "yarn licenses generate-disclaimer > LICENSE-3RD-PARTY.md"
   },
   "eslintConfig": {
     "extends": [

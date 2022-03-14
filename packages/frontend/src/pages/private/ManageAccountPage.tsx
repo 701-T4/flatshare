@@ -29,7 +29,7 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = () => {
       // if the users already joined a house, go to the home.
       navigate('/home');
     }
-  }, [data]);
+  }, [data, navigate]);
 
   return (
     <div className="h-screen overflow-y-auto bg-gradient-to-b from-land_page_bg_start to-land_page_bg_end">
