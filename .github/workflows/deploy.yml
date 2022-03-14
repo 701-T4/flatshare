@@ -16,6 +16,6 @@ jobs:
           heroku_email: "jcha686@aucklanduni.ac.nz"
           appdir: "packages/backend"
         env:
-          PING_TEXT: "prod"
-          DATABASE_URI: ${{secrets.DATABASE_URI}}
-          PORT: 80
+          HD_PING_TEXT: "prod"
+          HD_DATABASE_URI: ${{secrets.DATABASE_URI}}
+          HD_PORT: 80
