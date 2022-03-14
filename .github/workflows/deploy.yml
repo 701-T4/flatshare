@@ -1,0 +1,54 @@
+name: Deployment
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  frontend:
+    name: Front-End
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://flat-split.web.app
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Setup
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'yarn'
+      - name: Build
+        working-directory: packages/frontend
+        run: yarn install --prefer-offline --frozen-lockfile && yarn build
+        env:
+          REACT_APP_ENDPOINT: ${{ secrets.REACT_APP_ENDPOINT }}
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
+          projectId: flat-split
+          channelId: live
+          entrypoint: packages/frontend
+
+  backend:
+    name: Back-End
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://flat-share-api.herokuapp.com
+
+    steps:
+      - uses: actions/checkout@v2
+      - uses: akhileshns/heroku-deploy@v3.12.12
+        with:
+          heroku_api_key: ${{secrets.HEROKU_API_KEY}}
+          heroku_app_name: "flat-share-api"
+          heroku_email: "jcha686@aucklanduni.ac.nz"
+          appdir: "packages/backend"
+        env:
+          HD_PING_TEXT: "prod"
+          HD_DATABASE_URL: ${{secrets.DATABASE_URI}}
+          HD_FIREBASE_SERVICE_ACCOUNT: ${{secrets.FIREBASE_SERVICE_ACCOUNT}}
+          HD_PORT: 80

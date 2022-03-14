@@ -15,7 +15,6 @@ jobs:
   Analyze:
     name: Analyze
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || !github.event.pull_request.draft }}
 
     permissions:
       actions: read
@@ -57,7 +56,6 @@ jobs:
 
   Backend:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || !github.event.pull_request.draft }}
 
     steps:
       - uses: actions/checkout@v2
@@ -81,7 +79,6 @@ jobs:
 
   Frontend:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || !github.event.pull_request.draft }}
 
     steps:
       - uses: actions/checkout@v2
