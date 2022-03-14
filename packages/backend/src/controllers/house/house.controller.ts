@@ -53,10 +53,10 @@ export class HouseController {
     await this.userStoreService.updateByFirebaseId(user.uid, {
       house: house._id,
     });
-    let userSet: UserResponseDto[];
+    let userSet: Array<UserResponseDto> = [];
     let userDto: UserResponseDto;
     userDto = {
-      house: owner.house.toString(),
+      house: house.id,
       firebaseId: owner.firebaseId,
     };
     userSet.push(userDto);
@@ -83,7 +83,7 @@ export class HouseController {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
     if (userDoc.house != undefined) {
       const house = await this.houseStoreService.findOne(userDoc.house);
-      let userSet: UserResponseDto[];
+      let userSet: Array<UserResponseDto> = [];
       for (var id of house.users) {
         const user = await this.userStoreService.findOne(id);
         let userDto: UserResponseDto;
