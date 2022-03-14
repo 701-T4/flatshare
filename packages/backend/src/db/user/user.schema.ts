@@ -18,7 +18,7 @@ export class User {
 export const UserSchema = SchemaFactory.createForClass(User);
 
 export class UserModel {
-  name?: string;
+  name: string;
   house?: Types.ObjectId;
   firebaseId: string;
 }
