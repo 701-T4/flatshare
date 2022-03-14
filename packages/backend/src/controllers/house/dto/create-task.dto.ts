@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 import { TaskModel } from '../../../db/task/task.schema';
 
 export class CreateTaskDto extends TaskModel {
@@ -8,13 +8,13 @@ export class CreateTaskDto extends TaskModel {
   @ApiProperty()
   readonly description: string;
 
-  @ApiProperty({ required: false })
+  @ApiPropertyOptional()
   readonly last_completed: Date;
 
   @ApiProperty()
   readonly due_date: Date;
 
-  @ApiProperty({ required: false })
+  @ApiPropertyOptional()
   readonly interval: number;
 
   @ApiProperty()
