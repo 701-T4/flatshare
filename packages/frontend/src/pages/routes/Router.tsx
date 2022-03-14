@@ -1,36 +1,29 @@
-import React, { useEffect } from 'react';
+import React, { useMemo } from 'react';
+import { createPortal } from 'react-dom';
+import { useAuth } from '../../hooks/useAuth';
+import { useIsLoading } from '../../hooks/useFullLoader';
+import LoaderPage from '../public/LoaderPage';
 import AuthenticatedRoutes from './AuthenticatedRoutes';
 import UnauthenticatedRoutes from './UnauthenticatedRoutes';
-import { getAuth } from 'firebase/auth';
-import { useAuth } from '../../hooks/useAuth';
 
 interface RouterProps {}
 
 const Router: React.FC<RouterProps> = () => {
-  const { authLoaded, setAuthLoaded, setUser, signedIn } = useAuth();
+  const { signedIn, authLoaded } = useAuth();
 
-  useEffect(() => {
-    // returns function to stop the listener
-    const clearListener = getAuth().onAuthStateChanged((user) => {
-      setUser(user);
-      setAuthLoaded(true);
-    });
-    return () => {
-      clearListener();
-    };
-  }, [setAuthLoaded, setUser]);
+  const { loadingCount } = useIsLoading();
 
-  console.log({ authLoaded, signedIn });
+  const displayLoading = useMemo(
+    () => loadingCount !== 0 || !authLoaded,
+    [loadingCount, authLoaded],
+  );
 
-  if (!authLoaded) {
-    return null;
-  }
-
-  if (!signedIn) {
-    return <UnauthenticatedRoutes />;
-  }
-
-  return <AuthenticatedRoutes />;
+  return (
+    <>
+      {displayLoading ? createPortal(<LoaderPage />, document.body) : <></>}{' '}
+      {signedIn ? <AuthenticatedRoutes /> : <UnauthenticatedRoutes />}
+    </>
+  );
 };
 
 export default Router;
