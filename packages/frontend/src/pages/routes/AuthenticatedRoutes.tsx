@@ -7,6 +7,7 @@ import { HouseContextProvider, useHouse } from '../../hooks/useHouse';
 import DashboardPage from '../private/DashboardPage';
 import ManageAccountPage from '../private/ManageAccountPage';
 import BillSplittingPage from '../private/BillSplittingPage';
+import BillDetailPage from '../private/BillDetailPage';
 
 interface AuthenticatedRoutesProps {}
 
@@ -28,7 +29,10 @@ const AuthenticatedRoutes: React.FC<AuthenticatedRoutesProps> = () => {
   return (
     <Routes>
       <Route path="dashboard" element={<DashboardPage />} />
-      <Route path="bills" element={<BillSplittingPage />} />
+      <Route path="bills">
+        <Route index element={<BillSplittingPage />}></Route>
+        <Route path=":id" element={<BillDetailPage />} />
+      </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   );
