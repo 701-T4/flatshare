@@ -171,7 +171,7 @@ export class HouseController {
       if (house != undefined) {
         const tasks = await this.taskStoreService.findAll();
         const tasksForHouse = tasks.filter((task) =>
-          task.house.equals(house.id),
+          task.house.equals(house._id),
         );
 
         return {
