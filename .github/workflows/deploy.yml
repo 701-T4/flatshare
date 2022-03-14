@@ -10,7 +10,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - name: Build
-        working-directory: ./packages/front-end
+        working-directory: packages/frontend
         run: yarn install && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
