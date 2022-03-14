@@ -1,5 +1,13 @@
-import { Controller, Get, Post, Body } from '@nestjs/common';
 import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  HttpException,
+  HttpStatus,
+} from '@nestjs/common';
+import {
+  ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
@@ -23,20 +31,25 @@ export class UsersController {
 
   @Post()
   @ApiOperation({
-    summary: 'create a new user resource',
+    summary: 'Create a new user resource',
     description: 'User must be linked to a firebase ID',
   })
   @ApiCreatedResponse({
     description: 'User successfully created',
     type: UserResponseDto,
   })
+  @ApiBadRequestResponse({ description: 'no user name provided' })
   async create(@Body() createUserDto: CreateUserDto): Promise<UserResponseDto> {
     const userDoc = await this.userStoreService.create(createUserDto);
     const houseDoc = await this.houseStoreService.findOne(userDoc.house);
+    const userName = userDoc?.name && createUserDto.name;
+    if (!userName) {
+      throw new HttpException('no user name provided', HttpStatus.NO_CONTENT);
+    }
     return {
-      name: userDoc.name,
+      name: userName,
       firebaseId: userDoc.firebaseId,
-      house: houseDoc.code,
+      house: houseDoc?.code,
     };
   }
 
