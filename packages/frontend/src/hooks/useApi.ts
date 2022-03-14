@@ -1,4 +1,5 @@
 import { getAuth } from 'firebase/auth';
+import { useCallback } from 'react';
 import useSWR from 'swr';
 import { paths } from '../types/api-schema';
 
@@ -60,18 +61,50 @@ export const useApi = <
     ...options
   }: UseApiArgs<TUrl, TMethod, TBodyContentType, TResponseContentType> = {},
 ) => {
-  const bearer = getAuth().currentUser?.getIdToken();
   const { data, error, ...rest } = useSWR<
     // @ts-ignore
     paths[TUrl][TMethod]['responses'][200]['content'][TResponseContentType],
     any
   >(
     substitutePathParams(url, pathParams),
-    fetcher({ method, parser, ...options }, bearer),
+    fetcher({ method, parser, ...options }),
   );
   const loading = !data && !error;
 
   return { data, error, ...rest, loading };
+};
+
+export const useApiMutation = <
+  TUrl extends keyof paths,
+  TMethod extends keyof paths[TUrl],
+  TBodyContentType extends string = 'application/json',
+  TResponseContentType extends string = 'application/json',
+>(
+  url: TUrl,
+  {
+    method,
+    parser = (res) => res.json(),
+    pathParams,
+    ...options
+  }: UseApiArgs<TUrl, TMethod, TBodyContentType, TResponseContentType> = {},
+) => {
+  const fn = useCallback(
+    ({
+      pathParams,
+      ...newOptions
+    }: UseApiArgs<TUrl, TMethod, TBodyContentType, TResponseContentType>) => {
+      const newBody = JSON.stringify(newOptions.body ?? options.body ?? {});
+      return fetcher({
+        method,
+        parser,
+        ...{ ...options, ...newOptions },
+        body: newBody,
+      })(substitutePathParams(url, pathParams));
+    },
+    [method, options, parser, url],
+  );
+
+  return fn;
 };
 
 export const getUrl = (url: string) => {
@@ -93,11 +126,9 @@ export const useUntypedApi = (
   url: string,
   { parser, pathParams, method, ...options }: UseApiArgs<any, any, any, any>,
 ) => {
-  const bearer = getAuth().currentUser?.getIdToken();
-
   const { data, error, ...rest } = useSWR(
     substitutePathParams(url, pathParams),
-    fetcher({ method, parser, ...options }, bearer),
+    fetcher({ method, parser, ...options }),
   );
   const loading = !data && !error;
 
@@ -106,9 +137,9 @@ export const useUntypedApi = (
 
 /**
  * Take a URL with path parameters, like /api/vi/{id}, and substitute the path
- * parameters with the params array.
+ * parameters with the params record.
  *
- * @example substitutePathParams("/api/{id}", [3]) // => "/api/3"
+ * @example substitutePathParams("/api/{id}", {id: 3}) // => "/api/3"
  */
 export const substitutePathParams = (
   url: string,
@@ -130,19 +161,20 @@ export const substitutePathParams = (
   return urlCopy;
 };
 
-const fetcher = (
-  {
-    headers,
-    method,
-    body,
-    queryParams,
-    parser,
-    bodyContentType,
-  }: UseApiArgs<any, any, any, any>,
-  bearer?: Promise<string>,
-) => {
+const fetcher = ({
+  headers,
+  method,
+  body,
+  queryParams,
+  parser,
+  bodyContentType,
+}: UseApiArgs<any, any, any, any>) => {
   return async (url: string) => {
-    const bearerValue = await bearer;
+    const currentUser = getAuth().currentUser;
+
+    const Authorization = currentUser
+      ? 'Bearer ' + (await currentUser.getIdToken())
+      : '';
 
     const request = new URL(getUrl(url));
     if (queryParams) {
@@ -155,7 +187,7 @@ const fetcher = (
       method,
       body,
       headers: {
-        Authorization: `Bearer ${bearerValue}`,
+        Authorization,
         'Content-Type': bodyContentType ?? 'application/json',
         ...headers,
       },

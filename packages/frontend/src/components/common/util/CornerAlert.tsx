@@ -1,5 +1,5 @@
 import { XIcon } from '@heroicons/react/outline';
-import React, { useContext, useEffect } from 'react';
+import React, { useCallback, useContext, useEffect } from 'react';
 
 interface AlertProps {
   message?: string;
@@ -49,22 +49,25 @@ export const CornerAlertManager: React.FC = ({ children }) => {
     mode: 'info',
   });
 
-  const resetAlert = () => {
+  const resetAlert = useCallback(() => {
     setState({
       icon: <></>,
       message: '',
       mode: 'info',
     });
-  };
+  }, []);
 
-  const create = (p: AlertProps, autoTimeout?: number) => {
-    setState(p);
-    if (autoTimeout) {
-      setTimeout(() => {
-        resetAlert();
-      }, autoTimeout);
-    }
-  };
+  const create = useCallback(
+    (p: AlertProps, autoTimeout?: number) => {
+      setState(p);
+      if (autoTimeout) {
+        setTimeout(() => {
+          resetAlert();
+        }, autoTimeout);
+      }
+    },
+    [resetAlert],
+  );
 
   return (
     <CornerAlertContext.Provider value={{ createAlert: create, resetAlert }}>

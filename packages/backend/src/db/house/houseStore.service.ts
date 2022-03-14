@@ -9,7 +9,9 @@ export class HouseStoreService {
   constructor(
     @InjectModel(House.name)
     private readonly HouseModel: Model<HouseDocument>,
-  ) {}
+  ) {
+    Mongoose.set('sanitizeFilter', true);
+  }
 
   async create(createdHouseModel: HouseModel): Promise<HouseDocument> {
     return this.HouseModel.create(createdHouseModel);

@@ -4,20 +4,25 @@
   "devDependencies": {
     "husky": "^7.0.4",
     "lerna": "^4.0.0",
-    "lint-staged": "^12.3.4",
+    "lint-staged": "^12.3.5",
+    "npm-run-all": "^4.1.5",
     "prettier": "^2.5.1"
   },
   "lint-staged": {
-    "*.{js,css,md,ts,jsx,tsx}": "prettier --write"
+    "*.{js,css,md,ts,jsx,tsx}": "prettier --write",
+    "*.ts": "eslint --fix --max-warnings 0"
   },
   "scripts": {
     "build": "lerna run build",
     "prepare": "husky install",
-    "postinstall": "lerna bootstrap",
     "start": "lerna run --parallel start",
     "start:dev": "lerna run --parallel start:dev",
     "test": "lerna run --parallel test",
     "start:docker": "docker-compose -f docker-compose.yaml up",
-    "test:docker": "docker-compose -f docker-compose.override.yaml up"
+    "test:docker": "docker-compose -f docker-compose.override.yaml up",
+    "postinstall": "run-s setup:* && yarn run license-report",
+    "setup:npm": "lerna bootstrap",
+    "setup:git": "git config lfs.locksverify false",
+    "license-report": "yarn licenses generate-disclaimer > LICENSE-3RD-PARTY.md && lerna run --parallel license-report"
   }
 }
