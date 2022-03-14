@@ -1,7 +1,9 @@
+import { InformationCircleIcon } from '@heroicons/react/outline';
 import { Button, Input, Modal, Text } from '@nextui-org/react';
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { HouseServices } from '../../services/HouseService';
+import { useApiMutation } from '../../hooks/useApi';
+import { useAlert } from '../common/util/CornerAlert';
 
 interface CreateHouseModalProps {
   joinVisible: boolean;
@@ -18,10 +20,20 @@ const JoinHouseModal: React.FC<CreateHouseModalProps> = ({
   const [houseCode, setHouseCode] = useState('');
   const navigate = useNavigate();
 
+  const joinHouse = useApiMutation('/api/v1/house', { method: 'put' });
+
+  const { createAlert, resetAlert } = useAlert();
+
   async function handleJoiningHouse() {
     setJoinVisible(false);
-    await HouseServices.joinHouse(houseCode);
+    createAlert({
+      icon: <InformationCircleIcon />,
+      message: 'Joining the house...',
+      mode: 'info',
+    });
+    await joinHouse({ body: { houseCode } });
 
+    resetAlert();
     //navigate the users to home after joining a house
     navigate('/home');
   }
@@ -41,6 +53,7 @@ const JoinHouseModal: React.FC<CreateHouseModalProps> = ({
         </Modal.Header>
         <Modal.Body>
           <Input
+            aria-label="House Code"
             clearable
             bordered
             fullWidth
