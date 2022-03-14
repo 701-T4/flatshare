@@ -18,7 +18,7 @@ jobs:
         working-directory: packages/frontend
         run: yarn install --prefer-offline --frozen-lockfile && yarn build
         env:
-          REACT_APP_ENDPOINT: "https://flat-share-api.herokuapp.com/"
+          REACT_APP_ENDPOINT: "https://flat-share-api.herokuapp.com"
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
