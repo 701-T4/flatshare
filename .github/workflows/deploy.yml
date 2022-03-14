@@ -1,8 +1,6 @@
 name: Deployment
 on:
-  push:
-    branches:
-      - main
+  push
 
 jobs:
   backend:
