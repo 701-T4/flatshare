@@ -24,6 +24,9 @@ import { HouseUtil } from './house.util';
 import { User } from '../../util/user.decorator';
 import { DecodedIdToken } from 'firebase-admin/auth';
 import { JoinHouseDto } from './dto/join-house.dto';
+import HouseTasksResponseDto from './dto/house-tasks-response.dto';
+import { CreateTaskDto } from './dto/create-task.dto';
+import { TaskStoreService } from '../../db/task/taskStore.service';
 
 @ApiTags('houses')
 @Controller('/api/v1/house')
@@ -32,6 +35,7 @@ export class HouseController {
   constructor(
     private readonly houseStoreService: HouseStoreService,
     private readonly userStoreService: UserStoreService,
+    private readonly taskStoreService: TaskStoreService,
     private readonly houseUtil: HouseUtil,
   ) {}
 
@@ -118,5 +122,64 @@ export class HouseController {
         name: house.name,
       };
     } else throw new HttpException('code is invalid', HttpStatus.BAD_REQUEST);
+  }
+
+  @Post('/tasks')
+  @ApiOperation({ summary: 'create a new task' })
+  @ApiCreatedResponse({
+    description: 'task created successfully',
+  })
+  async createTask(
+    @Body() createTaskDto: CreateTaskDto,
+    @User() user: DecodedIdToken,
+  ) {
+    const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
+
+    if (userDoc.house != undefined) {
+      const house = await this.houseStoreService.findOne(userDoc.house);
+
+      if (house != undefined) {
+        createTaskDto.assigned = this.houseUtil.selectRandomUser(
+          createTaskDto.pool,
+        );
+        createTaskDto.house = house._id;
+        await this.taskStoreService.create(createTaskDto);
+
+        // 201 code will be returned by default
+        return;
+      }
+    }
+
+    throw new HttpException('user is not in a house', HttpStatus.BAD_REQUEST);
+  }
+
+  @Get('/tasks')
+  @ApiOperation({ summary: 'get the current tasks from a house' })
+  @ApiOkResponse({
+    description: 'tasks retrieved successfully',
+    type: HouseTasksResponseDto,
+  })
+  @ApiBadRequestResponse({ description: 'user is not in a house' })
+  async getTasksForHouse(
+    @User() user: DecodedIdToken,
+  ): Promise<HouseTasksResponseDto | null> {
+    const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
+
+    if (userDoc.house != undefined) {
+      const house = await this.houseStoreService.findOne(userDoc.house);
+
+      if (house != undefined) {
+        const tasks = await this.taskStoreService.findAll();
+        const tasksForHouse = tasks.filter((task) =>
+          task.house.equals(house.id),
+        );
+
+        return {
+          tasks: tasksForHouse,
+        };
+      }
+    }
+
+    throw new HttpException('user is not in a house', HttpStatus.BAD_REQUEST);
   }
 }
