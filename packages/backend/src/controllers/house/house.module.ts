@@ -10,7 +10,5 @@ import { FirebaseAuthStrategy } from 'src/guards/firebase.auth';
   providers: [HouseUtil, FirebaseAuthStrategy],
 })
 export class HouseModule {
-  constructor() {
-    console.log(process.env.DATABASE_URL);
-  }
+  constructor() {}
 }
