@@ -1,8 +1,10 @@
 import { getAuth } from 'firebase/auth';
-import React from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
+import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import cx from 'classnames';
-import { Spacer } from '@nextui-org/react';
+import { Spacer, Switch } from '@nextui-org/react';
+import { v4 as uuidv4 } from 'uuid';
 
 interface BillDetailPageProps {}
 
@@ -15,6 +17,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
         'GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!',
       owner: 'firebaseID',
       due: 1647215067300,
+      completed: true,
       users: [
         {
           id: 'firebaseId fassdas',
@@ -45,6 +48,8 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
   ];
 
   const { id } = useParams();
+  const [isEdit, setIsEdit] = useState(false);
+  const [image, setImage] = useState<File | null | undefined>(undefined);
   const auth = getAuth();
   const userId = auth.currentUser?.uid;
   console.log([id, ' in Bill Detail Page']);
@@ -55,11 +60,21 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
 
   const isOwner = userId === bill?.owner;
 
-  const onUpload = async (userId: string) => {};
+  const onUpload = async (userId: string) => {
+    // Create a root reference
+    const storage = getStorage();
+    const fileName = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
+    const storageRef = ref(storage, fileName);
+    uploadBytes(storageRef, image!).then((snapshot) => {
+      console.log(snapshot.ref.name);
+    });
+  };
 
   const toggleComplete = async () => {};
 
-  return (
+  return isEdit ? (
+    <></>
+  ) : (
     <div className="pt-10 px-10 md:px-20">
       <div className="shadow-lg rounded-b-xl">
         <div className="flex flex-col h-full">
@@ -70,24 +85,17 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
             )}
           >
             {bill?.name}
-            <button
-              className={
-                'text-white flex justify-center items-center transition-all bg-teal-500 hover:bg-teal-400 rounded-full px-4 py-2 font-medium h-fit'
-              }
-              onClick={() => toggleComplete()}
-            >
-              Complete
-            </button>
+            <Switch className="self-end mb-1 mr-5"></Switch>
           </div>
           <div className="rounded-b-xl px-4 lg:px-8 py-4 flex flex-col items-center gap-y-1 bg-gray-800 h-full">
             <div className="flex flex-col lg:flex-row justify-between items-start">
-              <div className="flex flex-col lg:w-1/2">
+              <div className="flex flex-col px-2 lg:w-1/2">
                 <DetailRow title="Description" value={bill?.description!} />
                 <Spacer y={2} />
                 <DetailRow title="Due" value={bill?.due?.toString()!} />
                 <Spacer y={2} />
               </div>
-              <div className="flex flex-col lg:w-1/2">
+              <div className="flex flex-col px-2 lg:w-1/2">
                 <div className="font-bold text-3xl text-teal-500">Payment</div>
                 <div className="flex flex-col">
                   {bill?.users.map((u) => (
@@ -102,18 +110,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                         <div className="font-bold text-base md:text-2xl text-white">
                           {u.paid ? <>Paid</> : <>${u.amount}</>}
                         </div>
-                        {userId === u.id ? (
-                          <button
-                            className={
-                              'text-white flex justify-center items-center transition-all bg-teal-500 hover:bg-teal-400 rounded-full px-4 py-2 font-medium h-fit'
-                            }
-                            onClick={() => onUpload(u.id)}
-                          >
-                            Upload
-                          </button>
-                        ) : (
-                          <div className=""></div>
-                        )}
+                        {userId === u.id ? <></> : <div className=""></div>}
                       </div>
                     </div>
                   ))}
@@ -123,6 +120,21 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
           </div>
         </div>
       </div>
+
+      <input
+        type={'file'}
+        onChange={(e) => {
+          setImage(e.currentTarget.files?.item(0));
+        }}
+      ></input>
+      <button
+        className={
+          'text-white flex justify-center items-center transition-all bg-teal-500 hover:bg-teal-400 rounded-full px-4 py-2 font-medium h-fit'
+        }
+        onClick={() => onUpload(userId!)}
+      >
+        Upload
+      </button>
     </div>
   );
 };
