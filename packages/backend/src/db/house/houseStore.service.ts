@@ -3,12 +3,15 @@ import { InjectModel } from '@nestjs/mongoose';
 import * as Mongoose from 'mongoose';
 import { Model } from 'mongoose';
 import { House, HouseDocument, HouseModel } from './house.schema';
+import UserResponseDto from 'src/controllers/users/dto/user-response.dto';
+import { UserDocument } from '../user/user.schema';
 
 @Injectable()
 export class HouseStoreService {
   constructor(
     @InjectModel(House.name)
     private readonly HouseModel: Model<HouseDocument>,
+    private readonly UserModel: Model<UserDocument>,
   ) {
     Mongoose.set('sanitizeFilter', true);
   }

@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import UserResponseDto from 'src/controllers/users/dto/user-response.dto';
 
 export default class HouseResponseDto {
   @ApiProperty({ required: false })
@@ -11,4 +12,6 @@ export default class HouseResponseDto {
   code: string;
   @ApiProperty({ required: false })
   owner: string;
+  @ApiProperty({ required: false })
+  users: UserResponseDto[];
 }

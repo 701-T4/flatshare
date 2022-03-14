@@ -19,6 +19,9 @@ export class House {
 
   @Prop({ type: Types.ObjectId, ref: 'User' })
   owner: Types.ObjectId;
+
+  @Prop()
+  users: Types.ObjectId[];
 }
 
 export const HouseSchema = SchemaFactory.createForClass(House);
@@ -29,4 +32,5 @@ export class HouseModel {
   readonly address: string;
   code: string;
   owner: Types.ObjectId;
+  users: Types.ObjectId[];
 }
