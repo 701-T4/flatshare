@@ -38,7 +38,7 @@ export class TaskModel {
   last_completed: Date;
   due_date: Date;
   interval: number;
-  assigned?: string;
-  pool?: string[];
+  assigned: string;
+  pool: string[];
   house?: Types.ObjectId;
 }
