@@ -6,6 +6,7 @@ import useFullLoader from '../../hooks/useFullLoader';
 import { HouseContextProvider, useHouse } from '../../hooks/useHouse';
 import DashboardPage from '../private/DashboardPage';
 import ManageAccountPage from '../private/ManageAccountPage';
+import TaskPage from '../private/TaskPage';
 
 interface AuthenticatedRoutesProps {}
 
@@ -27,6 +28,7 @@ const AuthenticatedRoutes: React.FC<AuthenticatedRoutesProps> = () => {
   return (
     <Routes>
       <Route path="dashboard" element={<DashboardPage />} />
+      <Route path="tasks" element={<TaskPage />} />
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   );
