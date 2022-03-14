@@ -9,9 +9,14 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
+      - name: Setup
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+          cache: 'yarn'
       - name: Build
         working-directory: packages/frontend
-        run: yarn install && yarn build
+        run: yarn install --prefer-offline --frozen-lockfile && yarn build
       - uses: FirebaseExtended/action-hosting-deploy@v0
         with:
           repoToken: "${{ secrets.GITHUB_TOKEN }}"
