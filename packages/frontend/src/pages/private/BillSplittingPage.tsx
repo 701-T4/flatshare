@@ -36,51 +36,69 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
     },
   ];
   const [adhocPastBillIds, setAdhocPastBillIds] = useState([2, 4]);
+  const [newBill, setNewBill] = useState(false);
 
   return (
     <Page>
       <div className="flex flex-col gap-4">
-        <NewBillCard />
-        <UnderlinedText colorClasses="bg-gray-800">
-          <div className="text-lg font-semibold">Upcoming Bills</div>
-        </UnderlinedText>
-        {adhocUpcomingBillIds.map((bill, index) => {
-          var amount;
-          for (let index in bill.users)
-            if (bill.users[index].id === user?.uid)
-              amount = bill.users[index].amount;
-
-          return (
-            <UpcomingTask
-              title={`${bill.name} - $${amount}`}
-              dueString={bill.due.toString()}
-              twColor={UpcomingTask.Variation.red}
-              type="Bill"
-              onCompleteClick={() => navigate('/bills/1')}
-            />
-          );
-        })}
-        <UnderlinedText className="pt-10" colorClasses="bg-gray-800">
-          <div className="text-lg font-semibold">Past Bills</div>
-        </UnderlinedText>
-        <div className="flex flex-col gap-4 mt-4 md:grid md:grid-cols-2">
-          {adhocPastBillIds.map((bill, index) => (
-            <UpcomingTask
-              title="Take out the Rubbish"
-              dueString="Done"
-              twColor={UpcomingTask.Variation.gray}
-              type="Bill"
-              completed
-            />
-          ))}
-        </div>
-
         <Button
-          className="w-16 mt-3 bg-gray-500"
-          onClick={() => setAdhocPastBillIds([...adhocPastBillIds, 0, 0, 0, 0])}
+          className="w-16 my-3 bg-teal-500"
+          onClick={() => (newBill ? setNewBill(false) : setNewBill(true))}
         >
-          Load More
+          New Bill
         </Button>
+        {newBill && (
+          <UpcomingTask
+            title="New Bill"
+            dueString="1"
+            twColor={UpcomingTask.Variation.red}
+            type="Bill"
+          />
+        )}
+        <div className="flex flex-col gap-4 pt-10">
+          <UnderlinedText colorClasses="bg-gray-800">
+            <div className="text-lg font-semibold">Upcoming Bills</div>
+          </UnderlinedText>
+          {adhocUpcomingBillIds.map((bill, index) => {
+            var amount;
+            for (let index in bill.users)
+              if (bill.users[index].id === user?.uid)
+                amount = bill.users[index].amount;
+
+            return (
+              <UpcomingTask
+                title={`${bill.name} - $${amount}`}
+                dueString={bill.due.toString()}
+                twColor={UpcomingTask.Variation.red}
+                type="Bill"
+                onCompleteClick={() => navigate('/bills/1')}
+              />
+            );
+          })}
+          <UnderlinedText className="pt-10" colorClasses="bg-gray-800">
+            <div className="text-lg font-semibold">Past Bills</div>
+          </UnderlinedText>
+          <div className="flex flex-col gap-4 mt-4 md:grid md:grid-cols-2">
+            {adhocPastBillIds.map((bill, index) => (
+              <UpcomingTask
+                title="Take out the Rubbish"
+                dueString="Done"
+                twColor={UpcomingTask.Variation.gray}
+                type="Bill"
+                completed
+              />
+            ))}
+          </div>
+
+          <Button
+            className="w-16 mt-3 bg-gray-500"
+            onClick={() =>
+              setAdhocPastBillIds([...adhocPastBillIds, 0, 0, 0, 0])
+            }
+          >
+            Load More
+          </Button>
+        </div>
       </div>
     </Page>
   );
