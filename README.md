@@ -28,7 +28,7 @@ For more detail, view `CONTRIBUTING.md`.
 
 ## Attributing third party dependencies
 
-All third party dependencies used in this project are attributed in the LICENSE-3RD-PARTY files. The files are generated automatically when there is an update to the dependecies used.
+All third party dependencies used in this project are attributed in the LICENSE-3RD-PARTY files. The files are generated automatically when there is an update to the dependencies used.
 
 To mannually generate a LICENSE-3RD-PARTY.md:
 Run `yarn run license-report`
