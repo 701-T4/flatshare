@@ -15,3 +15,7 @@ jobs:
           heroku_app_name: "flat-share-api"
           heroku_email: "jcha686@aucklanduni.ac.nz"
           appdir: "packages/backend"
+        env:
+          PING_TEXT: "prod"
+          DATABASE_URI: ${{secrets.DATABASE_URI}}
+          PORT: 80
