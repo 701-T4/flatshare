@@ -1,19 +1,10 @@
 import { Button, Text } from '@nextui-org/react';
-import { Link } from 'react-router-dom';
 import React from 'react';
-import { useApi } from '../../hooks/useApi';
+import { Link } from 'react-router-dom';
 
 interface LandingPageProps {}
 
 const LandingPage: React.FC<LandingPageProps> = () => {
-  const { data } = useApi('/api/v1/ping', {
-    method: 'get',
-  });
-  if (data) {
-    const { env, time } = data;
-    console.log({ env, time });
-  }
-
   return (
     <div className="h-screen overflow-y-auto bg-gradient-to-b from-land_page_bg_start to-land_page_bg_end">
       <div className="flex flex-row items-center justify-between p-12">
