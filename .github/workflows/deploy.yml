@@ -17,5 +17,5 @@ jobs:
           appdir: "packages/backend"
         env:
           HD_PING_TEXT: "prod"
-          HD_DATABASE_URI: ${{secrets.DATABASE_URI}}
+          HD_DATABASE_URL: ${{secrets.DATABASE_URI}}
           HD_PORT: 80
