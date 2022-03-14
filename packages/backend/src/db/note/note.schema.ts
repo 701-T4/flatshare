@@ -19,9 +19,6 @@ export class Note {
   @Prop()
   type: NoteContents;
 
-  @Prop({ type: Types.ObjectId, ref: 'User' })
-  owner: Types.ObjectId;
-
   @Prop({ type: Types.ObjectId, ref: 'House' })
   house: Types.ObjectId;
 }
@@ -32,6 +29,5 @@ export class NoteModel {
   readonly name: string;
   value: string;
   readonly type: NoteContents;
-  owner: Types.ObjectId;
   house: Types.ObjectId;
 }

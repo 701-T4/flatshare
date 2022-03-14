@@ -8,7 +8,6 @@ const mockNote = {
   name: 'Note #1',
   value: 'Value #1',
   type: NoteContents.PLAIN,
-  owner: null,
   house: null,
 };
 
@@ -21,14 +20,12 @@ describe('NoteStoreService', () => {
       name: 'Note #1',
       value: 'Value #1',
       type: NoteContents.PLAIN,
-      owner: null,
       house: null,
     },
     {
       name: 'Note #2',
       value: 'Value #2',
       type: NoteContents.PLAIN,
-      owner: null,
       house: null,
     },
   ];
@@ -72,7 +69,6 @@ describe('NoteStoreService', () => {
         name: 'Note #1',
         value: 'Value #1',
         type: NoteContents.PLAIN,
-        owner: null,
         house: null,
       }),
     );
@@ -80,7 +76,6 @@ describe('NoteStoreService', () => {
       name: 'Note #1',
       value: 'Value #1',
       type: NoteContents.PLAIN,
-      owner: null,
       house: null,
     });
     expect(newNote).toEqual(mockNote);

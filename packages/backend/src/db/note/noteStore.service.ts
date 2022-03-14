@@ -25,8 +25,8 @@ export class NoteStoreService {
     return this.noteModel.find().exec();
   }
 
-  async findAllByHouse(houseCode: string): Promise<NoteDocument[]> {
-    return this.noteModel.find({ 'house.code': { $eq: houseCode } }).exec();
+  async findAllByHouse(id: string): Promise<NoteDocument[]> {
+    return this.noteModel.find({ 'house._id': { $eq: id } }).exec();
   }
 
   async update(
