@@ -5,6 +5,7 @@ import UnderlinedText from '../../components/dashboard/GradientUnderlinedText';
 import { useAuth } from '../../hooks/useAuth';
 import { Button } from '@nextui-org/react';
 import { useNavigate } from 'react-router';
+import NewBillCard from '../../components/bill/NewBillCard';
 
 interface BillSplittingPageProps {}
 
@@ -39,6 +40,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
   return (
     <Page>
       <div className="flex flex-col gap-4">
+        <NewBillCard />
         <UnderlinedText colorClasses="bg-gray-800">
           <div className="text-lg font-semibold">Upcoming Bills</div>
         </UnderlinedText>
