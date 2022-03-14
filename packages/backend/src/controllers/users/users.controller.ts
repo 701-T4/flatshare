@@ -8,7 +8,6 @@ import {
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
-  ApiCreatedResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -34,7 +33,7 @@ export class UsersController {
     summary: 'Create a new user resource',
     description: 'User must be linked to a firebase ID',
   })
-  @ApiCreatedResponse({
+  @ApiBadRequestResponse({
     description: 'User successfully created',
     type: UserResponseDto,
   })
@@ -44,7 +43,7 @@ export class UsersController {
     const houseDoc = await this.houseStoreService.findOne(userDoc.house);
     const userName = userDoc?.name && createUserDto.name;
     if (!userName) {
-      throw new HttpException('no user name provided', HttpStatus.NO_CONTENT);
+      throw new HttpException('no user name provided', HttpStatus.BAD_REQUEST);
     }
     return {
       name: userName,
