@@ -8,6 +8,9 @@ jobs:
   frontend:
     name: Front-End
     runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://flat-split.web.app
 
     steps:
       - uses: actions/checkout@v2
@@ -32,6 +35,9 @@ jobs:
   backend:
     name: Back-End
     runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://flat-share-api.herokuapp.com
 
     steps:
       - uses: actions/checkout@v2
