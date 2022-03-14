@@ -3,6 +3,22 @@ on:
   push
 
 jobs:
+  frontend:
+    name: Front-End
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v2
+      - name: Build
+        working-directory: ./packages/front-end
+        run: yarn install && yarn build
+      - uses: FirebaseExtended/action-hosting-deploy@v0
+        with:
+          repoToken: "${{ secrets.GITHUB_TOKEN }}"
+          firebaseServiceAccount: "${{ secrets.FIREBASE_SERVICE_ACCOUNT }}"
+          projectId: flat-split
+          channelId: live
+
   backend:
     name: Back-End
     runs-on: ubuntu-latest
