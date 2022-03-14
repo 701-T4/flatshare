@@ -62,9 +62,7 @@ export class NoteController {
     type: [NoteResponseDto],
   })
   @ApiNoContentResponse({ description: 'no notes for house' })
-  async getNotes(
-    @User() user: DecodedIdToken,
-  ): Promise<NoteResponseDto[] | null> {
+  async get(@User() user: DecodedIdToken): Promise<NoteResponseDto[] | null> {
     return null;
   }
 }

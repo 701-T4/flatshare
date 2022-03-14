@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APIController } from './controllers/api.controller';
 import { UsersModule } from './controllers/users/users.module';
 import { HouseModule } from './controllers/house/house.module';
+import { NoteModule } from './controllers/note/note.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
 
@@ -18,6 +19,7 @@ import { PassportModule } from '@nestjs/passport';
     }),
     UsersModule,
     HouseModule,
+    NoteModule,
     MongooseModule.forRoot(process.env.DATABASE_URL),
     PassportModule,
   ],
