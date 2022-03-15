@@ -29,7 +29,7 @@ export class FirebaseAuthStrategy extends PassportStrategy(
         JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT) as ServiceAccount,
       );
     } else {
-      return cert('../../../../keys/firebase.json');
+      return cert('../../keys/firebase.json');
     }
   }
 
