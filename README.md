@@ -6,10 +6,10 @@
 <h4 align="center">Flat management made simple.</h4>
 
 <p align="center">
-  <img alt="GitHub" src="https://img.shields.io/github/license/701-T4/platform?style=flat-square">
-  <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/701-T4/platform/PR%20Check?label=tests&logo=github&style=flat-square">
-  <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/701-T4/platform?style=flat-square">
-  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/701-T4/platform?logo=github&style=flat-square">
+  <img alt="GitHub" src="https://img.shields.io/github/license/701-T4/flatshare?style=flat-square">
+  <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/701-T4/flatshare/PR%20Check?label=tests&logo=github&style=flat-square">
+  <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/701-T4/flatshare?style=flat-square">
+  <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/701-T4/flatshare?logo=github&style=flat-square">
 </p>
 
 <p align="center">
@@ -29,7 +29,7 @@
 
 <!--https://felixhayashi.github.io/ReadmeGalleryCreatorForGitHub/-->
 
-<img src="./resources/sc-1.png?raw=true" width="50%"></img><img src="./resources/sc-1.png?raw=true" width="50%"></img>
+<img src="./resources/sc-1.png?raw=true" width="50%" alt="dashboard screenshot"></img><img src="./resources/sc-1.png?raw=true" width="50%" alt="dashboard screenshot"></img>
 
 ## Key Features
 
