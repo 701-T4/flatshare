@@ -11,6 +11,9 @@ export class HouseUtil {
   }
 
   selectRandomUser(pool) {
-    return pool[Math.floor(randomInt(maxSafe) * pool.length)];
+    if (pool.length == 1) {
+      return pool[0];
+    }
+    return pool[randomInt(0, pool.length - 1)];
   }
 }

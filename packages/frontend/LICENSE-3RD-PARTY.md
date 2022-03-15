@@ -1175,6 +1175,31 @@ SOFTWARE.
 
 ---
 
+The following software may be included in this product: @popperjs/core. A copy of the source code may be downloaded from https://github.com/popperjs/popper-core.git. This software contains the following license and notice below:
+
+The MIT License (MIT)
+
+Copyright (c) 2019 Federico Zivolo
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of
+this software and associated documentation files (the "Software"), to deal in
+the Software without restriction, including without limitation the rights to
+use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of
+the Software, and to permit persons to whom the Software is furnished to do so,
+subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS
+FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER
+IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
+---
+
 The following software may be included in this product: @protobufjs/aspromise, @protobufjs/base64, @protobufjs/codegen, @protobufjs/eventemitter, @protobufjs/fetch, @protobufjs/float, @protobufjs/inquire, @protobufjs/path, @protobufjs/pool, @protobufjs/utf8. A copy of the source code may be downloaded from https://github.com/dcodeIO/protobuf.js.git (@protobufjs/aspromise), https://github.com/dcodeIO/protobuf.js.git (@protobufjs/base64), https://github.com/dcodeIO/protobuf.js.git (@protobufjs/codegen), https://github.com/dcodeIO/protobuf.js.git (@protobufjs/eventemitter), https://github.com/dcodeIO/protobuf.js.git (@protobufjs/fetch), https://github.com/dcodeIO/protobuf.js.git (@protobufjs/float), https://github.com/dcodeIO/protobuf.js.git (@protobufjs/inquire), https://github.com/dcodeIO/protobuf.js.git (@protobufjs/path), https://github.com/dcodeIO/protobuf.js.git (@protobufjs/pool), https://github.com/dcodeIO/protobuf.js.git (@protobufjs/utf8). This software contains the following license and notice below:
 
 Copyright (c) 2016, Daniel Wirtz All rights reserved.
@@ -4609,7 +4634,7 @@ SOFTWARE.
 
 ---
 
-The following software may be included in this product: babel-plugin-named-asset-import, babel-preset-react-app, confusing-browser-globals, eslint-config-react-app, prop-types, react-app-polyfill, react-dev-utils, react-error-overlay, react-scripts. A copy of the source code may be downloaded from https://github.com/facebook/create-react-app.git (babel-plugin-named-asset-import), https://github.com/facebook/create-react-app.git (babel-preset-react-app), https://github.com/facebook/create-react-app.git (confusing-browser-globals), https://github.com/facebook/create-react-app.git (eslint-config-react-app), https://github.com/facebook/prop-types.git (prop-types), https://github.com/facebook/create-react-app.git (react-app-polyfill), https://github.com/facebook/create-react-app.git (react-dev-utils), https://github.com/facebook/create-react-app.git (react-error-overlay), https://github.com/facebook/create-react-app.git (react-scripts). This software contains the following license and notice below:
+The following software may be included in this product: babel-plugin-named-asset-import, babel-preset-react-app, confusing-browser-globals, eslint-config-react-app, prop-types, react-app-polyfill, react-dev-utils, react-error-overlay, react-scripts, warning. A copy of the source code may be downloaded from https://github.com/facebook/create-react-app.git (babel-plugin-named-asset-import), https://github.com/facebook/create-react-app.git (babel-preset-react-app), https://github.com/facebook/create-react-app.git (confusing-browser-globals), https://github.com/facebook/create-react-app.git (eslint-config-react-app), https://github.com/facebook/prop-types.git (prop-types), https://github.com/facebook/create-react-app.git (react-app-polyfill), https://github.com/facebook/create-react-app.git (react-dev-utils), https://github.com/facebook/create-react-app.git (react-error-overlay), https://github.com/facebook/create-react-app.git (react-scripts), https://github.com/BerkeleyTrue/warning.git (warning). This software contains the following license and notice below:
 
 MIT License
 
@@ -13150,25 +13175,24 @@ you may at your option offer warranty protection in exchange for a fee.
    distribute such modifications or work under the terms of Section 1
    above, provided that you also meet all of these conditions:
 
+   a) You must cause the modified files to carry prominent notices
+   stating that you changed the files and the date of any change.
 
-    a) You must cause the modified files to carry prominent notices
-    stating that you changed the files and the date of any change.
+   b) You must cause any work that you distribute or publish, that in
+   whole or in part contains or is derived from the Program or any
+   part thereof, to be licensed as a whole at no charge to all third
+   parties under the terms of this License.
 
-    b) You must cause any work that you distribute or publish, that in
-    whole or in part contains or is derived from the Program or any
-    part thereof, to be licensed as a whole at no charge to all third
-    parties under the terms of this License.
-
-    c) If the modified program normally reads commands interactively
-    when run, you must cause it, when started running for such
-    interactive use in the most ordinary way, to print or display an
-    announcement including an appropriate copyright notice and a
-    notice that there is no warranty (or else, saying that you provide
-    a warranty) and that users may redistribute the program under
-    these conditions, and telling the user how to view a copy of this
-    License.  (Exception: if the Program itself is interactive but
-    does not normally print such an announcement, your work based on
-    the Program is not required to print an announcement.)
+   c) If the modified program normally reads commands interactively
+   when run, you must cause it, when started running for such
+   interactive use in the most ordinary way, to print or display an
+   announcement including an appropriate copyright notice and a
+   notice that there is no warranty (or else, saying that you provide
+   a warranty) and that users may redistribute the program under
+   these conditions, and telling the user how to view a copy of this
+   License. (Exception: if the Program itself is interactive but
+   does not normally print such an announcement, your work based on
+   the Program is not required to print an announcement.)
 
 These requirements apply to the modified work as a whole. If
 identifiable sections of that work are not derived from the Program,
@@ -13194,23 +13218,22 @@ the scope of this License.
    under Section 2) in object code or executable form under the terms of
    Sections 1 and 2 above provided that you also do one of the following:
 
+   a) Accompany it with the complete corresponding machine-readable
+   source code, which must be distributed under the terms of Sections
+   1 and 2 above on a medium customarily used for software interchange; or,
 
-    a) Accompany it with the complete corresponding machine-readable
-    source code, which must be distributed under the terms of Sections
-    1 and 2 above on a medium customarily used for software interchange; or,
+   b) Accompany it with a written offer, valid for at least three
+   years, to give any third party, for a charge no more than your
+   cost of physically performing source distribution, a complete
+   machine-readable copy of the corresponding source code, to be
+   distributed under the terms of Sections 1 and 2 above on a medium
+   customarily used for software interchange; or,
 
-    b) Accompany it with a written offer, valid for at least three
-    years, to give any third party, for a charge no more than your
-    cost of physically performing source distribution, a complete
-    machine-readable copy of the corresponding source code, to be
-    distributed under the terms of Sections 1 and 2 above on a medium
-    customarily used for software interchange; or,
-
-    c) Accompany it with the information you received as to the offer
-    to distribute corresponding source code.  (This alternative is
-    allowed only for noncommercial distribution and only if you
-    received the program in object code or executable form with such
-    an offer, in accord with Subsection b above.)
+   c) Accompany it with the information you received as to the offer
+   to distribute corresponding source code. (This alternative is
+   allowed only for noncommercial distribution and only if you
+   received the program in object code or executable form with such
+   an offer, in accord with Subsection b above.)
 
 The source code for a work means the preferred form of the work for
 making modifications to it. For an executable work, complete source
@@ -14800,6 +14823,33 @@ SOFTWARE.
 
 ---
 
+The following software may be included in this product: react-fast-compare. A copy of the source code may be downloaded from git+https://github.com/FormidableLabs/react-fast-compare.git. This software contains the following license and notice below:
+
+MIT License
+
+Copyright (c) 2018 Formidable Labs
+Copyright (c) 2017 Evgeny Poberezkin
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+---
+
 The following software may be included in this product: react-firebaseui. A copy of the source code may be downloaded from https://github.com/firebase/firebaseui-web-react.git. This software contains the following license and notice below:
 
 Apache License
@@ -15013,6 +15063,32 @@ As an exception to this license, all html or css that is generated by
 the software at the direction of the user is copyright the user. The
 user has full ownership and control over such content, including
 whether and how they wish to license it.
+
+---
+
+The following software may be included in this product: react-popper. A copy of the source code may be downloaded from https://github.com/popperjs/react-popper. This software contains the following license and notice below:
+
+The MIT License (MIT)
+
+Copyright (c) 2018 React Popper authors
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
 
 ---
 
