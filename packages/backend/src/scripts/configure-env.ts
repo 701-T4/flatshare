@@ -1,7 +1,5 @@
-// import fs from 'fs';
 import * as fs from 'fs';
 import * as dotenv from 'dotenv';
-// import express from 'express';
 
 const PATH_DEV = './.env.development';
 const PATH_PROD = './.env.production';
@@ -10,7 +8,6 @@ const PATH_PROD = './.env.production';
  * configure the environment for .env.development and .env.production if not existing
  * @param  {} filePath - The path of environment files in backend
  */
-// const configureEnvironmentFile = (filePath) => {
 function validateEnvironmentFile(filePath) {
   console.log(`Checking the existence of ${filePath}`);
 
@@ -92,5 +89,3 @@ function configureEnvironmentFiles(nodeEnvironment: string): boolean {
 }
 
 export default configureEnvironmentFiles;
-// configureEnvironmentFile(path_dev);
-// configureEnvironmentFile(path_prod);
