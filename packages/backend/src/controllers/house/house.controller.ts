@@ -123,20 +123,24 @@ export class HouseController {
     @Body() joinHouseDto: JoinHouseDto,
     @User() user: DecodedIdToken,
   ): Promise<HouseResponseDto> {
+    const addedUser = await this.userStoreService.findOneByFirebaseId(user.uid);
     const house = await this.houseStoreService.findOneByCode(
       joinHouseDto.houseCode,
     );
-
+    house.users.push(addedUser._id);
     if (house != null) {
       await this.userStoreService.updateByFirebaseId(user.uid, {
         house: house._id,
+      });
+      await this.houseStoreService.update(house.id, {
+        users: house.users,
       });
       const owner = await this.userStoreService.findOne(house.owner);
       const userList: Array<UserResponseDto> = [];
       for (const id of house.users) {
         const user = await this.userStoreService.findOne(id);
         const userDto = {
-          house: user.house.toString(),
+          house: house.code,
           firebaseId: user.firebaseId,
         };
         userList.push(userDto);

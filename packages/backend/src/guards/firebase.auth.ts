@@ -7,7 +7,7 @@ import {
   ServiceAccount,
   Credential,
 } from 'firebase-admin/app';
-import { getAuth } from 'firebase-admin/auth';
+import { DecodedIdToken, getAuth } from 'firebase-admin/auth';
 import { UserStoreService } from 'src/db/user/userStore.service';
 import { UserModel } from 'src/db/user/user.schema';
 
@@ -29,11 +29,11 @@ export class FirebaseAuthStrategy extends PassportStrategy(
         JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT) as ServiceAccount,
       );
     } else {
-      return cert('../../../../keys/firebase.json');
+      return cert('../../keys/firebase.json');
     }
   }
 
-  async validate(token: string) {
+  async validate(token: string): Promise<DecodedIdToken> {
     const firebaseUser = await getAuth()
       .verifyIdToken(token, true)
       .catch((err) => {
