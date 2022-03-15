@@ -60,11 +60,25 @@ To run tests, run the following command
   yarn test
 ```
 
+## Docker
+
+A docker image has been provided that contains a full environment for running the application in. It can be used to quickly start running the app on any operating system.
+
+Ensure you have set up backend env files first. Checkout backend [README](/packages/backend/README.md) for more info.
+
+```bash
+# Run Web App
+yarn start:docker
+
+# Run Tests
+yarn test:docker
+```
+
 ## Contributing
 
 Contributions are always welcome!
 
-See [`CONTRIBUTING.md`](/CONTRIBUTING.md) for ways to get started, as well as more detailed instructions on setting up the repository.
+See [`CONTRIBUTING.md`](/CONTRIBUTING.md) for ways to get started, as well as more detailed instructions on setting up and working with the repository.
 
 Please adhere to this project's [`code of conduct`](/CODE_OF_CONDUCT.md).
 
