@@ -1,15 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
-import {
-  ArrowNarrowLeftIcon,
-  PencilAltIcon,
-  TrashIcon,
-} from '@heroicons/react/outline';
-import { Button, Text } from '@nextui-org/react';
+import { PencilAltIcon } from '@heroicons/react/outline';
 import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { convertCompilerOptionsFromJson } from 'typescript';
 import Page from '../../components/common/layout/Page';
 import DeleteButton from '../../components/task/task/DeleteButton';
+import EditAndCreateTaskModal from '../../components/task/task/EditAndCreateTaskModal';
 import ReturnButton from '../../components/task/task/ReturnButton';
 import cleaning from '../../res/dashboard/cleaning.webp';
 
@@ -25,6 +19,13 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
   const taskDescription =
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget nulla et enim laoreet vulputate. Cras dapibus lectus sit amet erat suscipit, in dapibus leo suscipit. Cras facilisis consequat efficitur. Morbi a magna arcu. Duis molestie, tellus quis finibus vulputate, ex augue ultricies arcu, a congue nunc felis ut elit. Cras luctus euismod volutpat. Quisque turpis eros, convallis nec vehicula sed, ornare ac erat. Nulla ultrices mauris eget mauris venenatis dapibus vitae eu urna.';
   const assignee = 'John';
+
+  const [visible, setVisible] = React.useState(false);
+  // Hook for the Join Button Modal to be configured
+  const openModalHandler = () => {
+    console.log('open edit modal clicked');
+    setVisible(true);
+  };
 
   return (
     <Page>
@@ -53,7 +54,7 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
           </div>
 
           <div className="flex flex-col md:mx-8 mx-3 my-4">
-            <button className="self-end">
+            <button className="self-end" onClick={openModalHandler}>
               <PencilAltIcon className="w-5 h-5 hover:text-teal-500" />
             </button>
             <h1 className="font-bold text-2xl self-center mb-2 px-5 sm:px-0">
@@ -72,6 +73,11 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
           </div>
         </div>
       </div>
+      <EditAndCreateTaskModal
+        visible={visible}
+        setVisible={setVisible}
+        createTask={false}
+      />
     </Page>
   );
 };
