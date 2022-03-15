@@ -52,12 +52,10 @@ export class HouseController {
     createHouseDto.owner = owner._id;
     const userList: Array<Types.ObjectId> = [];
     userList.push(owner._id);
+    createHouseDto.users = userList;
     const house = await this.houseStoreService.create(createHouseDto);
     await this.userStoreService.updateByFirebaseId(user.uid, {
       house: house._id,
-    });
-    await this.houseStoreService.update(house.id, {
-      users: userList,
     });
     const userSet: Array<UserResponseDto> = [];
     const userDto = {
@@ -88,6 +86,7 @@ export class HouseController {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
     if (userDoc.house != undefined) {
       const house = await this.houseStoreService.findOne(userDoc.house);
+      // const userList = await this.houseStoreService.getUserDto(house);
       const userList: Array<UserResponseDto> = [];
       for (const id of house.users) {
         const user = await this.userStoreService.findOne(id);
@@ -127,8 +126,8 @@ export class HouseController {
     const house = await this.houseStoreService.findOneByCode(
       joinHouseDto.houseCode,
     );
-    house.users.push(addedUser._id);
     if (house != null) {
+      house.users.push(addedUser._id);
       await this.userStoreService.updateByFirebaseId(user.uid, {
         house: house._id,
       });
