@@ -8,7 +8,7 @@ interface DeleteButtonProps {
 
 const DeleteButton: React.FC<DeleteButtonProps> = ({ onClick }) => {
   return (
-    <Button color="error" onClick={onClick}>
+    <Button color="error" onClick={onClick} className="w-1/3 self-center">
       <TrashIcon className="h-5 w-5" />
       Delete
     </Button>
