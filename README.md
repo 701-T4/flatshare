@@ -29,7 +29,8 @@
 
 <!--https://felixhayashi.github.io/ReadmeGalleryCreatorForGitHub/-->
 
-<img src="./resources/sc-1.png?raw=true" width="50%" alt="dashboard screenshot"></img><img src="./resources/sc-1.png?raw=true" width="50%" alt="dashboard screenshot"></img>
+<img src="./resources/sc-1.png?raw=true" width="50%" alt="dashboard screenshot"></img><img src="./resources/sc-2.png?raw=true" width="50%" alt="home screenshot"></img>
+<img src="./resources/sc-3.png?raw=true" width="50%" alt="login screenshot"></img>
 
 ## Key Features
 
