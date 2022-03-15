@@ -23,7 +23,7 @@
 
 > **Disclaimer**
 >
-> this
+> This is a project for the University of Auckland SE701 course (Team 4). It will likely not be maintained after completion of this course.
 
 ## Screenshots
 
