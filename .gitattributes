@@ -1,1 +1,7 @@
 * text=auto eol=lf
+
+*.ai filter=lfs diff=lfs merge=lfs -text
+*.webp binary
+LICENSE-3RD-PARTY.md linguist-generated=true
+packages/backend/LICENSE-3RD-PARTY.md linguist-generated=true
+packages/frontend/LICENSE-3RD-PARTY.md linguist-generated=true
