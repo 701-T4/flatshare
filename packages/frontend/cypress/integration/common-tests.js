@@ -1,29 +1,29 @@
 //routers
 describe('Landing page', () => {
-  // On first start up, routes to /landing if not signed in
-  it('visits /landing', () => {
-    cy.visit('http://localhost:3000/landing');
+  // On first start up, routes to / if not signed in
+  it('visits /', () => {
+    cy.visit('/');
   });
 });
 
 describe('Signin page', () => {
   // On first start up, routes to /landing if not signed in
   it('visits /auth', () => {
-    cy.visit('http://localhost:3000/auth');
+    cy.visit('/auth');
   });
 });
 
 describe('Signin page', () => {
   // On first start up, routes to /landing if not signed in
   it('visits /account', () => {
-    cy.visit('http://localhost:3000/auth');
+    cy.visit('/auth');
   });
 });
 
 describe('Dashboard page', () => {
   // On first start up, routes to /landing if not signed in
   it('visits /home', () => {
-    cy.visit('http://localhost:3000/home');
+    cy.visit('/home');
   });
 });
 
