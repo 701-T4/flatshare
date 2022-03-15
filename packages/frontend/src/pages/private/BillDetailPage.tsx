@@ -1,12 +1,13 @@
 import { getAuth } from 'firebase/auth';
 import React, { useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import cx from 'classnames';
 import { Button, Spacer, Switch } from '@nextui-org/react';
 import { v4 as uuidv4 } from 'uuid';
 import NewBillCard from '../../components/bill/NewBillCard';
-
+import { UserAddIcon } from '@heroicons/react/solid';
+import { TrashIcon } from '@heroicons/react/outline';
 interface BillDetailPageProps {}
 
 const BillDetailPage: React.FC<BillDetailPageProps> = () => {
@@ -16,7 +17,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
       name: "GinToki's home rental",
       description:
         'GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!',
-      owner: 'Kvi306xYuzSDQm3nJKsQ42LLMKSC3',
+      owner: 'Kvi306xYuzSDQm3nJKQ42LLMKSC3',
       due: 1647215067300,
       completed: true,
       users: [
@@ -51,6 +52,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
   const { id } = useParams();
   const [isEdit, setIsEdit] = useState(false);
   const [image, setImage] = useState<File | null | undefined>(undefined);
+  const navigate = useNavigate();
   const auth = getAuth();
   const userId = auth.currentUser?.uid;
   console.log([id, ' in Bill Detail Page']);
@@ -79,7 +81,9 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
     }
     return fileName.slice(0, 10) + '...' + fileName.slice(-10);
   };
-
+  const deleteBill = async () => {
+    navigate('/bills', { replace: true });
+  };
   return (
     <>
       {isOwner ? (
@@ -102,10 +106,21 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                 )}
               >
                 {bill?.name}
-                <Switch
-                  className="self-end mb-1 mr-5"
-                  onChange={() => toggleComplete()}
-                ></Switch>
+                <div className="flex flex-row items-center">
+                  <Switch
+                    className="self-end mb-1 mr-5"
+                    onChange={() => toggleComplete()}
+                  ></Switch>
+                  {isOwner ? (
+                    <Button
+                      auto
+                      onClick={() => deleteBill()}
+                      icon={<TrashIcon className="h-5 w-5 text-teal-50" />}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                </div>
               </div>
               <div className="rounded-b-xl px-4 lg:px-8 py-4 flex flex-col items-center gap-y-1 bg-gray-800 h-full">
                 <div className="flex flex-col lg:flex-row justify-between items-start">
