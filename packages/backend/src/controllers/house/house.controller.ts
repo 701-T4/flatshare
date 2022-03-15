@@ -6,6 +6,10 @@ import {
   Put,
   HttpException,
   HttpStatus,
+  Delete,
+  Param,
+  Query,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -27,6 +31,8 @@ import { JoinHouseDto } from './dto/join-house.dto';
 import HouseTasksResponseDto from './dto/house-tasks-response.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { TaskStoreService } from '../../db/task/taskStore.service';
+import { TaskDocument } from 'src/db/task/task.schema';
+import { identity } from 'rxjs';
 
 @ApiTags('houses')
 @Controller('/api/v1/house')
@@ -173,13 +179,76 @@ export class HouseController {
         const tasksForHouse = tasks.filter((task) =>
           task.house.equals(house._id),
         );
-
+        const tasks_due = this.houseUtil.checkRecurrence(tasksForHouse);
+        console.log(tasks_due);
+        tasks_due.forEach(
+          async (t) => await this.taskStoreService.update(t.id, t.updatedTask),
+        );
+        const updated_tasks = await this.taskStoreService.findAll();
+        const updated_tasks_for_house = updated_tasks.filter((task) =>
+          task.house.equals(house._id),
+        );
         return {
-          tasks: tasksForHouse,
+          tasks: updated_tasks_for_house,
         };
       }
     }
 
     throw new HttpException('user is not in a house', HttpStatus.BAD_REQUEST);
+  }
+
+  @Delete('/tasks/:id')
+  @HttpCode(204)
+  @ApiOperation({ summary: 'delete a task from a house.' })
+  @ApiNoContentResponse({
+    description: 'task successfuly deleted.',
+  })
+  @ApiBadRequestResponse({
+    description: 'user is not the owner of the house',
+  })
+  async deleteTaskFromHouse(@Param('id') id, @User() user: DecodedIdToken) {
+    const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
+    console.log(userDoc.house);
+    if (userDoc.house != undefined) {
+      const house = await this.houseStoreService.findOne(userDoc.house);
+      const task = await this.taskStoreService.findOne(id);
+      if (house.owner.equals(userDoc._id)) {
+        await this.taskStoreService.delete(task._id);
+
+        return 'task deleted successfully';
+      }
+
+      throw new HttpException(
+        'user is not the owner of the house',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    throw new HttpException('user is not in the house', HttpStatus.BAD_REQUEST);
+
+    // checkRecurrence(tasks: TaskDocument[]) {
+    //   const result = tasks.map(async function (t) {
+    //     const current_due_date = t.due_date.setDate(
+    //       //Need to multiply interval by 1000 to increment the date by seconds.
+    //       t.due_date.getTime() + 1000 * t.interval,
+    //     );
+    //     if (current_due_date > Date.now()) {
+    //       if (t.assigned == undefined) {
+    //         const new_assigned_user = this.houseUtil.selectRandomUser();
+    //         await this.taskStoreService.update(t._id, {
+    //           last_completed: undefined,
+    //           due_date: current_due_date,
+    //           assigned: new_assigned_user,
+    //         });
+    //       } else {
+    //         await this.taskStoreService.update(t._id, {
+    //           last_completed: undefined,
+    //           due_date: current_due_date,
+    //         });
+    //       }
+    //     }
+    //   });
+    //   return result;
+    // }
   }
 }
