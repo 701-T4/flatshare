@@ -25,6 +25,7 @@ import { User } from '../../util/user.decorator';
 import { DecodedIdToken } from 'firebase-admin/auth';
 import { JoinHouseDto } from './dto/join-house.dto';
 import UserResponseDto from '../users/dto/user-response.dto';
+import { Types } from 'mongoose';
 
 @ApiTags('houses')
 @Controller('/api/v1/house')
@@ -49,14 +50,18 @@ export class HouseController {
     createHouseDto.code = this.houseUtil.generateString(8);
     const owner = await this.userStoreService.findOneByFirebaseId(user.uid);
     createHouseDto.owner = owner._id;
+    const userList: Array<Types.ObjectId> = [];
+    userList.push(owner._id);
     const house = await this.houseStoreService.create(createHouseDto);
     await this.userStoreService.updateByFirebaseId(user.uid, {
       house: house._id,
     });
-    let userSet: Array<UserResponseDto> = [];
-    let userDto: UserResponseDto;
-    userDto = {
-      house: house.id,
+    await this.houseStoreService.update(house.id, {
+      users: userList,
+    });
+    const userSet: Array<UserResponseDto> = [];
+    const userDto = {
+      house: house.code,
       firebaseId: owner.firebaseId,
     };
     userSet.push(userDto);
@@ -83,15 +88,14 @@ export class HouseController {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
     if (userDoc.house != undefined) {
       const house = await this.houseStoreService.findOne(userDoc.house);
-      let userSet: Array<UserResponseDto> = [];
-      for (var id of house.users) {
+      const userList: Array<UserResponseDto> = [];
+      for (const id of house.users) {
         const user = await this.userStoreService.findOne(id);
-        let userDto: UserResponseDto;
-        userDto = {
-          house: user.house.toString(),
+        const userDto = {
+          house: house.code,
           firebaseId: user.firebaseId,
         };
-        userSet.push(userDto);
+        userList.push(userDto);
       }
       if (house != undefined) {
         return {
@@ -100,7 +104,7 @@ export class HouseController {
           email: house.email,
           owner: user.uid,
           name: house.name,
-          users: userSet,
+          users: userList,
         };
       }
     }
@@ -128,15 +132,14 @@ export class HouseController {
         house: house._id,
       });
       const owner = await this.userStoreService.findOne(house.owner);
-      let userSet: UserResponseDto[];
-      for (var id of house.users) {
+      const userList: Array<UserResponseDto> = [];
+      for (const id of house.users) {
         const user = await this.userStoreService.findOne(id);
-        let userDto: UserResponseDto;
-        userDto = {
+        const userDto = {
           house: user.house.toString(),
           firebaseId: user.firebaseId,
         };
-        userSet.push(userDto);
+        userList.push(userDto);
       }
       return {
         code: house.code,
@@ -144,7 +147,7 @@ export class HouseController {
         email: house.email,
         owner: owner.firebaseId,
         name: house.name,
-        users: userSet,
+        users: userList,
       };
     } else throw new HttpException('code is invalid', HttpStatus.BAD_REQUEST);
   }

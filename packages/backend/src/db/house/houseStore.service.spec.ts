@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 import { HouseStoreService } from './houseStore.service';
@@ -72,23 +73,23 @@ describe('HouseStoreService', () => {
     expect(House).toEqual(mockHouse);
   });
 
-  // it('should insert a new House', async () => {
-  //   jest.spyOn(model, 'create').mockImplementationOnce(() =>
-  //     Promise.resolve({
-  //       name: 'House #1',
-  //       email: 'whatever@gmail.com',
-  //       address: 'Mars',
-  //       code: 'lol',
-  //     }),
-  //   );
-  //   const newHouse = await service.create({
-  //     name: 'House #1',
-  //     email: 'whatever@gmail.com',
-  //     address: 'Mars',
-  //     code: 'lol',
-  //     owner: null,
-  //     users: null,
-  //   });
-  //   expect(newHouse).toEqual(mockHouse);
-  // });
+  it('should insert a new House', async () => {
+    jest.spyOn(model, 'create').mockImplementationOnce(() =>
+      Promise.resolve({
+        name: 'House #1',
+        email: 'whatever@gmail.com',
+        address: 'Mars',
+        code: 'lol',
+      }),
+    );
+    const newHouse = await service.create({
+      name: 'House #1',
+      email: 'whatever@gmail.com',
+      address: 'Mars',
+      code: 'lol',
+      owner: null,
+      users: null,
+    });
+    expect(newHouse).toEqual(mockHouse);
+  });
 });
