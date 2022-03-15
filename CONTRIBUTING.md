@@ -91,3 +91,17 @@ share one with other people.
 3. Once again at the project root, run `npm run start:dev`. This will simultaneously run the frontend and backend.
 
 ## Workflow
+
+This project uses [GitHub flow](https://docs.github.com/en/get-started/quickstart/github-flow). Please follow the [checklist](https://github.com/701-T4/flatshare/wiki/Github-Checklist---How-to-'Issues') when working on this project.
+
+## Attributions
+
+### 3rd Party Dependencies
+
+All third party dependencies used in this project are attributed in the LICENSE-3RD-PARTY files. The files are generated automatically when there is an update to the dependencies used.
+
+To manually generate these files run `yarn license-report`
+
+### Other Resources
+
+If you have used any images or other resources that belongs to someone else, please attribute them appropriately in the [ATTRIBUTIONS.md](/ATTRIBUTIONS.md).
