@@ -27,7 +27,9 @@
 
 ## Screenshots
 
-<img src="./resources/sc-1.png?raw=true 'Dashboard Screen'" width="30%"></img> <img src="./resources/sc-1.png?raw=true 'Dashboard Screen'" width="30%"></img> <img src="./resources/sc-1.png?raw=true 'Dashboard Screen'" width="30%"></img> <img src="./resources/sc-1.png?raw=true 'Dashboard Screen'" width="30%"></img> <img src="./resources/sc-1.png?raw=true 'Dashboard Screen'" width="30%"></img> <img src="./resources/sc-1.png?raw=true 'Dashboard Screen'" width="30%"></img>
+<!--https://felixhayashi.github.io/ReadmeGalleryCreatorForGitHub/-->
+
+<img src="./resources/sc-1.png?raw=true" width="30%"></img><img src="./resources/sc-1.png?raw=true" width="30%"></img><img src="./resources/sc-1.png?raw=true" width="30%"></img>
 
 ## Key Features
 
