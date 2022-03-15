@@ -94,6 +94,27 @@ share one with other people.
 
 This project uses [GitHub flow](https://docs.github.com/en/get-started/quickstart/github-flow). Please follow the [checklist](https://github.com/701-T4/flatshare/wiki/Github-Checklist---How-to-'Issues') when working on this project.
 
+### Code Reviews
+
+Please ensure you spend a good amount of effort on PR reviews. It is much easier to catch bugs here rather than having to open a new issue later.
+
+Some things that are good to check:
+
+- Does the code work? Does it perform its intended function, the logic is correct etc.
+- Is all the code easily understood?
+- Does it have correct linting?
+- Is there any redundant or duplicate code?
+- Is the code as modular as possible?
+- Can any global variables be replaced?
+- Can any of the code be replaced with library functions?
+- Can any logging or debugging code be removed?
+- Does code follow defined architecture?
+- Ensure PR passes CI server, re-running once or twice if it fails. Failure could be due to other issues, so determine whether the PR is responsible if failure occurs.
+- Request changes to the code and/or additional unit tests if any issues are found.
+- Are good names used for classes, enum, methods, and variables?
+- Do tests exist and are they comprehensive? i.e. has at least your agreed on code coverage.
+- Do unit tests actually test that the code is performing the intended functionality?
+
 ## Attributions
 
 ### 3rd Party Dependencies
