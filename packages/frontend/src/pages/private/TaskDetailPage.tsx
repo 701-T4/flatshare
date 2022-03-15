@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import {
   ArrowNarrowLeftIcon,
   PencilAltIcon,
@@ -41,11 +42,11 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
           />
         </div>
 
-        <div className="grow md:grid md:grid-flow-col md:grid-cols-2 flex flex-col rounded-lg shadow-2xl">
+        <div className="flex flex-col rounded-lg shadow-2xl grow md:grid md:grid-flow-col md:grid-cols-2">
           <div>
             <img
               draggable={false}
-              className="object-cover md:rounded-l-lg rounded-lg md:rounded-l-lg h-full"
+              className="object-cover h-full rounded-lg md:rounded-l-lg"
               src={cleaning}
               alt=""
             />
@@ -53,14 +54,14 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
 
           <div className="flex flex-col md:mx-8 mx-3 my-4">
             <button className="self-end">
-              <PencilAltIcon className="h-5 w-5  hover:text-teal-500" />
+              <PencilAltIcon className="w-5 h-5 hover:text-teal-500" />
             </button>
             <h1 className="font-bold text-2xl self-center mb-2 px-5 sm:px-0">
               {taskName}
             </h1>
             <div className="mb-10 px-5 sm:px-0">
               <span>Assigned to: </span>
-              {<p className="font-bold inline">{assignee}</p>}
+              {<p className="inline font-bold">{assignee}</p>}
             </div>
 
             <div className="flex-grow text-justify mb-10 px-5 sm:px-0">
