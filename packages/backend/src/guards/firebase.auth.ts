@@ -29,10 +29,11 @@ export class FirebaseAuthStrategy extends PassportStrategy(
         JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT) as ServiceAccount,
       );
     } else {
-      return cert('../../../../keys/firebase.json');
+      return cert('../../keys/firebase.json');
     }
   }
 
+  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async validate(token: string) {
     const firebaseUser = await getAuth()
       .verifyIdToken(token, true)
