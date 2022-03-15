@@ -47,14 +47,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
         >
           New Bill
         </Button>
-        {newBill && (
-          <UpcomingTask
-            title="New Bill"
-            dueString="1"
-            twColor={UpcomingTask.Variation.red}
-            type="Bill"
-          />
-        )}
+        {newBill && <NewBillCard />}
         <div className="flex flex-col gap-4 pt-10">
           <UnderlinedText colorClasses="bg-gray-800">
             <div className="text-lg font-semibold">Upcoming Bills</div>
