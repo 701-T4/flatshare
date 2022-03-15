@@ -51,17 +51,21 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
             />
           </div>
 
-          <div className="flex flex-col mx-8 my-4">
+          <div className="flex flex-col md:mx-8 mx-3 my-4">
             <button className="self-end">
               <PencilAltIcon className="h-5 w-5  hover:text-teal-500" />
             </button>
-            <h1 className="font-bold text-2xl self-center mb-2">{taskName}</h1>
-            <div className="mb-10">
+            <h1 className="font-bold text-2xl self-center mb-2 px-5 sm:px-0">
+              {taskName}
+            </h1>
+            <div className="mb-10 px-5 sm:px-0">
               <span>Assigned to: </span>
               {<p className="font-bold inline">{assignee}</p>}
             </div>
 
-            <div className="flex-grow mb-10">{taskDescription}</div>
+            <div className="flex-grow text-justify mb-10 px-5 sm:px-0">
+              {taskDescription}
+            </div>
 
             <DeleteButton onClick={() => console.log('delete pressed')} />
           </div>
