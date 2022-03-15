@@ -17,7 +17,9 @@ import {
   ApiNoContentResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiResponse,
   ApiTags,
+  ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
 import { UserStoreService } from '../../db/user/userStore.service';
 import { HouseStoreService } from '../../db/house/houseStore.service';
@@ -135,6 +137,7 @@ export class HouseController {
   @ApiCreatedResponse({
     description: 'task created successfully',
   })
+  @ApiBadRequestResponse({ description: 'Invalid request' })
   async createTask(
     @Body() createTaskDto: CreateTaskDto,
     @User() user: DecodedIdToken,
@@ -145,9 +148,13 @@ export class HouseController {
       const house = await this.houseStoreService.findOne(userDoc.house);
 
       if (house != undefined) {
+        if (createTaskDto.pool.length < 1) {
+          throw new HttpException('pool is empty', HttpStatus.BAD_REQUEST);
+        }
         createTaskDto.assigned = this.houseUtil.selectRandomUser(
           createTaskDto.pool,
         );
+        console.log(createTaskDto.assigned);
         createTaskDto.house = house._id;
         await this.taskStoreService.create(createTaskDto);
 
