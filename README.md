@@ -23,13 +23,12 @@
 
 > **Disclaimer**
 >
-> this is a disclaimer
+> this
 
 ## Screenshots
 
-| ![dashboard screen](./resources/sc-1.png?raw=true 'Dashboard Screen') | ![dashboard screen](./resources/sc-1.png?raw=true 'Dashboard Screen') |
-| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --- |
-| ![dashboard screen](./resources/sc-1.png?raw=true 'Dashboard Screen') | ![dashboard screen](./resources/sc-1.png?raw=true 'Dashboard Screen') |     |
+<img alt="dashboard screen" src="./resources/sc-1.png?raw=true" title="Dashboard Screen" width="50%"/>
+<img alt="dashboard screen" src="./resources/sc-1.png?raw=true" title="Dashboard Screen" width="50%"/>
 
 ## Key Features
 
