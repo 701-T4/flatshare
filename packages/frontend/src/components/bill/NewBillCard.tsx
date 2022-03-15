@@ -1,4 +1,7 @@
 import { Button, Input, Textarea } from '@nextui-org/react';
+import DatePicker from 'react-datepicker';
+import 'react-datepicker/dist/react-datepicker.css';
+import React, { useState } from 'react';
 
 const FlatMates = [
   {
@@ -18,12 +21,13 @@ interface NewBillCardProps {
 }
 
 const NewBillCard: React.FC<NewBillCardProps> = () => {
+  const [dueDate, setDueDate] = useState(new Date());
   console.log(FlatMates);
   return (
     <div className="shadow-lg rounded-b-xl">
       <div className="flex flex-col h-full">
-        <div className="bg-gradient-to-r from-amber-400 to-amber-600 text-left rounded-t-xl px-4 py-1 text-white font-semibold text-lg">
-          <div className="flex flex-row justify-between flex-wrap">
+        <div className="px-4 py-1 text-lg font-semibold text-left text-white bg-gradient-to-r from-amber-400 to-amber-600 rounded-t-xl">
+          <div className="flex flex-row flex-wrap justify-between">
             <div className="self-center">Bill</div>
             <div className="self-center">
               Total Cost: $
@@ -32,25 +36,26 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
                 type="text"
               />
             </div>
-            <div className="self-center">
+            <div className="self-center whitespace-nowrap">
               Due Date:
-              <input
+              <DatePicker
                 className="appearance-none  rounded-lg pl-1 ml-2 h-5 w-[10rem] text-black"
-                type="text"
+                selected={dueDate}
+                onChange={(date: Date) => setDueDate(date)}
               />
             </div>
             <div className="self-end">
               <Button
                 size="xs"
                 rounded
-                className="w-auto h-10 mb-1 mt-1 text-base"
+                className="w-auto h-10 mt-1 mb-1 text-base"
               >
                 Done
               </Button>
             </div>
           </div>
         </div>
-        <div className="flex flex-row h-full px-4 py-4 bg-gray-800 rounded-b-xl lg:px-8  justify-between">
+        <div className="flex flex-row justify-between h-full px-4 py-4 bg-gray-800 rounded-b-xl lg:px-8">
           <div className="flex flex-col text-white gap-y-3">
             <div className="flex flex-row justify-between">
               <div className="self-center">Title</div>
@@ -68,7 +73,7 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
             <Button
               size="xs"
               rounded
-              className="w-auto h-10 mb-1 mt-1 text-base p-5"
+              className="w-auto h-10 p-5 mt-1 mb-1 text-base"
             >
               Split Evenly
             </Button>
@@ -76,10 +81,10 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
           <div className="flex flex-col self-start gap-3">
             {FlatMates.map((person, index) => {
               return (
-                <div className="bg-gradient-to-r from-amber-400 to-amber-600 p-4 rounded-xl font-bold">
+                <div className="p-4 font-bold bg-gradient-to-r from-amber-400 to-amber-600 rounded-xl">
                   <div
                     key={index + person.name}
-                    className="text-white flex self-center justify-between"
+                    className="flex self-center justify-between text-white"
                   >
                     {person.name}
                     <input
