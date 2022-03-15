@@ -21,9 +21,15 @@
   <a href="https://flat-split.web.app/">Demo</a>
 </p>
 
+> **Disclaimer**
+>
+> this is a disclaimer
+
 ## Screenshots
 
-![dashboard screen](./resources/sc-1.png?raw=true 'Dashboard Screen')
+| ![dashboard screen](./resources/sc-1.png?raw=true 'Dashboard Screen') | ![dashboard screen](./resources/sc-1.png?raw=true 'Dashboard Screen') |
+| --------------------------------------------------------------------- | --------------------------------------------------------------------- | --- |
+| ![dashboard screen](./resources/sc-1.png?raw=true 'Dashboard Screen') | ![dashboard screen](./resources/sc-1.png?raw=true 'Dashboard Screen') |     |
 
 ## Key Features
 
