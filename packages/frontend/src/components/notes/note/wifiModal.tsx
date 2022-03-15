@@ -1,5 +1,5 @@
 import { DocumentAddIcon, EyeIcon, QrcodeIcon } from '@heroicons/react/outline';
-import { LinkIcon, WifiIcon } from '@heroicons/react/solid';
+import { WifiIcon } from '@heroicons/react/solid';
 import { Avatar, Button, Container, Input, Modal, Spacer, Text } from '@nextui-org/react';
 import React, { useState } from 'react';
 
@@ -28,8 +28,6 @@ const WifiModal: React.FC<WifiModalProps> = ({
   const passwordHandler = () => {
     setPasswordShown(!passwordShown);
   };
-
-  const pass = password
 
   const unHideButton = () => {
     
