@@ -88,6 +88,12 @@ See [`CONTRIBUTING.md`](/CONTRIBUTING.md) for ways to get started, as well as mo
 
 Please adhere to this project's [`code of conduct`](/CODE_OF_CONDUCT.md).
 
+## Documentation
+
+This project is using [GitHub wiki](https://github.com/701-T4/flatshare/wiki) for documentation.
+
+Swagger API documentation is available on `/api` for the backend. This can be found [here](https://flat-share-api.herokuapp.com/api) for the currently deployed backend.
+
 ## Tech Stack
 
 **Client:** React, TailwindCSS, NextUI
