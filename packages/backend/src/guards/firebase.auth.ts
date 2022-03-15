@@ -33,6 +33,7 @@ export class FirebaseAuthStrategy extends PassportStrategy(
     }
   }
 
+  // TODO: Remove this later and add a return type
   // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
   async validate(token: string) {
     const firebaseUser = await getAuth()
