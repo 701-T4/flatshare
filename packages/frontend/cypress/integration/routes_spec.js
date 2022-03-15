@@ -26,14 +26,3 @@ describe('Dashboard page', () => {
     cy.visit('/home');
   });
 });
-
-describe('Join house modal', () => {
-  // On first start up, routes to /landing if not signed in
-  it('click submit button', () => {
-    // find the submit button and click it
-    cy.react('JoinHouseModal').find('button').contains('Submit').click();
-
-    // the model shoudld close
-    cy.react('JoinHouseModal').should('not.be.visible');
-  });
-});
