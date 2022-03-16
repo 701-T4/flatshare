@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
-import { useApi } from '../../../hooks/useApi';
 import { Button, Spacer } from '@nextui-org/react';
-import ShareLinkModal from '../../dashboard/invite/ShareLinkModal';
 import WifiModal from './wifiModal';
 import PlainModal from './plainModal';
 import SecretModal from './secretModal';
@@ -13,6 +11,8 @@ const NoteCardController: React.FC<NoteCardControllerProps> = () => {
   const [wifivisible, setWifiVisible] = useState(false);
   const [secretvisible, setSecretVisible] = useState(false);
   const [plainvisible, setPlainVisible] = useState(false);
+  const [qrCodeText, setQrCodeText] = useState("");
+  const [qrvisible, setQRVisible] = useState(false);
 
   const onClickWifi = () => {
     setWifiVisible(true);
@@ -29,10 +29,11 @@ const NoteCardController: React.FC<NoteCardControllerProps> = () => {
     return { 
       username: "alakazam", 
       password: "batman",
+      encryption: "WEP",
       loading: false
     };
   };
-  const { username: username, loading: loading, password: password } = getWifiNote();
+  const { username: username, loading: loading, password: password, encryption: encryption } = getWifiNote();
 
   const getPlainandSecretNote = () => {
     return { 
@@ -56,9 +57,14 @@ const NoteCardController: React.FC<NoteCardControllerProps> = () => {
       <WifiModal
         visible={wifivisible}
         setVisible={setWifiVisible}
+        setQrCodeText={setQrCodeText}
+        qrCodeText={qrCodeText}
         loading={loading}
         userName={username}
         password={password}
+        encryption={encryption}
+        qrvisible={qrvisible}
+        setQRVisible={setQRVisible}
       />
       <PlainModal
         visible={plainvisible}
