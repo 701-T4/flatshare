@@ -1,7 +1,7 @@
 import { Button, Input, Textarea } from '@nextui-org/react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 const FlatMates = [
   {
@@ -13,16 +13,38 @@ const FlatMates = [
   {
     name: 'Owen',
   },
+  {
+    name: 'Owen',
+  },
+  {
+    name: 'Owen',
+  },
+  {
+    name: 'Owen',
+  },
+  {
+    name: 'Owen',
+  },
+  {
+    name: 'Owen',
+  },
 ];
 
 interface NewBillCardProps {
   title?: string;
   detail?: string;
+  due?: Long;
 }
 
 const NewBillCard: React.FC<NewBillCardProps> = () => {
   const [dueDate, setDueDate] = useState(new Date());
-  console.log(FlatMates);
+  const [unixTime, setUnixTime] = useState(0);
+  useEffect(() => {
+    console.log(dueDate.getTime());
+    setUnixTime(dueDate.getTime());
+    // to convert unix date to Date object
+    // const dateObject = new Date(unixDate)
+  }, [dueDate]);
   return (
     <div className="shadow-lg rounded-b-xl">
       <div className="flex flex-col h-full">
@@ -58,9 +80,9 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
         <div className="flex flex-row justify-between h-full px-4 py-4 bg-gray-800 rounded-b-xl lg:px-8">
           <div className="flex flex-col text-white gap-y-3">
             <div className="flex flex-row justify-between">
-              <div className="self-center">Title</div>
+              <div className="self-center mr-3 ml-4">Title</div>
               <input
-                className="appearance-none  rounded-lg pl-3  h-5 w-[13rem] text-black"
+                className="appearance-none  rounded-lg pl-3  h-5 w-[12rem] text-black self-center"
                 type="text"
               />
             </div>
@@ -68,8 +90,6 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
               <div className="self-center mr-3">Details</div>
               <Textarea size="lg" animated={false}></Textarea>
             </div>
-          </div>
-          <div className="flex flex-col self-start">
             <Button
               size="xs"
               rounded
@@ -78,10 +98,10 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
               Split Evenly
             </Button>
           </div>
-          <div className="flex flex-col self-start gap-3">
+          <div className="flex flex-wrap gap-5 ml-4">
             {FlatMates.map((person, index) => {
               return (
-                <div className="p-4 font-bold bg-gradient-to-r from-amber-400 to-amber-600 rounded-xl">
+                <div className="p-4 font-bold bg-gradient-to-r from-amber-400 to-amber-600 rounded-xl self-center w-[15rem]">
                   <div
                     key={index + person.name}
                     className="flex self-center justify-between text-white"
