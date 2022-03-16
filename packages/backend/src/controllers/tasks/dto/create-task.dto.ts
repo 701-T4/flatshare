@@ -8,9 +8,6 @@ export class CreateTaskDto extends TaskModel {
   @ApiProperty()
   readonly description: string;
 
-  @ApiPropertyOptional()
-  readonly last_completed: Date;
-
   @ApiProperty()
   readonly due_date: Date;
 
