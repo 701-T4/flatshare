@@ -8,10 +8,10 @@ export default class HouseResponseDto {
   email: string;
   @ApiProperty({ required: false })
   address: string;
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   code: string;
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   owner: string;
-  @ApiProperty({ required: false })
+  @ApiProperty({ required: true })
   users: UserResponseDto[];
 }

@@ -24,8 +24,6 @@ import { HouseUtil } from './house.util';
 import { User } from '../../util/user.decorator';
 import { DecodedIdToken } from 'firebase-admin/auth';
 import { JoinHouseDto } from './dto/join-house.dto';
-import UserResponseDto from '../users/dto/user-response.dto';
-import { Types } from 'mongoose';
 
 @ApiTags('houses')
 @Controller('/api/v1/house')
@@ -47,29 +45,30 @@ export class HouseController {
     @Body() createHouseDto: CreateHouseDto,
     @User() user: DecodedIdToken,
   ): Promise<HouseResponseDto> {
-    createHouseDto.code = this.houseUtil.generateString(8);
     const owner = await this.userStoreService.findOneByFirebaseId(user.uid);
-    createHouseDto.owner = owner._id;
-    const userList: Array<Types.ObjectId> = [];
-    userList.push(owner._id);
-    createHouseDto.users = userList;
-    const house = await this.houseStoreService.create(createHouseDto);
+    const house = await this.houseStoreService.create({
+      name: createHouseDto.name,
+      email: createHouseDto.email,
+      address: createHouseDto.address,
+      code: this.houseUtil.generateString(8),
+      owner: owner._id,
+      users: [owner._id],
+    });
     await this.userStoreService.updateByFirebaseId(user.uid, {
       house: house._id,
     });
-    const userSet: Array<UserResponseDto> = [];
-    const userDto = {
-      house: house.code,
-      firebaseId: owner.firebaseId,
-    };
-    userSet.push(userDto);
     return {
       code: house.code,
       address: house.address,
       email: house.email,
       owner: user.uid,
       name: house.name,
-      users: userSet,
+      users: [
+        {
+          house: house.code,
+          firebaseId: owner.firebaseId,
+        },
+      ],
     };
   }
 
@@ -86,16 +85,7 @@ export class HouseController {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
     if (userDoc.house != undefined) {
       const house = await this.houseStoreService.findOne(userDoc.house);
-      // const userList = await this.houseStoreService.getUserDto(house);
-      const userList: Array<UserResponseDto> = [];
-      for (const id of house.users) {
-        const user = await this.userStoreService.findOne(id);
-        const userDto = {
-          house: house.code,
-          firebaseId: user.firebaseId,
-        };
-        userList.push(userDto);
-      }
+      const userList = await this.houseStoreService.getUserDto(house.id);
       if (house != undefined) {
         return {
           code: house.code,
@@ -135,15 +125,7 @@ export class HouseController {
         users: house.users,
       });
       const owner = await this.userStoreService.findOne(house.owner);
-      const userList: Array<UserResponseDto> = [];
-      for (const id of house.users) {
-        const user = await this.userStoreService.findOne(id);
-        const userDto = {
-          house: house.code,
-          firebaseId: user.firebaseId,
-        };
-        userList.push(userDto);
-      }
+      const userList = await this.houseStoreService.getUserDto(house.id);
       return {
         code: house.code,
         address: house.address,

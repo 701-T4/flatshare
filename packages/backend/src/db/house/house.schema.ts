@@ -20,7 +20,7 @@ export class House {
   @Prop({ type: Types.ObjectId, ref: 'User' })
   owner: Types.ObjectId;
 
-  @Prop()
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }] })
   users: Array<Types.ObjectId> = [];
 }
 

@@ -2,15 +2,14 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import * as Mongoose from 'mongoose';
 import { Model } from 'mongoose';
-// import UserResponseDto from 'src/controllers/users/dto/user-response.dto';
-// import { UserStoreService } from '../user/userStore.service';
+import UserResponseDto from '../../controllers/users/dto/user-response.dto';
 import { House, HouseDocument, HouseModel } from './house.schema';
 
 @Injectable()
 export class HouseStoreService {
   constructor(
     @InjectModel(House.name)
-    private readonly HouseModel: Model<HouseDocument>, // private readonly userStoreService: UserStoreService,
+    private readonly HouseModel: Model<HouseDocument>,
   ) {
     Mongoose.set('sanitizeFilter', true);
   }
@@ -31,18 +30,22 @@ export class HouseStoreService {
     return this.HouseModel.find().exec();
   }
 
-  // async getUserDto(house: HouseDocument): Promise<UserResponseDto[]>{
-  //   const userList: Array<UserResponseDto> = [];
-  //   for (const id of house.users) {
-  //     const user = await this.userStoreService.findOne(id);
-  //     const userDto = {
-  //       house: house.code,
-  //       firebaseId: user.firebaseId,
-  //     };
-  //     userList.push(userDto);
-  //   }
-  //   return userList;
-  // }
+  async getUserDto(
+    id: string | Mongoose.Types.ObjectId,
+  ): Promise<UserResponseDto[]> {
+    const house = await this.HouseModel.findOne({ _id: id })
+      .populate('users')
+      .exec();
+    const userList: Array<UserResponseDto> = [];
+    for (const user of house.users) {
+      const userDto = {
+        house: house.code,
+        firebaseId: user['firebaseId'],
+      };
+      userList.push(userDto);
+    }
+    return userList;
+  }
 
   async update(
     id: string,
