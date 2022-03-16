@@ -25,7 +25,7 @@ const PlainModal: React.FC<PlainModalProps> = ({
     return (
       <Avatar
         squared
-        icon={<DocumentAddIcon />}
+        icon={<DocumentAddIcon className="w-full"/>}
         css={{ p: 10 }}
         as="button"
         pointer

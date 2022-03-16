@@ -54,7 +54,7 @@ const WifiModal: React.FC<WifiModalProps> = ({
     return (
       <Avatar
         squared
-        icon={<EyeIcon />}
+        icon={<EyeIcon className="w-full"/>}
         onClick={passwordHandler}
         css={{ p: 10 }}
         as="button"
@@ -67,7 +67,7 @@ const WifiModal: React.FC<WifiModalProps> = ({
     return (
       <Avatar
         squared
-        icon={<DocumentAddIcon />}
+        icon={<DocumentAddIcon className="w-full" />}
         css={{ p: 10 }}
         as="button"
         pointer

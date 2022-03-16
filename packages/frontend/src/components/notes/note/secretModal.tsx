@@ -37,7 +37,7 @@ const SecretModal: React.FC<SecretModalProps> = ({
     return (
       <Avatar
         squared
-        icon={<DocumentAddIcon />}
+        icon={<DocumentAddIcon className="w-full"/>}
         css={{ p: 10 }}
         as="button"
         pointer
@@ -116,7 +116,7 @@ const SecretModal: React.FC<SecretModalProps> = ({
               justify="space-between"
               css={{ p: 0 }}
             >
-            <Button auto rounded onClick={passwordHandler} icon={<QrcodeIcon className="h-6 w-6 text-teal-50" />}>
+            <Button auto rounded onClick={passwordHandler} icon={<EyeIcon className="h-6 w-6 text-teal-50" />}>
               Show Secret
             </Button>
             <Button auto rounded onClick={closeHandler}>
