@@ -23,8 +23,8 @@ export class TaskUtil {
           const updatedTask = {
             id: task._id,
             updatedTask: {
-              last_completed: null,
-              due_date: new Date(currentDueDate),
+              lastCompleted: null,
+              dueDate: new Date(currentDueDate),
               assigned: newAssignedUser,
             },
           };
@@ -33,8 +33,8 @@ export class TaskUtil {
           const update_task = {
             id: task._id,
             updatedTask: {
-              last_completed: null,
-              due_date: new Date(currentDueDate),
+              lastCompleted: null,
+              dueDate: new Date(currentDueDate),
             },
           };
           result.push(update_task);

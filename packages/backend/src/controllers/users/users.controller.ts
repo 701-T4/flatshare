@@ -21,8 +21,9 @@ import { User } from '../../util/user.decorator';
 import { DecodedIdToken } from 'firebase-admin/auth';
 import UserResponseDto from './dto/user-response.dto';
 import UserTasksResponseDto from './dto/user-tasks-response.dto';
-import { TaskStoreService } from 'src/db/task/taskStore.service';
+import { TaskStoreService } from '../../db/task/taskStore.service';
 import { TaskUtil } from '../tasks/tasks.util';
+import { TaskResponseDto } from './dto/task-response-dto';
 
 @ApiTags('users')
 @Controller('/api/v1/user')
@@ -75,7 +76,7 @@ export class UsersController {
     description: 'tasks retrieved successfully',
     type: UserTasksResponseDto,
   })
-  @ApiBadRequestResponse({ description: 'user does not exist' })
+  @ApiBadRequestResponse({ description: 'user is not in a house' })
   async getTasksForUser(
     @User() user: DecodedIdToken,
   ): Promise<UserTasksResponseDto | null> {
@@ -98,8 +99,35 @@ export class UsersController {
         (task) => task.assigned === userDoc.firebaseId,
       );
 
+      const updatedTasksDto: TaskResponseDto[] = updatedTasksForUser.map(
+        (task) => {
+          const {
+            name,
+            description,
+            lastCompleted,
+            dueDate,
+            interval,
+            assigned,
+            pool,
+            house,
+          } = task;
+
+          return {
+            name,
+            description,
+            lastCompleted,
+            dueDate,
+            interval,
+            assigned,
+            pool,
+            house,
+            isComplete: task.lastCompleted != null,
+          };
+        },
+      );
+
       return {
-        tasks: updatedTasksForUser,
+        tasks: updatedTasksDto,
       };
     }
     throw new HttpException('user is not in a house', HttpStatus.BAD_REQUEST);

@@ -18,6 +18,7 @@ import {
   ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
+  ApiParam,
   ApiResponse,
   ApiTags,
 } from '@nestjs/swagger';
@@ -57,12 +58,11 @@ export class TasksController {
     @User() user: DecodedIdToken,
   ) {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
-
     if (!userDoc.house) {
       throw new HttpException('user is not in a house', HttpStatus.BAD_REQUEST);
     }
-    const house = await this.houseStoreService.findOne(userDoc.house);
 
+    const house = await this.houseStoreService.findOne(userDoc.house);
     if (house) {
       if (createTaskDto.pool.length < 1) {
         throw new HttpException('pool is empty', HttpStatus.BAD_REQUEST);
@@ -88,12 +88,11 @@ export class TasksController {
     @User() user: DecodedIdToken,
   ): Promise<HouseTasksResponseDto | null> {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
-
     if (!userDoc.house) {
       throw new HttpException('user is not in a house', HttpStatus.BAD_REQUEST);
     }
-    const house = await this.houseStoreService.findOne(userDoc.house);
 
+    const house = await this.houseStoreService.findOne(userDoc.house);
     if (house) {
       const tasks = await this.taskStoreService.findAll();
 
@@ -146,6 +145,11 @@ export class TasksController {
 
   @Delete('/tasks/:id')
   @HttpCode(204)
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'id for the task to delete',
+  })
   @ApiOperation({ summary: 'delete a task from a house.' })
   @ApiNoContentResponse({
     description: 'task successfully deleted.',
@@ -153,9 +157,20 @@ export class TasksController {
   @ApiForbiddenResponse({
     description: 'user is not the owner of the house',
   })
+  @ApiNotFoundResponse({
+    description: 'task not found',
+  })
   async deleteTaskFromHouse(@Param('id') id, @User() user: DecodedIdToken) {
-    const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
+    if (!isValidObjectId(id)) {
+      throw new HttpException('task does not exist', HttpStatus.NOT_FOUND);
+    }
 
+    const task = await this.taskStoreService.findOne(id);
+    if (!task) {
+      throw new HttpException('task not found', HttpStatus.NOT_FOUND);
+    }
+
+    const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
     if (!userDoc.house) {
       throw new HttpException(
         'user is not in the house',
@@ -164,20 +179,22 @@ export class TasksController {
     }
 
     const house = await this.houseStoreService.findOne(userDoc.house);
-    const task = await this.taskStoreService.findOne(id);
-
-    if (house.owner.equals(userDoc._id)) {
-      this.taskStoreService.delete(task._id);
-      return 'task deleted successfully';
+    if (!house.owner.equals(userDoc._id)) {
+      throw new HttpException(
+        'user is not the owner of the house',
+        HttpStatus.FORBIDDEN,
+      );
     }
 
-    throw new HttpException(
-      'user is not the owner of the house',
-      HttpStatus.FORBIDDEN,
-    );
+    this.taskStoreService.delete(task._id);
   }
 
   @Put('/task/:id/completed')
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'id for the task to mark as complete or not',
+  })
   @ApiOperation({
     summary: 'mark user as having completed/not completed task.',
   })
@@ -198,8 +215,8 @@ export class TasksController {
     if (!isValidObjectId(id)) {
       throw new HttpException('task does not exist', HttpStatus.NOT_FOUND);
     }
-    const task = await this.taskStoreService.findOne(id);
 
+    const task = await this.taskStoreService.findOne(id);
     if (!task) {
       throw new HttpException('task not found', HttpStatus.NOT_FOUND);
     }
@@ -219,6 +236,11 @@ export class TasksController {
   }
 
   @Put('/task/:id')
+  @ApiParam({
+    name: 'id',
+    required: true,
+    description: 'id of the task to update',
+  })
   @ApiOperation({ summary: 'Modify task name, decription or pool' })
   @ApiResponse({
     description: 'task successfuly updated.',
@@ -234,22 +256,20 @@ export class TasksController {
     @User() user: DecodedIdToken,
     @Body() updateHouseTasksDto: UpdateHouseTasksDto,
   ) {
-    const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
+    if (!isValidObjectId(id)) {
+      throw new HttpException('task does not exist', HttpStatus.NOT_FOUND);
+    }
 
+    const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
     if (!userDoc.house) {
       throw new HttpException(
         'user is not in the house',
         HttpStatus.BAD_REQUEST,
       );
     }
+
     const house = await this.houseStoreService.findOne(userDoc.house);
-
-    if (!isValidObjectId(id)) {
-      throw new HttpException('task does not exist', HttpStatus.NOT_FOUND);
-    }
-
     const task = await this.taskStoreService.findOne(id);
-
     if (task) {
       const updatedTask = { ...updateHouseTasksDto, assigned: task.assigned };
 

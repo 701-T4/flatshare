@@ -1,7 +1,7 @@
 import { ApiPropertyOptional } from '@nestjs/swagger';
-import { TaskDocument } from '../../../db/task/task.schema';
+import { TaskResponseDto } from './task-response-dto';
 
 export default class UserTasksResponseDto {
   @ApiPropertyOptional()
-  tasks: TaskDocument[];
+  tasks: TaskResponseDto[];
 }

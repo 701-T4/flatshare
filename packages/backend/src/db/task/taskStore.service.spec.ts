@@ -4,71 +4,102 @@ import { TaskStoreService } from './taskStore.service';
 import { Task } from './task.schema';
 import { Model } from 'mongoose';
 
-// const mockUser = {
-//   house: null,
-//   firebaseId: 'blablabla',
-// };
+const currentDate = new Date();
+const mockTask = {
+  name: 'Task 1',
+  description: 'Clean the floor',
+  lastCompleted: null,
+  dueDate: currentDate,
+  interval: 0,
+  assigned: 'Bob',
+  pool: ['Bob'],
+  house: null,
+};
 
-// describe('UserStoreService', () => {
-//   let userService: TaskStoreService;
-//   let model: Model<Task>;
-//   const usersArray = [
-//     {
-//       house: null,
-//       firebaseId: 'blablabla',
-//     },
-//     {
-//       house: null,
-//       firebaseId: 'www',
-//     },
-//   ];
+describe('TaskStoreService', () => {
+  let taskService: TaskStoreService;
+  let model: Model<Task>;
+  const tasksArray = [
+    {
+      name: 'Task 1',
+      description: 'Clean the floor',
+      lastCompleted: null,
+      dueDate: currentDate,
+      interval: 0,
+      assigned: 'Bob',
+      pool: ['Bob'],
+      house: null,
+    },
+    {
+      name: 'Task 2',
+      description: 'Clean the kitchen',
+      lastCompleted: null,
+      dueDate: currentDate,
+      interval: 0,
+      assigned: 'Bob',
+      pool: ['Bob'],
+      house: null,
+    },
+  ];
 
-//   beforeEach(async () => {
-//     const module: TestingModule = await Test.createTestingModule({
-//       providers: [
-//         TaskStoreService,
-//         {
-//           provide: getModelToken('User'),
-//           useValue: {
-//             new: jest.fn().mockResolvedValue(mockUser),
-//             constructor: jest.fn().mockResolvedValue(mockUser),
-//             find: jest.fn(),
-//             findOne: jest.fn(),
-//             findOneAndUpdate: jest.fn(),
-//             exec: jest.fn(),
-//             create: jest.fn(),
-//           },
-//         },
-//       ],
-//     }).compile();
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        TaskStoreService,
+        {
+          provide: getModelToken('Task'),
+          useValue: {
+            new: jest.fn().mockResolvedValue(mockTask),
+            constructor: jest.fn().mockResolvedValue(mockTask),
+            find: jest.fn(),
+            findOne: jest.fn(),
+            findOneAndUpdate: jest.fn(),
+            exec: jest.fn(),
+            create: jest.fn(),
+          },
+        },
+      ],
+    }).compile();
 
-//     userService = module.get<TaskStoreService>(TaskStoreService);
-//     model = module.get<Model<Task>>(getModelToken('User'));
-//   });
+    taskService = module.get<TaskStoreService>(TaskStoreService);
+    model = module.get<Model<Task>>(getModelToken('Task'));
+  });
 
-//   it('should be defined', () => {
-//     expect(userService).toBeDefined();
-//   });
+  it('should be defined', () => {
+    expect(taskService).toBeDefined();
+  });
 
-//   it('should return all users', async () => {
-//     jest.spyOn(model, 'find').mockReturnValue({
-//       exec: jest.fn().mockResolvedValueOnce(usersArray),
-//     } as any);
-//     const users = await userService.findAll();
-//     expect(users).toEqual(usersArray);
-//   });
+  it('should return all tasks', async () => {
+    jest.spyOn(model, 'find').mockReturnValue({
+      exec: jest.fn().mockResolvedValueOnce(tasksArray),
+    } as any);
+    const tasks = await taskService.findAll();
+    expect(tasks).toEqual(tasksArray);
+  });
 
-//   it('should insert a new user', async () => {
-//     jest.spyOn(model, 'create').mockImplementationOnce(() =>
-//       Promise.resolve({
-//         house: null,
-//         firebaseId: 'blablabla',
-//       }),
-//     );
-//     const newUser = await userService.create({
-//       house: null,
-//       firebaseId: 'blablabla',
-//     });
-//     expect(newUser).toEqual(mockUser);
-//   });
-// });
+  it('should insert a new task', async () => {
+    jest.spyOn(model, 'create').mockImplementationOnce(() =>
+      Promise.resolve({
+        name: 'Task 1',
+        description: 'Clean the floor',
+        lastCompleted: null,
+        dueDate: currentDate,
+        interval: 0,
+        assigned: 'Bob',
+        pool: ['Bob'],
+        house: null,
+      }),
+    );
+    const newTask = await taskService.create({
+      name: 'Task 1',
+      description: 'Clean the floor',
+      lastCompleted: null,
+      dueDate: currentDate,
+      interval: 0,
+      assigned: 'Bob',
+      pool: ['Bob'],
+      house: null,
+    });
+    expect(newTask).toEqual(mockTask);
+  });
+});

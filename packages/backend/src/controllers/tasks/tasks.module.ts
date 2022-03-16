@@ -7,6 +7,6 @@ import { FirebaseAuthStrategy } from 'src/guards/firebase.auth';
 @Module({
   controllers: [TasksController],
   imports: [DbModule],
-  providers: [TaskUtil, FirebaseAuthStrategy],
+  providers: [TaskUtil],
 })
 export class TaskModule {}
