@@ -18,12 +18,15 @@ import {
 } from 'firebase/auth';
 import { useAlert } from '../../components/common/util/CornerAlert';
 import { FirebaseError } from 'firebase/app';
+import { useApiMutation } from '../../hooks/useApi';
 
 interface SignInPageProps {}
 
 const SignInPage: React.FC<SignInPageProps> = () => {
   const { setUser } = useAuth();
   const { createAlert } = useAlert();
+
+  const mutateCreateUser = useApiMutation('/api/v1/user', { method: 'post' });
 
   const createSigninErrorAlert = (message: string) => {
     createAlert(
@@ -36,25 +39,39 @@ const SignInPage: React.FC<SignInPageProps> = () => {
     );
   };
 
+  const [isLogin, setIsLogin] = useState(true);
+  const [name, setName] = useState<string>('');
+  const [email, setEmail] = useState<string>('');
+  const [password, setPassword] = useState<string>('');
+  const [confirmPassword, setConfirmPassword] = useState<string>('');
+
   const uiConfig = {
     signInFlow: 'popup',
     signInOptions: [GoogleAuthProvider.PROVIDER_ID],
     callbacks: {
       signInSuccessWithAuthResult: () => {
-        setUser(auth.currentUser);
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+          createSigninErrorAlert('Could not sign in with Google');
+          return false;
+        }
+
+        const { uid: firebaseId, displayName } = currentUser;
+
+        setUser(currentUser);
+        mutateCreateUser({
+          body: {
+            firebaseId,
+            name: displayName ?? 'Anonymous',
+          },
+        });
         return false;
       },
     },
   };
 
-  const [isLogin, setIsLogin] = useState(true);
-  const [name, setName] = useState<string | null>(null);
-  const [email, setEmail] = useState<string | null>(null);
-  const [password, setPassword] = useState<string | null>(null);
-  const [confirmPassword, setConfirmPassword] = useState<string | null>(null);
-
   const validateUserInputs = () => {
-    console.log([email, password, confirmPassword]);
     if (!email) {
       createSigninErrorAlert('Please enter email');
       return false;
@@ -90,6 +107,19 @@ const SignInPage: React.FC<SignInPageProps> = () => {
         .user;
       await updateProfile(user, {
         displayName: name,
+      });
+      const firebaseId = auth.currentUser?.uid;
+      if (!firebaseId) {
+        createSigninErrorAlert(
+          'An unknown error occurred while making your account.',
+        );
+        return;
+      }
+      mutateCreateUser({
+        body: {
+          firebaseId,
+          name,
+        },
       });
     } catch (error) {
       console.error(error);
