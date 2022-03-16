@@ -9,4 +9,6 @@ import { FirebaseAuthStrategy } from 'src/guards/firebase.auth';
   imports: [DbModule],
   providers: [HouseUtil, FirebaseAuthStrategy],
 })
-export class HouseModule {}
+export class HouseModule {
+  constructor() {}
+}
