@@ -1,4 +1,3 @@
-// Generate random house code
 import { Injectable } from '@nestjs/common';
 import { randomInt } from 'crypto';
 import { TaskDocument } from 'src/db/task/task.schema';

@@ -21,9 +21,7 @@ import { User } from '../../util/user.decorator';
 import { DecodedIdToken } from 'firebase-admin/auth';
 import UserResponseDto from './dto/user-response.dto';
 import UserTasksResponseDto from './dto/user-tasks-response.dto';
-import { Task } from 'src/db/task/task.schema';
 import { TaskStoreService } from 'src/db/task/taskStore.service';
-import { Console } from 'console';
 import { TaskUtil } from '../tasks/tasks.util';
 
 @ApiTags('users')
