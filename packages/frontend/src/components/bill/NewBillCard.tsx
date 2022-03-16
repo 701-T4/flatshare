@@ -1,7 +1,7 @@
 import { Button, Input, Textarea } from '@nextui-org/react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import React, { useEffect, useState } from 'react';
+import React, { ChangeEventHandler, useEffect, useState } from 'react';
 
 const FlatMates = [
   {
@@ -39,12 +39,25 @@ interface NewBillCardProps {
 const NewBillCard: React.FC<NewBillCardProps> = () => {
   const [dueDate, setDueDate] = useState(new Date());
   const [unixTime, setUnixTime] = useState(0);
+  const [totalCost, setTotalCost] = useState('');
+  const [title, setTitle] = useState('');
+  const [detail, setDetail] = useState('');
+  const [flatmateNum, setFlatmateNum] = useState(6);
+  const [splitCost, setSplitCost] = useState('');
+  const [isEvenlySplit, setIsEvenlySplit] = useState(false);
+
   useEffect(() => {
-    console.log(dueDate.getTime());
     setUnixTime(dueDate.getTime());
+    setSplitCost(Number(totalCost) / flatmateNum + '');
+
     // to convert unix date to Date object
     // const dateObject = new Date(unixDate)
-  }, [dueDate]);
+  }, [dueDate, totalCost]);
+
+  const handleEvenlyButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setIsEvenlySplit(!isEvenlySplit);
+    console.log(splitCost);
+  };
   return (
     <div className="shadow-lg rounded-b-xl">
       <div className="flex flex-col h-full">
@@ -55,7 +68,9 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
               Total Cost: $
               <input
                 className="appearance-none  rounded-lg pl-1 ml-2 h-5 w-[10rem] text-black"
-                type="text"
+                type="number"
+                value={totalCost}
+                onChange={(e) => setTotalCost(e.target.value)}
               />
             </div>
             <div className="self-center whitespace-nowrap">
@@ -84,16 +99,25 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
               <input
                 className="appearance-none  rounded-lg pl-3  h-5 w-[12rem] text-black self-center"
                 type="text"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
             </div>
             <div className="flex flex-row justify-items-center">
               <div className="self-center mr-3">Details</div>
-              <Textarea size="lg" animated={false}></Textarea>
+              <Textarea
+                size="lg"
+                animated={false}
+                value={detail}
+                onChange={(e) => setDetail(e.target.value)}
+              ></Textarea>
             </div>
             <Button
               size="xs"
               rounded
               className="w-auto h-10 p-5 mt-1 mb-1 text-base"
+              onClick={handleEvenlyButton}
+              flat={isEvenlySplit}
             >
               Split Evenly
             </Button>
@@ -110,6 +134,7 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
                     <input
                       className="appearance-none  rounded-lg pl-1 ml-2 h-5 w-[9rem] text-black self-center "
                       type="text"
+                      value={isEvenlySplit ? splitCost : undefined}
                     />
                   </div>
                 </div>
