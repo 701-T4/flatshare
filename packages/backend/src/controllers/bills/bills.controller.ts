@@ -1,4 +1,3 @@
-/* eslint-disable */
 import {
   Controller,
   Post,
@@ -22,10 +21,10 @@ import { BillStoreService } from 'src/db/bill/billStore.service';
 import { UserStoreService } from 'src/db/user/userStore.service';
 import { User } from 'src/util/user.decorator';
 import { CreateBillDto } from './dto/create-bill.dto';
-import { Types, ObjectId } from 'mongoose';
-import { BillResponseDto } from './dto/bill-response.dto';
+import { BillResponseDto, BillsResponseDto } from './dto/bill-response.dto';
 import { UpdateBillDto } from './dto/update-bill.dto';
 import { PayBillDto } from './dto/pay-bill.dto';
+import { BillUtil } from './bills.util';
 
 @ApiTags('bills')
 @Controller('/api/v1/house/bills')
@@ -33,6 +32,7 @@ export class BillController {
   constructor(
     private readonly billStoreService: BillStoreService,
     private readonly userStoreService: UserStoreService,
+    private readonly billUtil: BillUtil,
   ) {}
 
   @Get()
@@ -41,8 +41,21 @@ export class BillController {
     description: 'Bills retrieved successfully',
     type: String,
   })
-  async getBills(): Promise<string> {
-    return 'Get Bills';
+  async getBills(@User() user: DecodedIdToken): Promise<BillsResponseDto> {
+    const houseID = (await this.userStoreService.findOneByFirebaseId(user.uid))
+      .house;
+    return {
+      bills: await Promise.all(
+        (
+          await this.billStoreService.findAllForHouse(houseID)
+        ).map((bill) => {
+          return this.billUtil.covertBillDocumentToResponseDTO(
+            bill,
+            this.userStoreService,
+          );
+        }),
+      ),
+    };
   }
 
   @Post()
@@ -55,26 +68,31 @@ export class BillController {
     @Body() createBillDto: CreateBillDto,
     @User() user: DecodedIdToken,
   ): Promise<BillResponseDto> {
-    const billModel: BillModel = {
-      name: createBillDto.name,
-      description: createBillDto.description,
-      owner: (await this.userStoreService.findOneByFirebaseId(user.uid))._id,
-      due: new Date(createBillDto.due),
-      users: createBillDto.users.map((u) => {
+    const owner = await this.userStoreService.findOneByFirebaseId(user.uid);
+    const users = await Promise.all(
+      createBillDto.users.map(async (u) => {
         return {
-          id: new Types.ObjectId(u.id),
+          id: (await this.userStoreService.findOneByFirebaseId(user.uid))._id,
           amount: u.amount,
           paid: u.paid,
           proof: u.proof,
         };
       }),
+    );
+    const billModel: BillModel = {
+      name: createBillDto.name,
+      description: createBillDto.description,
+      house: owner.house,
+      owner: owner._id,
+      due: new Date(createBillDto.due),
+      users: users,
     };
     const bill = await this.billStoreService.create(billModel);
     return {
       name: bill.name,
       description: bill.description,
-      owner: user.uid,
-      due: bill.due.getTime(),
+      owner: owner.firebaseId,
+      due: createBillDto.due,
       users: createBillDto.users,
     };
   }
@@ -96,7 +114,10 @@ export class BillController {
       bill.owner ===
       (await this.userStoreService.findOneByFirebaseId(user.uid))._id
     ) {
-      this.billStoreService.update(bill._id, updateBillDto);
+      return this.billUtil.covertBillDocumentToResponseDTO(
+        await this.billStoreService.update(bill._id, updateBillDto),
+        this.userStoreService,
+      );
     } else
       throw new HttpException('not the bill owner', HttpStatus.UNAUTHORIZED);
   }
@@ -110,8 +131,21 @@ export class BillController {
   async updateBillPayment(
     @Param() id: string,
     @Body() payBillDto: PayBillDto,
+    @User() user: DecodedIdToken,
   ): Promise<BillResponseDto> {
-    return `Mark a Bill ${id}`;
+    const bill = await this.billStoreService.findOne(id);
+    const userID = (await this.userStoreService.findOneByFirebaseId(user.uid))
+      ._id;
+    bill.users.map((u) => {
+      if (u.id === userID) {
+        u.paid = payBillDto.paid;
+        u.proof = payBillDto.proof;
+      }
+    });
+    return this.billUtil.covertBillDocumentToResponseDTO(
+      await this.billStoreService.update(bill._id, bill),
+      this.userStoreService,
+    );
   }
 
   @Delete(':id')
@@ -129,7 +163,10 @@ export class BillController {
       bill.owner ===
       (await this.userStoreService.findOneByFirebaseId(user.uid))._id
     ) {
-      this.billStoreService.delete(bill._id);
+      return this.billUtil.covertBillDocumentToResponseDTO(
+        await this.billStoreService.delete(bill._id),
+        this.userStoreService,
+      );
     } else
       throw new HttpException('not the bill owner', HttpStatus.UNAUTHORIZED);
   }

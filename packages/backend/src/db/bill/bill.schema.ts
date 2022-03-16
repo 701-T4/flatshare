@@ -11,6 +11,9 @@ export class Bill {
   @Prop()
   description: string;
 
+  @Prop({ type: Types.ObjectId, ref: 'House' })
+  house: Types.ObjectId;
+
   @Prop({ type: Types.ObjectId, ref: 'User' })
   owner: Types.ObjectId;
 
@@ -31,6 +34,7 @@ export const BillSchema = SchemaFactory.createForClass(Bill);
 export class BillModel {
   name: string;
   description: string;
+  house: Types.ObjectId;
   owner: Types.ObjectId;
   due: Date;
   users: {

@@ -25,6 +25,10 @@ export class BillStoreService {
     return this.BillModel.find().exec();
   }
 
+  async findAllForHouse(id: Mongoose.Types.ObjectId): Promise<BillDocument[]> {
+    return this.BillModel.find({ house: id }).exec();
+  }
+
   async update(
     id: string,
     updateBillModel: Partial<BillModel>,

@@ -21,3 +21,8 @@ export class BillResponseDto {
     proof: string;
   }[];
 }
+
+export class BillsResponseDto {
+  @ApiProperty()
+  bills: BillResponseDto[];
+}
