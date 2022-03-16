@@ -6,6 +6,7 @@ import { useAuth } from '../../hooks/useAuth';
 import { Button } from '@nextui-org/react';
 import { useNavigate } from 'react-router';
 import NewBillCard from '../../components/bill/NewBillCard';
+import { Collapse } from '@nextui-org/react';
 
 interface BillSplittingPageProps {}
 
@@ -41,14 +42,23 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
   return (
     <Page>
       <div className="flex flex-col gap-4">
-        <Button
-          className="w-16 my-3 bg-teal-500"
-          onClick={() => (newBill ? setNewBill(false) : setNewBill(true))}
+        <Collapse
+          arrowIcon=" "
+          disabled
+          className="border-0"
+          expanded={newBill}
+          title={
+            <Button
+              className="w-16 my-3 bg-teal-500"
+              onClick={() => setNewBill(!newBill)}
+            >
+              New Bill
+            </Button>
+          }
         >
-          New Bill
-        </Button>
-        {newBill && <NewBillCard />}
-        <div className="flex flex-col gap-4 pt-10">
+          <NewBillCard />
+        </Collapse>
+        <div className="flex flex-col gap-4">
           <UnderlinedText colorClasses="bg-gray-800">
             <div className="text-lg font-semibold">Upcoming Bills</div>
           </UnderlinedText>
