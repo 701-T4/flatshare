@@ -3,6 +3,7 @@ describe('Sign in page', () => {
   const email = `test${rand}@gmail.com`;
 
   // clear all local storage before tests
+  // Should really perform resetting and seeding of database instead
   beforeEach(() => {
     indexedDB.deleteDatabase('firebaseLocalStorageDb');
   });
