@@ -1,27 +1,29 @@
 import { Fragment, useState } from 'react';
 import { Combobox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
-import { Input } from '@nextui-org/react';
 
 interface AssigneeComboboxProps {
+  setAssignee(value: { id: number; name: string }): void;
   assigneePool: { id: number; name: string }[];
 }
 
 const AssigneeCombobox: React.FC<AssigneeComboboxProps> = ({
   assigneePool,
+  setAssignee,
 }) => {
   const people = assigneePool;
-  const [selected, setSelected] = useState(people[0]);
+  const [selected] = useState(people[0]);
 
   return (
     <div className="w-full">
-      <Combobox value={selected} onChange={setSelected}>
-        <Combobox.Label style={{ color: '#2dd4df' }}>Assignee</Combobox.Label>
+      <Combobox value={selected} onChange={setAssignee}>
+        <Combobox.Label className="pl-1 text-teal-400">Assignee</Combobox.Label>
         <div className="relative mt-1">
-          <div className="relative w-full text-left bg-white rounded-lg shadow-md cursor-default focus:outline-none focus-visible:ring-2 focus-visible:ring-opacity-75 focus-visible:ring-white focus-visible:ring-offset-teal-300 focus-visible:ring-offset-2 sm:text-sm overflow-hidden">
-            <Input
-              className="w-full border-none focus:ring-0 py-2 pl-3 pr-10 text-sm leading-5 text-gray-900"
+          <div className="relative w-full text-left bg-white rounded-lg border-solid border-2 hover:border-teal-400 sm:text-sm overflow-hidden">
+            <input
+              className="w-full focus:ring-0 py-2 ml-1.5 pl-3 pr-10 h-11"
               value={selected.name}
+              readOnly
             />
             <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
               <SelectorIcon
@@ -42,7 +44,7 @@ const AssigneeCombobox: React.FC<AssigneeComboboxProps> = ({
                   key={person.id}
                   className={({ active }) =>
                     `cursor-default select-none relative py-2 pl-10 pr-4 ${
-                      active ? 'text-white bg-teal-600' : 'text-gray-900'
+                      active ? 'text-white bg-teal-400' : 'text-gray-900'
                     }`
                   }
                   value={person}
@@ -59,7 +61,7 @@ const AssigneeCombobox: React.FC<AssigneeComboboxProps> = ({
                       {selected ? (
                         <span
                           className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                            active ? 'text-white' : 'text-teal-600'
+                            active ? 'text-white' : 'text-teal-400'
                           }`}
                         >
                           <CheckIcon className="w-5 h-5" aria-hidden="true" />
