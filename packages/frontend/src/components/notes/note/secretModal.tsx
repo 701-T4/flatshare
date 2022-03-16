@@ -17,14 +17,20 @@ const SecretModal: React.FC<SecretModalProps> = ({
   data
 }) => {
 
-  const closeHandler = () => {
-    setVisible(false);
-  };
+  
+  
 
-  const [passwordShown, setPasswordShown] = useState(false);
+  const [passwordShown, setPasswordShown] = useState(true);
 
   const passwordHandler = () => {
     setPasswordShown(!passwordShown);
+  };
+
+  console.log(passwordShown)
+
+  const closeHandler = () => {
+    setVisible(false);
+    setPasswordShown(true)
   };
 
   const editButton = () => {
