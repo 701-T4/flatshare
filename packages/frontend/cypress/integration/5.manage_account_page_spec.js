@@ -2,7 +2,7 @@ describe('Manage account page', () => {
   const rand = Math.floor(Math.random() * (1000 - 100) + 100);
   const email = `test${rand}@gmail.com`;
 
-  beforeEach(() => {
+  it('initialise state - login to go to the authorised page', () => {
     //clear all local storage before tests
     indexedDB.deleteDatabase('firebaseLocalStorageDb');
 
@@ -25,15 +25,14 @@ describe('Manage account page', () => {
     cy.contains('create your first flat').should('be.visible');
   });
 
-  it('create house successfully should go to the dashboad', () => {
+  it('create house should close modal', () => {
     cy.get('[aria-label="house name"]').type('test');
     cy.get('[aria-label="house address"]').type('test address');
-    cy.get('[aria-label="house phone number"]').type('021 123445');
+    cy.get('[aria-label="phone number"]').type('021 123445');
 
-    cy.get('button').contains('create!').click();
+    cy.get('button').contains('Create!').click();
     //close the modal
     cy.contains('create your first flat').should('not.visible');
-    cy.url().should('includes', 'dashboard');
   });
 
   it('click join button should show the join house modal', () => {
@@ -41,8 +40,11 @@ describe('Manage account page', () => {
     cy.contains('Enter House Code').should('be.visible');
   });
 
-  it('submit valid house code shold direct to dashboard', () => {
-    cy.get('[aria-label="House Code"]').type('');
-    cy.contains('Enter House Code').should('be.visible');
+  it('submit house code should close the modal', () => {
+    cy.get('[aria-label="House Code"]').type('test');
+    cy.get('button').contains('Submit').click();
+
+    cy.contains('Enter House Code').should('not.visible');
+    cy.contains('Joining the house...').should('be.visible');
   });
 });
