@@ -1,22 +1,23 @@
-import { Fragment, useState } from 'react';
+import { Fragment } from 'react';
 import { Combobox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 
 interface AssigneeComboboxProps {
-  setAssignee(value: { id: number; name: string }): void;
+  selected: { id: number; name: string };
+  setSelected(value: { id: number; name: string }): void;
   assigneePool: { id: number; name: string }[];
 }
 
 const AssigneeCombobox: React.FC<AssigneeComboboxProps> = ({
+  selected,
   assigneePool,
-  setAssignee,
+  setSelected,
 }) => {
   const people = assigneePool;
-  const [selected] = useState(people[0]);
 
   return (
     <div className="w-full">
-      <Combobox value={selected} onChange={setAssignee}>
+      <Combobox value={selected} onChange={setSelected}>
         <Combobox.Label className="pl-1 text-teal-400">Assignee</Combobox.Label>
         <div className="relative mt-1">
           <div className="relative w-full text-left bg-white rounded-lg border-solid border-2 hover:border-teal-400 sm:text-sm overflow-hidden">
@@ -39,7 +40,7 @@ const AssigneeCombobox: React.FC<AssigneeComboboxProps> = ({
             leaveTo="opacity-0"
           >
             <Combobox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
-              {people.map((person) => (
+              {people.map((person, index) => (
                 <Combobox.Option
                   key={person.id}
                   className={({ active }) =>
@@ -49,26 +50,30 @@ const AssigneeCombobox: React.FC<AssigneeComboboxProps> = ({
                   }
                   value={person}
                 >
-                  {({ selected, active }) => (
-                    <>
-                      <span
-                        className={`block truncate ${
-                          selected ? 'font-medium' : 'font-normal'
-                        }`}
-                      >
-                        {person.name}
-                      </span>
-                      {selected ? (
+                  {({ active }) => {
+                    return (
+                      <>
                         <span
-                          className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                            active ? 'text-white' : 'text-teal-400'
+                          className={`block truncate ${
+                            selected.name == person.name
+                              ? 'font-medium'
+                              : 'font-normal'
                           }`}
                         >
-                          <CheckIcon className="w-5 h-5" aria-hidden="true" />
+                          {person.name}
                         </span>
-                      ) : null}
-                    </>
-                  )}
+                        {selected.name == person.name ? (
+                          <span
+                            className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                              active ? 'text-teal-400' : 'text-teal-400'
+                            }`}
+                          >
+                            <CheckIcon className="w-5 h-5" aria-hidden="true" />
+                          </span>
+                        ) : null}
+                      </>
+                    );
+                  }}
                 </Combobox.Option>
               ))}
             </Combobox.Options>

@@ -77,7 +77,9 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
         visible={visible}
         setVisible={setVisible}
         createTask={false}
-        currentTaskName="Cleaning House"
+        currentTaskName={taskName}
+        currentTaskDescription={taskDescription}
+        currentAssignee={assignee}
       />
     </Page>
   );

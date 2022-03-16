@@ -4,6 +4,8 @@ import Page from '../../components/common/layout/Page';
 import UnderlinedText from '../../components/dashboard/GradientUnderlinedText';
 import { useHouse } from '../../hooks/useHouse';
 import { useNavigate } from 'react-router';
+import CreateNewTaskButton from '../../components/task/task/CreateNewTaskButton';
+import EditAndCreateTaskModal from '../../components/task/task/EditAndCreateTaskModal';
 
 interface TaskPageProps {}
 
@@ -67,8 +69,18 @@ const TaskPage: React.FC<TaskPageProps> = () => {
     },
   ];
 
+  const [visible, setVisible] = React.useState(false);
+  // Hook for the Join Button Modal to be configured
+  const openModalHandler = () => {
+    console.log('open create modal clicked');
+    setVisible(true);
+  };
+
   return (
     <Page>
+      <div className="flex flex-row justify-end">
+        <CreateNewTaskButton onClick={openModalHandler} />
+      </div>
       <div className="flex flex-col gap-8">
         {mockTaskData.map((item) => (
           <div>
@@ -81,6 +93,11 @@ const TaskPage: React.FC<TaskPageProps> = () => {
           </div>
         ))}
       </div>
+      <EditAndCreateTaskModal
+        visible={visible}
+        setVisible={setVisible}
+        createTask={true}
+      />
     </Page>
   );
 };
