@@ -23,3 +23,18 @@ Ensure you have set up backend env files first. Checkout backend README for more
 1. Run `yarn run test:docker` to simultaneously run the frontend and backend tests in docker containers.
 
 For more detail, view `CONTRIBUTING.md`.
+
+# How to attribute
+
+## Attributing third party dependencies
+
+All third party dependencies used in this project are attributed in the LICENSE-3RD-PARTY files. The files are generated automatically when there is an update to the dependecies used.
+
+To mannually generate a LICENSE-3RD-PARTY.md:
+Run `yarn run license-report`
+
+For further information on the license-report-generator package, please visit npmjs.com/package/@wbmnky/license-report-generator.
+
+## Attributing resources
+
+If you have used any images or other resources that belongs to someone else, please attribute them appropriately in the `ATTRIBUTIONS.md`.
