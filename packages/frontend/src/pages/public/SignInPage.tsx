@@ -28,7 +28,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
 
   const mutateCreateUser = useApiMutation('/api/v1/user', { method: 'post' });
 
-  const createSigninErrorAlert = (message: string) => {
+  const createSignInErrorAlert = (message: string) => {
     createAlert(
       {
         icon: <ExclamationCircleIcon />,
@@ -40,10 +40,10 @@ const SignInPage: React.FC<SignInPageProps> = () => {
   };
 
   const [isLogin, setIsLogin] = useState(true);
-  const [name, setName] = useState<string>('');
-  const [email, setEmail] = useState<string>('');
-  const [password, setPassword] = useState<string>('');
-  const [confirmPassword, setConfirmPassword] = useState<string>('');
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
   const uiConfig = {
     signInFlow: 'popup',
@@ -53,7 +53,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
         const currentUser = auth.currentUser;
 
         if (!currentUser) {
-          createSigninErrorAlert('Could not sign in with Google');
+          createSignInErrorAlert('Could not sign in with Google');
           return false;
         }
 
@@ -73,13 +73,13 @@ const SignInPage: React.FC<SignInPageProps> = () => {
 
   const validateUserInputs = () => {
     if (!email) {
-      createSigninErrorAlert('Please enter email');
+      createSignInErrorAlert('Please enter email');
       return false;
     } else if (!email?.includes('@')) {
-      createSigninErrorAlert('Please enter a valid email');
+      createSignInErrorAlert('Please enter a valid email');
       return false;
     } else if (!password) {
-      createSigninErrorAlert('Please enter password');
+      createSignInErrorAlert('Please enter password');
       return false;
     }
     return true;
@@ -96,7 +96,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
       return;
     }
     if (password !== confirmPassword) {
-      return createSigninErrorAlert('Passwords must match');
+      return createSignInErrorAlert('Passwords must match');
     }
     await handleCreateEmailAccount(email!, password!);
   };
@@ -110,7 +110,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
       });
       const firebaseId = auth.currentUser?.uid;
       if (!firebaseId) {
-        createSigninErrorAlert(
+        createSignInErrorAlert(
           'An unknown error occurred while making your account.',
         );
         return;
@@ -125,13 +125,13 @@ const SignInPage: React.FC<SignInPageProps> = () => {
       console.error(error);
       if (error instanceof FirebaseError) {
         if (error.code === 'auth/email-already-in-use') {
-          createSigninErrorAlert('Emails already in use');
+          createSignInErrorAlert('Emails already in use');
         } else if (error.code === 'auth/invalid-email') {
-          createSigninErrorAlert('Please enter a true email address');
+          createSignInErrorAlert('Please enter a true email address');
         } else if (error.code === 'auth/weak-password') {
-          createSigninErrorAlert('Please enter a stronger password');
+          createSignInErrorAlert('Please enter a stronger password');
         } else {
-          createSigninErrorAlert(error.message);
+          createSignInErrorAlert(error.message);
         }
       }
     }
@@ -144,13 +144,13 @@ const SignInPage: React.FC<SignInPageProps> = () => {
       console.error(error);
       if (error instanceof FirebaseError) {
         if (error.code === 'auth/invalid-email') {
-          createSigninErrorAlert('Please enter a valid email');
+          createSignInErrorAlert('Please enter a valid email');
         } else if (error.code === 'auth/user-not-found') {
-          createSigninErrorAlert('No such user');
+          createSignInErrorAlert('No such user');
         } else if (error.code === 'auth/wrong-password') {
-          createSigninErrorAlert('Wrong Password');
+          createSignInErrorAlert('Wrong Password');
         } else {
-          createSigninErrorAlert(error.message);
+          createSignInErrorAlert(error.message);
         }
       }
     }
