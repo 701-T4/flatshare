@@ -15,6 +15,7 @@ import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiNoContentResponse,
+  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiResponse,
@@ -33,8 +34,11 @@ import { JoinHouseDto } from './dto/join-house.dto';
 import HouseTasksResponseDto from './dto/house-tasks-response.dto';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { TaskStoreService } from '../../db/task/taskStore.service';
-import { TaskDocument } from 'src/db/task/task.schema';
+import { TaskDocument, TaskModel } from 'src/db/task/task.schema';
 import { identity } from 'rxjs';
+import { CompleteTaskDto } from './dto/complete-task.dto';
+import UpdateHouseTasksDto from './dto/update-house-tasks.dto';
+import { isValidObjectId } from 'mongoose';
 
 @ApiTags('houses')
 @Controller('/api/v1/house')
@@ -154,7 +158,6 @@ export class HouseController {
         createTaskDto.assigned = this.houseUtil.selectRandomUser(
           createTaskDto.pool,
         );
-        console.log(createTaskDto.assigned);
         createTaskDto.house = house._id;
         await this.taskStoreService.create(createTaskDto);
 
@@ -187,7 +190,6 @@ export class HouseController {
           task.house.equals(house._id),
         );
         const tasks_due = this.houseUtil.checkRecurrence(tasksForHouse);
-        console.log(tasks_due);
         tasks_due.forEach(
           async (t) => await this.taskStoreService.update(t.id, t.updatedTask),
         );
@@ -215,7 +217,6 @@ export class HouseController {
   })
   async deleteTaskFromHouse(@Param('id') id, @User() user: DecodedIdToken) {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
-    console.log(userDoc.house);
     if (userDoc.house != undefined) {
       const house = await this.houseStoreService.findOne(userDoc.house);
       const task = await this.taskStoreService.findOne(id);
@@ -232,30 +233,93 @@ export class HouseController {
     }
 
     throw new HttpException('user is not in the house', HttpStatus.BAD_REQUEST);
+  }
 
-    // checkRecurrence(tasks: TaskDocument[]) {
-    //   const result = tasks.map(async function (t) {
-    //     const current_due_date = t.due_date.setDate(
-    //       //Need to multiply interval by 1000 to increment the date by seconds.
-    //       t.due_date.getTime() + 1000 * t.interval,
-    //     );
-    //     if (current_due_date > Date.now()) {
-    //       if (t.assigned == undefined) {
-    //         const new_assigned_user = this.houseUtil.selectRandomUser();
-    //         await this.taskStoreService.update(t._id, {
-    //           last_completed: undefined,
-    //           due_date: current_due_date,
-    //           assigned: new_assigned_user,
-    //         });
-    //       } else {
-    //         await this.taskStoreService.update(t._id, {
-    //           last_completed: undefined,
-    //           due_date: current_due_date,
-    //         });
-    //       }
-    //     }
-    //   });
-    //   return result;
-    // }
+  @Put('/task/:id/completed')
+  @ApiOperation({
+    summary: 'mark user as having completed/not completed task.',
+  })
+  @ApiResponse({
+    description: 'tasks successfully marked as complete/not complete.',
+  })
+  @ApiBadRequestResponse({
+    description: 'user is not assigned to the task',
+  })
+  @ApiNotFoundResponse({
+    description: 'task not found',
+  })
+  async markTaskAsComplete(
+    @Body() completeTaskDto: CompleteTaskDto,
+    @Param('id') id,
+    @User() user: DecodedIdToken,
+  ) {
+    if (!isValidObjectId(id)) {
+      throw new HttpException('task does not exist', HttpStatus.NOT_FOUND);
+    }
+    const task = await this.taskStoreService.findOne(id);
+
+    if (task != undefined) {
+      if (task.assigned !== user.uid) {
+        throw new HttpException(
+          'user is not assigned to task',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+      if (completeTaskDto.isComplete) {
+        this.taskStoreService.update(task._id, { last_completed: new Date() });
+      } else {
+        this.taskStoreService.update(task._id, { last_completed: null });
+      }
+    }
+    throw new HttpException('task not found', HttpStatus.NOT_FOUND);
+  }
+
+  @Put('/task/:id')
+  @ApiOperation({ summary: 'Modify task name, decription or pool' })
+  @ApiResponse({
+    description: 'task successfuly updated.',
+  })
+  @ApiBadRequestResponse({
+    description: 'user is not the owner of the house or not in the house',
+  })
+  @ApiBadRequestResponse({
+    description: 'task does not exist',
+  })
+  async modifyTask(
+    @Param('id') id,
+    @User() user: DecodedIdToken,
+    @Body() updateHouseTasksDto: UpdateHouseTasksDto,
+  ) {
+    const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
+
+    if (userDoc.house != undefined) {
+      const house = await this.houseStoreService.findOne(userDoc.house);
+      if (!isValidObjectId(id)) {
+        throw new HttpException('task does not exist', HttpStatus.NOT_FOUND);
+      }
+      const task = await this.taskStoreService.findOne(id);
+      if (task != undefined) {
+        const updatedTask = { ...updateHouseTasksDto, assigned: task.assigned };
+
+        if (!house.owner.equals(userDoc._id)) {
+          throw new HttpException(
+            'user is not owner of house',
+            HttpStatus.BAD_REQUEST,
+          );
+        }
+        updatedTask.assigned =
+          updateHouseTasksDto.pool != undefined &&
+          !updateHouseTasksDto.pool.includes(task.assigned)
+            ? this.houseUtil.selectRandomUser(updateHouseTasksDto.pool)
+            : undefined;
+
+        this.taskStoreService.update(task._id, updatedTask);
+        return;
+      }
+
+      throw new HttpException('task does not exist', HttpStatus.NOT_FOUND);
+    }
+
+    throw new HttpException('user is not in the house', HttpStatus.BAD_REQUEST);
   }
 }

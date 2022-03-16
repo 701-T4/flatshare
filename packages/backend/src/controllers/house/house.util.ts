@@ -15,7 +15,6 @@ export class HouseUtil {
     if (pool.length == 1) {
       return pool[0];
     }
-    console.log(pool);
     return pool[randomInt(0, pool.length - 1)];
   }
 
@@ -32,7 +31,7 @@ export class HouseUtil {
           const update_task = {
             id: t._id,
             updatedTask: {
-              last_completed: undefined,
+              last_completed: null,
               due_date: new Date(current_due_date),
               assigned: new_assigned_user,
             },
@@ -42,7 +41,7 @@ export class HouseUtil {
           const update_task = {
             id: t._id,
             updatedTask: {
-              last_completed: undefined,
+              last_completed: null,
               due_date: new Date(current_due_date),
             },
           };
