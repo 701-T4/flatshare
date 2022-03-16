@@ -9,11 +9,14 @@ export class CreateTaskDto extends TaskModel {
   readonly description: string;
 
   @ApiProperty()
-  readonly due_date: Date;
+  readonly dueDate: Date;
 
   @ApiPropertyOptional()
   readonly interval: number;
 
+  /**
+   * The pool property represents a list of users who can be assgined a task
+   */
   @ApiProperty()
   readonly pool: string[];
 }

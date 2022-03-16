@@ -32,6 +32,7 @@ import { TaskStoreService } from '../../db/task/taskStore.service';
 import { CompleteTaskDto } from './dto/complete-task.dto';
 import UpdateHouseTasksDto from './dto/update-house-tasks.dto';
 import { isValidObjectId } from 'mongoose';
+import { TaskResponseDto } from './dto/task-response-dto';
 
 @ApiTags('tasks')
 @Controller('/api/v1/house')
@@ -56,10 +57,10 @@ export class TasksController {
   ) {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
 
-    if (userDoc.house != undefined) {
+    if (userDoc.house) {
       const house = await this.houseStoreService.findOne(userDoc.house);
 
-      if (house != undefined) {
+      if (house) {
         if (createTaskDto.pool.length < 1) {
           throw new HttpException('pool is empty', HttpStatus.BAD_REQUEST);
         }
@@ -91,10 +92,10 @@ export class TasksController {
   ): Promise<HouseTasksResponseDto | null> {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
 
-    if (userDoc.house != undefined) {
+    if (userDoc.house) {
       const house = await this.houseStoreService.findOne(userDoc.house);
 
-      if (house != undefined) {
+      if (house) {
         const tasks = await this.taskStoreService.findAll();
 
         const tasksForHouse = tasks.filter((task) =>
@@ -102,17 +103,44 @@ export class TasksController {
         );
 
         const tasksDue = this.taskUtil.checkRecurrence(tasksForHouse);
-        tasksDue.forEach(
-          async (task) =>
-            await this.taskStoreService.update(task.id, task.updatedTask),
+        const taskPromises = tasksDue.map((task) =>
+          this.taskStoreService.update(task.id, task.updatedTask),
         );
+        await Promise.all(taskPromises);
 
         const updatedTasks = await this.taskStoreService.findAll();
         const updatedTasksForHouse = updatedTasks.filter((task) =>
           task.house.equals(house._id),
         );
+
+        const updatedTasksDto: TaskResponseDto[] = updatedTasksForHouse.map(
+          (task) => {
+            const {
+              name,
+              description,
+              lastCompleted,
+              dueDate,
+              interval,
+              assigned,
+              pool,
+              house,
+            } = task;
+
+            return {
+              name,
+              description,
+              lastCompleted,
+              dueDate,
+              interval,
+              assigned,
+              pool,
+              house,
+              isComplete: task.lastCompleted != null,
+            };
+          },
+        );
         return {
-          tasks: updatedTasksForHouse,
+          tasks: updatedTasksDto,
         };
       }
     }
@@ -132,7 +160,7 @@ export class TasksController {
   async deleteTaskFromHouse(@Param('id') id, @User() user: DecodedIdToken) {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
 
-    if (userDoc.house != undefined) {
+    if (userDoc.house) {
       const house = await this.houseStoreService.findOne(userDoc.house);
       const task = await this.taskStoreService.findOne(id);
 
@@ -173,7 +201,7 @@ export class TasksController {
     }
     const task = await this.taskStoreService.findOne(id);
 
-    if (task != undefined) {
+    if (task) {
       if (task.assigned !== user.uid) {
         throw new HttpException(
           'user is not assigned to task',
@@ -182,9 +210,9 @@ export class TasksController {
       }
 
       if (completeTaskDto.isComplete) {
-        this.taskStoreService.update(task._id, { last_completed: new Date() });
+        this.taskStoreService.update(task._id, { lastCompleted: new Date() });
       } else {
-        this.taskStoreService.update(task._id, { last_completed: null });
+        this.taskStoreService.update(task._id, { lastCompleted: null });
       }
       return;
     }
@@ -210,7 +238,7 @@ export class TasksController {
   ) {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
 
-    if (userDoc.house != undefined) {
+    if (userDoc.house) {
       const house = await this.houseStoreService.findOne(userDoc.house);
 
       if (!isValidObjectId(id)) {
@@ -219,7 +247,7 @@ export class TasksController {
 
       const task = await this.taskStoreService.findOne(id);
 
-      if (task != undefined) {
+      if (task) {
         const updatedTask = { ...updateHouseTasksDto, assigned: task.assigned };
 
         if (!house.owner.equals(userDoc._id)) {

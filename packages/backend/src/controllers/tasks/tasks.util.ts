@@ -15,7 +15,7 @@ export class TaskUtil {
     tasks.forEach((task) => {
       //Need to multiply interval by 1000 to increment the date by seconds.
       const currentDueDate = new Date(
-        task.due_date.getTime() + 1000 * task.interval,
+        task.dueDate.getTime() + 1000 * task.interval,
       );
 
       if (Date.now() > currentDueDate.getTime()) {

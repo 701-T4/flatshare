@@ -12,10 +12,10 @@ export class Task {
   description: string;
 
   @Prop({ required: false })
-  last_completed: Date;
+  lastCompleted: Date;
 
   @Prop()
-  due_date: Date;
+  dueDate: Date;
 
   @Prop()
   interval: number;
@@ -35,8 +35,8 @@ export const TaskSchema = SchemaFactory.createForClass(Task);
 export class TaskModel {
   name: string;
   description: string;
-  last_completed: Date;
-  due_date: Date;
+  lastCompleted: Date;
+  dueDate: Date;
   interval: number;
   assigned: string;
   pool: string[];
