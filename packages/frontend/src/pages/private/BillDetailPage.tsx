@@ -6,8 +6,7 @@ import cx from 'classnames';
 import { Button, Spacer, Switch } from '@nextui-org/react';
 import { v4 as uuidv4 } from 'uuid';
 import NewBillCard from '../../components/bill/NewBillCard';
-import { UserAddIcon } from '@heroicons/react/solid';
-import { TrashIcon } from '@heroicons/react/outline';
+import { TrashIcon, PencilIcon } from '@heroicons/react/outline';
 interface BillDetailPageProps {}
 
 const BillDetailPage: React.FC<BillDetailPageProps> = () => {
@@ -86,11 +85,6 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
   };
   return (
     <>
-      {isOwner ? (
-        <Button onClick={() => setIsEdit(!isEdit)}>Edit</Button>
-      ) : (
-        <></>
-      )}
       {isEdit ? (
         <div className="pt-10 px-10 md:px-20">
           <NewBillCard />
@@ -108,9 +102,19 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                 {bill?.name}
                 <div className="flex flex-row items-center">
                   <Switch
-                    className="self-end mb-1 mr-5"
+                    className="mr-5"
                     onChange={() => toggleComplete()}
                   ></Switch>
+                  {isOwner ? (
+                    <Button
+                      auto
+                      className="mr-5"
+                      onClick={() => setIsEdit(!isEdit)}
+                      icon={<PencilIcon className="h-5 w-5 text-teal-50" />}
+                    />
+                  ) : (
+                    <></>
+                  )}
                   {isOwner ? (
                     <Button
                       auto
