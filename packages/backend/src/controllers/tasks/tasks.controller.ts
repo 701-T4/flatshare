@@ -37,7 +37,7 @@ import { isValidObjectId } from 'mongoose';
 import { TaskResponseDto } from './dto/task-response-dto';
 
 @ApiTags('tasks')
-@Controller('/api/v1/house')
+@Controller('/api/v1/house/tasks')
 @Auth()
 export class TasksController {
   constructor(
@@ -47,7 +47,7 @@ export class TasksController {
     private readonly taskUtil: TaskUtil,
   ) {}
 
-  @Post('/tasks')
+  @Post()
   @ApiOperation({ summary: 'create a new task' })
   @ApiCreatedResponse({
     description: 'task created successfully',
@@ -77,7 +77,7 @@ export class TasksController {
     }
   }
 
-  @Get('/tasks')
+  @Get()
   @ApiOperation({ summary: 'get the current tasks from a house' })
   @ApiOkResponse({
     description: 'tasks retrieved successfully',
@@ -143,7 +143,7 @@ export class TasksController {
     }
   }
 
-  @Delete('/tasks/:id')
+  @Delete('/:id')
   @HttpCode(204)
   @ApiParam({
     name: 'id',
@@ -189,7 +189,7 @@ export class TasksController {
     this.taskStoreService.delete(task._id);
   }
 
-  @Put('/task/:id/completed')
+  @Put('/:id/completed')
   @ApiParam({
     name: 'id',
     required: true,
@@ -235,7 +235,7 @@ export class TasksController {
     }
   }
 
-  @Put('/task/:id')
+  @Put('/:id')
   @ApiParam({
     name: 'id',
     required: true,

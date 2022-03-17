@@ -12,7 +12,7 @@ export class TaskUtil {
     const result = [];
 
     tasks.forEach((task) => {
-      //Need to multiply interval by 1000 to increment the date by seconds.
+      // Need to multiply interval by 1000 to convert the interval from seconds to milliseconds
       const currentDueDate = new Date(
         task.dueDate.getTime() + 1000 * task.interval,
       );
