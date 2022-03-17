@@ -11,7 +11,7 @@
   },
   "lint-staged": {
     "*.{js,css,md,ts,jsx,tsx}": "prettier --write",
-    "*.ts": "eslint --fix --cache"
+    "*.ts": "eslint --fix --cache --max-warnings 0"
   },
   "scripts": {
     "build": "lerna run build",

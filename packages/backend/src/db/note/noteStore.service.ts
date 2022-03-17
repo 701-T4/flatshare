@@ -38,7 +38,11 @@ export class NoteStoreService {
     id: string,
     updateNoteModel: Partial<NoteModel>,
   ): Promise<NoteDocument> {
-    return this.noteModel.findOneAndUpdate({ _id: id }, updateNoteModel).exec();
+    return this.noteModel
+      .findOneAndUpdate({ _id: id }, updateNoteModel, {
+        new: true,
+      })
+      .exec();
   }
 
   async delete(id: string): Promise<NoteDocument> {
