@@ -2,6 +2,7 @@
   "name": "root",
   "private": true,
   "devDependencies": {
+    "eslint": "^8.11.0",
     "husky": "^7.0.4",
     "lerna": "^4.0.0",
     "lint-staged": "^12.3.5",
@@ -10,7 +11,7 @@
   },
   "lint-staged": {
     "*.{js,css,md,ts,jsx,tsx}": "prettier --write",
-    "*.ts": "eslint --fix --max-warnings 0"
+    "*.ts": "eslint --fix --cache --max-warnings 0"
   },
   "scripts": {
     "build": "lerna run build",
