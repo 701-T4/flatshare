@@ -11,6 +11,7 @@ module.exports = {
         house: "url('/public/house.png')",
       },
     },
+    plugins: [require('tailwind-scrollbar-hide')],
   },
   plugins: [],
 };

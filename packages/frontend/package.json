@@ -64,6 +64,7 @@
     "postcss": "^8.4.7",
     "ramda": "^0.28.0",
     "rimraf": "^3.0.2",
+    "tailwind-scrollbar-hide": "^1.1.7",
     "tailwindcss": "^3.0.23"
   }
 }
