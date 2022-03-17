@@ -33,12 +33,19 @@ export class BillStoreService {
     id: string,
     updateBillModel: Partial<BillModel>,
   ): Promise<BillDocument> {
-    return this.BillModel.findOneAndUpdate({ _id: id }, updateBillModel).exec();
+    return this.BillModel.findOneAndUpdate({ _id: id }, updateBillModel, {
+      new: true,
+    }).exec();
   }
 
   async delete(id: string): Promise<BillDocument> {
-    return this.BillModel.findByIdAndRemove({
-      _id: id,
-    }).exec();
+    return this.BillModel.findByIdAndRemove(
+      {
+        _id: id,
+      },
+      {
+        new: true,
+      },
+    ).exec();
   }
 }

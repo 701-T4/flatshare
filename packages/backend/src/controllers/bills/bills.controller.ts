@@ -121,8 +121,12 @@ export class BillController {
     );
 
     if (bill.owner.valueOf() === userObject._id.valueOf()) {
+      const billDocument = await this.billStoreService.update(
+        bill._id,
+        updateBillDto,
+      );
       return this.billUtil.covertBillDocumentToResponseDTO(
-        await this.billStoreService.update(bill._id, updateBillDto),
+        billDocument,
         this.userStoreService,
       );
     } else
@@ -152,6 +156,7 @@ export class BillController {
         console.log(u);
       }
     });
+    //TODO: Fix the bug of not returning the paid and proof values
     return this.billUtil.covertBillDocumentToResponseDTO(
       await this.billStoreService.update(bill._id, bill),
       this.userStoreService,
