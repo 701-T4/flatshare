@@ -8944,7 +8944,8 @@ The externally maintained libraries used by Node.js are:
 
   5. Time Zone Database
 
-     ICU uses the public domain data and code derived from Time Zone
+
+      ICU uses the public domain data and code derived from Time Zone
 
   Database for its time zone support. The ownership of the TZ database
   is explained in BCP 175: Procedure for Maintaining the Time Zone
