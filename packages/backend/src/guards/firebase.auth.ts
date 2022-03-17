@@ -10,6 +10,7 @@ import {
 import { getAuth } from 'firebase-admin/auth';
 import { UserStoreService } from 'src/db/user/userStore.service';
 import { UserModel } from 'src/db/user/user.schema';
+import admin = require('firebase-admin');
 
 @Injectable()
 export class FirebaseAuthStrategy extends PassportStrategy(
@@ -18,9 +19,13 @@ export class FirebaseAuthStrategy extends PassportStrategy(
 ) {
   constructor(private readonly userStoreService: UserStoreService) {
     super({ jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken() });
-    initializeApp({
-      credential: FirebaseAuthStrategy.getCredentials(),
-    });
+
+    // Prevent initialize multiple apps
+    if (admin.apps.length === 0) {
+      initializeApp({
+        credential: FirebaseAuthStrategy.getCredentials(),
+      });
+    }
   }
 
   private static getCredentials(): Credential {
