@@ -1,7 +1,5 @@
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router';
-import CreateNotePage from '../private/CreateNotePage';
-import NotesPage from '../private/NotesPage';
 import LandingPage from '../public/LandingPage';
 import SignInPage from '../public/SignInPage';
 
