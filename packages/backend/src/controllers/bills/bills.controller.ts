@@ -8,6 +8,7 @@ import {
   Body,
   HttpException,
   HttpStatus,
+  HttpCode,
 } from '@nestjs/common';
 import {
   ApiCreatedResponse,
@@ -15,7 +16,8 @@ import {
   ApiNoContentResponse,
   ApiOperation,
   ApiTags,
-  ApiUnauthorizedResponse,
+  ApiForbiddenResponse,
+  ApiBadRequestResponse,
 } from '@nestjs/swagger';
 import { DecodedIdToken } from 'firebase-admin/auth';
 import { BillModel } from 'src/db/bill/bill.schema';
@@ -43,11 +45,16 @@ export class BillController {
   @ApiOperation({ summary: 'Retrieve all bills in the users flat.' })
   @ApiOkResponse({
     description: 'Bills retrieved successfully',
-    type: String,
+    type: BillsResponseDto,
   })
+  @ApiBadRequestResponse({ description: 'User is not in a house' })
   async getBills(@User() user: DecodedIdToken): Promise<BillsResponseDto> {
     const houseID = (await this.userStoreService.findOneByFirebaseId(user.uid))
       .house;
+
+    if (!houseID) {
+      throw new HttpException('user is not in a house', HttpStatus.BAD_REQUEST);
+    }
 
     return {
       bills: await Promise.all(
@@ -108,7 +115,7 @@ export class BillController {
     description: 'Bill updated successfully',
     type: BillResponseDto,
   })
-  @ApiUnauthorizedResponse({ description: 'not the bill owner' })
+  @ApiForbiddenResponse({ description: 'Not the bill owner' })
   async updateBill(
     @Param() idObject: string,
     @Body() updateBillDto: UpdateBillDto,
@@ -120,17 +127,18 @@ export class BillController {
       user.uid,
     );
 
-    if (bill.owner.valueOf() === userObject._id.valueOf()) {
-      const billDocument = await this.billStoreService.update(
-        bill._id,
-        updateBillDto,
-      );
-      return this.billUtil.covertBillDocumentToResponseDTO(
-        billDocument,
-        this.userStoreService,
-      );
-    } else
-      throw new HttpException('not the bill owner', HttpStatus.UNAUTHORIZED);
+    if (!bill.owner.equals(userObject._id)) {
+      throw new HttpException('not the bill owner', HttpStatus.FORBIDDEN);
+    }
+
+    const billDocument = await this.billStoreService.update(
+      bill._id,
+      updateBillDto,
+    );
+    return this.billUtil.covertBillDocumentToResponseDTO(
+      billDocument,
+      this.userStoreService,
+    );
   }
 
   @Put(':id/payment')
@@ -149,14 +157,12 @@ export class BillController {
     const userObject = await this.userStoreService.findOneByFirebaseId(
       user.uid,
     );
-    bill.users.map((u) => {
-      if (u.id.valueOf() === userObject._id.valueOf()) {
+    bill.users.forEach((u) => {
+      if (u.id.equals(userObject._id)) {
         u.paid = payBillDto.paid;
         u.proof = payBillDto.proof;
-        console.log(u);
       }
     });
-    //TODO: Fix the bug of not returning the paid and proof values
     return this.billUtil.covertBillDocumentToResponseDTO(
       await this.billStoreService.update(bill._id, bill),
       this.userStoreService,
@@ -164,15 +170,16 @@ export class BillController {
   }
 
   @Delete(':id')
+  @HttpCode(204)
   @ApiOperation({ summary: 'Delete a bill.' })
   @ApiNoContentResponse({
     description: 'Bill deleted successfully',
-    type: BillResponseDto,
   })
+  @ApiForbiddenResponse({ description: 'Not the bill owner' })
   async deleteBill(
     @Param() idObject: string,
     @User() user: DecodedIdToken,
-  ): Promise<BillResponseDto> {
+  ): Promise<void> {
     const billId = idObject['id'];
     const bill = await this.billStoreService.findOne(billId);
 
@@ -180,12 +187,10 @@ export class BillController {
       user.uid,
     );
 
-    if (bill.owner.valueOf() === userObject._id.valueOf()) {
-      return this.billUtil.covertBillDocumentToResponseDTO(
-        await this.billStoreService.delete(billId),
-        this.userStoreService,
-      );
-    } else
-      throw new HttpException('not the bill owner', HttpStatus.UNAUTHORIZED);
+    if (!bill.owner.equals(userObject._id)) {
+      throw new HttpException('not the bill owner', HttpStatus.FORBIDDEN);
+    }
+
+    this.billStoreService.delete(billId);
   }
 }

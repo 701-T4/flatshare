@@ -7,7 +7,6 @@ import { BillUtil } from './bills.util';
 @Module({
   controllers: [BillController],
   imports: [DbModule],
-  // providers: [BillUtil],
   providers: [BillUtil, FirebaseAuthStrategy],
 })
 export class BillModule {
