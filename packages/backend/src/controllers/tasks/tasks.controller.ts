@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import {
   Controller,
   Post,
@@ -9,7 +10,6 @@ import {
   Delete,
   Param,
   HttpCode,
-  ConsoleLogger,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,

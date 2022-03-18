@@ -6,16 +6,11 @@ import {
   Put,
   HttpException,
   HttpStatus,
-  Delete,
-  Param,
-  Query,
-  HttpCode,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiNoContentResponse,
-  ApiNotFoundResponse,
   ApiOkResponse,
   ApiOperation,
   ApiTags,
@@ -78,7 +73,7 @@ export class HouseController {
     @User() user: DecodedIdToken,
   ): Promise<HouseResponseDto | null> {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
-    if (userDoc.house != undefined) {
+    if (userDoc?.house != undefined) {
       const house = await this.houseStoreService.findOne(userDoc.house);
       if (house != undefined) {
         return {

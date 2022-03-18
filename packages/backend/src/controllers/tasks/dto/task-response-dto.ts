@@ -1,6 +1,4 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { TaskModel } from '../../../db/task/task.schema';
-import { Types } from 'mongoose';
 
 export class TaskResponseDto {
   @ApiProperty()

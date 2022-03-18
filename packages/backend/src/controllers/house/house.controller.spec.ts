@@ -12,7 +12,6 @@ import { HouseUtil } from './house.util';
 describe('HouseController', () => {
   let controller: HouseController;
   let userStoreService: UserStoreService;
-  let houseStoreService: HouseStoreService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -33,7 +32,6 @@ describe('HouseController', () => {
     }).compile();
 
     userStoreService = module.get<UserStoreService>(UserStoreService);
-    houseStoreService = module.get<HouseStoreService>(HouseStoreService);
     controller = module.get<HouseController>(HouseController);
   });
 

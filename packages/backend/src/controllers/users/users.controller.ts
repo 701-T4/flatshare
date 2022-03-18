@@ -7,6 +7,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import {
+  ApiConflictResponse,
   ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiOkResponse,
@@ -37,19 +38,30 @@ export class UsersController {
 
   @Post()
   @ApiOperation({
-    summary: 'create a new user resource',
+    summary: 'Create a new user resource',
     description: 'User must be linked to a firebase ID',
+  })
+  @ApiConflictResponse({
+    description: 'User already exists',
   })
   @ApiCreatedResponse({
     description: 'User successfully created',
     type: UserResponseDto,
   })
   async create(@Body() createUserDto: CreateUserDto): Promise<UserResponseDto> {
-    const userDoc = await this.userStoreService.create(createUserDto);
-    const houseDoc = await this.houseStoreService.findOne(userDoc.house);
+    const existingUserDoc = await this.userStoreService.findOneByFirebaseId(
+      createUserDto.firebaseId,
+    );
+    if (existingUserDoc) {
+      throw new HttpException('user already exists', HttpStatus.CONFLICT);
+    }
+    const createdUserDoc = await this.userStoreService.create(createUserDto);
+    const houseDoc = await this.houseStoreService.findOne(createdUserDoc.house);
+
     return {
-      firebaseId: userDoc.firebaseId,
-      house: houseDoc.code,
+      name: createdUserDoc.name,
+      firebaseId: createdUserDoc.firebaseId,
+      house: houseDoc?.code,
     };
   }
 
@@ -64,6 +76,7 @@ export class UsersController {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
     const houseDoc = await this.houseStoreService.findOne(userDoc.house);
     return {
+      name: userDoc.name,
       firebaseId: userDoc.firebaseId,
       house: houseDoc?.code,
     };

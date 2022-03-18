@@ -4,11 +4,11 @@ import { TaskDocument } from 'src/db/task/task.schema';
 
 @Injectable()
 export class TaskUtil {
-  selectRandomUser(pool) {
+  selectRandomUser(pool: string[]): string {
     return pool[randomInt(0, pool.length)];
   }
 
-  checkRecurrence(tasks: TaskDocument[]) {
+  checkRecurrence(tasks: TaskDocument[]): TaskDocument[] {
     const result = [];
 
     tasks.forEach((task) => {

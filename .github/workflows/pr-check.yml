@@ -1,21 +1,12 @@
 name: PR Check
 
-on:
-  push:
-    branches: [ main ]
-  pull_request:
-    types:
-      - opened
-      - synchronize
-      - ready_for_review
-      - reopened
+on: [push, pull_request]
 
 jobs:
   # codeQL checking
   Analyze:
     name: Analyze
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || !github.event.pull_request.draft }}
 
     permissions:
       actions: read
@@ -57,7 +48,6 @@ jobs:
 
   Backend:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || !github.event.pull_request.draft }}
 
     steps:
       - uses: actions/checkout@v2
@@ -81,7 +71,6 @@ jobs:
 
   Frontend:
     runs-on: ubuntu-latest
-    if: ${{ github.event_name == 'push' || !github.event.pull_request.draft }}
 
     steps:
       - uses: actions/checkout@v2
