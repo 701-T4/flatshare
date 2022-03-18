@@ -1380,6 +1380,7 @@ The following software may be included in this product: @panva/asn1.js. A copy o
 The MIT License (MIT)
 Copyright (c) 2020 Filip Skokan
 
+
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
 in the Software without restriction, including without limitation the rights
@@ -1769,6 +1770,7 @@ limitations under the License.
                               Apache License
                         Version 2.0, January 2004
                      http://www.apache.org/licenses/
+
 
 TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
 
@@ -3471,6 +3473,7 @@ Section 2 -- Scope.
           licensing scheme. In all other cases the Licensor expressly
           reserves any right to collect such royalties.
 
+
 Section 3 -- License Conditions.
 
 Your exercise of the Licensed Rights is expressly made subject to the
@@ -3521,6 +3524,7 @@ following conditions.
        4. If You Share Adapted Material You produce, the Adapter's
           License You apply must not prevent recipients of the Adapted
           Material from complying with this Public License.
+
 
 Section 4 -- Sui Generis Database Rights.
 
@@ -7188,6 +7192,7 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
 
 Some files from the tests folder are from joyent/node and mscedex/io.js, a fork
 of nodejs/io.js:
@@ -12898,6 +12903,7 @@ so, subject to the following conditions:
 The above copyright notice and this permission notice shall be included in all
 copies or substantial portions of the Software.
 
+
 THIS SOFTWARE IS PROVIDED ``AS IS'' AND ANY EXPRESS OR IMPLIED WARRANTIES,
 INCLUDING, BUT NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
 FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED. IN NO EVENT SHALL THE AUTHOR
@@ -13440,3 +13446,4 @@ AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
 LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 THE SOFTWARE.
+
