@@ -84,7 +84,7 @@ export class BillController {
     const users = await Promise.all(
       createBillDto.users.map(async (u) => {
         return {
-          id: (await this.userStoreService.findOneByFirebaseId(user.uid))._id,
+          id: (await this.userStoreService.findOneByFirebaseId(u.id))._id,
           amount: u.amount,
           paid: u.paid,
           proof: u.proof,
