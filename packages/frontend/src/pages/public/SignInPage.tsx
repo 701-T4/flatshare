@@ -18,6 +18,7 @@ import {
 } from 'firebase/auth';
 import { useAlert } from '../../components/common/util/CornerAlert';
 import { FirebaseError } from 'firebase/app';
+import { useApiMutation } from '../../hooks/useApi';
 
 interface SignInPageProps {}
 
@@ -25,7 +26,9 @@ const SignInPage: React.FC<SignInPageProps> = () => {
   const { setUser } = useAuth();
   const { createAlert } = useAlert();
 
-  const createSigninErrorAlert = (message: string) => {
+  const mutateCreateUser = useApiMutation('/api/v1/user', { method: 'post' });
+
+  const createSignInErrorAlert = (message: string) => {
     createAlert(
       {
         icon: <ExclamationCircleIcon />,
@@ -36,33 +39,47 @@ const SignInPage: React.FC<SignInPageProps> = () => {
     );
   };
 
+  const [isLogin, setIsLogin] = useState(true);
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
   const uiConfig = {
     signInFlow: 'popup',
     signInOptions: [GoogleAuthProvider.PROVIDER_ID],
     callbacks: {
       signInSuccessWithAuthResult: () => {
-        setUser(auth.currentUser);
+        const currentUser = auth.currentUser;
+
+        if (!currentUser) {
+          createSignInErrorAlert('Could not sign in with Google');
+          return false;
+        }
+
+        const { uid: firebaseId, displayName } = currentUser;
+
+        setUser(currentUser);
+        mutateCreateUser({
+          body: {
+            firebaseId,
+            name: displayName ?? 'Anonymous',
+          },
+        });
         return false;
       },
     },
   };
 
-  const [isLogin, setIsLogin] = useState(true);
-  const [name, setName] = useState<string | null>(null);
-  const [email, setEmail] = useState<string | null>(null);
-  const [password, setPassword] = useState<string | null>(null);
-  const [confirmPassword, setConfirmPassword] = useState<string | null>(null);
-
   const validateUserInputs = () => {
-    console.log([email, password, confirmPassword]);
     if (!email) {
-      createSigninErrorAlert('Please enter email');
+      createSignInErrorAlert('Please enter email');
       return false;
     } else if (!email?.includes('@')) {
-      createSigninErrorAlert('Please enter a valid email');
+      createSignInErrorAlert('Please enter a valid email');
       return false;
     } else if (!password) {
-      createSigninErrorAlert('Please enter password');
+      createSignInErrorAlert('Please enter password');
       return false;
     }
     return true;
@@ -79,7 +96,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
       return;
     }
     if (password !== confirmPassword) {
-      return createSigninErrorAlert('Passwords must match');
+      return createSignInErrorAlert('Passwords must match');
     }
     await handleCreateEmailAccount(email!, password!);
   };
@@ -91,17 +108,30 @@ const SignInPage: React.FC<SignInPageProps> = () => {
       await updateProfile(user, {
         displayName: name,
       });
+      const firebaseId = auth.currentUser?.uid;
+      if (!firebaseId) {
+        createSignInErrorAlert(
+          'An unknown error occurred while making your account.',
+        );
+        return;
+      }
+      mutateCreateUser({
+        body: {
+          firebaseId,
+          name,
+        },
+      });
     } catch (error) {
       console.error(error);
       if (error instanceof FirebaseError) {
         if (error.code === 'auth/email-already-in-use') {
-          createSigninErrorAlert('Emails already in use');
+          createSignInErrorAlert('Emails already in use');
         } else if (error.code === 'auth/invalid-email') {
-          createSigninErrorAlert('Please enter a true email address');
+          createSignInErrorAlert('Please enter a true email address');
         } else if (error.code === 'auth/weak-password') {
-          createSigninErrorAlert('Please enter a stronger password');
+          createSignInErrorAlert('Please enter a stronger password');
         } else {
-          createSigninErrorAlert(error.message);
+          createSignInErrorAlert(error.message);
         }
       }
     }
@@ -114,13 +144,13 @@ const SignInPage: React.FC<SignInPageProps> = () => {
       console.error(error);
       if (error instanceof FirebaseError) {
         if (error.code === 'auth/invalid-email') {
-          createSigninErrorAlert('Please enter a valid email');
+          createSignInErrorAlert('Please enter a valid email');
         } else if (error.code === 'auth/user-not-found') {
-          createSigninErrorAlert('No such user');
+          createSignInErrorAlert('No such user');
         } else if (error.code === 'auth/wrong-password') {
-          createSigninErrorAlert('Wrong Password');
+          createSignInErrorAlert('Wrong Password');
         } else {
-          createSigninErrorAlert(error.message);
+          createSignInErrorAlert(error.message);
         }
       }
     }
