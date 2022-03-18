@@ -1,5 +1,5 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
-import { Document, Schema as MongooseSchema, Types } from 'mongoose';
+import { Document, Types } from 'mongoose';
 
 export type HouseDocument = House & Document;
 
@@ -19,6 +19,9 @@ export class House {
 
   @Prop({ type: Types.ObjectId, ref: 'User' })
   owner: Types.ObjectId;
+
+  @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }] })
+  users: Array<Types.ObjectId> = [];
 }
 
 export const HouseSchema = SchemaFactory.createForClass(House);
@@ -29,4 +32,5 @@ export class HouseModel {
   readonly address: string;
   code: string;
   owner: Types.ObjectId;
+  users: Array<Types.ObjectId> = [];
 }

@@ -7,7 +7,7 @@ import {
   ServiceAccount,
   Credential,
 } from 'firebase-admin/app';
-import { getAuth } from 'firebase-admin/auth';
+import { DecodedIdToken, getAuth } from 'firebase-admin/auth';
 
 @Injectable()
 export class FirebaseAuthStrategy extends PassportStrategy(
@@ -31,7 +31,7 @@ export class FirebaseAuthStrategy extends PassportStrategy(
     }
   }
 
-  async validate(token: string) {
+  async validate(token: string): Promise<DecodedIdToken> {
     const firebaseUser = await getAuth()
       .verifyIdToken(token, true)
       .catch((err) => {
