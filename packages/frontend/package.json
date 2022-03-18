@@ -37,7 +37,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "generate:api-types": "npx openapi-typescript http://localhost:4200/api-json --output ./src/types/api-schema.ts",
-    "generate": "run-p generate:*"
+    "generate": "run-p generate:*",
+    "license-report": "yarn licenses generate-disclaimer > LICENSE-3RD-PARTY.md"
   },
   "eslintConfig": {
     "extends": [
@@ -61,6 +62,7 @@
     "@testing-library/react-hooks": "^7.0.2",
     "autoprefixer": "^10.4.2",
     "clipboardy": "^3.0.0",
+    "firebase-tools": "^10.2.2",
     "npm-run-all": "^4.1.5",
     "postcss": "^8.4.7",
     "ramda": "^0.28.0",
