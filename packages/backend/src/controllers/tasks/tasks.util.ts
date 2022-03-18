@@ -8,7 +8,8 @@ export class TaskUtil {
     return pool[randomInt(0, pool.length)];
   }
 
-  checkRecurrence(tasks: TaskDocument[]): TaskDocument[] {
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  checkRecurrence(tasks: TaskDocument[]): any[] {
     const result = [];
 
     tasks.forEach((task) => {
