@@ -10,6 +10,7 @@ const InviteButton: React.FC<InviteButtonProps> = ({ onClick }) => {
     <div
       className="items-center gap-x-1 flex -m-1 px-2 py-1 rounded-lg bg-opacity-0 hover:bg-opacity-5 bg-gray-700 cursor-pointer transition-all"
       onClick={onClick}
+      data-cy="invite-button"
     >
       <span className="text-md font-semibold">Invite</span>
       <ShareIcon className="w-6" />

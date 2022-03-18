@@ -60,6 +60,7 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = () => {
           color="secondary"
           bordered={true}
           onClick={createHandler}
+          data-cy="create-button"
         >
           <Text color="secondary" size="2em">
             CREATE
@@ -72,6 +73,7 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = () => {
           color="secondary"
           bordered={true}
           onClick={joinHandler}
+          data-cy="join-button"
         >
           <Text color="secondary" size="2em">
             JOIN

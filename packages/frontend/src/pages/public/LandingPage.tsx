@@ -20,6 +20,7 @@ const LandingPage: React.FC<LandingPageProps> = () => {
             bordered
             auto
             style={{ height: '60px', width: '140px', borderColor: 'white' }}
+            data-cy="login-button"
           >
             <Text size={28} color="white">
               Log In

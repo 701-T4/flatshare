@@ -190,6 +190,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
                   onChange={(v) => setName(v.target.value)}
                   contentLeft={<UserIcon style={{ height: '100%' }} />}
                   placeholder="Name"
+                  data-cy="name-input"
                 />
                 <Spacer y={0.5} />
               </>
@@ -199,6 +200,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
               onChange={(v) => setEmail(v.target.value)}
               contentLeft={<MailIcon style={{ height: '100%' }} />}
               placeholder="Your email"
+              data-cy="email-input"
             />
             <Spacer y={0.5} />
             <Input.Password
@@ -206,6 +208,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
               onChange={(v) => setPassword(v.target.value)}
               contentLeft={<LockOpenIcon style={{ height: '100%' }} />}
               placeholder="Your password"
+              data-cy="password-input"
             />
             <Spacer y={0.5} />
             {/* Show forgot password on login, and show another password input field on sign up */}
@@ -224,6 +227,7 @@ const SignInPage: React.FC<SignInPageProps> = () => {
                 onChange={(v) => setConfirmPassword(v.target.value)}
                 contentLeft={<LockOpenIcon style={{ height: '100%' }} />}
                 placeholder="Confirm password"
+                data-cy="confirm-input"
               />
             )}
             {/* Button for sigup/login */}
@@ -235,12 +239,18 @@ const SignInPage: React.FC<SignInPageProps> = () => {
               onClick={() =>
                 isLogin ? validateLoginInput() : validateSignUpInput()
               }
+              data-cy="submit-button"
             >
               {isLogin ? 'Login' : 'Sign Up'}
             </Button>
             <div className="flex justify-center">
               {/* Button for switch login/signup */}
-              <Button size="xs" light onClick={() => setIsLogin(!isLogin)}>
+              <Button
+                size="xs"
+                light
+                onClick={() => setIsLogin(!isLogin)}
+                data-cy="switch-button"
+              >
                 <Text size={12}>
                   {isLogin ? (
                     <>

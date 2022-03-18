@@ -1,6 +1,8 @@
 describe('Manage account page', () => {
-  const rand = Math.floor(Math.random() * (1000 - 100) + 100);
-  const email = `test${rand}@gmail.com`;
+  const rand1 = Math.floor(Math.random() * (1000 - 0) + 0);
+  const rand2 = Math.floor(Math.random() * (2000 - 1000) + 1000);
+  const email1 = `test${rand1}@gmail.com`;
+  const email2 = `test${rand2}@gmail.com`;
 
   it('initialise state - login to go to the authorised page', () => {
     //clear all local storage before tests
@@ -8,12 +10,12 @@ describe('Manage account page', () => {
 
     // Sign Up
     cy.visit('/auth');
-    cy.contains('Click here to sign up').click();
+    cy.get('[data-cy="switch-button"]').click();
 
-    cy.get('[aria-label="Email"]').type(email);
-    cy.get('[aria-label="Password"]').clear().type('password');
-    cy.get('[aria-label="Confirm password"]').type('password');
-    cy.get('button').contains('Sign Up').click();
+    cy.get('[data-cy="email-input"]').type(email1);
+    cy.get('[data-cy="password-input"]').clear().type('password');
+    cy.get('[data-cy="confirm-input"]').type('password');
+    cy.get('[data-cy="submit-button"]').click();
     cy.wait(5000);
 
     //direct users to the account page
@@ -21,30 +23,46 @@ describe('Manage account page', () => {
   });
 
   it('click create button will show the createHouse modal', () => {
-    cy.get('button').contains('CREATE').click();
-    cy.contains('create your first flat').should('be.visible');
+    cy.get('[data-cy="create-button"]').click();
+    cy.get('[data-cy="create-house-modal"]').should('be.visible');
   });
 
   it('create house should close modal', () => {
-    cy.get('[aria-label="house name"]').type('test');
-    cy.get('[aria-label="house address"]').type('test address');
-    cy.get('[aria-label="phone number"]').type('021 123445');
+    cy.get('[data-cy="house-name-input"]').type(`test${rand1}`);
+    cy.get('[data-cy="house-address-input"]').type('test address');
+    cy.get('[data-cy="house-phone-input"]').type('021 123445');
 
-    cy.get('button').contains('Create!').click();
+    cy.get('[data-cy="create-house-button"]').click();
     //close the modal
-    cy.contains('create your first flat').should('not.visible');
+    cy.get('[data-cy="create-house-modal"]').should('not.be.visible');
+  });
+
+  it('initialise state - login to another account', () => {
+    //clear all local storage before tests
+    indexedDB.deleteDatabase('firebaseLocalStorageDb');
+
+    // Sign Up
+    cy.visit('/auth');
+    cy.get('[data-cy="switch-button"]').click();
+
+    cy.get('[data-cy="email-input"]').type(email2);
+    cy.get('[data-cy="password-input"]').clear().type('password');
+    cy.get('[data-cy="confirm-input"]').type('password');
+    cy.get('[data-cy="submit-button"]').click();
+    cy.wait(5000);
+
+    //direct users to the account page
+    cy.url().should('includes', '/account');
   });
 
   it('click join button should show the join house modal', () => {
-    cy.get('button').contains('JOIN').click();
-    cy.contains('Enter House Code').should('be.visible');
+    cy.get('[data-cy="join-button"]').click();
+    cy.get('[data-cy="join-house-modal"]').should('be.visible');
   });
 
   it('submit house code should close the modal', () => {
-    cy.get('[aria-label="House Code"]').type('test');
-    cy.get('button').contains('Submit').click();
-
-    cy.contains('Enter House Code').should('not.visible');
-    cy.contains('Joining the house...').should('be.visible');
+    cy.get('[data-cy="house-code-input"]').type(`test${rand1}`);
+    cy.get('[data-cy="join-house-button"]').click();
+    cy.get('[data-cy="join-house-modal"]').should('not.be.visible');
   });
 });

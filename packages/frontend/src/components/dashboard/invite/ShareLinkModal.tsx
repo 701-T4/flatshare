@@ -58,6 +58,7 @@ const ShareLinkModal: React.FC<ShareLinkModalProps> = ({
         open={visible}
         onClose={closeHandler}
         aria-labelledby="modal-title"
+        data-cy="invite-modal"
       >
         <Modal.Header>
           <Container
@@ -104,7 +105,7 @@ const ShareLinkModal: React.FC<ShareLinkModalProps> = ({
             </Text>
           ) : null}
 
-          <Button auto rounded onClick={closeHandler}>
+          <Button auto rounded onClick={closeHandler} data-cy="done-button">
             Done
           </Button>
         </Modal.Footer>
