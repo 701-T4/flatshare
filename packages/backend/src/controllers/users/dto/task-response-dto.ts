@@ -2,7 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import { TaskModel } from '../../../db/task/task.schema';
 import { Types } from 'mongoose';
 
-export class TaskResponseDto extends TaskModel {
+export class TaskResponseDto {
   @ApiProperty()
   name: string;
 
@@ -23,7 +23,4 @@ export class TaskResponseDto extends TaskModel {
 
   @ApiProperty()
   pool: string[];
-
-  @ApiProperty()
-  house: Types.ObjectId;
 }

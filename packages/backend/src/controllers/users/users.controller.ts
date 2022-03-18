@@ -101,26 +101,15 @@ export class UsersController {
 
       const updatedTasksDto: TaskResponseDto[] = updatedTasksForUser.map(
         (task) => {
-          const {
-            name,
-            description,
-            lastCompleted,
-            dueDate,
-            interval,
-            assigned,
-            pool,
-            house,
-          } = task;
+          const { name, description, dueDate, interval, assigned, pool } = task;
 
           return {
             name,
             description,
-            lastCompleted,
             dueDate,
             interval,
             assigned,
             pool,
-            house,
             isComplete: task.lastCompleted != null,
           };
         },

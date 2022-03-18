@@ -9,6 +9,7 @@ import {
   Delete,
   Param,
   HttpCode,
+  ConsoleLogger,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
@@ -58,7 +59,7 @@ export class TasksController {
     @User() user: DecodedIdToken,
   ) {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
-    if (!userDoc.house) {
+    if (!userDoc?.house) {
       throw new HttpException('user is not in a house', HttpStatus.BAD_REQUEST);
     }
 
@@ -88,55 +89,41 @@ export class TasksController {
     @User() user: DecodedIdToken,
   ): Promise<HouseTasksResponseDto | null> {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
-    if (!userDoc.house) {
+    if (!userDoc?.house) {
       throw new HttpException('user is not in a house', HttpStatus.BAD_REQUEST);
     }
 
     const house = await this.houseStoreService.findOne(userDoc.house);
     if (house) {
-      const tasks = await this.taskStoreService.findAll();
-
-      const tasksForHouse = tasks.filter((task) =>
-        task.house.equals(house._id),
+      const tasksForHouse = await this.taskStoreService.findAllByHouse(
+        house._id,
       );
-
       const tasksDue = this.taskUtil.checkRecurrence(tasksForHouse);
       const taskPromises = tasksDue.map((task) =>
         this.taskStoreService.update(task.id, task.updatedTask),
       );
       await Promise.all(taskPromises);
 
-      const updatedTasks = await this.taskStoreService.findAll();
-      const updatedTasksForHouse = updatedTasks.filter((task) =>
-        task.house.equals(house._id),
+      const updatedTasksForHouse = await this.taskStoreService.findAllByHouse(
+        house._id,
       );
 
       const updatedTasksDto: TaskResponseDto[] = updatedTasksForHouse.map(
         (task) => {
-          const {
-            name,
-            description,
-            lastCompleted,
-            dueDate,
-            interval,
-            assigned,
-            pool,
-            house,
-          } = task;
+          const { name, description, dueDate, interval, assigned, pool } = task;
 
           return {
             name,
             description,
-            lastCompleted,
             dueDate,
             interval,
             assigned,
             pool,
-            house,
             isComplete: task.lastCompleted != null,
           };
         },
       );
+
       return {
         tasks: updatedTasksDto,
       };
@@ -171,7 +158,7 @@ export class TasksController {
     }
 
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
-    if (!userDoc.house) {
+    if (!userDoc?.house) {
       throw new HttpException(
         'user is not in the house',
         HttpStatus.BAD_REQUEST,
@@ -223,16 +210,13 @@ export class TasksController {
 
     if (task.assigned !== user.uid) {
       throw new HttpException(
-        'user is not assigned to task',
+        'user is not assigned to the task',
         HttpStatus.BAD_REQUEST,
       );
     }
 
-    if (completeTaskDto.isComplete) {
-      this.taskStoreService.update(task._id, { lastCompleted: new Date() });
-    } else {
-      this.taskStoreService.update(task._id, { lastCompleted: null });
-    }
+    const lastCompleted = completeTaskDto.isComplete ? new Date() : null;
+    this.taskStoreService.update(task._id, { lastCompleted: lastCompleted });
   }
 
   @Put('/:id')
@@ -241,9 +225,9 @@ export class TasksController {
     required: true,
     description: 'id of the task to update',
   })
-  @ApiOperation({ summary: 'Modify task name, decription or pool' })
+  @ApiOperation({ summary: 'Modify task name, description or pool' })
   @ApiResponse({
-    description: 'task successfuly updated.',
+    description: 'task successfully updated.',
   })
   @ApiForbiddenResponse({
     description: 'user is not the owner of the house or not in the house',
@@ -261,7 +245,7 @@ export class TasksController {
     }
 
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
-    if (!userDoc.house) {
+    if (!userDoc?.house) {
       throw new HttpException(
         'user is not in the house',
         HttpStatus.BAD_REQUEST,
@@ -269,27 +253,27 @@ export class TasksController {
     }
 
     const house = await this.houseStoreService.findOne(userDoc.house);
-    const task = await this.taskStoreService.findOne(id);
-    if (task) {
-      const updatedTask = { ...updateHouseTasksDto, assigned: task.assigned };
-
-      if (!house.owner.equals(userDoc._id)) {
-        throw new HttpException(
-          'user is not owner of house',
-          HttpStatus.FORBIDDEN,
-        );
-      }
-
-      updatedTask.assigned =
-        updateHouseTasksDto.pool != undefined &&
-        !updateHouseTasksDto.pool.includes(task.assigned)
-          ? this.taskUtil.selectRandomUser(updateHouseTasksDto.pool)
-          : undefined;
-
-      this.taskStoreService.update(task._id, updatedTask);
-      return;
+    if (!house.owner.equals(userDoc._id)) {
+      throw new HttpException(
+        'user is not owner of house',
+        HttpStatus.FORBIDDEN,
+      );
     }
 
-    throw new HttpException('task does not exist', HttpStatus.NOT_FOUND);
+    const task = await this.taskStoreService.findOne(id);
+    if (!task) {
+      throw new HttpException('task does not exist', HttpStatus.NOT_FOUND);
+    }
+
+    const updatedTask = { ...updateHouseTasksDto, assigned: task.assigned };
+
+    updatedTask.assigned =
+      updateHouseTasksDto.pool != undefined &&
+      !updateHouseTasksDto.pool.includes(task.assigned) &&
+      updateHouseTasksDto.pool.length > 0
+        ? this.taskUtil.selectRandomUser(updateHouseTasksDto.pool)
+        : undefined;
+
+    this.taskStoreService.update(task._id, updatedTask);
   }
 }

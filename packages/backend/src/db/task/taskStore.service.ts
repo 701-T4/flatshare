@@ -19,6 +19,15 @@ export class TaskStoreService {
     return this.taskModel.findOne({ _id: id }).exec();
   }
 
+  async findAllByHouse(
+    houseId: string | mongoose.Types.ObjectId,
+  ): Promise<TaskDocument[]> {
+    return this.taskModel
+      .find()
+      .populate({ path: 'house', match: { _id: houseId } })
+      .exec();
+  }
+
   async findAll(): Promise<TaskDocument[]> {
     return this.taskModel.find().exec();
   }
