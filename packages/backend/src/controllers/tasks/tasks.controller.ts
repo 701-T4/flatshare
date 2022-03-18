@@ -268,12 +268,15 @@ export class TasksController {
 
     const updatedTask = { ...updateHouseTasksDto, assigned: task.assigned };
 
-    updatedTask.assigned =
-      updateHouseTasksDto.pool != undefined &&
-      !updateHouseTasksDto.pool.includes(task.assigned) &&
-      updateHouseTasksDto.pool.length > 0
-        ? this.taskUtil.selectRandomUser(updateHouseTasksDto.pool)
-        : undefined;
+    // Only reassign the task if the updated user pool doesn't include the currently assigned user
+    if (
+      updateHouseTasksDto?.pool?.length &&
+      !updateHouseTasksDto.pool.includes(task.assigned)
+    ) {
+      updatedTask.assigned = this.taskUtil.selectRandomUser(
+        updateHouseTasksDto.pool,
+      );
+    }
 
     this.taskStoreService.update(task._id, updatedTask);
   }
