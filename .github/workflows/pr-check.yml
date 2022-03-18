@@ -1,6 +1,14 @@
 name: PR Check
 
-on: [push, pull_request]
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    types:
+      - opened
+      - synchronize
+      - ready_for_review
+      - reopened
 
 jobs:
   # codeQL checking

@@ -1,13 +1,12 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 import { UserStoreService } from './userStore.service';
-import { User, UserModel } from './user.schema';
+import { User } from './user.schema';
 import { Model } from 'mongoose';
 
-const mockUser: UserModel = {
-  name: 'name1',
+const mockUser = {
   house: null,
-  firebaseId: 'fbid1',
+  firebaseId: 'blablabla',
 };
 
 describe('UserStoreService', () => {
@@ -15,14 +14,12 @@ describe('UserStoreService', () => {
   let model: Model<User>;
   const usersArray = [
     {
-      name: 'name1',
       house: null,
-      firebaseId: 'fbid1',
+      firebaseId: 'blablabla',
     },
     {
-      name: 'name2',
       house: null,
-      firebaseId: 'fbid2',
+      firebaseId: 'www',
     },
   ];
 
@@ -56,7 +53,6 @@ describe('UserStoreService', () => {
   it('should return all users', async () => {
     jest.spyOn(model, 'find').mockReturnValue({
       exec: jest.fn().mockResolvedValueOnce(usersArray),
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } as any);
     const users = await userService.findAll();
     expect(users).toEqual(usersArray);
@@ -65,15 +61,13 @@ describe('UserStoreService', () => {
   it('should insert a new user', async () => {
     jest.spyOn(model, 'create').mockImplementationOnce(() =>
       Promise.resolve({
-        name: 'name1',
         house: null,
-        firebaseId: 'fbid1',
+        firebaseId: 'blablabla',
       }),
     );
     const newUser = await userService.create({
-      name: 'name1',
       house: null,
-      firebaseId: 'fbid1',
+      firebaseId: 'blablabla',
     });
     expect(newUser).toEqual(mockUser);
   });

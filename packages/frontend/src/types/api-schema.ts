@@ -27,11 +27,9 @@ export interface components {
       env: string;
     };
     CreateUserDto: {
-      name: string;
       firebaseId: string;
     };
     UserResponseDto: {
-      name: string;
       house?: string;
       firebaseId: string;
     };
@@ -41,11 +39,11 @@ export interface components {
       address: string;
     };
     HouseResponseDto: {
-      name?: string;
-      email?: string;
-      address?: string;
-      code?: string;
-      owner?: string;
+      name: string;
+      email: string;
+      address: string;
+      code: string;
+      owner: string;
     };
     JoinHouseDto: {
       houseCode: string;
@@ -86,8 +84,6 @@ export interface operations {
           'application/json': components['schemas']['UserResponseDto'];
         };
       };
-      /** User already exists */
-      409: unknown;
     };
     requestBody: {
       content: {
@@ -104,8 +100,6 @@ export interface operations {
           'application/json': components['schemas']['HouseResponseDto'];
         };
       };
-      /** user is not in a house */
-      204: never;
     };
   };
   HouseController_joinHouse: {
@@ -117,8 +111,8 @@ export interface operations {
           'application/json': components['schemas']['HouseResponseDto'];
         };
       };
-      /** code is invalid */
-      400: unknown;
+      /** house not found */
+      404: unknown;
     };
     requestBody: {
       content: {

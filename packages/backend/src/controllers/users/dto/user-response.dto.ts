@@ -1,11 +1,8 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiProperty } from '@nestjs/swagger';
 
 export default class UserResponseDto {
-  @ApiProperty()
-  name?: string;
-
-  @ApiPropertyOptional()
-  house?: string;
+  @ApiProperty({ required: false })
+  house: string;
 
   @ApiProperty()
   firebaseId: string;

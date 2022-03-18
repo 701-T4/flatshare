@@ -8,6 +8,8 @@ import {
   Credential,
 } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
+import { UserStoreService } from 'src/db/user/userStore.service';
+import { UserModel } from 'src/db/user/user.schema';
 import admin = require('firebase-admin');
 
 @Injectable()
@@ -15,7 +17,7 @@ export class FirebaseAuthStrategy extends PassportStrategy(
   Strategy,
   'firebase-auth',
 ) {
-  constructor() {
+  constructor(private readonly userStoreService: UserStoreService) {
     super({ jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken() });
 
     // Prevent initialize multiple apps
@@ -49,6 +51,14 @@ export class FirebaseAuthStrategy extends PassportStrategy(
       throw new UnauthorizedException();
     }
 
+    if (
+      (await this.userStoreService.findOneByFirebaseId(firebaseUser.uid)) ===
+      null
+    ) {
+      const userModel = new UserModel();
+      userModel.firebaseId = firebaseUser.uid;
+      await this.userStoreService.create(userModel);
+    }
     return firebaseUser;
   }
 }
