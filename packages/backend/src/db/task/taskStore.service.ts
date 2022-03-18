@@ -10,7 +10,9 @@ export class TaskStoreService {
   constructor(
     @InjectModel(Task.name)
     private readonly taskModel: Model<TaskDocument>,
-  ) {}
+  ) {
+    mongoose.set('sanitizeFilter', true);
+  }
 
   async create(createdTaskModel: TaskModel): Promise<TaskDocument> {
     return this.taskModel.create(createdTaskModel);
