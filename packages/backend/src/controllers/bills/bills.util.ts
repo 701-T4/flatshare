@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { BillDocument } from 'src/db/bill/bill.schema';
-import { UserStoreService } from 'src/db/user/userStore.service';
+import { BillDocument } from '../../db/bill/bill.schema';
+import { UserStoreService } from '../../db/user/userStore.service';
 import { BillResponseDto } from './dto/bill-response.dto';
 
 @Injectable()

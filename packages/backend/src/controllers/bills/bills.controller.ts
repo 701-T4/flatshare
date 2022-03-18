@@ -20,10 +20,10 @@ import {
   ApiBadRequestResponse,
 } from '@nestjs/swagger';
 import { DecodedIdToken } from 'firebase-admin/auth';
-import { BillModel } from 'src/db/bill/bill.schema';
-import { BillStoreService } from 'src/db/bill/billStore.service';
-import { UserStoreService } from 'src/db/user/userStore.service';
-import { User } from 'src/util/user.decorator';
+import { BillModel } from '../../db/bill/bill.schema';
+import { BillStoreService } from '../../db/bill/billStore.service';
+import { UserStoreService } from '../../db/user/userStore.service';
+import { User } from '../../util/user.decorator';
 import { CreateBillDto } from './dto/create-bill.dto';
 import { BillResponseDto, BillsResponseDto } from './dto/bill-response.dto';
 import { UpdateBillDto } from './dto/update-bill.dto';

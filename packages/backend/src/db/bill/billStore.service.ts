@@ -39,13 +39,8 @@ export class BillStoreService {
   }
 
   async delete(id: string): Promise<BillDocument> {
-    return this.BillModel.findByIdAndRemove(
-      {
-        _id: id,
-      },
-      {
-        new: true,
-      },
-    ).exec();
+    return this.BillModel.findByIdAndRemove({
+      _id: id,
+    }).exec();
   }
 }

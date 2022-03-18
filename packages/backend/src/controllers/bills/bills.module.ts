@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { BillController } from './bills.controller';
 import { DbModule } from '../../db/db.module';
-import { FirebaseAuthStrategy } from 'src/guards/firebase.auth';
+import { FirebaseAuthStrategy } from '../../guards/firebase.auth';
 import { BillUtil } from './bills.util';
 
 @Module({
