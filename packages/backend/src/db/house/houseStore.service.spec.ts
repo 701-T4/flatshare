@@ -88,7 +88,7 @@ describe('HouseStoreService', () => {
       address: 'Mars',
       code: 'lol',
       owner: null,
-      users: null,
+      users: [],
     });
     expect(newHouse).toEqual(mockHouse);
   });
