@@ -37,24 +37,6 @@ describe('Manage account page', () => {
     cy.get('[data-cy="create-house-modal"]').should('not.be.visible');
   });
 
-  it('initialise state - login to another account', () => {
-    //clear all local storage before tests
-    indexedDB.deleteDatabase('firebaseLocalStorageDb');
-
-    // Sign Up
-    cy.visit('/auth');
-    cy.get('[data-cy="switch-button"]').click();
-
-    cy.get('[data-cy="email-input"]').type(email2);
-    cy.get('[data-cy="password-input"]').clear().type('password');
-    cy.get('[data-cy="confirm-input"]').type('password');
-    cy.get('[data-cy="submit-button"]').click();
-    cy.wait(5000);
-
-    //direct users to the account page
-    cy.url().should('includes', '/account');
-  });
-
   it('click join button should show the join house modal', () => {
     cy.get('[data-cy="join-button"]').click();
     cy.get('[data-cy="join-house-modal"]').should('be.visible');
