@@ -1,12 +1,14 @@
+
 import { ApiProperty } from '@nestjs/swagger';
 import UserResponseDto from 'src/controllers/users/dto/user-response.dto';
 
+
 export default class HouseResponseDto {
-  @ApiProperty({ required: false })
+  @ApiPropertyOptional()
   name: string;
-  @ApiProperty({ required: false })
+  @ApiPropertyOptional()
   email: string;
-  @ApiProperty({ required: false })
+  @ApiPropertyOptional()
   address: string;
   @ApiProperty({ required: true })
   code: string;

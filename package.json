@@ -21,7 +21,7 @@
     "test": "lerna run --parallel test",
     "start:docker": "docker-compose -f docker-compose.yaml up",
     "test:docker": "docker-compose -f docker-compose.override.yaml up",
-    "postinstall": "run-s setup:* && yarn run license-report",
+    "postinstall": "run-s setup:*",
     "setup:npm": "lerna bootstrap",
     "setup:git": "git config lfs.locksverify false",
     "license-report": "yarn licenses generate-disclaimer > LICENSE-3RD-PARTY.md && lerna run --parallel license-report"

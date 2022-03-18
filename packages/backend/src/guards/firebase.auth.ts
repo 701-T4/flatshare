@@ -16,7 +16,7 @@ export class FirebaseAuthStrategy extends PassportStrategy(
   Strategy,
   'firebase-auth',
 ) {
-  constructor(private readonly userStoreService: UserStoreService) {
+  constructor() {
     super({ jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken() });
     initializeApp({
       credential: FirebaseAuthStrategy.getCredentials(),
@@ -44,14 +44,6 @@ export class FirebaseAuthStrategy extends PassportStrategy(
       throw new UnauthorizedException();
     }
 
-    if (
-      (await this.userStoreService.findOneByFirebaseId(firebaseUser.uid)) ===
-      null
-    ) {
-      const userModel = new UserModel();
-      userModel.firebaseId = firebaseUser.uid;
-      await this.userStoreService.create(userModel);
-    }
     return firebaseUser;
   }
 }

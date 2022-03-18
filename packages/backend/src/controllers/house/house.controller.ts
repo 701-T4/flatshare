@@ -83,7 +83,7 @@ export class HouseController {
     @User() user: DecodedIdToken,
   ): Promise<HouseResponseDto | null> {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
-    if (userDoc.house != undefined) {
+    if (userDoc?.house != undefined) {
       const house = await this.houseStoreService.findOne(userDoc.house);
       const userList = await this.houseStoreService.getUserDto(house.id);
       if (house != undefined) {
