@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 import { HouseStoreService } from './houseStore.service';
@@ -87,6 +88,7 @@ describe('HouseStoreService', () => {
       address: 'Mars',
       code: 'lol',
       owner: null,
+      users: [],
     });
     expect(newHouse).toEqual(mockHouse);
   });

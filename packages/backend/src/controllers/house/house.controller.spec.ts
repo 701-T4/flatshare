@@ -1,8 +1,7 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { getModelToken } from '@nestjs/mongoose';
 import { Test, TestingModule } from '@nestjs/testing';
-import { Types } from 'mongoose';
-import { House, HouseDocument } from '../../db/house/house.schema';
+import { House } from '../../db/house/house.schema';
 import { User, UserDocument } from '../../db/user/user.schema';
 import { UserStoreService } from '../../db/user/userStore.service';
 import { HouseStoreService } from '../../db/house/houseStore.service';
@@ -13,7 +12,6 @@ import { HouseUtil } from './house.util';
 describe('HouseController', () => {
   let controller: HouseController;
   let userStoreService: UserStoreService;
-  let houseStoreService: HouseStoreService;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
@@ -34,7 +32,6 @@ describe('HouseController', () => {
     }).compile();
 
     userStoreService = module.get<UserStoreService>(UserStoreService);
-    houseStoreService = module.get<HouseStoreService>(HouseStoreService);
     controller = module.get<HouseController>(HouseController);
   });
 
