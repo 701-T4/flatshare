@@ -12,6 +12,10 @@ This project uses Firebase for authentication. You may want to set up your own
 Firebase project for development of this application. Alternatively, you can
 share one with other people.
 
+You will need to update the `.firebaserc` file with the new project identifier,
+regardless of which of the following steps you decide to take. There is a
+`.firebaserc` located in both the frontend and backend directories.
+
 #### New Project
 
 > Follow this if you want to setup a new Firebase project.
