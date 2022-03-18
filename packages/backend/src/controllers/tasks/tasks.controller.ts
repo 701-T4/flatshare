@@ -99,10 +99,11 @@ export class TasksController {
         house._id,
       );
       const tasksDue = this.taskUtil.checkRecurrence(tasksForHouse);
-      const taskPromises = tasksDue.map((task) =>
-        this.taskStoreService.update(task.id, task.updatedTask),
+      await Promise.all(
+        tasksDue.map((task) =>
+          this.taskStoreService.update(task.id, task.updatedTask),
+        ),
       );
-      await Promise.all(taskPromises);
 
       const updatedTasksForHouse = await this.taskStoreService.findAllByHouse(
         house._id,

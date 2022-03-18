@@ -89,10 +89,11 @@ export class UsersController {
       );
 
       const tasksDue = this.taskUtil.checkRecurrence(tasksForUser);
-      const taskPromises = tasksDue.map((task) =>
-        this.taskStoreService.update(task.id, task.updatedTask),
+      await Promise.all(
+        tasksDue.map((task) =>
+          this.taskStoreService.update(task.id, task.updatedTask),
+        ),
       );
-      await Promise.all(taskPromises);
 
       const updatedTasks = await this.taskStoreService.findAll();
       const updatedTasksForUser = updatedTasks.filter(
