@@ -12,6 +12,6 @@ export default class HouseResponseDto {
   code: string;
   @ApiProperty({ required: true })
   owner: string;
-  @ApiProperty({ required: true })
+  @ApiProperty({ required: true, type: [UserResponseDto] })
   users: UserResponseDto[];
 }
