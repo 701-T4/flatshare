@@ -54,12 +54,11 @@ export class NoteController {
       const houseDoc = await this.houseStoreService.findOne(userDoc.house);
       createNoteDto.house = houseDoc._id;
       return this.noteStoreService.create(createNoteDto);
-    } else {
-      throw new HttpException(
-        'user does not belong to a house',
-        HttpStatus.NO_CONTENT,
-      );
     }
+    throw new HttpException(
+      'user does not belong to a house',
+      HttpStatus.NO_CONTENT,
+    );
   }
 
   @Get('/')
@@ -73,18 +72,17 @@ export class NoteController {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
     if (userDoc.house) {
       return this.noteStoreService.findAllByHouse(userDoc.house._id);
-    } else {
-      throw new HttpException(
-        'user does not belong to a house',
-        HttpStatus.NO_CONTENT,
-      );
     }
+    throw new HttpException(
+      'user does not belong to a house',
+      HttpStatus.NO_CONTENT,
+    );
   }
 
   @Put('/:id')
   @ApiOperation({ summary: 'update a note' })
   @ApiOkResponse({
-    description: 'notes updated successfully',
+    description: 'note updated successfully',
     type: NoteResponseDto,
   })
   async update(
@@ -96,11 +94,10 @@ export class NoteController {
 
   @Delete('/:id')
   @ApiOperation({ summary: 'delete a note' })
-  @ApiOkResponse({
-    description: 'notes deleted successfully',
-    type: NoteResponseDto,
+  @ApiNoContentResponse({
+    description: 'note deleted successfully',
   })
-  async delete(@Param('id') id: string): Promise<NoteResponseDto> {
-    return this.noteStoreService.delete(id);
+  async delete(@Param('id') id: string): Promise<void> {
+    this.noteStoreService.delete(id);
   }
 }
