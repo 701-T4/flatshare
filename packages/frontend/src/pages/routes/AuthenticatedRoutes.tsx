@@ -15,6 +15,10 @@ const AuthenticatedRoutes: React.FC<AuthenticatedRoutesProps> = () => {
   useLocalStorageJoinCode();
   useFullLoader(() => !!dataLoading);
 
+  if (dataLoading) {
+    return null;
+  }
+
   if (!name) {
     return (
       <Routes>
