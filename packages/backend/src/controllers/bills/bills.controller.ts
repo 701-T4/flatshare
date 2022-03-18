@@ -117,12 +117,11 @@ export class BillController {
   })
   @ApiForbiddenResponse({ description: 'Not the bill owner' })
   async updateBill(
-    @Param() idObject: string,
+    @Param('id') id: string,
     @Body() updateBillDto: UpdateBillDto,
     @User() user: DecodedIdToken,
   ): Promise<BillResponseDto> {
-    const billId = idObject['id'];
-    const bill = await this.billStoreService.findOne(billId);
+    const bill = await this.billStoreService.findOne(id);
     const userObject = await this.userStoreService.findOneByFirebaseId(
       user.uid,
     );
@@ -148,12 +147,11 @@ export class BillController {
     type: BillResponseDto,
   })
   async updateBillPayment(
-    @Param() idObject: string,
+    @Param('id') id: string,
     @Body() payBillDto: PayBillDto,
     @User() user: DecodedIdToken,
   ): Promise<BillResponseDto> {
-    const billId = idObject['id'];
-    const bill = await this.billStoreService.findOne(billId);
+    const bill = await this.billStoreService.findOne(id);
     const userObject = await this.userStoreService.findOneByFirebaseId(
       user.uid,
     );
@@ -177,11 +175,10 @@ export class BillController {
   })
   @ApiForbiddenResponse({ description: 'Not the bill owner' })
   async deleteBill(
-    @Param() idObject: string,
+    @Param('id') id: string,
     @User() user: DecodedIdToken,
   ): Promise<void> {
-    const billId = idObject['id'];
-    const bill = await this.billStoreService.findOne(billId);
+    const bill = await this.billStoreService.findOne(id);
 
     const userObject = await this.userStoreService.findOneByFirebaseId(
       user.uid,
@@ -191,6 +188,6 @@ export class BillController {
       throw new HttpException('not the bill owner', HttpStatus.FORBIDDEN);
     }
 
-    this.billStoreService.delete(billId);
+    this.billStoreService.delete(id);
   }
 }
