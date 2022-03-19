@@ -3,7 +3,7 @@ import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Page from '../../components/common/layout/Page';
 import DeleteButton from '../../components/task/task/DeleteButton';
-import EditAndCreateTaskModal from '../../components/task/task/EditAndCreateTaskModal';
+import EditTaskModal from '../../components/task/task/EditTaskModal';
 import ReturnButton from '../../components/task/task/ReturnButton';
 import { useAuth } from '../../hooks/useAuth';
 import { useHouse } from '../../hooks/useHouse';
@@ -88,7 +88,7 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
           </div>
         </div>
       </div>
-      <EditAndCreateTaskModal
+      <EditTaskModal
         visible={visible}
         setVisible={setVisible}
         createTask={false}

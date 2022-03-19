@@ -7,8 +7,8 @@ import {
   Switch,
   Text,
 } from '@nextui-org/react';
-import AssigneeCombobox from './AssigneeCombobox';
 import { CheckIcon } from '@heroicons/react/outline';
+import AssigneeSelectionList from './AssigneeSelectionList';
 
 interface CreateTaskModalProps {
   visible: boolean;
@@ -34,12 +34,12 @@ const initialValue: CreatTaskState = {
 };
 
 const people = [
-  { id: 1, name: 'Wade Cooper' },
-  { id: 2, name: 'Arlene Mccoy' },
-  { id: 3, name: 'Devon Webb' },
-  { id: 4, name: 'Tom Cook' },
-  { id: 5, name: 'Tanya Fox' },
-  { id: 6, name: 'Hellen Schmidt' },
+  { name: 'Wade Cooper' },
+  { name: 'Arlene Mccoy' },
+  { name: 'Devon Webb' },
+  { name: 'Tom Cook' },
+  { name: 'Tanya Fox' },
+  { name: 'Hellen Schmidt' },
 ];
 
 const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
@@ -53,12 +53,14 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
 
   const submitHandler = () => {
     setVisible(false);
-    console.log(newTask, assignee, 'submit');
+    console.log(newTask, checkBoxValues, 'submit');
+    setNewTask(initialValue);
+    setCheckBoxValues(['']);
   };
 
   const [newTask, setNewTask] = useState(initialValue);
+  const [checkBoxValues, setCheckBoxValues] = useState(['']);
 
-  const [assignee, setAssignee] = useState(people[0]);
   return (
     <div>
       <Modal
@@ -147,11 +149,10 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
                 }}
               />
             </div>
-
-            <AssigneeCombobox
-              selected={assignee}
-              setSelected={setAssignee}
-              assigneePool={people}
+            <AssigneeSelectionList
+              peopleInHouse={people}
+              checkBoxValues={checkBoxValues}
+              setCheckBoxValues={setCheckBoxValues}
             />
           </Modal.Body>
           <Modal.Footer className="justify-center">

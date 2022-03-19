@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Button, Input, Modal, Textarea } from '@nextui-org/react';
-import AssigneeCombobox from './AssigneeCombobox';
+import AssigneeSelectionList from './AssigneeSelectionList';
 
 interface EditAndCreateTaskModalProps {
   visible: boolean;
@@ -11,7 +11,7 @@ interface EditAndCreateTaskModalProps {
   currentAssignee?: string;
 }
 
-const EditAndCreateTaskModal: React.FC<EditAndCreateTaskModalProps> = ({
+const EditTaskModal: React.FC<EditAndCreateTaskModalProps> = ({
   visible,
   setVisible,
   createTask,
@@ -26,24 +26,24 @@ const EditAndCreateTaskModal: React.FC<EditAndCreateTaskModalProps> = ({
 
   const submitHandler = () => {
     setVisible(false);
-    console.log(taskName, taskDescription, assignee, 'submit');
+    console.log(taskName, taskDescription, checkBoxValues, 'submit');
   };
 
   const [taskName, setTaskName] = useState(currentTaskName);
   const [taskDescription, setTaskDescription] = useState(
     currentTaskDescription,
   );
+  const [checkBoxValues, setCheckBoxValues] = useState(['']);
 
   const people = [
-    { id: 0, name: 'None' },
-    { id: 1, name: 'Wade Cooper' },
-    { id: 2, name: 'Arlene Mccoy' },
-    { id: 3, name: 'Devon Webb' },
-    { id: 4, name: 'Tom Cook' },
-    { id: 5, name: 'Tanya Fox' },
-    { id: 6, name: 'Hellen Schmidt' },
+    { name: 'Wade Cooper' },
+    { name: 'Arlene Mccoy' },
+    { name: 'Devon Webb' },
+    { name: 'Tom Cook' },
+    { name: 'Tanya Fox' },
+    { name: 'Hellen Schmidt' },
   ];
-  const [assignee, setAssignee] = useState(people[0]);
+
   return (
     <div>
       <Modal
@@ -81,10 +81,10 @@ const EditAndCreateTaskModal: React.FC<EditAndCreateTaskModalProps> = ({
               initialValue={taskDescription}
               onChange={(event) => setTaskDescription(event.target.value)}
             />
-            <AssigneeCombobox
-              selected={assignee}
-              setSelected={setAssignee}
-              assigneePool={people}
+            <AssigneeSelectionList
+              peopleInHouse={people}
+              checkBoxValues={checkBoxValues}
+              setCheckBoxValues={setCheckBoxValues}
             />
           </Modal.Body>
           <Modal.Footer className="justify-center">
@@ -101,4 +101,4 @@ const EditAndCreateTaskModal: React.FC<EditAndCreateTaskModalProps> = ({
   );
 };
 
-export default EditAndCreateTaskModal;
+export default EditTaskModal;
