@@ -57,9 +57,10 @@ $ yarn start
 ```
 
 by default your application will be hosted at `http://localhost:3000`, while the
-api will be hosted at `http://localhost:4200/api`. These can be changed in the
-config/environment values. See the `contributing` section below for more
-details. on running the app.
+api will be hosted at `http://localhost:4200/api`. If using the Firebase auth 
+emulator, this will be hosted at `http://localhost:4000/auth`.These can be changed 
+in the config/environment values. See the `contributing` section below for more
+details on running the app.
 
 ## Running Tests
 
