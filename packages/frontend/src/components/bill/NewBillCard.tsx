@@ -4,55 +4,33 @@ import 'react-datepicker/dist/react-datepicker.css';
 import React, { useEffect, useState } from 'react';
 import { useApi, useApiMutation } from '../../hooks/useApi';
 import { useHouse } from '../../hooks/useHouse';
-import { json } from 'stream/consumers';
 
-const FlatMates = [
-  {
-    name: 'Samuel',
-  },
-  {
-    name: 'David',
-  },
-  {
-    name: 'Owen',
-  },
-  {
-    name: 'Owen',
-  },
-  {
-    name: 'Owen',
-  },
-  {
-    name: 'Owen',
-  },
-  {
-    name: 'Owen',
-  },
-  {
-    name: 'Owen',
-  },
-];
-
-interface NewBillCardProps {
-  title?: string;
-  detail?: string;
-  due?: Long;
-}
+interface NewBillCardProps {}
 
 interface IHash {
   [name: string]: string;
 }
 
+interface Bill {
+  title: string;
+  detail: string;
+  dueDate: Date;
+  totalCost: string;
+}
+
 const NewBillCard: React.FC<NewBillCardProps> = () => {
-  const [dueDate, setDueDate] = useState(new Date());
   const [unixTime, setUnixTime] = useState(0);
-  const [totalCost, setTotalCost] = useState('');
-  const [title, setTitle] = useState('');
-  const [detail, setDetail] = useState('');
   const [flatmateNum, setFlatmateNum] = useState(6);
   const [splitCost, setSplitCost] = useState('');
   const [isEvenlySplit, setIsEvenlySplit] = useState(false);
   const { users } = useHouse();
+  const [billInfo, setBillInfo] = useState<Bill>({
+    title: ' ',
+    detail: '',
+    dueDate: new Date(),
+    totalCost: '0',
+  });
+
   const createBill = useApiMutation('/api/v1/house/bills', {
     method: 'post',
   });
@@ -65,30 +43,23 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
   });
 
   useEffect(() => {
-    setUnixTime(dueDate.getTime());
+    setUnixTime(billInfo.dueDate.getTime());
     setFlatmateNum(users?.length ? users.length : 1);
-    setSplitCost(Number(totalCost) / flatmateNum + '');
-
-    // to convert unix date to Date object
-    // const dateObject = new Date(unixDate)
-  }, [dueDate, totalCost]);
-
-  console.log(users);
+    setSplitCost(Number(billInfo.totalCost) / flatmateNum + '');
+  }, [billInfo]);
 
   const handleEvenlyButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     setIsEvenlySplit(!isEvenlySplit);
-    console.log(splitCost);
   };
+
   const handlePersonalCostChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     costHash[e.target.name] = e.target.value;
-    console.log(e.target.name);
-    console.log(e.target.value);
-    console.log(idHash[e.target.name]);
   };
+
   const handleDoneButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     let bill = {
-      name: title,
-      description: detail,
+      name: billInfo.title,
+      description: billInfo.detail,
       due: unixTime,
       users: [
         {
@@ -100,6 +71,7 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
         },
       ],
     };
+
     users?.map((user, index) => {
       let newPayment = {
         id: user.firebaseId,
@@ -110,10 +82,10 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
         bill['users'].push(newPayment);
       }
     });
+
     let billBody = {
       body: bill,
     };
-    console.log(bill);
 
     const response = createBill(billBody);
   };
@@ -129,16 +101,26 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
               <input
                 className="appearance-none  rounded-lg pl-1 ml-2 h-5 w-[10rem] text-black"
                 type="number"
-                value={totalCost}
-                onChange={(e) => setTotalCost(e.target.value)}
+                value={billInfo.totalCost}
+                onChange={(e) =>
+                  setBillInfo((prev) => ({
+                    ...prev,
+                    totalCost: e.target.value,
+                  }))
+                }
               />
             </div>
             <div className="self-center whitespace-nowrap">
               Due Date:
               <DatePicker
                 className="appearance-none  rounded-lg pl-1 ml-2 h-5 w-[10rem] text-black"
-                selected={dueDate}
-                onChange={(date: Date) => setDueDate(date)}
+                selected={billInfo.dueDate}
+                onChange={(date: Date) =>
+                  setBillInfo((prev) => ({
+                    ...prev,
+                    dueDate: date,
+                  }))
+                }
               />
             </div>
             <div className="self-end">
@@ -160,8 +142,13 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
               <input
                 className="appearance-none  rounded-lg pl-3  h-5 w-[12rem] text-black self-center"
                 type="text"
-                value={title}
-                onChange={(e) => setTitle(e.target.value)}
+                value={billInfo.title}
+                onChange={(e) =>
+                  setBillInfo((prev) => ({
+                    ...prev,
+                    title: e.target.value,
+                  }))
+                }
               />
             </div>
             <div className="flex flex-row justify-items-center">
@@ -169,8 +156,13 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
               <Textarea
                 size="lg"
                 animated={false}
-                value={detail}
-                onChange={(e) => setDetail(e.target.value)}
+                value={billInfo.detail}
+                onChange={(e) =>
+                  setBillInfo((prev) => ({
+                    ...prev,
+                    detail: e.target.value,
+                  }))
+                }
               ></Textarea>
             </div>
             <Button
