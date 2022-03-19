@@ -5,7 +5,7 @@ import UnderlinedText from '../../components/dashboard/GradientUnderlinedText';
 import { useHouse } from '../../hooks/useHouse';
 import { useNavigate } from 'react-router';
 import CreateNewTaskButton from '../../components/task/task/CreateNewTaskButton';
-import EditAndCreateTaskModal from '../../components/task/task/EditAndCreateTaskModal';
+import CreateTaskModal from '../../components/task/task/CreateTaskModal';
 
 interface TaskPageProps {}
 
@@ -93,11 +93,7 @@ const TaskPage: React.FC<TaskPageProps> = () => {
           </div>
         ))}
       </div>
-      <EditAndCreateTaskModal
-        visible={visible}
-        setVisible={setVisible}
-        createTask={true}
-      />
+      <CreateTaskModal visible={visible} setVisible={setVisible} />
     </Page>
   );
 };

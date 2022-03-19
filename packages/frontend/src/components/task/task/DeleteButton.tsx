@@ -3,15 +3,20 @@ import { Button } from '@nextui-org/react';
 import React from 'react';
 
 interface DeleteButtonProps {
+  enabled: boolean;
   onClick: () => void;
 }
 
-const DeleteButton: React.FC<DeleteButtonProps> = ({ onClick }) => {
+const DeleteButton: React.FC<DeleteButtonProps> = ({ enabled, onClick }) => {
   return (
-    <Button color="error" onClick={onClick} className="w-1/3 self-center">
-      <TrashIcon className="h-5 w-5" />
-      Delete
-    </Button>
+    <>
+      {enabled ? (
+        <Button color="error" onClick={onClick} className="w-1/3 self-center">
+          <TrashIcon className="h-5 w-5" />
+          Delete
+        </Button>
+      ) : null}
+    </>
   );
 };
 

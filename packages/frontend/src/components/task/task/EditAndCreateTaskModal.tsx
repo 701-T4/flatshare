@@ -44,7 +44,6 @@ const EditAndCreateTaskModal: React.FC<EditAndCreateTaskModalProps> = ({
     { id: 6, name: 'Hellen Schmidt' },
   ];
   const [assignee, setAssignee] = useState(people[0]);
-
   return (
     <div>
       <Modal

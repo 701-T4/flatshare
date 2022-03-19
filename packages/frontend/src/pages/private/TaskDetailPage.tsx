@@ -5,6 +5,8 @@ import Page from '../../components/common/layout/Page';
 import DeleteButton from '../../components/task/task/DeleteButton';
 import EditAndCreateTaskModal from '../../components/task/task/EditAndCreateTaskModal';
 import ReturnButton from '../../components/task/task/ReturnButton';
+import { useAuth } from '../../hooks/useAuth';
+import { useHouse } from '../../hooks/useHouse';
 import cleaning from '../../res/dashboard/cleaning.webp';
 
 interface TaskDetailPageProps {}
@@ -21,11 +23,21 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
   const assignee = 'John';
 
   const [visible, setVisible] = React.useState(false);
+
   // Hook for the Join Button Modal to be configured
   const openModalHandler = () => {
     console.log('open edit modal clicked');
     setVisible(true);
   };
+
+  const house = useHouse();
+  console.log(house, 'house');
+
+  const { user } = useAuth();
+  console.log(user);
+
+  const enabled = house.owner === user?.displayName;
+  console.log(enabled);
 
   return (
     <Page>
@@ -69,7 +81,10 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
               {taskDescription}
             </div>
 
-            <DeleteButton onClick={() => console.log('delete pressed')} />
+            <DeleteButton
+              enabled={enabled}
+              onClick={() => console.log('delete pressed')}
+            />
           </div>
         </div>
       </div>

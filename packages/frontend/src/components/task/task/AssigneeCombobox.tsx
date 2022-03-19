@@ -55,14 +55,14 @@ const AssigneeCombobox: React.FC<AssigneeComboboxProps> = ({
                       <>
                         <span
                           className={`block truncate ${
-                            selected.name == person.name
+                            selected.name === person.name
                               ? 'font-medium'
                               : 'font-normal'
                           }`}
                         >
                           {person.name}
                         </span>
-                        {selected.name == person.name ? (
+                        {selected.name === person.name ? (
                           <span
                             className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
                               active ? 'text-teal-400' : 'text-teal-400'
