@@ -9,6 +9,7 @@ import NewBillCard from '../../components/bill/NewBillCard';
 import { TrashIcon, PencilIcon } from '@heroicons/react/outline';
 import { components } from '../../types/api-schema';
 import { useApiMutation } from '../../hooks/useApi';
+import { useHouse } from '../../hooks/useHouse';
 interface BillDetailPageProps {}
 interface StateWrapper {
   bill: components['schemas']['BillResponseDto'];
@@ -64,16 +65,20 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
   const navigate = useNavigate();
   const auth = getAuth();
   const userId = auth.currentUser?.uid;
-
   const paid = bill.users.find((u) => u.id == userId)?.paid;
 
   // replace with backend call
   // const bill1 = bills.find((b) => b.id === 1);
   // console.log(bill1)
 
-  // pay
+  // mark pay with and without proof
   const markPayBill = useApiMutation('/api/v1/house/bills/{id}/payment', {
     method: 'put',
+  });
+
+  // delete bill
+  const deleteBillCall = useApiMutation('/api/v1/house/bills/{id}', {
+    method: 'delete',
   });
 
   const isOwner = userId === bill?.owner;
@@ -86,25 +91,49 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
     uploadBytes(storageRef, image!).then((snapshot) => {
       console.log(snapshot.ref.name);
       console.log(snapshot.ref.name);
+      uploadProof(fileName);
     });
   };
 
   const completeBill = async () => {
+    if (paid) {
+      return;
+    }
     markPayBill({
       pathParams: {
         id: bill.id,
       },
+      body: {
+        paid: true,
+        proof: undefined,
+      },
     });
   };
+
+  const uploadProof = (proof: string) => {
+    markPayBill({
+      pathParams: {
+        id: bill.id,
+      },
+      body: {
+        paid: true,
+        proof: proof,
+      },
+    });
+  };
+
   const parseFileName = (fileName: String) => {
     if (fileName.length < 22) {
       return fileName;
     }
     return fileName.slice(0, 10) + '...' + fileName.slice(-10);
   };
+
   const deleteBill = async () => {
+    deleteBillCall({ pathParams: { id: bill.id } });
     navigate('/bills', { replace: true });
   };
+
   return (
     <>
       {isEdit ? (
@@ -124,14 +153,14 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                 {bill?.name}
                 {console.log(bill?.name)}
                 <div className="flex flex-row items-center">
-                  <Switch className="mr-5"></Switch>
-                  <Button onClick={() => completeBill()}>
+                  {/* <Switch className="mr-5"></Switch> */}
+                  <Button auto onClick={() => completeBill()}>
                     {paid ? 'paid' : 'Complete'}
                   </Button>
                   {isOwner ? (
                     <Button
                       auto
-                      className="mr-5"
+                      className="mx-5"
                       onClick={() => setIsEdit(!isEdit)}
                       icon={<PencilIcon className="h-5 w-5 text-teal-50" />}
                     />
@@ -154,7 +183,10 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                   <div className="flex flex-col px-2 lg:w-1/2">
                     <DetailRow title="Description" value={bill?.description!} />
                     <Spacer y={2} />
-                    <DetailRow title="Due" value={bill?.due?.toString()!} />
+                    <DetailRow
+                      title="Due"
+                      value={new Date(bill.due).toDateString()}
+                    />
                     <Spacer y={2} />
                   </div>
                   <div className="flex flex-col px-2 lg:w-1/2">
@@ -162,7 +194,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                       Payment
                     </div>
                     <div className="flex flex-col">
-                      {bill?.users?.map((u) => (
+                      {bill.users.map((u) => (
                         <UserRow u={u} userId={userId} />
                       ))}
                     </div>
@@ -226,8 +258,13 @@ interface UserRowProp {
 }
 
 const UserRow: React.FC<UserRowProp> = ({ u, userId }) => {
+  const house = useHouse();
+
   const getUserFromId = (uid: String) => {
-    return 'Gintoki' + uid; //TODOS: get it locally from useHome() hook
+    console.log('house.users');
+
+    console.log(house.users);
+    return house.users?.find((u) => u.firebaseId == uid)?.name;
   };
 
   return (
