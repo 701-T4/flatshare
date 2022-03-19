@@ -37,7 +37,7 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = () => {
         <div className="flex flex-row items-center justify-start gap-12">
           <div className="w-24 h-12 bg-center bg-no-repeat bg-contain bg-logo" />
           <Text h1 size={50} color="white" weight="bold">
-            RentShare
+            FlatShare
           </Text>
         </div>
         <Avatar

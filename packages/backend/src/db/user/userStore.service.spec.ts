@@ -1,12 +1,13 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
 import { UserStoreService } from './userStore.service';
-import { User } from './user.schema';
+import { User, UserModel } from './user.schema';
 import { Model } from 'mongoose';
 
-const mockUser = {
+const mockUser: UserModel = {
+  name: 'name1',
   house: null,
-  firebaseId: 'blablabla',
+  firebaseId: 'fbid1',
 };
 
 describe('UserStoreService', () => {
@@ -14,12 +15,14 @@ describe('UserStoreService', () => {
   let model: Model<User>;
   const usersArray = [
     {
+      name: 'name1',
       house: null,
-      firebaseId: 'blablabla',
+      firebaseId: 'fbid1',
     },
     {
+      name: 'name2',
       house: null,
-      firebaseId: 'www',
+      firebaseId: 'fbid2',
     },
   ];
 
@@ -61,13 +64,15 @@ describe('UserStoreService', () => {
   it('should insert a new user', async () => {
     jest.spyOn(model, 'create').mockImplementationOnce(() =>
       Promise.resolve({
+        name: 'name1',
         house: null,
-        firebaseId: 'blablabla',
+        firebaseId: 'fbid1',
       }),
     );
     const newUser = await userService.create({
+      name: 'name1',
       house: null,
-      firebaseId: 'blablabla',
+      firebaseId: 'fbid1',
     });
     expect(newUser).toEqual(mockUser);
   });

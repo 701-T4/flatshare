@@ -7,7 +7,7 @@ import {
   ServiceAccount,
   Credential,
 } from 'firebase-admin/app';
-import { getAuth } from 'firebase-admin/auth';
+import { DecodedIdToken, getAuth } from 'firebase-admin/auth';
 import { UserStoreService } from 'src/db/user/userStore.service';
 import { UserModel } from 'src/db/user/user.schema';
 import admin = require('firebase-admin');
@@ -17,7 +17,7 @@ export class FirebaseAuthStrategy extends PassportStrategy(
   Strategy,
   'firebase-auth',
 ) {
-  constructor(private readonly userStoreService: UserStoreService) {
+  constructor() {
     super({ jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken() });
 
     // Prevent initialize multiple apps
@@ -38,9 +38,7 @@ export class FirebaseAuthStrategy extends PassportStrategy(
     }
   }
 
-  // TODO: Remove this later and add a return type
-  // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-  async validate(token: string) {
+  async validate(token: string): Promise<DecodedIdToken> {
     const firebaseUser = await getAuth()
       .verifyIdToken(token, true)
       .catch((err) => {
@@ -51,14 +49,6 @@ export class FirebaseAuthStrategy extends PassportStrategy(
       throw new UnauthorizedException();
     }
 
-    if (
-      (await this.userStoreService.findOneByFirebaseId(firebaseUser.uid)) ===
-      null
-    ) {
-      const userModel = new UserModel();
-      userModel.firebaseId = firebaseUser.uid;
-      await this.userStoreService.create(userModel);
-    }
     return firebaseUser;
   }
 }
