@@ -60,6 +60,7 @@
   },
   "devDependencies": {
     "@testing-library/react-hooks": "^7.0.2",
+    "@types/react-datepicker": "^4.3.4",
     "autoprefixer": "^10.4.2",
     "clipboardy": "^3.0.0",
     "firebase-tools": "^10.2.2",
