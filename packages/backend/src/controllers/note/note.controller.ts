@@ -10,6 +10,7 @@ import {
   Param,
 } from '@nestjs/common';
 import {
+  ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiNoContentResponse,
   ApiOkResponse,
@@ -38,7 +39,7 @@ export class NoteController {
 
   @Post('/')
   @ApiOperation({ summary: 'create a new note resource' })
-  @ApiNoContentResponse({
+  @ApiBadRequestResponse({
     description: 'user does not belong to a house',
   })
   @ApiCreatedResponse({
@@ -50,32 +51,32 @@ export class NoteController {
     @User() user: DecodedIdToken,
   ): Promise<NoteResponseDto | null> {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
-    if (userDoc.house) {
+    if (userDoc?.house) {
       const houseDoc = await this.houseStoreService.findOne(userDoc.house);
       createNoteDto.house = houseDoc._id;
       return this.noteStoreService.create(createNoteDto);
     }
     throw new HttpException(
       'user does not belong to a house',
-      HttpStatus.NO_CONTENT,
+      HttpStatus.BAD_REQUEST,
     );
   }
 
   @Get('/')
   @ApiOperation({ summary: 'get all notes assigned to the house' })
-  @ApiNoContentResponse({ description: 'user does not belong to a house' })
+  @ApiBadRequestResponse({ description: 'user does not belong to a house' })
   @ApiOkResponse({
     description: 'notes retrieved successfully',
     type: [NoteResponseDto],
   })
   async get(@User() user: DecodedIdToken): Promise<NoteResponseDto[] | null> {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
-    if (userDoc.house) {
+    if (userDoc?.house) {
       return this.noteStoreService.findAllByHouse(userDoc.house._id);
     }
     throw new HttpException(
       'user does not belong to a house',
-      HttpStatus.NO_CONTENT,
+      HttpStatus.BAD_REQUEST,
     );
   }
 
