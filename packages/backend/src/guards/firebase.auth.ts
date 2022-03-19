@@ -1,24 +1,42 @@
 import { PassportStrategy } from '@nestjs/passport';
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { Strategy, ExtractJwt } from 'passport-firebase-jwt';
-import { initializeApp, cert } from 'firebase-admin/app';
-import { getAuth } from 'firebase-admin/auth';
-import { UserStoreService } from 'src/db/user/userStore.service';
-import { UserModel } from 'src/db/user/user.schema';
+import {
+  initializeApp,
+  cert,
+  ServiceAccount,
+  Credential,
+} from 'firebase-admin/app';
+import { DecodedIdToken, getAuth } from 'firebase-admin/auth';
+import admin = require('firebase-admin');
 
 @Injectable()
 export class FirebaseAuthStrategy extends PassportStrategy(
   Strategy,
   'firebase-auth',
 ) {
-  constructor(private readonly userStoreService: UserStoreService) {
+  constructor() {
     super({ jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken() });
-    initializeApp({
-      credential: cert(require('../../../../keys/firebase.json')),
-    });
+
+    // Prevent initialize multiple apps
+    if (admin.apps.length === 0) {
+      initializeApp({
+        credential: FirebaseAuthStrategy.getCredentials(),
+      });
+    }
   }
 
-  async validate(token: string) {
+  private static getCredentials(): Credential {
+    if (process.env.FIREBASE_SERVICE_ACCOUNT) {
+      return cert(
+        JSON.parse(process.env.FIREBASE_SERVICE_ACCOUNT) as ServiceAccount,
+      );
+    } else {
+      return cert('../../keys/firebase.json');
+    }
+  }
+
+  async validate(token: string): Promise<DecodedIdToken> {
     const firebaseUser = await getAuth()
       .verifyIdToken(token, true)
       .catch((err) => {
@@ -29,14 +47,6 @@ export class FirebaseAuthStrategy extends PassportStrategy(
       throw new UnauthorizedException();
     }
 
-    if (
-      (await this.userStoreService.findOneByFirebaseId(firebaseUser.uid)) ===
-      null
-    ) {
-      const userModel = new UserModel();
-      userModel.firebaseId = firebaseUser.uid;
-      await this.userStoreService.create(userModel);
-    }
     return firebaseUser;
   }
 }

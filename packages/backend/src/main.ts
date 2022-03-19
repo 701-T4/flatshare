@@ -1,10 +1,21 @@
+import { ValidationPipe } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { NestFactory } from '@nestjs/core';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { AppModule } from './app.module';
+import configureEnvironmentFiles from './scripts/configure-env';
 
 async function bootstrap() {
+  // Verifying the configuration of environment files, direct return if the result is not true
+  const isValidated = configureEnvironmentFiles(process.env.NODE_ENV);
+  if (!isValidated) {
+    return;
+  }
+
   const app = await NestFactory.create(AppModule, { cors: true });
+
+  // Validation API types
+  app.useGlobalPipes(new ValidationPipe());
 
   // Attach endpoint documentation
   const documentConfig = new DocumentBuilder()
@@ -27,4 +38,5 @@ async function bootstrap() {
   const port = configService.get<number>('PORT') ?? 4200;
   await app.listen(port);
 }
+
 bootstrap();
