@@ -1,8 +1,17 @@
 import { DocumentAddIcon, EyeIcon, QrcodeIcon } from '@heroicons/react/outline';
 import { WifiIcon } from '@heroicons/react/solid';
-import { Avatar, Button, Container, Input, Modal, Spacer, Text } from '@nextui-org/react';
+import {
+  Avatar,
+  Button,
+  Container,
+  Input,
+  Modal,
+  Spacer,
+  Text,
+} from '@nextui-org/react';
 import React, { useState } from 'react';
 import QRCode from 'react-qr-code';
+import EditButton from './editButton';
 
 interface WifiModalProps {
   visible: boolean;
@@ -12,7 +21,7 @@ interface WifiModalProps {
   userName: string;
   password: string;
   encryption: string;
-  qrCodeText:  string;
+  qrCodeText: string;
   qrvisible: boolean;
   setQRVisible(value: boolean): void;
 }
@@ -27,10 +36,8 @@ const WifiModal: React.FC<WifiModalProps> = ({
   encryption,
   qrCodeText,
   qrvisible,
-  setQRVisible
+  setQRVisible,
 }) => {
-
-
   const closeHandler = () => {
     setVisible(false);
     setQRVisible(false);
@@ -39,7 +46,11 @@ const WifiModal: React.FC<WifiModalProps> = ({
   const qrCodeHandler = (e: any) => {
     e.preventDefault();
     setQRVisible(!qrvisible);
-    setQrCodeText(`WIFI:T:${encryption};S:${userName};${encryption !== 'nopass' ? `P:${password};` : ''}`);
+    setQrCodeText(
+      `WIFI:T:${encryption};S:${userName};${
+        encryption !== 'nopass' ? `P:${password};` : ''
+      }`,
+    );
     return false;
   };
 
@@ -50,24 +61,11 @@ const WifiModal: React.FC<WifiModalProps> = ({
   };
 
   const unHideButton = () => {
-    
     return (
       <Avatar
         squared
-        icon={<EyeIcon className="w-full"/>}
+        icon={<EyeIcon className="w-full" />}
         onClick={passwordHandler}
-        css={{ p: 10 }}
-        as="button"
-        pointer
-      />
-    );
-  };
-
-  const editButton = () => {
-    return (
-      <Avatar
-        squared
-        icon={<DocumentAddIcon className="w-full" />}
         css={{ p: 10 }}
         as="button"
         pointer
@@ -83,7 +81,7 @@ const WifiModal: React.FC<WifiModalProps> = ({
         onClose={closeHandler}
         aria-labelledby="modal-title"
       >
-        <Spacer y={1}/>
+        <Spacer y={1} />
         <Modal.Header>
           <Container
             display="flex"
@@ -98,11 +96,7 @@ const WifiModal: React.FC<WifiModalProps> = ({
             <Text b size={18} span css={{ ml: 8 }}>
               House Wifi
             </Text>
-            {loading || qrvisible? (
-              <></>
-            ) : (
-              editButton()
-            )}
+            {loading || qrvisible ? <></> : <EditButton />}
           </Container>
         </Modal.Header>
         <Modal.Body>
@@ -111,14 +105,13 @@ const WifiModal: React.FC<WifiModalProps> = ({
           ) : (
             <>
               {qrvisible ? (
-                <Container 
-                css={{ textAlign: 'center' }}>
+                <Container css={{ textAlign: 'center' }}>
                   <Container>
                     {qrCodeText.length > 0 && <QRCode value={qrCodeText} />}
                   </Container>
                 </Container>
-              ) : ( 
-                <Container 
+              ) : (
+                <Container
                   direction="row"
                   display="flex"
                   alignItems="flex-end"
@@ -134,12 +127,12 @@ const WifiModal: React.FC<WifiModalProps> = ({
                   <Input
                     label="Password"
                     width="86%"
-                    type={passwordShown ? "text" : "password"}
+                    type={passwordShown ? 'text' : 'password'}
                     initialValue={password}
                   />
                   {unHideButton()}
                 </Container>
-              )}     
+              )}
             </>
           )}
         </Modal.Body>
@@ -154,12 +147,17 @@ const WifiModal: React.FC<WifiModalProps> = ({
               justify="space-between"
               css={{ p: 0 }}
             >
-            <Button auto rounded onClick={qrCodeHandler} icon={<QrcodeIcon className="h-6 w-6 text-teal-50" />}>
-              Get QR Code
-            </Button>
-            <Button auto rounded onClick={closeHandler}>
-              Done
-            </Button>
+              <Button
+                auto
+                rounded
+                onClick={qrCodeHandler}
+                icon={<QrcodeIcon className="h-6 w-6 text-teal-50" />}
+              >
+                Get QR Code
+              </Button>
+              <Button auto rounded onClick={closeHandler}>
+                Done
+              </Button>
             </Container>
           )}
         </Modal.Footer>
