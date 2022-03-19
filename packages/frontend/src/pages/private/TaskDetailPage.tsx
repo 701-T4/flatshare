@@ -1,43 +1,52 @@
 import { PencilAltIcon } from '@heroicons/react/outline';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Page from '../../components/common/layout/Page';
 import DeleteButton from '../../components/task/task/DeleteButton';
 import EditTaskModal from '../../components/task/task/EditTaskModal';
+import ErrorModal from '../../components/task/task/ErrorModal';
 import ReturnButton from '../../components/task/task/ReturnButton';
+import { useApi, useApiMutation } from '../../hooks/useApi';
 import { useAuth } from '../../hooks/useAuth';
 import { useHouse } from '../../hooks/useHouse';
 import cleaning from '../../res/dashboard/cleaning.webp';
 
 interface TaskDetailPageProps {}
 
+//temporary data
+const taskName = 'House cleaning';
+const taskDescription =
+  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget nulla et enim laoreet vulputate. Cras dapibus lectus sit amet erat suscipit, in dapibus leo suscipit. Cras facilisis consequat efficitur. Morbi a magna arcu. Duis molestie, tellus quis finibus vulputate, ex augue ultricies arcu, a congue nunc felis ut elit. Cras luctus euismod volutpat. Quisque turpis eros, convallis nec vehicula sed, ornare ac erat. Nulla ultrices mauris eget mauris venenatis dapibus vitae eu urna.';
+const assignee = 'John';
+
 const TaskPage: React.FC<TaskDetailPageProps> = () => {
   const { id } = useParams() as { id: string };
-  const taskId = parseInt(id);
 
   const setNavigate = useNavigate();
 
-  const taskName = 'House cleaning';
-  const taskDescription =
-    'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget nulla et enim laoreet vulputate. Cras dapibus lectus sit amet erat suscipit, in dapibus leo suscipit. Cras facilisis consequat efficitur. Morbi a magna arcu. Duis molestie, tellus quis finibus vulputate, ex augue ultricies arcu, a congue nunc felis ut elit. Cras luctus euismod volutpat. Quisque turpis eros, convallis nec vehicula sed, ornare ac erat. Nulla ultrices mauris eget mauris venenatis dapibus vitae eu urna.';
-  const assignee = 'John';
-
-  const [visible, setVisible] = React.useState(false);
-
-  // Hook for the Join Button Modal to be configured
-  const openModalHandler = () => {
-    console.log('open edit modal clicked');
-    setVisible(true);
-  };
+  const [visibleEditModal, setVisibleEditModal] = React.useState(false);
+  const [visibleErrorModal, setVisibleErrorModal] = React.useState(false);
 
   const house = useHouse();
-  console.log(house, 'house');
-
   const { user } = useAuth();
-  console.log(user);
 
-  const enabled = house.owner === user?.displayName;
-  console.log(enabled);
+  //Enable the delete button if the house owner is the same as the user
+  let enabled = house.owner === user?.displayName;
+
+  const deleteTask = useApiMutation('/api/v1/house/tasks/{id}', {
+    method: 'delete',
+  });
+
+  const openModalHandler = () => {
+    setVisibleEditModal(true);
+  };
+
+  const deleteTaskHandler = async () => {
+    const result = await deleteTask({ pathParams: { id: id } });
+    result.statusCode === 204
+      ? setNavigate('/tasks')
+      : setVisibleErrorModal(true);
+  };
 
   return (
     <Page>
@@ -83,18 +92,23 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
 
             <DeleteButton
               enabled={enabled}
-              onClick={() => console.log('delete pressed')}
+              onClick={() => deleteTaskHandler()}
             />
           </div>
         </div>
       </div>
       <EditTaskModal
-        visible={visible}
-        setVisible={setVisible}
+        visible={visibleEditModal}
+        setVisible={setVisibleEditModal}
         createTask={false}
         currentTaskName={taskName}
         currentTaskDescription={taskDescription}
         currentAssignee={assignee}
+      />
+      <ErrorModal
+        visibleErrorModal={visibleErrorModal}
+        setVisibleErrorModal={setVisibleErrorModal}
+        errorMessage="Cannot detele the task."
       />
     </Page>
   );
