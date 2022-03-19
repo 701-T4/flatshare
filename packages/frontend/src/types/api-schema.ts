@@ -17,6 +17,13 @@ export interface paths {
     put: operations['HouseController_joinHouse'];
     post: operations['HouseController_create'];
   };
+  '/api/v1/house/tasks': {
+    get: operations['TaskController_getTasks'];
+  };
+  '/api/v1/house/tasks/{id}': {
+    put: operations['TaskController_updateTask'];
+    delete: operations['TaskController_deleteTask'];
+  };
 }
 
 export interface components {
@@ -50,6 +57,23 @@ export interface components {
     };
     JoinHouseDto: {
       houseCode: string;
+    };
+    TaskResponseDto: {
+      name: string;
+      description: string;
+      isComplete: boolean;
+      dueDate: Date;
+      interval: number;
+      assigned: string;
+      pool: string[];
+    };
+    TaskListResponseDto: {
+      tasks: components['schemas']['TaskResponseDto'][];
+    };
+    UpdateTaskDto: {
+      name: string;
+      description: string;
+      pool: string[];
     };
   };
 }
@@ -141,6 +165,51 @@ export interface operations {
       content: {
         'application/json': components['schemas']['CreateHouseDto'];
       };
+    };
+  };
+  TaskController_getTasks: {
+    parameters: {};
+    responses: {
+      200: {
+        content: {
+          'application/json': components['schemas']['TaskListResponseDto'];
+        };
+      };
+    };
+  };
+  TaskController_updateTask: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** Task updated successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['TaskResponseDto'];
+        };
+      };
+      /** Not the Task owner */
+      403: unknown;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateTaskDto'];
+      };
+    };
+  };
+  TaskController_deleteTask: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** Task deleted successfully */
+      204: never;
+      /** Not the Task owner */
+      403: unknown;
     };
   };
 }
