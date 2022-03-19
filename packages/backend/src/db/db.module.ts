@@ -16,7 +16,12 @@ import { Bill, BillSchema } from './bill/bill.schema';
     MongooseModule.forFeature([{ name: Bill.name, schema: BillSchema }]),
     MongooseModule.forFeature([{ name: Note.name, schema: NoteSchema }]),
   ],
-  providers: [UserStoreService, HouseStoreService, NoteStoreService],
+  providers: [
+    UserStoreService,
+    HouseStoreService,
+    BillStoreService,
+    NoteStoreService,
+  ],
   exports: [
     MongooseModule,
     UserStoreService,
