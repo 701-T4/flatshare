@@ -1,37 +1,9 @@
-import { Button, Input, Textarea } from '@nextui-org/react';
+import { Button, Textarea } from '@nextui-org/react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import React, { useEffect, useState } from 'react';
-import { useApi, useApiMutation } from '../../hooks/useApi';
+import { useApiMutation } from '../../hooks/useApi';
 import { useHouse } from '../../hooks/useHouse';
-import { json } from 'stream/consumers';
-
-const FlatMates = [
-  {
-    name: 'Samuel',
-  },
-  {
-    name: 'David',
-  },
-  {
-    name: 'Owen',
-  },
-  {
-    name: 'Owen',
-  },
-  {
-    name: 'Owen',
-  },
-  {
-    name: 'Owen',
-  },
-  {
-    name: 'Owen',
-  },
-  {
-    name: 'Owen',
-  },
-];
 
 interface NewBillCardProps {
   title?: string;
@@ -62,6 +34,7 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
   users?.map((user) => {
     idHash[user.name] = user.firebaseId;
     costHash[user.name] = '0';
+    return 0;
   });
 
   useEffect(() => {
@@ -71,7 +44,7 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
 
     // to convert unix date to Date object
     // const dateObject = new Date(unixDate)
-  }, [dueDate, totalCost]);
+  }, [dueDate, totalCost, flatmateNum, users?.length]);
 
   console.log(users);
 
@@ -109,13 +82,14 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
       if (index !== 0) {
         bill['users'].push(newPayment);
       }
+      return 0;
     });
     let billBody = {
       body: bill,
     };
     console.log(bill);
 
-    const response = createBill(billBody);
+    createBill(billBody);
   };
 
   return (
