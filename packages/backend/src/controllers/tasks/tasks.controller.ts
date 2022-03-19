@@ -52,12 +52,13 @@ export class TasksController {
   @ApiOperation({ summary: 'create a new task' })
   @ApiCreatedResponse({
     description: 'task created successfully',
+    type: CreateTaskDto,
   })
   @ApiBadRequestResponse({ description: 'Invalid request' })
   async createTask(
     @Body() createTaskDto: CreateTaskDto,
     @User() user: DecodedIdToken,
-  ) {
+  ): Promise<CreateTaskDto | null> {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
     if (!userDoc?.house) {
       throw new HttpException('user is not in a house', HttpStatus.BAD_REQUEST);
@@ -76,6 +77,15 @@ export class TasksController {
 
       await this.taskStoreService.create(createTaskDto);
     }
+    return {
+      name: createTaskDto.name,
+      description: createTaskDto.description,
+      dueDate: createTaskDto.dueDate,
+      interval: createTaskDto.interval,
+      pool: createTaskDto.pool,
+      lastCompleted: createTaskDto.lastCompleted,
+      assigned: createTaskDto.assigned,
+    };
   }
 
   @Get()

@@ -13,8 +13,8 @@ const ErrorModal: React.FC<ErrorModalProps> = ({
 }) => {
   const closeHandler = () => {
     setVisibleErrorModal(false);
-    console.log('closed');
   };
+
   return (
     <Modal
       closeButton

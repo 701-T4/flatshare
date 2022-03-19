@@ -9,6 +9,8 @@ import {
 } from '@nextui-org/react';
 import { CheckIcon } from '@heroicons/react/outline';
 import AssigneeSelectionList from './AssigneeSelectionList';
+import { useApi, useApiMutation } from '../../../hooks/useApi';
+import ErrorModal from './ErrorModal';
 
 interface CreateTaskModalProps {
   visible: boolean;
@@ -19,8 +21,8 @@ interface CreatTaskState {
   name: string;
   description: string;
   isComplete: boolean;
-  dueDate: Date;
-  interval: number;
+  dueDate: string;
+  interval?: number | undefined;
   pool: string[];
 }
 
@@ -28,7 +30,7 @@ const initialValue: CreatTaskState = {
   name: '',
   description: '',
   isComplete: false,
-  dueDate: new Date(),
+  dueDate: new Date().toUTCString(),
   interval: 0,
   pool: [],
 };
@@ -46,20 +48,29 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
   visible,
   setVisible,
 }) => {
+  const [newTask, setNewTask] = useState(initialValue);
+  const [checkBoxValues, setCheckBoxValues] = useState<string[]>([]);
+  const [visibleErrorModal, setVisibleErrorModal] = React.useState(false);
+
+  const createTask = useApiMutation('/api/v1/house/tasks', { method: 'post' });
+
   const closeHandler = () => {
     setVisible(false);
-    console.log('closed');
-  };
-
-  const submitHandler = () => {
-    setVisible(false);
-    console.log(newTask, checkBoxValues, 'submit');
     setNewTask(initialValue);
-    setCheckBoxValues(['']);
+    setCheckBoxValues([]);
   };
 
-  const [newTask, setNewTask] = useState(initialValue);
-  const [checkBoxValues, setCheckBoxValues] = useState(['']);
+  const submitHandler = async () => {
+    newTask.pool = checkBoxValues;
+    const result = await createTask({
+      body: {
+        ...newTask,
+      },
+    });
+    result.name === newTask.name
+      ? setVisible(false)
+      : setVisibleErrorModal(true);
+  };
 
   return (
     <div>
@@ -114,7 +125,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
               type="date"
               onChange={(event) => {
                 const timeStamp = Date.parse(event.target.value);
-                const newDueDate = new Date(timeStamp);
+                const newDueDate = new Date(timeStamp).toUTCString();
                 newTask.dueDate = newDueDate;
                 setNewTask(newTask);
               }}
@@ -165,6 +176,11 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
           </Modal.Footer>
         </div>
       </Modal>
+      <ErrorModal
+        visibleErrorModal={visibleErrorModal}
+        setVisibleErrorModal={setVisibleErrorModal}
+        errorMessage="Cannot create the task."
+      />
     </div>
   );
 };

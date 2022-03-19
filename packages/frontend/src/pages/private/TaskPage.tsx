@@ -69,11 +69,12 @@ const TaskPage: React.FC<TaskPageProps> = () => {
     },
   ];
 
-  const [visible, setVisible] = React.useState(false);
+  const [visibleCreateModal, setVisibleCreateModal] = React.useState(false);
+
   // Hook for the Join Button Modal to be configured
   const openModalHandler = () => {
     console.log('open create modal clicked');
-    setVisible(true);
+    setVisibleCreateModal(true);
   };
 
   return (
@@ -93,7 +94,10 @@ const TaskPage: React.FC<TaskPageProps> = () => {
           </div>
         ))}
       </div>
-      <CreateTaskModal visible={visible} setVisible={setVisible} />
+      <CreateTaskModal
+        visible={visibleCreateModal}
+        setVisible={setVisibleCreateModal}
+      />
     </Page>
   );
 };
