@@ -1,64 +1,80 @@
 import { getAuth } from 'firebase/auth';
 import React, { useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import cx from 'classnames';
 import { Button, Spacer, Switch } from '@nextui-org/react';
 import { v4 as uuidv4 } from 'uuid';
 import NewBillCard from '../../components/bill/NewBillCard';
 import { TrashIcon, PencilIcon } from '@heroicons/react/outline';
+import { components } from '../../types/api-schema';
+import { useApiMutation } from '../../hooks/useApi';
 interface BillDetailPageProps {}
-
+interface StateWrapper {
+  bill: components['schemas']['BillResponseDto'];
+}
 const BillDetailPage: React.FC<BillDetailPageProps> = () => {
-  const bills = [
-    {
-      id: 1,
-      name: "GinToki's home rental",
-      description:
-        'GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!',
-      owner: 'Kvi306xYuzSDQm3nJKQ42LLMKSC3',
-      due: 1647215067300,
-      completed: true,
-      users: [
-        {
-          id: 'firebaseId fassdas',
-          amount: 30, //$
-          paid: false,
-          proof: 'blob id', //optional
-        },
-        {
-          id: 'Kvi306xYuzSDQm3nJKQ42LLMKSC3',
-          amount: 30, //$
-          paid: false,
-          proof: 'blob id', //optional
-        },
-        {
-          id: 'firebaseId2',
-          amount: 30, //$
-          paid: true,
-          proof: 'blob id', //optional
-        },
-        {
-          id: 'firebaseId3',
-          amount: 30, //$
-          paid: false,
-          proof: 'blob id', //optional
-        },
-      ],
-    },
-  ];
+  // const bills = [
+  //   {
+  //     id: 1,
+  //     name: "GinToki's home rental",
+  //     description:
+  //       'GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!',
+  //     owner: 'Kvi306xYuzSDQm3nJKQ42LLMKSC3',
+  //     due: 1647215067300,
+  //     completed: true,
+  //     users: [
+  //       {
+  //         id: 'firebaseId fassdas',
+  //         amount: 30, //$
+  //         paid: false,
+  //         proof: 'blob id', //optional
+  //       },
+  //       {
+  //         id: 'Kvi306xYuzSDQm3nJKQ42LLMKSC3',
+  //         amount: 30, //$
+  //         paid: false,
+  //         proof: 'blob id', //optional
+  //       },
+  //       {
+  //         id: 'firebaseId2',
+  //         amount: 30, //$
+  //         paid: true,
+  //         proof: 'blob id', //optional
+  //       },
+  //       {
+  //         id: 'firebaseId3',
+  //         amount: 30, //$
+  //         paid: false,
+  //         proof: 'blob id', //optional
+  //       },
+  //     ],
+  //   },
+  // ];
 
-  const { id } = useParams();
+  const location = useLocation();
+  console.log(location.state);
+  const stateWrapper = location.state as StateWrapper;
+  const bill = stateWrapper.bill;
+  console.log(bill.description);
+  const param = useParams();
+  console.log(param);
   const [isEdit, setIsEdit] = useState(false);
   const [image, setImage] = useState<File | null | undefined>(undefined);
   const navigate = useNavigate();
   const auth = getAuth();
   const userId = auth.currentUser?.uid;
-  console.log([id, ' in Bill Detail Page']);
-  console.log([userId, ' is the current User']);
+
+  const paid = bill.users.find((u) => u.id == userId)?.paid;
 
   // replace with backend call
-  const bill = bills.find((b) => b.id === parseInt(id!));
+  // const bill1 = bills.find((b) => b.id === 1);
+  // console.log(bill1)
+
+  // pay
+  const markPayBill = useApiMutation('/api/v1/house/bills/{id}/payment', {
+    method: 'put',
+  });
 
   const isOwner = userId === bill?.owner;
 
@@ -73,7 +89,13 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
     });
   };
 
-  const toggleComplete = async () => {};
+  const completeBill = async () => {
+    markPayBill({
+      pathParams: {
+        id: bill.id,
+      },
+    });
+  };
   const parseFileName = (fileName: String) => {
     if (fileName.length < 22) {
       return fileName;
@@ -100,11 +122,12 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                 )}
               >
                 {bill?.name}
+                {console.log(bill?.name)}
                 <div className="flex flex-row items-center">
-                  <Switch
-                    className="mr-5"
-                    onChange={() => toggleComplete()}
-                  ></Switch>
+                  <Switch className="mr-5"></Switch>
+                  <Button onClick={() => completeBill()}>
+                    {paid ? 'paid' : 'Complete'}
+                  </Button>
                   {isOwner ? (
                     <Button
                       auto
@@ -139,7 +162,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                       Payment
                     </div>
                     <div className="flex flex-col">
-                      {bill?.users.map((u) => (
+                      {bill?.users?.map((u) => (
                         <UserRow u={u} userId={userId} />
                       ))}
                     </div>
@@ -198,12 +221,7 @@ const DetailRow: React.FC<DetailRowProps> = ({ title, value }) => {
   );
 };
 interface UserRowProp {
-  u: {
-    id: string;
-    amount: number;
-    paid: boolean;
-    proof: string;
-  };
+  u: components['schemas']['BillUser'];
   userId: string | undefined;
 }
 
