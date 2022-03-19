@@ -17,6 +17,17 @@ export interface paths {
     put: operations['HouseController_joinHouse'];
     post: operations['HouseController_create'];
   };
+  '/api/v1/house/bills': {
+    get: operations['BillController_getBills'];
+    post: operations['BillController_createBill'];
+  };
+  '/api/v1/house/bills/{id}': {
+    put: operations['BillController_updateBill'];
+    delete: operations['BillController_deleteBill'];
+  };
+  '/api/v1/house/bills/{id}/payment': {
+    put: operations['BillController_updateBillPayment'];
+  };
 }
 
 export interface components {
@@ -50,6 +61,36 @@ export interface components {
     };
     JoinHouseDto: {
       houseCode: string;
+    };
+    BillsResponseDto: {
+      bills: string[];
+    };
+    BillUser: {
+      id: string;
+      amount: number;
+      paid: boolean;
+      proof?: string;
+    };
+    CreateBillDto: {
+      name: string;
+      description: string;
+      due: number;
+      users: components['schemas']['BillUser'][];
+    };
+    BillResponseDto: {
+      name: string;
+      description: string;
+      owner: string;
+      due: number;
+      users: string[];
+    };
+    UpdateBillDto: {
+      name: string;
+      description: string;
+    };
+    PayBillDto: {
+      paid: boolean;
+      proof?: string;
     };
   };
 }
@@ -140,6 +181,90 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': components['schemas']['CreateHouseDto'];
+      };
+    };
+  };
+  BillController_getBills: {
+    parameters: {};
+    responses: {
+      /** Bills retrieved successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['BillsResponseDto'];
+        };
+      };
+      /** User is not in a house */
+      400: unknown;
+    };
+  };
+  BillController_createBill: {
+    parameters: {};
+    responses: {
+      /** Bill created successfully */
+      201: {
+        content: {
+          'application/json': components['schemas']['BillResponseDto'];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateBillDto'];
+      };
+    };
+  };
+  BillController_updateBill: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** Bill updated successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['BillResponseDto'];
+        };
+      };
+      /** Not the bill owner */
+      403: unknown;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateBillDto'];
+      };
+    };
+  };
+  BillController_deleteBill: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** Bill deleted successfully */
+      204: never;
+      /** Not the bill owner */
+      403: unknown;
+    };
+  };
+  BillController_updateBillPayment: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** Bill marked successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['BillResponseDto'];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['PayBillDto'];
       };
     };
   };
