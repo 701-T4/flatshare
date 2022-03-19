@@ -2,8 +2,9 @@ import { Button, Input, Textarea } from '@nextui-org/react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import React, { useEffect, useState } from 'react';
-import { useApi } from '../../hooks/useApi';
+import { useApi, useApiMutation } from '../../hooks/useApi';
 import { useHouse } from '../../hooks/useHouse';
+import { json } from 'stream/consumers';
 
 const FlatMates = [
   {
@@ -38,6 +39,10 @@ interface NewBillCardProps {
   due?: Long;
 }
 
+interface IHash {
+  [name: string]: string;
+}
+
 const NewBillCard: React.FC<NewBillCardProps> = () => {
   const [dueDate, setDueDate] = useState(new Date());
   const [unixTime, setUnixTime] = useState(0);
@@ -47,23 +52,72 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
   const [flatmateNum, setFlatmateNum] = useState(6);
   const [splitCost, setSplitCost] = useState('');
   const [isEvenlySplit, setIsEvenlySplit] = useState(false);
+  const { users } = useHouse();
+  const createBill = useApiMutation('/api/v1/house/bills', {
+    method: 'post',
+  });
+
+  let idHash: IHash = {};
+  let costHash: IHash = {};
+  users?.map((user) => {
+    idHash[user.name] = user.firebaseId;
+    costHash[user.name] = '0';
+  });
 
   useEffect(() => {
     setUnixTime(dueDate.getTime());
+    setFlatmateNum(users?.length ? users.length : 1);
     setSplitCost(Number(totalCost) / flatmateNum + '');
 
     // to convert unix date to Date object
     // const dateObject = new Date(unixDate)
   }, [dueDate, totalCost]);
 
-  const { data, error } = useApi('/api/v1/house', { method: 'get' });
-  const { users } = useHouse();
   console.log(users);
 
   const handleEvenlyButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     setIsEvenlySplit(!isEvenlySplit);
     console.log(splitCost);
   };
+  const handlePersonalCostChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    costHash[e.target.name] = e.target.value;
+    console.log(e.target.name);
+    console.log(e.target.value);
+    console.log(idHash[e.target.name]);
+  };
+  const handleDoneButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+    let bill = {
+      name: title,
+      description: detail,
+      due: unixTime,
+      users: [
+        {
+          id: users ? users[0].firebaseId : '0',
+          amount: users
+            ? Number(isEvenlySplit ? splitCost : costHash[users[0].name])
+            : 0,
+          paid: false,
+        },
+      ],
+    };
+    users?.map((user, index) => {
+      let newPayment = {
+        id: user.firebaseId,
+        amount: Number(isEvenlySplit ? splitCost : costHash[user.name]),
+        paid: false,
+      };
+      if (index !== 0) {
+        bill['users'].push(newPayment);
+      }
+    });
+    let billBody = {
+      body: bill,
+    };
+    console.log(bill);
+
+    const response = createBill(billBody);
+  };
+
   return (
     <div className="shadow-lg rounded-b-xl">
       <div className="flex flex-col h-full">
@@ -92,6 +146,7 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
                 size="xs"
                 rounded
                 className="w-auto h-10 mt-1 mb-1 text-base"
+                onClick={handleDoneButton}
               >
                 Done
               </Button>
@@ -129,7 +184,7 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
             </Button>
           </div>
           <div className="flex flex-wrap gap-5 ml-4">
-            {FlatMates.map((person, index) => {
+            {users?.map((person, index) => {
               return (
                 <div className="p-4 font-bold bg-gradient-to-r from-amber-400 to-amber-600 rounded-xl self-center w-[15rem]">
                   <div
@@ -140,7 +195,9 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
                     <input
                       className="appearance-none  rounded-lg pl-1 ml-2 h-5 w-[9rem] text-black self-center "
                       type="text"
+                      name={person.name}
                       value={isEvenlySplit ? splitCost : undefined}
+                      onChange={handlePersonalCostChange}
                     />
                   </div>
                 </div>
