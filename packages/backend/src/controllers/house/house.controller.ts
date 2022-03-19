@@ -65,6 +65,7 @@ export class HouseController {
       name: house.name,
       users: [
         {
+          name: owner.name,
           house: house.code,
           firebaseId: owner.firebaseId,
         },
