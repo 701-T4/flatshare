@@ -239,6 +239,7 @@ export class TasksController {
   @ApiOperation({ summary: 'Modify task name, description or pool' })
   @ApiResponse({
     description: 'task successfully updated.',
+    type: UpdateHouseTasksDto,
   })
   @ApiForbiddenResponse({
     description: 'user is not the owner of the house or not in the house',
@@ -250,7 +251,7 @@ export class TasksController {
     @Param('id') id,
     @User() user: DecodedIdToken,
     @Body() updateHouseTasksDto: UpdateHouseTasksDto,
-  ) {
+  ): Promise<UpdateHouseTasksDto> {
     if (!isValidObjectId(id)) {
       throw new HttpException('task does not exist', HttpStatus.NOT_FOUND);
     }
@@ -289,5 +290,6 @@ export class TasksController {
     }
 
     this.taskStoreService.update(task._id, updatedTask);
+    return updateHouseTasksDto;
   }
 }

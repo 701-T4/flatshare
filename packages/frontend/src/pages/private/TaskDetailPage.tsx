@@ -17,7 +17,8 @@ interface TaskDetailPageProps {}
 const taskName = 'House cleaning';
 const taskDescription =
   'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget nulla et enim laoreet vulputate. Cras dapibus lectus sit amet erat suscipit, in dapibus leo suscipit. Cras facilisis consequat efficitur. Morbi a magna arcu. Duis molestie, tellus quis finibus vulputate, ex augue ultricies arcu, a congue nunc felis ut elit. Cras luctus euismod volutpat. Quisque turpis eros, convallis nec vehicula sed, ornare ac erat. Nulla ultrices mauris eget mauris venenatis dapibus vitae eu urna.';
-const assignee = 'John';
+const pool = ['Arlene Mccoy'];
+const assignee = 'Arlene Mccoy';
 
 const TaskPage: React.FC<TaskDetailPageProps> = () => {
   const { id } = useParams() as { id: string };
@@ -103,7 +104,8 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
         createTask={false}
         currentTaskName={taskName}
         currentTaskDescription={taskDescription}
-        currentAssignee={assignee}
+        currentSelectedPeople={pool}
+        userId={id}
       />
       <ErrorModal
         visibleErrorModal={visibleErrorModal}

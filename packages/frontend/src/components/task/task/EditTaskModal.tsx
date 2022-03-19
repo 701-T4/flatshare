@@ -1,48 +1,65 @@
 import React, { useState } from 'react';
 import { Button, Input, Modal, Textarea } from '@nextui-org/react';
 import AssigneeSelectionList from './AssigneeSelectionList';
+import { useApiMutation } from '../../../hooks/useApi';
+import ErrorModal from './ErrorModal';
 
 interface EditAndCreateTaskModalProps {
   visible: boolean;
   setVisible(value: boolean): void;
   createTask: boolean;
-  currentTaskName?: string;
-  currentTaskDescription?: string;
-  currentAssignee?: string;
+  currentTaskName: string;
+  currentTaskDescription: string;
+  currentSelectedPeople: string[];
+  userId: string;
 }
+
+const people = [
+  { name: 'Wade Cooper' },
+  { name: 'Arlene Mccoy' },
+  { name: 'Devon Webb' },
+  { name: 'Tom Cook' },
+  { name: 'Tanya Fox' },
+  { name: 'Hellen Schmidt' },
+];
 
 const EditTaskModal: React.FC<EditAndCreateTaskModalProps> = ({
   visible,
   setVisible,
   createTask,
   currentTaskName,
-  currentAssignee,
   currentTaskDescription,
+  currentSelectedPeople,
+  userId,
 }) => {
-  const closeHandler = () => {
-    setVisible(false);
-    console.log('closed');
-  };
-
-  const submitHandler = () => {
-    setVisible(false);
-    console.log(taskName, taskDescription, checkBoxValues, 'submit');
-  };
-
   const [taskName, setTaskName] = useState(currentTaskName);
   const [taskDescription, setTaskDescription] = useState(
     currentTaskDescription,
   );
-  const [checkBoxValues, setCheckBoxValues] = useState(['']);
+  const [checkBoxValues, setCheckBoxValues] = useState<string[]>(
+    currentSelectedPeople,
+  );
+  const [visibleErrorModal, setVisibleErrorModal] = React.useState(false);
 
-  const people = [
-    { name: 'Wade Cooper' },
-    { name: 'Arlene Mccoy' },
-    { name: 'Devon Webb' },
-    { name: 'Tom Cook' },
-    { name: 'Tanya Fox' },
-    { name: 'Hellen Schmidt' },
-  ];
+  const editTask = useApiMutation('/api/v1/house/tasks/{id}', {
+    method: 'put',
+  });
+
+  const closeHandler = () => {
+    setVisible(false);
+  };
+
+  const submitHandler = async () => {
+    const result = await editTask({
+      pathParams: { id: userId },
+      body: {
+        name: taskName,
+        description: taskDescription,
+        pool: checkBoxValues,
+      },
+    });
+    result.name === taskName ? setVisible(false) : setVisibleErrorModal(true);
+  };
 
   return (
     <div>
@@ -97,6 +114,11 @@ const EditTaskModal: React.FC<EditAndCreateTaskModalProps> = ({
           </Modal.Footer>
         </div>
       </Modal>
+      <ErrorModal
+        visibleErrorModal={visibleErrorModal}
+        setVisibleErrorModal={setVisibleErrorModal}
+        errorMessage="Cannot create the task."
+      />
     </div>
   );
 };
