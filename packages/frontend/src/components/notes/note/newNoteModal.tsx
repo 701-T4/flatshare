@@ -32,7 +32,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
     <Modal
       closeButton
       blur
-      width="50%"
+      width="75%"
       open={createNoteVisible}
       onClose={closeNoteHandler}
     >
