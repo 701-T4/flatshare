@@ -1,14 +1,12 @@
 import { createContext, useContext } from 'react';
 import { useApi } from './useApi';
 
-const TaskProvider = createContext<any>({});
+const TaskContext = createContext<unknown>([]);
 
-export const useTask = () => useContext<any>(TaskProvider);
+export const useTask = () => useContext<unknown>(TaskContext);
 
-export const TaskProviderProvider: React.FC<{}> = ({ children }) => {
-  const tem = useApi('/api/v1/house/tasks', { method: 'get' });
+export const TaskProvider: React.FC<{}> = ({ children }) => {
+  const { data: tasks } = useApi('/api/v1/house/tasks', { method: 'get' });
 
-  return (
-    <TaskProvider.Provider value={tem ?? {}}>{children}</TaskProvider.Provider>
-  );
+  return <TaskContext.Provider value={tasks}>{children}</TaskContext.Provider>;
 };
