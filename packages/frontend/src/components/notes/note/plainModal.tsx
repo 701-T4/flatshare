@@ -1,7 +1,16 @@
 import { DocumentAddIcon } from '@heroicons/react/outline';
 import { DocumentIcon } from '@heroicons/react/solid';
-import { Avatar, Button, Container, Input, Modal, Spacer, Text } from '@nextui-org/react';
+import {
+  Avatar,
+  Button,
+  Container,
+  Input,
+  Modal,
+  Spacer,
+  Text,
+} from '@nextui-org/react';
 import React, { useState } from 'react';
+import EditButton from './editButton';
 
 interface PlainModalProps {
   visible: boolean;
@@ -14,36 +23,23 @@ const PlainModal: React.FC<PlainModalProps> = ({
   visible,
   setVisible,
   loading,
-  data
+  data,
 }) => {
-
   const closeHandler = () => {
     setVisible(false);
   };
 
-  const editButton = () => {
-    return (
-      <Avatar
-        squared
-        icon={<DocumentAddIcon className="w-full"/>}
-        css={{ p: 10 }}
-        as="button"
-        pointer
-      />
-    );
-  };
-        
   return (
     <div>
       <Modal
         closeButton
         scroll
-        width='75%'
+        width="75%"
         open={visible}
         onClose={closeHandler}
         aria-labelledby="modal-title"
       >
-        <Spacer y={1}/>
+        <Spacer y={1} />
         <Modal.Header>
           <Container
             display="flex"
@@ -58,11 +54,7 @@ const PlainModal: React.FC<PlainModalProps> = ({
             <Text b size={18} span css={{ ml: 8 }}>
               Plain Note
             </Text>
-            {loading ? (
-              <></>
-            ) : (
-              editButton()
-            )}
+            {loading ? <></> : <EditButton />}
           </Container>
         </Modal.Header>
         <Modal.Body>
@@ -76,11 +68,7 @@ const PlainModal: React.FC<PlainModalProps> = ({
               justify="space-between"
               css={{ p: 0 }}
             >
-              <Text
-                id="modal-description"
-              >
-                {data}
-              </Text>
+              <Text id="modal-description">{data}</Text>
             </Container>
           )}
         </Modal.Body>
@@ -88,9 +76,9 @@ const PlainModal: React.FC<PlainModalProps> = ({
           {loading ? (
             <></>
           ) : (
-          <Button auto rounded onClick={closeHandler}>
-            Done
-          </Button>
+            <Button auto rounded onClick={closeHandler}>
+              Done
+            </Button>
           )}
         </Modal.Footer>
       </Modal>
