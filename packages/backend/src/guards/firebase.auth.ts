@@ -8,6 +8,7 @@ import {
   Credential,
 } from 'firebase-admin/app';
 import { DecodedIdToken, getAuth } from 'firebase-admin/auth';
+import admin = require('firebase-admin');
 
 @Injectable()
 export class FirebaseAuthStrategy extends PassportStrategy(
@@ -16,9 +17,13 @@ export class FirebaseAuthStrategy extends PassportStrategy(
 ) {
   constructor() {
     super({ jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken() });
-    initializeApp({
-      credential: FirebaseAuthStrategy.getCredentials(),
-    });
+
+    // Prevent initialize multiple apps
+    if (admin.apps.length === 0) {
+      initializeApp({
+        credential: FirebaseAuthStrategy.getCredentials(),
+      });
+    }
   }
 
   private static getCredentials(): Credential {
