@@ -1,22 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Fragment } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
 import { Button, Input, Modal, Text, Textarea } from '@nextui-org/react';
-import { useHouse } from '../../../hooks/useHouse';
 
 const noteType = [{ name: 'Normal' }, { name: 'Secret' }, { name: 'WiFi' }];
 
-interface NewNoteModalProps {}
+interface NewNoteModalProps {
+  createNoteVisible: boolean;
+  setCreateNoteVisible(value: boolean): void;
+}
 
-const NewNoteModal: React.FC<NewNoteModalProps> = () => {
-  const { name } = useHouse();
-
-  const [createNoteVisible, setCreateNoteVisible] = React.useState(false);
-  const createNoteHandler = () => setCreateNoteVisible(true);
+const NewNoteModal: React.FC<NewNoteModalProps> = ({
+  createNoteVisible,
+  setCreateNoteVisible,
+}) => {
   const closeNoteHandler = () => setCreateNoteVisible(false);
 
-  const [selected, setSelected] = React.useState(noteType[0]);
+  const [selected, setSelected] = useState(noteType[0]);
 
   return (
     <Modal
