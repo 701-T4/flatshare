@@ -2,7 +2,14 @@ import React, { useState } from 'react';
 import { Fragment } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
-import { Button, Input, Modal, Text, Textarea } from '@nextui-org/react';
+import {
+  Button,
+  Container,
+  Input,
+  Modal,
+  Text,
+  Textarea,
+} from '@nextui-org/react';
 
 const noteType = [{ name: 'Normal' }, { name: 'Secret' }, { name: 'WiFi' }];
 
@@ -54,7 +61,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
           value={selected}
           onChange={(e) => {
             setSelected(e);
-            if (e.name == 'WiFi') setShowWifiInputs(true);
+            if (e.name === 'WiFi') setShowWifiInputs(true);
             else setShowWifiInputs(false);
           }}
         >
@@ -110,7 +117,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
         {/* To show the wifi username and password fields once WiFi is selected */}
 
         {showWifiInputs ? (
-          <div>
+          <Container direction="column" display="flex" css={{ p: 0 }}>
             <Text size={'1.25rem'} margin="1.5%">
               Username
             </Text>
@@ -133,13 +140,13 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
               size="xl"
               color="primary"
             ></Input>
-          </div>
+          </Container>
         ) : null}
 
         {/* To disable the Description textarea when WiFi is selected as we don't need it then */}
 
         {!showWifiInputs ? (
-          <div>
+          <Container direction="column" display="flex" css={{ p: 0 }}>
             <Text size={'1.25rem'} margin="1.5%">
               Description
             </Text>
@@ -150,7 +157,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
               size="xl"
               color="primary"
             ></Textarea>
-          </div>
+          </Container>
         ) : null}
       </Modal.Body>
       <Modal.Footer>
