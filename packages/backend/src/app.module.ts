@@ -3,6 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APIController } from './controllers/api.controller';
 import { UsersModule } from './controllers/users/users.module';
 import { HouseModule } from './controllers/house/house.module';
+import { BillModule } from './controllers/bills/bills.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
 import { TaskModule } from './controllers/tasks/tasks.module';
@@ -22,6 +23,7 @@ import { TaskModule } from './controllers/tasks/tasks.module';
     HouseModule,
     MongooseModule.forRoot(process.env.DATABASE_URL),
     PassportModule,
+    BillModule,
   ],
 })
 export class AppModule {}
