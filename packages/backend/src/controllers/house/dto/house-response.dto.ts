@@ -1,4 +1,5 @@
-import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
+import { ApiPropertyOptional, ApiProperty } from '@nestjs/swagger';
+import UserResponseDto from '../../../controllers/users/dto/user-response.dto';
 
 export default class HouseResponseDto {
   @ApiPropertyOptional()
@@ -7,8 +8,10 @@ export default class HouseResponseDto {
   email: string;
   @ApiPropertyOptional()
   address: string;
-  @ApiPropertyOptional()
+  @ApiProperty({ required: true })
   code: string;
-  @ApiPropertyOptional()
+  @ApiProperty({ required: true })
   owner: string;
+  @ApiProperty({ required: true, type: [UserResponseDto] })
+  users: UserResponseDto[];
 }

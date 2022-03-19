@@ -45,11 +45,15 @@ export class HouseController {
     @Body() createHouseDto: CreateHouseDto,
     @User() user: DecodedIdToken,
   ): Promise<HouseResponseDto> {
-    createHouseDto.code = this.houseUtil.generateString(8);
-    createHouseDto.owner = (
-      await this.userStoreService.findOneByFirebaseId(user.uid)
-    )._id;
-    const house = await this.houseStoreService.create(createHouseDto);
+    const owner = await this.userStoreService.findOneByFirebaseId(user.uid);
+    const house = await this.houseStoreService.create({
+      name: createHouseDto.name,
+      email: createHouseDto.email,
+      address: createHouseDto.address,
+      code: this.houseUtil.generateString(8),
+      owner: owner._id,
+      users: [owner._id],
+    });
     await this.userStoreService.updateByFirebaseId(user.uid, {
       house: house._id,
     });
@@ -59,6 +63,12 @@ export class HouseController {
       email: house.email,
       owner: user.uid,
       name: house.name,
+      users: [
+        {
+          house: house.code,
+          firebaseId: owner.firebaseId,
+        },
+      ],
     };
   }
 
@@ -69,12 +79,11 @@ export class HouseController {
     type: HouseResponseDto,
   })
   @ApiNoContentResponse({ description: 'user is not in a house' })
-  async getHouse(
-    @User() user: DecodedIdToken,
-  ): Promise<HouseResponseDto | null> {
+  async get(@User() user: DecodedIdToken): Promise<HouseResponseDto | null> {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
-    if (userDoc.house != undefined) {
+    if (userDoc?.house != undefined) {
       const house = await this.houseStoreService.findOne(userDoc.house);
+      const userList = await this.houseStoreService.getUserDto(house.id);
       if (house != undefined) {
         return {
           code: house.code,
@@ -82,6 +91,7 @@ export class HouseController {
           email: house.email,
           owner: user.uid,
           name: house.name,
+          users: userList,
         };
       }
     }
@@ -100,22 +110,27 @@ export class HouseController {
     @Body() joinHouseDto: JoinHouseDto,
     @User() user: DecodedIdToken,
   ): Promise<HouseResponseDto> {
+    const addedUser = await this.userStoreService.findOneByFirebaseId(user.uid);
     const house = await this.houseStoreService.findOneByCode(
       joinHouseDto.houseCode,
     );
-
     if (house != null) {
+      house.users.push(addedUser._id);
       await this.userStoreService.updateByFirebaseId(user.uid, {
         house: house._id,
       });
+      await this.houseStoreService.update(house.id, {
+        users: house.users,
+      });
       const owner = await this.userStoreService.findOne(house.owner);
-
+      const userList = await this.houseStoreService.getUserDto(house.id);
       return {
         code: house.code,
         address: house.address,
         email: house.email,
         owner: owner.firebaseId,
         name: house.name,
+        users: userList,
       };
     } else throw new HttpException('code is invalid', HttpStatus.BAD_REQUEST);
   }
