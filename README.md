@@ -51,6 +51,7 @@ $ cd flatshare
 
 # Install dependencies
 $ yarn install
+All third party dependencies used in this project are attributed in the LICENSE-3RD-PARTY files. The files are generated automatically when there is an update to the dependencies used.
 
 # Run the app
 $ yarn start

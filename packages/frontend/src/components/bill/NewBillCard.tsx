@@ -1,7 +1,9 @@
 import { Button, Input, Textarea } from '@nextui-org/react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import React, { ChangeEventHandler, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { useApi } from '../../hooks/useApi';
+import { useHouse } from '../../hooks/useHouse';
 
 const FlatMates = [
   {
@@ -53,6 +55,10 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
     // to convert unix date to Date object
     // const dateObject = new Date(unixDate)
   }, [dueDate, totalCost]);
+
+  const { data, error } = useApi('/api/v1/house', { method: 'get' });
+  const { users } = useHouse();
+  console.log(users);
 
   const handleEvenlyButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     setIsEvenlySplit(!isEvenlySplit);
