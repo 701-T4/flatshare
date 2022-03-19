@@ -65,7 +65,7 @@ describe('Sign in page', () => {
   it('successfully signs up', () => {
     cy.get('[data-cy="confirm-input"]').clear().type('password');
     cy.get('[data-cy="submit-button"]').click();
-    cy.wait(5000);
+    cy.wait(8000);
     // check that user should be redirected to their accounts page
     cy.url().should('includes', '/account');
     cy.wait(2000);
@@ -118,7 +118,7 @@ describe('Sign in page', () => {
   it('successfully logs in', () => {
     cy.get('[data-cy="password-input"]').clear().type('password');
     cy.get('[data-cy="submit-button"]').click();
-    cy.wait(2000);
+    cy.wait(8000);
     // check that user should be redirected to their accounts page
     cy.url().should('includes', '/account');
   });
