@@ -2,6 +2,9 @@ import { ApiProperty } from '@nestjs/swagger';
 
 export class BillResponseDto {
   @ApiProperty()
+  id: string;
+
+  @ApiProperty()
   name: string;
 
   @ApiProperty()
@@ -23,6 +26,8 @@ export class BillResponseDto {
 }
 
 export class BillsResponseDto {
-  @ApiProperty()
+  @ApiProperty({
+    type: [BillResponseDto],
+  })
   bills: BillResponseDto[];
 }

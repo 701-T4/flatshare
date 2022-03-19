@@ -20,6 +20,7 @@ export class BillUtil {
       }),
     );
     return {
+      id: billDocument._id,
       name: billDocument.name,
       description: billDocument.description,
       owner: (await userStoreService.findOne(billDocument.owner)).firebaseId,

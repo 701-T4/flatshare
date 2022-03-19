@@ -101,6 +101,7 @@ export class BillController {
     };
     const bill = await this.billStoreService.create(billModel);
     return {
+      id: bill._id,
       name: bill.name,
       description: bill.description,
       owner: owner.firebaseId,

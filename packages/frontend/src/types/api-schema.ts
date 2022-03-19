@@ -62,8 +62,15 @@ export interface components {
     JoinHouseDto: {
       houseCode: string;
     };
+    BillResponseDto: {
+      name: string;
+      description: string;
+      owner: string;
+      due: number;
+      users: string[];
+    };
     BillsResponseDto: {
-      bills: string[];
+      bills: components['schemas']['BillResponseDto'][];
     };
     BillUser: {
       id: string;
@@ -76,13 +83,6 @@ export interface components {
       description: string;
       due: number;
       users: components['schemas']['BillUser'][];
-    };
-    BillResponseDto: {
-      name: string;
-      description: string;
-      owner: string;
-      due: number;
-      users: string[];
     };
     UpdateBillDto: {
       name: string;
