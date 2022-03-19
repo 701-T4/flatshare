@@ -1,8 +1,8 @@
-import { Button, Input, Textarea } from '@nextui-org/react';
+import { Button, Textarea } from '@nextui-org/react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
 import React, { useEffect, useState } from 'react';
-import { useApi, useApiMutation } from '../../hooks/useApi';
+import { useApiMutation } from '../../hooks/useApi';
 import { useHouse } from '../../hooks/useHouse';
 
 interface NewBillCardProps {}
@@ -40,13 +40,14 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
   users?.map((user) => {
     idHash[user.name] = user.firebaseId;
     costHash[user.name] = '0';
+    return 0;
   });
 
   useEffect(() => {
     setUnixTime(billInfo.dueDate.getTime());
     setFlatmateNum(users?.length ? users.length : 1);
     setSplitCost(Number(billInfo.totalCost) / flatmateNum + '');
-  }, [billInfo]);
+  }, [billInfo, flatmateNum, users?.length]);
 
   const handleEvenlyButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     setIsEvenlySplit(!isEvenlySplit);
@@ -81,13 +82,14 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
       if (index !== 0) {
         bill['users'].push(newPayment);
       }
+      return 0;
     });
 
     let billBody = {
       body: bill,
     };
 
-    const response = createBill(billBody);
+    createBill(billBody);
   };
 
   return (

@@ -15,14 +15,27 @@ interface UpcomingTaskProps {
   title?: string;
   twColor?: string;
   dueString?: string;
+  overdue?: boolean;
+  paid?: boolean;
   type: 'Task' | 'Bill';
   completed?: boolean;
   onCompleteClick?: () => void;
+  onToggleSwitch?: () => void;
 }
 
 const UpcomingTask: React.FC<UpcomingTaskProps> & {
   Variation: typeof Variation;
-} = ({ title, dueString, twColor, type, completed, onCompleteClick }) => {
+} = ({
+  title,
+  dueString,
+  overdue,
+  paid,
+  twColor,
+  type,
+  completed,
+  onCompleteClick,
+  onToggleSwitch,
+}) => {
   const clickWrapper = () => {
     if (completed) {
     }
@@ -41,7 +54,12 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
           <div className="flex flex-row justify-between">
             {type}
             {type === 'Bill' && !completed && (
-              <Switch className="self-end mb-1 mr-5" size="sm"></Switch>
+              <Switch
+                checked={paid}
+                className="self-end mb-1 mr-5"
+                size="sm"
+                onChange={onToggleSwitch}
+              />
             )}
           </div>
         </div>
@@ -51,7 +69,12 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
               <div className="text-base font-bold text-teal-500 md:text-xl">
                 {title}
               </div>
-              <div className="text-xs font-medium text-white md:text-sm">
+              <div
+                className={cx('text-xs font-medium md:text-sm ', {
+                  'text-white': !overdue,
+                  'text-red-500': overdue,
+                })}
+              >
                 {dueString}
               </div>
             </div>

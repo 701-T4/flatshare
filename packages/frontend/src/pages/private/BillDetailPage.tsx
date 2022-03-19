@@ -1,75 +1,29 @@
 import { getAuth } from 'firebase/auth';
 import React, { useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import cx from 'classnames';
-import { Button, Spacer, Switch } from '@nextui-org/react';
+import { Button, Spacer } from '@nextui-org/react';
 import { v4 as uuidv4 } from 'uuid';
-import NewBillCard from '../../components/bill/NewBillCard';
 import { TrashIcon, PencilIcon } from '@heroicons/react/outline';
 import { components } from '../../types/api-schema';
 import { useApiMutation } from '../../hooks/useApi';
 import { useHouse } from '../../hooks/useHouse';
+import EditBillCard from '../../components/bill/EditBillCard';
 interface BillDetailPageProps {}
 interface StateWrapper {
   bill: components['schemas']['BillResponseDto'];
 }
 const BillDetailPage: React.FC<BillDetailPageProps> = () => {
-  // const bills = [
-  //   {
-  //     id: 1,
-  //     name: "GinToki's home rental",
-  //     description:
-  //       'GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!',
-  //     owner: 'Kvi306xYuzSDQm3nJKQ42LLMKSC3',
-  //     due: 1647215067300,
-  //     completed: true,
-  //     users: [
-  //       {
-  //         id: 'firebaseId fassdas',
-  //         amount: 30, //$
-  //         paid: false,
-  //         proof: 'blob id', //optional
-  //       },
-  //       {
-  //         id: 'Kvi306xYuzSDQm3nJKQ42LLMKSC3',
-  //         amount: 30, //$
-  //         paid: false,
-  //         proof: 'blob id', //optional
-  //       },
-  //       {
-  //         id: 'firebaseId2',
-  //         amount: 30, //$
-  //         paid: true,
-  //         proof: 'blob id', //optional
-  //       },
-  //       {
-  //         id: 'firebaseId3',
-  //         amount: 30, //$
-  //         paid: false,
-  //         proof: 'blob id', //optional
-  //       },
-  //     ],
-  //   },
-  // ];
-
   const location = useLocation();
-  console.log(location.state);
   const stateWrapper = location.state as StateWrapper;
   const bill = stateWrapper.bill;
-  console.log(bill.description);
-  const param = useParams();
-  console.log(param);
   const [isEdit, setIsEdit] = useState(false);
   const [image, setImage] = useState<File | null | undefined>(undefined);
   const navigate = useNavigate();
   const auth = getAuth();
   const userId = auth.currentUser?.uid;
-  const paid = bill.users.find((u) => u.id == userId)?.paid;
-
-  // replace with backend call
-  // const bill1 = bills.find((b) => b.id === 1);
-  // console.log(bill1)
+  const paid = bill.users.find((u) => u.id === userId)?.paid;
 
   // mark pay with and without proof
   const markPayBill = useApiMutation('/api/v1/house/bills/{id}/payment', {
@@ -81,9 +35,15 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
     method: 'delete',
   });
 
+  // edit bill
+  const editBillCall = useApiMutation('/api/v1/house/bills/{id}', {
+    method: 'put',
+  });
+
   const isOwner = userId === bill?.owner;
 
-  const onUpload = async (userId: string) => {
+  // upload to firebase
+  const onUpload = async () => {
     // Create a root reference
     const storage = getStorage();
     const fileName = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
@@ -138,7 +98,18 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
     <>
       {isEdit ? (
         <div className="pt-10 px-10 md:px-20">
-          <NewBillCard />
+          <EditBillCard
+            billParam={bill}
+            handleOnDoneClickCallBack={(d) => {
+              editBillCall({
+                pathParams: {
+                  id: bill.id,
+                },
+                body: { description: d.description, name: d.name },
+              });
+              navigate('/bills');
+            }}
+          />
         </div>
       ) : (
         <div className="pt-10 px-10 md:px-20">
@@ -151,7 +122,6 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                 )}
               >
                 {bill?.name}
-                {console.log(bill?.name)}
                 <div className="flex flex-row items-center">
                   {/* <Switch className="mr-5"></Switch> */}
                   <Button auto onClick={() => completeBill()}>
@@ -179,7 +149,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                 </div>
               </div>
               <div className="rounded-b-xl px-4 lg:px-8 py-4 flex flex-col items-center gap-y-1 bg-gray-800 h-full">
-                <div className="flex flex-col lg:flex-row justify-between items-start">
+                <div className="flex flex-col lg:flex-row justify-between items-start lg:w-full">
                   <div className="flex flex-col px-2 lg:w-1/2">
                     <DetailRow title="Description" value={bill?.description!} />
                     <Spacer y={2} />
@@ -222,7 +192,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                     className={
                       'text-white flex justify-center items-center transition-all bg-teal-500 hover:bg-teal-400 rounded-full px-4 py-2 font-medium h-fit'
                     }
-                    onClick={() => onUpload(userId!)}
+                    onClick={() => onUpload()}
                   >
                     Upload
                   </button>
@@ -264,7 +234,7 @@ const UserRow: React.FC<UserRowProp> = ({ u, userId }) => {
     console.log('house.users');
 
     console.log(house.users);
-    return house.users?.find((u) => u.firebaseId == uid)?.name;
+    return house.users?.find((u) => u.firebaseId === uid)?.name;
   };
 
   return (

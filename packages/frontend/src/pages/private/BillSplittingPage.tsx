@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Page from '../../components/common/layout/Page';
 import UpcomingTask from '../../components/dashboard/upcoming-tasks/UpcomingTask';
 import UnderlinedText from '../../components/dashboard/GradientUnderlinedText';
@@ -7,50 +7,52 @@ import { Button } from '@nextui-org/react';
 import { useNavigate } from 'react-router';
 import NewBillCard from '../../components/bill/NewBillCard';
 import { Collapse } from '@nextui-org/react';
-import { useApi, useApiMutation } from '../../hooks/useApi';
+import { useApiMutation } from '../../hooks/useApi';
+import { useApi } from '../../hooks/useApi';
 
 interface BillSplittingPageProps {}
+
+const days = [
+  'Sunday',
+  'Monday',
+  'Tuesday',
+  'Wednesday',
+  'Thursday',
+  'Friday',
+  'Saturday',
+];
+const month = [
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
+];
 
 const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  // const bills = useApiMutation('/api/v1/house/bills', {
-  //   method: 'post',
-  // });
-
-  // useEffect(() => {
-  //   const response = bills({
-  //     body: {
-  //       name: 'Buy car',
-  //       description: 'buy nmd car',
-  //       due: 1647219067300,
-  //       users: [
-  //         {
-  //           id: 'cZWbFn471ihGFtlMBVKo3DrH1D43',
-  //           amount: 130, //$
-  //           paid: false,
-  //           proof: 'blob id', //optional
-  //         },
-  //         {
-  //           id: 'lkBvILhKiRUwe2JAdBQPZQZeTTp1',
-  //           amount: 220, //$
-  //           paid: false,
-  //           proof: 'blob id', //optional
-  //         },
-  //       ],
-  //     },
-  //   });
-
-  //   response.then(console.log);
-  // }, []);
-
   const { data } = useApi('/api/v1/house/bills', {
     method: 'get',
   });
 
-  const adhocUpcomingBillIds = [
-    {
+  const markPayBill = useApiMutation('/api/v1/house/bills/{id}/payment', {
+    method: 'put',
+  });
+
+  /**
+   * A example of a bill JSON return from a server request
+   * 
+   * Detail type of each value could be found on generated API docs
+   
       name: 'Countdown',
       description: 'I go for buy some eat',
       owner: 'cZWbFn471ihGFtlMBVKo3DrH1D43',
@@ -69,10 +71,23 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
           proof: 'blob id', //optional
         },
       ],
-    },
-  ];
-  const [adhocPastBillIds, setAdhocPastBillIds] = useState([2, 4]);
+ */
+
   const [newBill, setNewBill] = useState(false);
+
+  const pastBill: {
+    id: string;
+    name: string;
+    description: string;
+    owner: string;
+    due: number;
+    users: {
+      id: string;
+      amount: number;
+      paid: boolean;
+      proof?: string | undefined;
+    }[];
+  }[] = [];
 
   return (
     <Page>
@@ -99,47 +114,93 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
             <div className="text-lg font-semibold">Upcoming Bills</div>
           </UnderlinedText>
           {data?.bills.map((bill, index) => {
-            var amount;
+            // Check if this bill is a past bill by check whether all user is paid
+            if (
+              bill.users.every((user) => {
+                if (user.paid) return true;
+                else return false;
+              })
+            ) {
+              pastBill.push(bill);
+              return null;
+            }
+
+            var amount, paid: boolean | undefined;
             for (let index in bill.users)
-              if (bill.users[index].id.toString() === user?.uid)
+              if (bill.users[index].id.toString() === user?.uid) {
                 amount = bill.users[index].amount;
+                paid = bill.users[index].paid;
+              }
+
+            const dueDate = new Date(bill.due);
+            const overDue = bill.due < Date.now();
 
             return (
               <UpcomingTask
                 title={`${bill.name} - $${amount}`}
-                dueString={bill.due.toString()}
+                // Format the date, display as for exmaple: Due Monday, 14 March
+                dueString={`Due ${
+                  days[dueDate.getDay()]
+                }, ${dueDate.getDate()} ${month[dueDate.getMonth()]} ${
+                  overDue ? 'OVERDUE!!!' : ''
+                }`}
+                overdue={overDue}
+                paid={paid}
                 twColor={UpcomingTask.Variation.red}
                 type="Bill"
                 onCompleteClick={() =>
                   navigate('/bills/detail', { state: { bill: bill } })
                 }
+                onToggleSwitch={async () => {
+                  const response = markPayBill({
+                    pathParams: {
+                      id: bill.id,
+                    },
+                    body: {
+                      paid: !paid,
+                      proof: undefined,
+                    },
+                  });
+                  console.log(response);
+                }}
               />
             );
           })}
+          {/* If every bill is past bill, display no upcoming bill message */}
+          {data?.bills.length === pastBill.length && (
+            <div className="flex flex-col items-center py-5 text-xl font-semibold text-gray-300">
+              No Upcoming Bill
+            </div>
+          )}
           <UnderlinedText className="pt-10" colorClasses="bg-gray-800">
             <div className="text-lg font-semibold">Past Bills</div>
           </UnderlinedText>
-          <div className="flex flex-col gap-4 mt-4 md:grid md:grid-cols-2">
-            {adhocPastBillIds.map((bill, index) => (
-              <UpcomingTask
-                title="Take out the Rubbish"
-                dueString="Done"
-                twColor={UpcomingTask.Variation.gray}
-                type="Bill"
-                completed
-              />
-            ))}
-          </div>
+          {pastBill.length !== 0 ? (
+            <>
+              <div className="flex flex-col gap-4 mt-4 md:grid md:grid-cols-2">
+                {pastBill.map((bill, index) => (
+                  <UpcomingTask
+                    title={bill.name}
+                    dueString="Done"
+                    twColor={UpcomingTask.Variation.gray}
+                    type="Bill"
+                    completed
+                  />
+                ))}
+              </div>
 
-          <Button
-            aria-label="Name"
-            className="w-16 mt-3 bg-gray-500"
-            onClick={() =>
-              setAdhocPastBillIds([...adhocPastBillIds, 0, 0, 0, 0])
-            }
-          >
-            Load More
-          </Button>
+              <Button
+                aria-label="Load more past bill"
+                className="w-16 mt-3 bg-gray-500"
+              >
+                Load More
+              </Button>
+            </>
+          ) : (
+            <div className="flex flex-col items-center py-5 text-xl font-semibold text-gray-300">
+              No Past Bill
+            </div>
+          )}
         </div>
       </div>
     </Page>
