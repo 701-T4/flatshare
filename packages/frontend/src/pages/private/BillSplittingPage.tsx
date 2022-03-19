@@ -22,19 +22,19 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
   // useEffect(() => {
   //   const response = bills({
   //     body: {
-  //       name: 'Countdown Shopping',
-  //       description: 'I go for buy some eat',
+  //       name: 'Buy car',
+  //       description: 'buy nmd car',
   //       due: 1647219067300,
   //       users: [
   //         {
   //           id: 'cZWbFn471ihGFtlMBVKo3DrH1D43',
-  //           amount: 30, //$
+  //           amount: 130, //$
   //           paid: false,
   //           proof: 'blob id', //optional
   //         },
   //         {
   //           id: 'lkBvILhKiRUwe2JAdBQPZQZeTTp1',
-  //           amount: 20, //$
+  //           amount: 220, //$
   //           paid: false,
   //           proof: 'blob id', //optional
   //         },
@@ -45,10 +45,9 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
   //   response.then(console.log);
   // }, []);
 
-  const bills = useApi('/api/v1/house/bills', {
+  const { data } = useApi('/api/v1/house/bills', {
     method: 'get',
   });
-  console.log(bills);
 
   const adhocUpcomingBillIds = [
     {
@@ -99,10 +98,10 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
           <UnderlinedText colorClasses="bg-gray-800">
             <div className="text-lg font-semibold">Upcoming Bills</div>
           </UnderlinedText>
-          {adhocUpcomingBillIds.map((bill, index) => {
+          {data?.bills.map((bill, index) => {
             var amount;
             for (let index in bill.users)
-              if (bill.users[index].id === user?.uid)
+              if (bill.users[index].id.toString() === user?.uid)
                 amount = bill.users[index].amount;
 
             return (
@@ -111,7 +110,9 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
                 dueString={bill.due.toString()}
                 twColor={UpcomingTask.Variation.red}
                 type="Bill"
-                onCompleteClick={() => navigate('/bills/1')}
+                onCompleteClick={() =>
+                  navigate('/bills/detail', { state: { bill: bill } })
+                }
               />
             );
           })}

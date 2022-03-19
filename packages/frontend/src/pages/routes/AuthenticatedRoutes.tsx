@@ -31,7 +31,7 @@ const AuthenticatedRoutes: React.FC<AuthenticatedRoutesProps> = () => {
       <Route path="dashboard" element={<DashboardPage />} />
       <Route path="bills">
         <Route index element={<BillSplittingPage />}></Route>
-        <Route path=":id" element={<BillDetailPage />} />
+        <Route path="detail" element={<BillDetailPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
