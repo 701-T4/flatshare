@@ -10,6 +10,7 @@ import {
   Text,
 } from '@nextui-org/react';
 import React, { useState } from 'react';
+import EditButton from './editButton';
 
 interface SecretModalProps {
   visible: boolean;
@@ -33,18 +34,6 @@ const SecretModal: React.FC<SecretModalProps> = ({
   const closeHandler = () => {
     setVisible(false);
     setPasswordShown(true);
-  };
-
-  const editButton = () => {
-    return (
-      <Avatar
-        squared
-        icon={<DocumentAddIcon className="w-full" />}
-        css={{ p: 10 }}
-        as="button"
-        pointer
-      />
-    );
   };
 
   return (
@@ -71,7 +60,7 @@ const SecretModal: React.FC<SecretModalProps> = ({
             <Text b size={18} span css={{ ml: 8 }}>
               Secret
             </Text>
-            {loading ? <></> : editButton()}
+            {loading ? <></> : <EditButton />}
           </Container>
         </Modal.Header>
         <Modal.Body>
