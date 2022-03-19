@@ -7,6 +7,7 @@ import { NoteModule } from './controllers/note/note.module';
 import { BillModule } from './controllers/bills/bills.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
+import { TaskModule } from './controllers/tasks/tasks.module';
 
 @Module({
   controllers: [APIController],
@@ -24,6 +25,7 @@ import { PassportModule } from '@nestjs/passport';
     NoteModule,
     PassportModule,
     BillModule,
+    TaskModule,
   ],
 })
 export class AppModule {}
