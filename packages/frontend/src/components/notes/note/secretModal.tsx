@@ -1,50 +1,52 @@
 import { DocumentAddIcon, EyeIcon, QrcodeIcon } from '@heroicons/react/outline';
 import { LinkIcon, WifiIcon } from '@heroicons/react/solid';
-import { Avatar, Button, Container, Input, Modal, Spacer, Text } from '@nextui-org/react';
+import {
+  Avatar,
+  Button,
+  Container,
+  Input,
+  Modal,
+  Spacer,
+  Text,
+} from '@nextui-org/react';
 import React, { useState } from 'react';
 
 interface SecretModalProps {
   visible: boolean;
   setVisible(value: boolean): void;
   loading: boolean;
-  data: string
+  data: string;
 }
 
 const SecretModal: React.FC<SecretModalProps> = ({
   visible,
   setVisible,
   loading,
-  data
+  data,
 }) => {
-
-  
-  
-
   const [passwordShown, setPasswordShown] = useState(true);
 
   const passwordHandler = () => {
     setPasswordShown(!passwordShown);
   };
 
-  console.log(passwordShown)
-
   const closeHandler = () => {
     setVisible(false);
-    setPasswordShown(true)
+    setPasswordShown(true);
   };
 
   const editButton = () => {
     return (
       <Avatar
         squared
-        icon={<DocumentAddIcon className="w-full"/>}
+        icon={<DocumentAddIcon className="w-full" />}
         css={{ p: 10 }}
         as="button"
         pointer
       />
     );
   };
-    
+
   return (
     <div>
       <Modal
@@ -54,7 +56,7 @@ const SecretModal: React.FC<SecretModalProps> = ({
         onClose={closeHandler}
         aria-labelledby="modal-title"
       >
-        <Spacer y={1}/>
+        <Spacer y={1} />
         <Modal.Header>
           <Container
             display="flex"
@@ -69,11 +71,7 @@ const SecretModal: React.FC<SecretModalProps> = ({
             <Text b size={18} span css={{ ml: 8 }}>
               Secret
             </Text>
-            {loading ? (
-              <></>
-            ) : (
-              editButton()
-            )}
+            {loading ? <></> : editButton()}
           </Container>
         </Modal.Header>
         <Modal.Body>
@@ -90,18 +88,13 @@ const SecretModal: React.FC<SecretModalProps> = ({
               {passwordShown ? (
                 <Input
                   readOnly
-                  width='100%'
-                  type={passwordShown ? "password" : "text"}
+                  width="100%"
+                  type={passwordShown ? 'password' : 'text'}
                   initialValue={data}
                 />
               ) : (
-                <Text
-                id="modal-description"
-                >
-                  {data}
-                </Text>
+                <Text id="modal-description">{data}</Text>
               )}
-              
             </Container>
           )}
         </Modal.Body>
@@ -116,12 +109,17 @@ const SecretModal: React.FC<SecretModalProps> = ({
               justify="space-between"
               css={{ p: 0 }}
             >
-            <Button auto rounded onClick={passwordHandler} icon={<EyeIcon className="h-6 w-6 text-teal-50" />}>
-              Show Secret
-            </Button>
-            <Button auto rounded onClick={closeHandler}>
-              Done
-            </Button>
+              <Button
+                auto
+                rounded
+                onClick={passwordHandler}
+                icon={<EyeIcon className="h-6 w-6 text-teal-50" />}
+              >
+                Show Secret
+              </Button>
+              <Button auto rounded onClick={closeHandler}>
+                Done
+              </Button>
             </Container>
           )}
         </Modal.Footer>
