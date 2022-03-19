@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Page from '../../components/common/layout/Page';
 import UpcomingTask from '../../components/dashboard/upcoming-tasks/UpcomingTask';
 import UnderlinedText from '../../components/dashboard/GradientUnderlinedText';
@@ -7,6 +7,7 @@ import { Button } from '@nextui-org/react';
 import { useNavigate } from 'react-router';
 import NewBillCard from '../../components/bill/NewBillCard';
 import { Collapse } from '@nextui-org/react';
+import { useApi, useApiMutation } from '../../hooks/useApi';
 
 interface BillSplittingPageProps {}
 
@@ -14,11 +15,46 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
+  // const bills = useApiMutation('/api/v1/house/bills', {
+  //   method: 'post',
+  // });
+
+  // useEffect(() => {
+  //   const response = bills({
+  //     body: {
+  //       name: 'Countdown Shopping',
+  //       description: 'I go for buy some eat',
+  //       due: 1647219067300,
+  //       users: [
+  //         {
+  //           id: 'cZWbFn471ihGFtlMBVKo3DrH1D43',
+  //           amount: 30, //$
+  //           paid: false,
+  //           proof: 'blob id', //optional
+  //         },
+  //         {
+  //           id: 'lkBvILhKiRUwe2JAdBQPZQZeTTp1',
+  //           amount: 20, //$
+  //           paid: false,
+  //           proof: 'blob id', //optional
+  //         },
+  //       ],
+  //     },
+  //   });
+
+  //   response.then(console.log);
+  // }, []);
+
+  const bills = useApi('/api/v1/house/bills', {
+    method: 'get',
+  });
+  console.log(bills);
+
   const adhocUpcomingBillIds = [
     {
       name: 'Countdown',
       description: 'I go for buy some eat',
-      owner: 'firebaseID',
+      owner: 'cZWbFn471ihGFtlMBVKo3DrH1D43',
       due: 1647215067300,
       users: [
         {
@@ -28,7 +64,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
           proof: 'blob id', //optional
         },
         {
-          id: 'firebaseId',
+          id: 'lkBvILhKiRUwe2JAdBQPZQZeTTp1',
           amount: 20, //$
           paid: false,
           proof: 'blob id', //optional
@@ -49,6 +85,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
           expanded={newBill}
           title={
             <Button
+              aria-label="New bill"
               className="w-16 my-3 bg-teal-500"
               onClick={() => setNewBill(!newBill)}
             >
@@ -94,6 +131,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
           </div>
 
           <Button
+            aria-label="Name"
             className="w-16 mt-3 bg-gray-500"
             onClick={() =>
               setAdhocPastBillIds([...adhocPastBillIds, 0, 0, 0, 0])

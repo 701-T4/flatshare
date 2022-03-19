@@ -17,14 +17,14 @@ const AuthenticatedRoutes: React.FC<AuthenticatedRoutesProps> = () => {
   useLocalStorageJoinCode();
   useFullLoader(() => !!dataLoading);
 
-  // if (!name) {
-  //   return (
-  //     <Routes>
-  //       <Route path="account" element={<ManageAccountPage />} />
-  //       <Route path="*" element={<Navigate to="/account" replace />} />
-  //     </Routes>
-  //   );
-  // }
+  if (!name) {
+    return (
+      <Routes>
+        <Route path="account" element={<ManageAccountPage />} />
+        <Route path="*" element={<Navigate to="/account" replace />} />
+      </Routes>
+    );
+  }
 
   return (
     <Routes>
