@@ -2,7 +2,6 @@ import React from 'react';
 import Page from '../../components/common/layout/Page';
 import { Button, Text, Grid, Card } from '@nextui-org/react';
 import { PlusIcon } from '@heroicons/react/outline';
-import NewNoteController from '../../components/notes/note/newNoteController';
 import UnderlinedText from '../../components/dashboard/GradientUnderlinedText';
 
 interface NotesProps {}
