@@ -1,80 +1,30 @@
 import { Button, Textarea } from '@nextui-org/react';
 import 'react-datepicker/dist/react-datepicker.css';
-import React, { useEffect, useState } from 'react';
-import { useHouse } from '../../hooks/useHouse';
+import React, { useState } from 'react';
 import { components } from '../../types/api-schema';
+
+interface billModification {
+  name: string;
+  description: string;
+}
 
 interface EditBillCardProps {
   billParam: components['schemas']['BillResponseDto'];
-  handleOnDoneClickCallBack: React.Dispatch<
-    components['schemas']['BillResponseDto']
-  >;
-}
-
-interface IHash {
-  [name: string]: string;
+  handleOnDoneClickCallBack: React.Dispatch<billModification>;
 }
 
 const EditBillCard: React.FC<EditBillCardProps> = ({
   billParam,
   handleOnDoneClickCallBack,
 }) => {
-  const [dueDate, setDueDate] = useState(new Date());
-  const [unixTime, setUnixTime] = useState(0);
-  const [totalCost, setTotalCost] = useState('');
-  const [title, setTitle] = useState('');
-  const [detail, setDetail] = useState('');
-  const [flatmateNum, setFlatmateNum] = useState(6);
-  const [splitCost, setSplitCost] = useState('');
-  const [isEvenlySplit, setIsEvenlySplit] = useState(false);
-  const { users } = useHouse();
-
-  let idHash: IHash = {};
-  let costHash: IHash = {};
-  users?.map((user) => {
-    idHash[user.name] = user.firebaseId;
-    costHash[user.name] = '0';
-  });
-
-  useEffect(() => {
-    setUnixTime(dueDate.getTime());
-    setFlatmateNum(users?.length ? users.length : 1);
-    setSplitCost(Number(totalCost) / flatmateNum + '');
-
-    // to convert unix date to Date object
-    // const dateObject = new Date(unixDate)
-  }, [dueDate, totalCost]);
-
-  console.log(users);
+  const [title, setTitle] = useState(billParam.name);
+  const [detail, setDetail] = useState(billParam.description);
 
   const handleDoneButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     let bill = {
-      id: billParam.id,
       name: title,
       description: detail,
-      due: unixTime,
-      owner: billParam.owner,
-      users: [
-        {
-          id: users ? users[0].firebaseId : '0',
-          amount: users
-            ? Number(isEvenlySplit ? splitCost : costHash[users[0].name])
-            : 0,
-          paid: false,
-        },
-      ],
     };
-    users?.map((user, index) => {
-      let newPayment = {
-        id: user.firebaseId,
-        amount: Number(isEvenlySplit ? splitCost : costHash[user.name]),
-        paid: false,
-      };
-      if (index !== 0) {
-        bill['users'].push(newPayment);
-      }
-    });
-
     handleOnDoneClickCallBack(bill);
   };
 

@@ -1,6 +1,6 @@
 import { getAuth } from 'firebase/auth';
 import React, { useState } from 'react';
-import { useLocation, useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import cx from 'classnames';
 import { Button, Spacer } from '@nextui-org/react';
@@ -15,61 +15,15 @@ interface StateWrapper {
   bill: components['schemas']['BillResponseDto'];
 }
 const BillDetailPage: React.FC<BillDetailPageProps> = () => {
-  // const bills = [
-  //   {
-  //     id: 1,
-  //     name: "GinToki's home rental",
-  //     description:
-  //       'GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!GinToki! pay your home rental now!',
-  //     owner: 'Kvi306xYuzSDQm3nJKQ42LLMKSC3',
-  //     due: 1647215067300,
-  //     completed: true,
-  //     users: [
-  //       {
-  //         id: 'firebaseId fassdas',
-  //         amount: 30, //$
-  //         paid: false,
-  //         proof: 'blob id', //optional
-  //       },
-  //       {
-  //         id: 'Kvi306xYuzSDQm3nJKQ42LLMKSC3',
-  //         amount: 30, //$
-  //         paid: false,
-  //         proof: 'blob id', //optional
-  //       },
-  //       {
-  //         id: 'firebaseId2',
-  //         amount: 30, //$
-  //         paid: true,
-  //         proof: 'blob id', //optional
-  //       },
-  //       {
-  //         id: 'firebaseId3',
-  //         amount: 30, //$
-  //         paid: false,
-  //         proof: 'blob id', //optional
-  //       },
-  //     ],
-  //   },
-  // ];
-
   const location = useLocation();
-  console.log(location.state);
   const stateWrapper = location.state as StateWrapper;
   const bill = stateWrapper.bill;
-  console.log(bill.description);
-  const param = useParams();
-  console.log(param);
   const [isEdit, setIsEdit] = useState(false);
   const [image, setImage] = useState<File | null | undefined>(undefined);
   const navigate = useNavigate();
   const auth = getAuth();
   const userId = auth.currentUser?.uid;
   const paid = bill.users.find((u) => u.id === userId)?.paid;
-
-  // replace with backend call
-  // const bill1 = bills.find((b) => b.id === 1);
-  // console.log(bill1)
 
   // mark pay with and without proof
   const markPayBill = useApiMutation('/api/v1/house/bills/{id}/payment', {
@@ -88,7 +42,8 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
 
   const isOwner = userId === bill?.owner;
 
-  const onUpload = async (userId: string) => {
+  // upload to firebase
+  const onUpload = async () => {
     // Create a root reference
     const storage = getStorage();
     const fileName = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
@@ -237,7 +192,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                     className={
                       'text-white flex justify-center items-center transition-all bg-teal-500 hover:bg-teal-400 rounded-full px-4 py-2 font-medium h-fit'
                     }
-                    onClick={() => onUpload(userId!)}
+                    onClick={() => onUpload()}
                   >
                     Upload
                   </button>
