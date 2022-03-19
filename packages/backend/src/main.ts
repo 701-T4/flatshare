@@ -6,11 +6,8 @@ import { AppModule } from './app.module';
 import configureEnvironmentFiles from './scripts/configure-env';
 
 async function bootstrap() {
-  // Verifying the configuration of environment files, direct return if the result is not true
-  const isValidated = configureEnvironmentFiles(process.env.NODE_ENV);
-  if (!isValidated) {
-    return;
-  }
+  // Verifying the configuration of environment files
+  configureEnvironmentFiles(process.env.NODE_ENV);
 
   const app = await NestFactory.create(AppModule, { cors: true });
 
