@@ -153,7 +153,7 @@ const WifiModal: React.FC<WifiModalProps> = ({
                 onClick={qrCodeHandler}
                 icon={<QrcodeIcon className="h-6 w-6 text-teal-50" />}
               >
-                Get QR Code
+                {!qrvisible ? 'Get QR Code' : 'Hide QR Code'}
               </Button>
               <Button auto rounded onClick={closeHandler}>
                 Done

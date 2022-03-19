@@ -104,7 +104,7 @@ const SecretModal: React.FC<SecretModalProps> = ({
                 onClick={passwordHandler}
                 icon={<EyeIcon className="h-6 w-6 text-teal-50" />}
               >
-                Show Secret
+                {passwordShown ? 'Show Secret' : 'Hide Secret'}
               </Button>
               <Button auto rounded onClick={closeHandler}>
                 Done
