@@ -8,6 +8,11 @@ interface House {
   code: string;
   owner: string;
   dataLoading: boolean;
+  users: {
+    name: string;
+    house?: string;
+    firebaseId: string;
+  }[];
 }
 
 const HouseContext = createContext<Partial<House>>({});
