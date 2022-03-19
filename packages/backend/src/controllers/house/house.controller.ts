@@ -65,6 +65,7 @@ export class HouseController {
       name: house.name,
       users: [
         {
+          name: owner.name,
           house: house.code,
           firebaseId: owner.firebaseId,
         },
@@ -79,9 +80,7 @@ export class HouseController {
     type: HouseResponseDto,
   })
   @ApiNoContentResponse({ description: 'user is not in a house' })
-  async getHouse(
-    @User() user: DecodedIdToken,
-  ): Promise<HouseResponseDto | null> {
+  async get(@User() user: DecodedIdToken): Promise<HouseResponseDto | null> {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
     if (userDoc?.house != undefined) {
       const house = await this.houseStoreService.findOne(userDoc.house);

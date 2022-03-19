@@ -44,8 +44,9 @@ export interface components {
       name?: string;
       email?: string;
       address?: string;
-      code?: string;
-      owner?: string;
+      code: string;
+      owner: string;
+      users: components['schemas']['UserResponseDto'][];
     };
     JoinHouseDto: {
       houseCode: string;
