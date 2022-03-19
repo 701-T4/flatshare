@@ -19,6 +19,8 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
 
   const [selected, setSelected] = useState(noteType[0]);
 
+  const [showWifiInputs, setShowWifiInputs] = useState(false);
+
   return (
     <Modal
       closeButton
@@ -48,7 +50,14 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
           Type
         </Text>
         {/* This is just as a start. Will use Tailwind for this and not some ugly select tag haha */}
-        <Listbox value={selected} onChange={setSelected}>
+        <Listbox
+          value={selected}
+          onChange={(e) => {
+            setSelected(e);
+            if (e.name == 'WiFi') setShowWifiInputs(true);
+            else setShowWifiInputs(false);
+          }}
+        >
           <div className="relative mt-1">
             <Listbox.Button className="h-12 relative w-full py-1 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default sm:text-xl">
               <span className="block truncate">{selected.name}</span>
@@ -65,7 +74,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 sm:text-xl z-10 ">
+              <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 sm:text-xl z-10">
                 {noteType.map((note) => (
                   <Listbox.Option
                     className={({ active }) =>
@@ -97,16 +106,52 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
             </Transition>
           </div>
         </Listbox>
-        <Text size={'1.25rem'} margin="1.5%">
-          Description
-        </Text>
-        <Textarea
-          aria-label="description name"
-          bordered
-          placeholder="Enter your note here"
-          size="xl"
-          color="primary"
-        ></Textarea>
+
+        {/* To show the wifi username and password fields once WiFi is selected */}
+
+        {showWifiInputs ? (
+          <div>
+            <Text size={'1.25rem'} margin="1.5%">
+              Username
+            </Text>
+            <Input
+              aria-label="wifi name"
+              clearable
+              bordered
+              placeholder="Enter the username"
+              size="xl"
+              color="primary"
+            ></Input>
+            <Text size={'1.25rem'} margin="1.5%">
+              Password
+            </Text>
+            <Input
+              aria-label="wifi password"
+              clearable
+              bordered
+              placeholder="Enter the password"
+              size="xl"
+              color="primary"
+            ></Input>
+          </div>
+        ) : null}
+
+        {/* To disable the Description textarea when WiFi is selected as we don't need it then */}
+
+        {!showWifiInputs ? (
+          <div>
+            <Text size={'1.25rem'} margin="1.5%">
+              Description
+            </Text>
+            <Textarea
+              aria-label="description name"
+              bordered
+              placeholder="Enter your note here"
+              size="xl"
+              color="primary"
+            ></Textarea>
+          </div>
+        ) : null}
       </Modal.Body>
       <Modal.Footer>
         <Button size="md" className="sm: text-lg">
