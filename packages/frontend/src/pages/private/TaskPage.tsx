@@ -3,9 +3,11 @@ import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Page from '../../components/common/layout/Page';
 import UnderlinedText from '../../components/dashboard/GradientUnderlinedText';
+import NoUpcomingTasks from '../../components/dashboard/upcoming-tasks/NoUpcomingTasks';
 import UpcomingTask from '../../components/dashboard/upcoming-tasks/UpcomingTask';
 import CreateNewTaskButton from '../../components/task/task/CreateNewTaskButton';
 import CreateTaskModal from '../../components/task/task/CreateTaskModal';
+import { useApiMutation } from '../../hooks/useApi';
 import { Task, useTask } from '../../hooks/useTask';
 
 interface TaskPageProps {}
@@ -13,8 +15,12 @@ interface TaskPageProps {}
 const TaskPage: React.FC<TaskPageProps> = () => {
   const setNavigate = useNavigate();
   const auth = getAuth();
-  const { tasks } = useTask();
+  const { tasks, refetchTask } = useTask();
   const name = auth.currentUser?.displayName ?? 'user';
+
+  const completeTask = useApiMutation('/api/v1/house/tasks/{id}/completed', {
+    method: 'put',
+  });
 
   const TaskData = [
     {
@@ -51,20 +57,25 @@ const TaskPage: React.FC<TaskPageProps> = () => {
 
   const getTaskCard = (task: Task, color: string, key: string) => (
     <div
+      key={key}
       className="cursor-pointer"
       onClick={() => setNavigate(`/tasks/${key}`)}
     >
       <UpcomingTask
-        key={key}
         title={task.name}
         dueString={task.dueDate}
         twColor={color}
         type="Task"
         completed={task.isComplete}
         // todo update task status when done
-        onCompleteClick={() => {
-          console.log(task);
-          console.log('completed this task');
+        onCompleteClick={async () => {
+          await completeTask({
+            pathParams: { id: task.id },
+            body: {
+              isComplete: true,
+            },
+          });
+          await refetchTask();
         }}
       />
     </div>
@@ -84,14 +95,20 @@ const TaskPage: React.FC<TaskPageProps> = () => {
         <CreateNewTaskButton onClick={openModalHandler} />
       </div>
       <div className="flex flex-col gap-8">
-        {TaskData.map((item) => (
-          <div>
+        {TaskData.map((item, index) => (
+          <div key={index}>
             <UnderlinedText colorClasses="from-gray-800 via-teal-700 to-teal-500">
               <div className="text-lg font-semibold">{item.type}</div>
             </UnderlinedText>
-            <div className="flex flex-col gap-4 mt-4 md:grid md:grid-cols-2">
-              {item.tasks.map((task) => getTaskCard(task, item.color, task.id))}
-            </div>
+            {item.tasks.length > 0 ? (
+              <div className="flex flex-col gap-4 mt-4 md:grid md:grid-cols-2">
+                {item.tasks.map((task) =>
+                  getTaskCard(task, item.color, task.id),
+                )}
+              </div>
+            ) : (
+              <NoUpcomingTasks />
+            )}
           </div>
         ))}
       </div>
