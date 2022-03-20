@@ -40,7 +40,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const { data } = useApi('/api/v1/house/bills', {
+  const { data, mutate } = useApi('/api/v1/house/bills', {
     method: 'get',
   });
 
@@ -92,7 +92,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
   return (
     <Page>
       <div className="flex flex-col gap-4">
-        <NewBillCard />
+        <NewBillCard refetchBills={mutate} />
         <div className="flex flex-col gap-4">
           <UnderlinedText colorClasses="bg-gray-800">
             <div className="text-lg font-semibold">Upcoming Bills</div>

@@ -1,11 +1,13 @@
 import { Button, Textarea } from '@nextui-org/react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useReducer, useState } from 'react';
 import { useApiMutation } from '../../hooks/useApi';
 import { useHouse } from '../../hooks/useHouse';
 
-interface NewBillCardProps {}
+interface NewBillCardProps {
+  refetchBills: () => void;
+}
 
 interface IHash {
   [name: string]: string;
@@ -18,12 +20,11 @@ interface Bill {
   totalCost: string;
 }
 
-const NewBillCard: React.FC<NewBillCardProps> = () => {
+const NewBillCard: React.FC<NewBillCardProps> = ({ refetchBills }) => {
   const [unixTime, setUnixTime] = useState(0);
   const [flatmateNum, setFlatmateNum] = useState(6);
-  const [splitCost, setSplitCost] = useState('');
-  const [isEvenlySplit, setIsEvenlySplit] = useState(false);
   const { users } = useHouse();
+  const [costHash, setCostHash] = useState<IHash>({});
   const [billInfo, setBillInfo] = useState<Bill>({
     title: ' ',
     detail: '',
@@ -36,27 +37,39 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
   });
 
   let idHash: IHash = {};
-  let costHash: IHash = {};
-  users?.forEach((user) => {
-    idHash[user.name] = user.firebaseId;
-    costHash[user.name] = '0';
-  });
+
+  useEffect(() => {
+    users?.forEach((user) => {
+      setCostHash((prev) => ({ ...prev, [user.name]: '0' }));
+    });
+  }, []);
 
   useEffect(() => {
     setUnixTime(billInfo.dueDate.getTime());
     setFlatmateNum(users?.length ? users.length : 1);
-  }, [billInfo, flatmateNum, users?.length, isEvenlySplit]);
+  }, [billInfo, flatmateNum, users?.length]);
+
+  const splitSum = useMemo(
+    () =>
+      users?.reduce(
+        (prev, current) => Number(costHash[current.name]) + prev,
+        0,
+      ),
+    [costHash, users],
+  );
 
   const handleEvenlyButton = (e: React.MouseEvent<HTMLButtonElement>) => {
-    setSplitCost(Number(billInfo.totalCost) / flatmateNum + '');
-    setIsEvenlySplit(!isEvenlySplit);
+    const split = Number(billInfo.totalCost) / flatmateNum + '';
+    users?.forEach((user) => {
+      setCostHash((prev) => ({ ...prev, [user.name]: split }));
+    });
   };
 
   const handlePersonalCostChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    costHash[e.target.name] = e.target.value;
+    setCostHash((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
-  const handleDoneButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+  const handleDoneButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
     let bill = {
       name: billInfo.title,
       description: billInfo.detail,
@@ -64,9 +77,7 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
       users: [
         {
           id: users ? users[0].firebaseId : '0',
-          amount: users
-            ? Number(isEvenlySplit ? splitCost : costHash[users[0].name])
-            : 0,
+          amount: users ? Number(costHash[users[0].name]) : 0,
           paid: false,
         },
       ],
@@ -75,7 +86,7 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
     users?.forEach((user, index) => {
       let newPayment = {
         id: user.firebaseId,
-        amount: Number(isEvenlySplit ? splitCost : costHash[user.name]),
+        amount: Number(costHash[user.name]),
         paid: false,
       };
       if (index !== 0) {
@@ -87,7 +98,8 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
       body: bill,
     };
 
-    createBill(billBody);
+    await createBill(billBody);
+    refetchBills();
   };
 
   return (
@@ -130,6 +142,9 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
                 rounded
                 className="w-auto h-10 mt-1 mb-1 text-base"
                 onClick={handleDoneButton}
+                disabled={
+                  Math.abs(Number(billInfo.totalCost) - splitSum!) > 0.01
+                }
               >
                 Done
               </Button>
@@ -189,7 +204,7 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
                     className="appearance-none p-2 rounded-lg text-black"
                     type="number"
                     name={person.name}
-                    value={splitCost}
+                    value={costHash[person.name]}
                     onChange={handlePersonalCostChange}
                   />
                 </div>
