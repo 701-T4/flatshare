@@ -175,20 +175,19 @@ export class BillController {
     description: 'Bills retrieved successfully',
     type: BillResponseDto,
   })
-  @ApiForbiddenResponse({ description: 'Not the bill owner' })
+  @ApiBadRequestResponse({ description: 'User is not in a house' })
   async getBill(
     @Param('id') id: string,
     @User() user: DecodedIdToken,
   ): Promise<BillResponseDto> {
-    const bill = await this.billStoreService.findOne(id);
+    const houseID = (await this.userStoreService.findOneByFirebaseId(user.uid))
+      ?.house;
 
-    const userObject = await this.userStoreService.findOneByFirebaseId(
-      user.uid,
-    );
-
-    if (!bill.owner.equals(userObject._id)) {
-      throw new HttpException('not the bill owner', HttpStatus.FORBIDDEN);
+    if (!houseID) {
+      throw new HttpException('user is not in a house', HttpStatus.BAD_REQUEST);
     }
+
+    const bill = await this.billStoreService.findOne(id);
 
     return this.billUtil.covertBillDocumentToResponseDTO(
       bill,
