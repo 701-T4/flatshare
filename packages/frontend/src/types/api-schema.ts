@@ -33,6 +33,7 @@ export interface paths {
     post: operations['BillController_createBill'];
   };
   '/api/v1/house/bills/{id}': {
+    get: operations['BillController_getBill'];
     put: operations['BillController_updateBill'];
     delete: operations['BillController_deleteBill'];
   };
@@ -106,21 +107,28 @@ export interface components {
       /** @enum {string} */
       type: 'PLAIN' | 'SECRET' | 'WIFI';
     };
+    BillUser: {
+      id: string;
+      amount: number;
+      paid: boolean;
+      proof?: string;
+    };
+    BillResponseDto: {
+      id: string;
+      name: string;
+      description: string;
+      owner: string;
+      due: number;
+      users: components['schemas']['BillUser'][];
+    };
     BillsResponseDto: {
-      bills: string[];
+      bills: components['schemas']['BillResponseDto'][];
     };
     CreateBillDto: {
       name: string;
       description: string;
       due: number;
-      users: string[];
-    };
-    BillResponseDto: {
-      name: string;
-      description: string;
-      owner: string;
-      due: number;
-      users: string[];
+      users: components['schemas']['BillUser'][];
     };
     UpdateBillDto: {
       name: string;
@@ -356,6 +364,23 @@ export interface operations {
       };
     };
   };
+  BillController_getBill: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** Bills retrieved successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['BillResponseDto'];
+        };
+      };
+      /** User is not in a house */
+      400: unknown;
+    };
+  };
   BillController_updateBill: {
     parameters: {
       path: {
@@ -428,7 +453,11 @@ export interface operations {
     parameters: {};
     responses: {
       /** task created successfully */
-      201: unknown;
+      201: {
+        content: {
+          'application/json': components['schemas']['CreateTaskDto'];
+        };
+      };
       /** Invalid request */
       400: unknown;
     };
@@ -451,7 +480,11 @@ export interface operations {
       /** task does not exist */
       404: unknown;
       /** task successfully updated. */
-      default: unknown;
+      default: {
+        content: {
+          'application/json': components['schemas']['UpdateHouseTasksDto'];
+        };
+      };
     };
     requestBody: {
       content: {
