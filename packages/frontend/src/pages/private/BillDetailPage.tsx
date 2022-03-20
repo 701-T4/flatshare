@@ -76,6 +76,10 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
       return;
     }
 
+    const optimistic = { ...bill };
+    bill.users.find((u) => u.id === userId)!.paid = true;
+    billMutate(optimistic);
+
     await markPayBill({
       pathParams: {
         id: bill.id,
@@ -85,8 +89,6 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
         proof: undefined,
       },
     });
-
-    billMutate();
   };
 
   const uploadProof = (proof: string) => {

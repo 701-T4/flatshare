@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Page from '../../components/common/layout/Page';
 import UpcomingTask from '../../components/dashboard/upcoming-tasks/UpcomingTask';
 import UnderlinedText from '../../components/dashboard/GradientUnderlinedText';
@@ -40,7 +40,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
 
-  const { data } = useApi('/api/v1/house/bills', {
+  const { data, mutate } = useApi('/api/v1/house/bills', {
     method: 'get',
   });
 
@@ -88,7 +88,10 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
       proof?: string | undefined;
     }[];
   }[] = [];
-
+  const sortedBills = useMemo(
+    () => data?.bills.sort((a, b) => a.due - b.due),
+    [data],
+  );
   return (
     <Page>
       <div className="flex flex-col gap-4">
@@ -99,12 +102,12 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
         >
           New Bill
         </Button>
-        {newBill && <NewBillCard />}
+        {newBill && <NewBillCard refetchBills={mutate} />}
         <div className="flex flex-col gap-4">
           <UnderlinedText colorClasses="bg-gray-800">
             <div className="text-lg font-semibold">Upcoming Bills</div>
           </UnderlinedText>
-          {data?.bills.map((bill, index) => {
+          {sortedBills?.map((bill, index) => {
             // Check if this bill is a past bill by check whether all user is paid
             if (
               bill.users.every((user) => {
@@ -144,7 +147,15 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
                   navigate(`/bills/${bill.id}`, { state: { bill: bill } })
                 }
                 onCompleteClick={async () => {
-                  markPayBill({
+                  const optimisticBills = { ...data! };
+                  const currentBill = optimisticBills.bills![index].users.find(
+                    (u) => u.id === user!.uid,
+                  )!;
+                  currentBill.paid = !currentBill.paid;
+
+                  mutate(optimisticBills);
+
+                  await markPayBill({
                     pathParams: {
                       id: bill.id,
                     },
