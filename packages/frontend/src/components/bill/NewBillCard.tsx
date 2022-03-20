@@ -46,10 +46,10 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
   useEffect(() => {
     setUnixTime(billInfo.dueDate.getTime());
     setFlatmateNum(users?.length ? users.length : 1);
-    setSplitCost(Number(billInfo.totalCost) / flatmateNum + '');
-  }, [billInfo, flatmateNum, users?.length]);
+  }, [billInfo, flatmateNum, users?.length, isEvenlySplit]);
 
   const handleEvenlyButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setSplitCost(Number(billInfo.totalCost) / flatmateNum + '');
     setIsEvenlySplit(!isEvenlySplit);
   };
 
@@ -101,7 +101,7 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
             <div className="self-center">
               Total Cost: $
               <input
-                className="appearance-none  rounded-lg pl-1 ml-2 h-5 w-[10rem] text-black"
+                className="appearance-none  rounded-lg p-4 pl-1 ml-2 h-5 w-[10rem] text-black"
                 type="number"
                 value={billInfo.totalCost}
                 onChange={(e) =>
@@ -115,7 +115,7 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
             <div className="self-center whitespace-nowrap">
               Due Date:
               <DatePicker
-                className="appearance-none  rounded-lg pl-1 ml-2 h-5 w-[10rem] text-black"
+                className="appearance-none  rounded-lg p-4 pl-1 ml-2 h-5 w-[10rem] text-black"
                 selected={billInfo.dueDate}
                 onChange={(date: Date) =>
                   setBillInfo((prev) => ({
@@ -142,7 +142,7 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
             <div className="flex flex-row justify-between">
               <div className="self-center mr-3 ml-4">Title</div>
               <input
-                className="appearance-none  rounded-lg pl-3  h-5 w-[12rem] text-black self-center"
+                className="appearance-none  rounded-lg  p-4 pl-3  h-5 w-[12rem] text-black self-center"
                 type="text"
                 value={billInfo.title}
                 onChange={(e) =>
@@ -172,7 +172,6 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
               rounded
               className="w-auto h-10 p-5 mt-1 mb-1 text-base"
               onClick={handleEvenlyButton}
-              flat={isEvenlySplit}
             >
               Split Evenly
             </Button>
@@ -180,17 +179,20 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
           <div className="flex flex-wrap gap-5 ml-4">
             {users?.map((person, index) => {
               return (
-                <div className="p-4 font-bold bg-gradient-to-r from-amber-400 to-amber-600 rounded-xl self-center w-[15rem]">
+                <div className="p-4  rounded-xl self-center w-[15rem]">
                   <div
                     key={index + person.name}
                     className="flex self-center justify-between text-white"
                   >
-                    {person.name}
+                    <div className="whitespace-nowrap self-center ">
+                      {person.name}
+                    </div>
+
                     <input
-                      className="appearance-none  rounded-lg pl-1 ml-2 h-5 w-[9rem] text-black self-center "
+                      className="appearance-none  rounded-lg p-5 pl-1 ml-2 h-5 w-[9rem] text-black  "
                       type="text"
                       name={person.name}
-                      value={isEvenlySplit ? splitCost : undefined}
+                      value={splitCost}
                       onChange={handlePersonalCostChange}
                     />
                   </div>
