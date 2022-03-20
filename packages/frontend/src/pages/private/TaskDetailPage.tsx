@@ -14,13 +14,6 @@ import cleaning from '../../res/dashboard/cleaning.webp';
 
 interface TaskDetailPageProps {}
 
-//temporary data
-const taskName = 'House cleaning';
-const taskDescription =
-  'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin eget nulla et enim laoreet vulputate. Cras dapibus lectus sit amet erat suscipit, in dapibus leo suscipit. Cras facilisis consequat efficitur. Morbi a magna arcu. Duis molestie, tellus quis finibus vulputate, ex augue ultricies arcu, a congue nunc felis ut elit. Cras luctus euismod volutpat. Quisque turpis eros, convallis nec vehicula sed, ornare ac erat. Nulla ultrices mauris eget mauris venenatis dapibus vitae eu urna.';
-const pool = ['Arlene Mccoy'];
-const assignee = 'Arlene Mccoy';
-
 const TaskPage: React.FC<TaskDetailPageProps> = () => {
   const { id } = useParams() as { id: string };
 
@@ -36,6 +29,8 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
 
   const tasks = useTask();
   console.log(tasks);
+  console.log(typeof tasks);
+  const taskDetail = tasks.tasks?.find((task) => task.id === id);
 
   const deleteTask = useApiMutation('/api/v1/house/tasks/{id}', {
     method: 'delete',
@@ -83,15 +78,15 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
               <PencilAltIcon className="w-5 h-5 hover:text-teal-500" />
             </button>
             <h1 className="font-bold text-2xl self-center mb-2 px-5 sm:px-0">
-              {taskName}
+              {taskDetail?.name}
             </h1>
             <div className="mb-10 px-5 sm:px-0">
               <span>Assigned to: </span>
-              {<p className="inline font-bold">{assignee}</p>}
+              {<p className="inline font-bold">{taskDetail?.assigned}</p>}
             </div>
 
             <div className="flex-grow text-justify mb-10 px-5 sm:px-0">
-              {taskDescription}
+              {taskDetail?.description}
             </div>
 
             <DeleteButton
@@ -105,9 +100,9 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
         visible={visibleEditModal}
         setVisible={setVisibleEditModal}
         createTask={false}
-        currentTaskName={taskName}
-        currentTaskDescription={taskDescription}
-        currentSelectedPeople={pool}
+        currentTaskName={taskDetail?.name as string}
+        currentTaskDescription={taskDetail?.description as string}
+        currentSelectedPeople={taskDetail?.pool as string[]}
         userId={id}
       />
       <ErrorModal

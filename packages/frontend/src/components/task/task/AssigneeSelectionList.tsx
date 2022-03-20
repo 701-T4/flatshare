@@ -22,8 +22,12 @@ const AssigneeSelectionList: React.FC<AssigneeSelectionListProps> = ({
           setCheckBoxValues(event);
         }}
       >
-        {peopleInHouse.map((person) => {
-          return <Checkbox value={person.name}>{person.name}</Checkbox>;
+        {peopleInHouse.map((person, index) => {
+          return (
+            <Checkbox key={index} value={person.name}>
+              {person.name}
+            </Checkbox>
+          );
         })}
       </Checkbox.Group>
     </Collapse>

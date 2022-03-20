@@ -113,7 +113,7 @@ const EditTaskModal: React.FC<EditAndCreateTaskModalProps> = ({
       <ErrorModal
         visibleErrorModal={visibleErrorModal}
         setVisibleErrorModal={setVisibleErrorModal}
-        errorMessage="Cannot create the task."
+        errorMessage="Cannot edit the task."
       />
     </div>
   );

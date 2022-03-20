@@ -50,7 +50,10 @@ const TaskPage: React.FC<TaskPageProps> = () => {
   });
 
   const getTaskCard = (task: Task, color: string, key: string) => (
-    <div className="cursor-pointer" onClick={() => setNavigate('/tasks/1')}>
+    <div
+      className="cursor-pointer"
+      onClick={() => setNavigate(`/tasks/${key}`)}
+    >
       <UpcomingTask
         key={key}
         title={task.name}
@@ -87,13 +90,7 @@ const TaskPage: React.FC<TaskPageProps> = () => {
               <div className="text-lg font-semibold">{item.type}</div>
             </UnderlinedText>
             <div className="flex flex-col gap-4 mt-4 md:grid md:grid-cols-2">
-              {item.tasks.map((task, index) =>
-                getTaskCard(
-                  task,
-                  item.color,
-                  `${task.name + task.description}`, // todo need a id for each task from backend
-                ),
-              )}
+              {item.tasks.map((task) => getTaskCard(task, item.color, task.id))}
             </div>
           </div>
         ))}

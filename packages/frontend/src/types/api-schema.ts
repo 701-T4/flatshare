@@ -139,6 +139,7 @@ export interface components {
       pool: string[];
     };
     TaskResponseDto: {
+      id: string;
       name: string;
       description: string;
       isComplete: boolean;
