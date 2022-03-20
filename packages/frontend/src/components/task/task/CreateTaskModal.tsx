@@ -9,8 +9,9 @@ import {
 } from '@nextui-org/react';
 import { CheckIcon } from '@heroicons/react/outline';
 import AssigneeSelectionList from './AssigneeSelectionList';
-import { useApi, useApiMutation } from '../../../hooks/useApi';
+import { useApiMutation } from '../../../hooks/useApi';
 import ErrorModal from './ErrorModal';
+import { useHouse } from '../../../hooks/useHouse';
 
 interface CreateTaskModalProps {
   visible: boolean;
@@ -35,15 +36,6 @@ const initialValue: CreatTaskState = {
   pool: [],
 };
 
-const people = [
-  { name: 'Wade Cooper' },
-  { name: 'Arlene Mccoy' },
-  { name: 'Devon Webb' },
-  { name: 'Tom Cook' },
-  { name: 'Tanya Fox' },
-  { name: 'Hellen Schmidt' },
-];
-
 const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
   visible,
   setVisible,
@@ -53,6 +45,10 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
   const [visibleErrorModal, setVisibleErrorModal] = React.useState(false);
 
   const createTask = useApiMutation('/api/v1/house/tasks', { method: 'post' });
+
+  const houseContext = useHouse();
+  const pool: { name: string }[] = [];
+  houseContext.users?.map((userObject) => pool.push({ name: userObject.name }));
 
   const closeHandler = () => {
     setVisible(false);
@@ -161,7 +157,7 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
               />
             </div>
             <AssigneeSelectionList
-              peopleInHouse={people}
+              peopleInHouse={pool}
               checkBoxValues={checkBoxValues}
               setCheckBoxValues={setCheckBoxValues}
             />

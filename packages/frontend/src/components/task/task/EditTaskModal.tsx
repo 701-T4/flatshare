@@ -3,6 +3,7 @@ import { Button, Input, Modal, Textarea } from '@nextui-org/react';
 import AssigneeSelectionList from './AssigneeSelectionList';
 import { useApiMutation } from '../../../hooks/useApi';
 import ErrorModal from './ErrorModal';
+import { useHouse } from '../../../hooks/useHouse';
 
 interface EditAndCreateTaskModalProps {
   visible: boolean;
@@ -13,15 +14,6 @@ interface EditAndCreateTaskModalProps {
   currentSelectedPeople: string[];
   userId: string;
 }
-
-const people = [
-  { name: 'Wade Cooper' },
-  { name: 'Arlene Mccoy' },
-  { name: 'Devon Webb' },
-  { name: 'Tom Cook' },
-  { name: 'Tanya Fox' },
-  { name: 'Hellen Schmidt' },
-];
 
 const EditTaskModal: React.FC<EditAndCreateTaskModalProps> = ({
   visible,
@@ -40,6 +32,10 @@ const EditTaskModal: React.FC<EditAndCreateTaskModalProps> = ({
     currentSelectedPeople,
   );
   const [visibleErrorModal, setVisibleErrorModal] = React.useState(false);
+
+  const houseContext = useHouse();
+  const pool: { name: string }[] = [];
+  houseContext.users?.map((userObject) => pool.push({ name: userObject.name }));
 
   const editTask = useApiMutation('/api/v1/house/tasks/{id}', {
     method: 'put',
@@ -99,7 +95,7 @@ const EditTaskModal: React.FC<EditAndCreateTaskModalProps> = ({
               onChange={(event) => setTaskDescription(event.target.value)}
             />
             <AssigneeSelectionList
-              peopleInHouse={people}
+              peopleInHouse={pool}
               checkBoxValues={checkBoxValues}
               setCheckBoxValues={setCheckBoxValues}
             />

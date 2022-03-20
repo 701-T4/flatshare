@@ -1,12 +1,12 @@
 import { PencilAltIcon } from '@heroicons/react/outline';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import Page from '../../components/common/layout/Page';
 import DeleteButton from '../../components/task/task/DeleteButton';
 import EditTaskModal from '../../components/task/task/EditTaskModal';
 import ErrorModal from '../../components/task/task/ErrorModal';
 import ReturnButton from '../../components/task/task/ReturnButton';
-import { useApi, useApiMutation } from '../../hooks/useApi';
+import { useApiMutation } from '../../hooks/useApi';
 import { useAuth } from '../../hooks/useAuth';
 import { useHouse } from '../../hooks/useHouse';
 import cleaning from '../../res/dashboard/cleaning.webp';
@@ -28,11 +28,10 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
   const [visibleEditModal, setVisibleEditModal] = React.useState(false);
   const [visibleErrorModal, setVisibleErrorModal] = React.useState(false);
 
+  //Enable the delete button if the house owner is the same as the user
   const house = useHouse();
   const { user } = useAuth();
-
-  //Enable the delete button if the house owner is the same as the user
-  let enabled = house.owner === user?.displayName;
+  let enabled = house.owner === user?.uid;
 
   const deleteTask = useApiMutation('/api/v1/house/tasks/{id}', {
     method: 'delete',
