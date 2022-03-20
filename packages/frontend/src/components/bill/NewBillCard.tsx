@@ -37,10 +37,9 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
 
   let idHash: IHash = {};
   let costHash: IHash = {};
-  users?.map((user) => {
+  users?.forEach((user) => {
     idHash[user.name] = user.firebaseId;
     costHash[user.name] = '0';
-    return 0;
   });
 
   useEffect(() => {
@@ -73,7 +72,7 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
       ],
     };
 
-    users?.map((user, index) => {
+    users?.forEach((user, index) => {
       let newPayment = {
         id: user.firebaseId,
         amount: Number(isEvenlySplit ? splitCost : costHash[user.name]),
@@ -82,7 +81,6 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
       if (index !== 0) {
         bill['users'].push(newPayment);
       }
-      return 0;
     });
 
     let billBody = {

@@ -168,6 +168,34 @@ export class BillController {
     );
   }
 
+  @Get(':id')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Get a bill.' })
+  @ApiOkResponse({
+    description: 'Bills retrieved successfully',
+    type: BillResponseDto,
+  })
+  @ApiForbiddenResponse({ description: 'Not the bill owner' })
+  async getBill(
+    @Param('id') id: string,
+    @User() user: DecodedIdToken,
+  ): Promise<BillResponseDto> {
+    const bill = await this.billStoreService.findOne(id);
+
+    const userObject = await this.userStoreService.findOneByFirebaseId(
+      user.uid,
+    );
+
+    if (!bill.owner.equals(userObject._id)) {
+      throw new HttpException('not the bill owner', HttpStatus.FORBIDDEN);
+    }
+
+    return this.billUtil.covertBillDocumentToResponseDTO(
+      bill,
+      this.userStoreService,
+    );
+  }
+
   @Delete(':id')
   @HttpCode(204)
   @ApiOperation({ summary: 'Delete a bill.' })

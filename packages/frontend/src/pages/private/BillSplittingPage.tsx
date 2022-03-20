@@ -50,9 +50,9 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
 
   /**
    * A example of a bill JSON return from a server request
-   * 
+   *
    * Detail type of each value could be found on generated API docs
-   
+
       name: 'Countdown',
       description: 'I go for buy some eat',
       owner: 'cZWbFn471ihGFtlMBVKo3DrH1D43',
@@ -137,6 +137,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
 
             return (
               <UpcomingTask
+                key={index}
                 title={`${bill.name} - $${amount}`}
                 // Format the date, display as for exmaple: Due Monday, 14 March
                 dueString={`Due ${
@@ -149,7 +150,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
                 twColor={UpcomingTask.Variation.red}
                 type="Bill"
                 onCompleteClick={() =>
-                  navigate('/bills/detail', { state: { bill: bill } })
+                  navigate(`/bills/${bill.id}`, { state: { bill: bill } })
                 }
                 onToggleSwitch={async () => {
                   const response = markPayBill({
