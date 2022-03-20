@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import Page from '../../components/common/layout/Page';
 import UpcomingTask from '../../components/dashboard/upcoming-tasks/UpcomingTask';
 import UnderlinedText from '../../components/dashboard/GradientUnderlinedText';
@@ -88,7 +88,10 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
       proof?: string | undefined;
     }[];
   }[] = [];
-
+  const sortedBills = useMemo(
+    () => data?.bills.sort((a, b) => a.due - b.due),
+    [data],
+  );
   return (
     <Page>
       <div className="flex flex-col gap-4">
@@ -104,7 +107,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
           <UnderlinedText colorClasses="bg-gray-800">
             <div className="text-lg font-semibold">Upcoming Bills</div>
           </UnderlinedText>
-          {data?.bills.map((bill, index) => {
+          {sortedBills?.map((bill, index) => {
             // Check if this bill is a past bill by check whether all user is paid
             if (
               bill.users.every((user) => {
