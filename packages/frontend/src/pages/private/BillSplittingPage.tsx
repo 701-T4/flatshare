@@ -147,7 +147,15 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
                   navigate(`/bills/${bill.id}`, { state: { bill: bill } })
                 }
                 onCompleteClick={async () => {
-                  markPayBill({
+                  const optimisticBills = { ...data! };
+                  const currentBill = optimisticBills.bills![index].users.find(
+                    (u) => u.id === user!.uid,
+                  )!;
+                  currentBill.paid = !currentBill.paid;
+
+                  mutate(optimisticBills);
+
+                  await markPayBill({
                     pathParams: {
                       id: bill.id,
                     },
