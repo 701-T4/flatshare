@@ -1,5 +1,5 @@
 import { getAuth } from 'firebase/auth';
-import React from 'react';
+import React, { useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Page from '../../components/common/layout/Page';
 import UnderlinedText from '../../components/dashboard/GradientUnderlinedText';
@@ -7,15 +7,28 @@ import NoUpcomingTasks from '../../components/dashboard/upcoming-tasks/NoUpcomin
 import UpcomingTask from '../../components/dashboard/upcoming-tasks/UpcomingTask';
 import CreateNewTaskButton from '../../components/task/task/CreateNewTaskButton';
 import CreateTaskModal from '../../components/task/task/CreateTaskModal';
-import { useApiMutation } from '../../hooks/useApi';
-import { Task, useTask } from '../../hooks/useTask';
+import { useApi, useApiMutation } from '../../hooks/useApi';
 
 interface TaskPageProps {}
+
+interface Task {
+  id: string;
+  name: string;
+  description: string;
+  isComplete: boolean;
+  dueDate: string;
+  interval: number;
+  assigned: string;
+  pool: string[];
+}
 
 const TaskPage: React.FC<TaskPageProps> = () => {
   const setNavigate = useNavigate();
   const auth = getAuth();
-  const { tasks, refetchTask } = useTask();
+  const { data: res, mutate } = useApi('/api/v1/house/tasks', {
+    method: 'get',
+  });
+  const tasks = res?.tasks;
   const name = auth.currentUser?.displayName ?? 'user';
 
   const completeTask = useApiMutation('/api/v1/house/tasks/{id}/completed', {
@@ -67,15 +80,17 @@ const TaskPage: React.FC<TaskPageProps> = () => {
         twColor={color}
         type="Task"
         completed={task.isComplete}
-        // todo update task status when done
         onCompleteClick={async () => {
+          // todo bug here
           await completeTask({
             pathParams: { id: task.id },
             body: {
               isComplete: true,
             },
           });
-          await refetchTask();
+          console.log('start mutate');
+          await mutate();
+          console.log('run mutate');
         }}
       />
     </div>

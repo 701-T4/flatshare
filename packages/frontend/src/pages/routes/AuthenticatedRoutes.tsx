@@ -3,7 +3,6 @@ import { Routes } from 'react-router';
 import { Navigate, Route } from 'react-router-dom';
 import useFullLoader from '../../hooks/useFullLoader';
 import { HouseContextProvider, useHouse } from '../../hooks/useHouse';
-import { TasksContextProvider } from '../../hooks/useTask';
 import DashboardPage from '../private/DashboardPage';
 import ManageAccountPage from '../private/ManageAccountPage';
 import TaskDetailPage from '../private/TaskDetailPage';
@@ -114,9 +113,7 @@ const AuthenticatedRoutes: React.FC<AuthenticatedRoutesProps> = () => {
 const withContexts = (WrappedComponent: React.ComponentType) => {
   const hoc = ({ ...props }) => (
     <HouseContextProvider>
-      <TasksContextProvider>
-        <WrappedComponent {...props} />
-      </TasksContextProvider>
+      <WrappedComponent {...props} />
     </HouseContextProvider>
   );
 
