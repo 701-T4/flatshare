@@ -39,6 +39,7 @@ export class HouseStoreService {
     const userList: Array<UserResponseDto> = [];
     for (const user of house.users) {
       const userDto = {
+        name: user['name'],
         house: house.code,
         firebaseId: user['firebaseId'],
       };

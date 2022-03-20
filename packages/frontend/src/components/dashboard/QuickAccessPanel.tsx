@@ -4,12 +4,15 @@ import house from '../../res/dashboard/house.webp';
 import cleaning from '../../res/dashboard/cleaning.webp';
 import cogs from '../../res/dashboard/cogs.webp';
 import notes from '../../res/dashboard/post-notes.webp';
+import { useNavigate } from 'react-router';
 
 interface QuickAccessPanelProps {}
 
 const QuickAccessPanel: React.FC<QuickAccessPanelProps> = () => {
+  const navigate = useNavigate();
+
   return (
-    <div className="md:grid md:grid-cols-2 md:grid-rows-2 flex flex-col gap-4">
+    <div className="flex flex-col gap-4 md:grid md:grid-cols-2 md:grid-rows-2">
       <TopAction
         // https://unsplash.com/photos/PCDlE94JjcI
         img={house}
@@ -17,6 +20,7 @@ const QuickAccessPanel: React.FC<QuickAccessPanelProps> = () => {
         twGradientStart="from-emerald-400"
         twGradientEnd="to-green-800"
         twOpacity="opacity-80"
+        onClick={() => navigate('/bills')}
         description="Split bills with your flatmates."
       />
       <TopAction

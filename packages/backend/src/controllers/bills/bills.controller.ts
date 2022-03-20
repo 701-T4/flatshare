@@ -50,7 +50,7 @@ export class BillController {
   @ApiBadRequestResponse({ description: 'User is not in a house' })
   async getBills(@User() user: DecodedIdToken): Promise<BillsResponseDto> {
     const houseID = (await this.userStoreService.findOneByFirebaseId(user.uid))
-      .house;
+      ?.house;
 
     if (!houseID) {
       throw new HttpException('user is not in a house', HttpStatus.BAD_REQUEST);
@@ -101,6 +101,7 @@ export class BillController {
     };
     const bill = await this.billStoreService.create(billModel);
     return {
+      id: bill._id,
       name: bill.name,
       description: bill.description,
       owner: owner.firebaseId,
@@ -163,6 +164,33 @@ export class BillController {
     });
     return this.billUtil.covertBillDocumentToResponseDTO(
       await this.billStoreService.update(bill._id, bill),
+      this.userStoreService,
+    );
+  }
+
+  @Get(':id')
+  @HttpCode(200)
+  @ApiOperation({ summary: 'Get a bill.' })
+  @ApiOkResponse({
+    description: 'Bills retrieved successfully',
+    type: BillResponseDto,
+  })
+  @ApiBadRequestResponse({ description: 'User is not in a house' })
+  async getBill(
+    @Param('id') id: string,
+    @User() user: DecodedIdToken,
+  ): Promise<BillResponseDto> {
+    const houseID = (await this.userStoreService.findOneByFirebaseId(user.uid))
+      ?.house;
+
+    if (!houseID) {
+      throw new HttpException('user is not in a house', HttpStatus.BAD_REQUEST);
+    }
+
+    const bill = await this.billStoreService.findOne(id);
+
+    return this.billUtil.covertBillDocumentToResponseDTO(
+      bill,
       this.userStoreService,
     );
   }

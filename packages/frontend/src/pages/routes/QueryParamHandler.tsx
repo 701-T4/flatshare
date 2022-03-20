@@ -14,7 +14,7 @@ const QueryParamHandler: React.FC<QueryParamHandlerProps> = ({ children }) => {
 // ?join
 const useJoinCode = () => {
   const { createAlert } = useAlert();
-  const { signedIn } = useAuth();
+  const { signedIn, authLoaded } = useAuth();
 
   // check if the url has a join code OR localstorage has a join code
   const [searchParams] = useSearchParams();
@@ -24,6 +24,10 @@ const useJoinCode = () => {
   );
 
   useEffect(() => {
+    if (!authLoaded) {
+      return;
+    }
+
     if (urlJoinCode) {
       localStorage.setItem('joinCode', urlJoinCode);
       if (!signedIn) {
@@ -37,7 +41,7 @@ const useJoinCode = () => {
         );
       }
     }
-  }, [urlJoinCode, signedIn, createAlert]);
+  }, [urlJoinCode, signedIn, createAlert, authLoaded]);
 };
 
 export default QueryParamHandler;
