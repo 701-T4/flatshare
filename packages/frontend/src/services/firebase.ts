@@ -9,7 +9,7 @@ const app = initializeApp(firebaseConfig);
 
 if (
   process.env.NODE_ENV === 'development' &&
-  process.env.REACT_APP_USE_AUTH_EMULATOR_IF_DEV
+  process.env.REACT_APP_USE_AUTH_EMULATOR_IF_DEV === 'true'
 ) {
   connectAuthEmulator(getAuth(), 'http://localhost:9099');
 }
