@@ -45,10 +45,10 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
   useEffect(() => {
     setUnixTime(billInfo.dueDate.getTime());
     setFlatmateNum(users?.length ? users.length : 1);
-    setSplitCost(Number(billInfo.totalCost) / flatmateNum + '');
-  }, [billInfo, flatmateNum, users?.length]);
+  }, [billInfo, flatmateNum, users?.length, isEvenlySplit]);
 
   const handleEvenlyButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setSplitCost(Number(billInfo.totalCost) / flatmateNum + '');
     setIsEvenlySplit(!isEvenlySplit);
   };
 
@@ -171,7 +171,6 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
               rounded
               className="w-auto h-10 p-5 mt-1 mb-1 text-base"
               onClick={handleEvenlyButton}
-              flat={isEvenlySplit}
             >
               Split Evenly
             </Button>
@@ -190,7 +189,7 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
                     className="appearance-none p-2 rounded-lg text-black"
                     type="number"
                     name={person.name}
-                    value={isEvenlySplit ? splitCost : undefined}
+                    value={splitCost}
                     onChange={handlePersonalCostChange}
                   />
                 </div>
