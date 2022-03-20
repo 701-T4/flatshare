@@ -12,6 +12,7 @@ import { useApi, useApiMutation } from '../../hooks/useApi';
 import useFullLoader from '../../hooks/useFullLoader';
 import { useHouse } from '../../hooks/useHouse';
 import { components } from '../../types/api-schema';
+import { ExternalLinkIcon } from '@heroicons/react/outline';
 
 interface BillDetailPageProps {}
 
@@ -114,10 +115,12 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
     navigate('/bills', { replace: true });
   };
 
+  const fileNotAttached = image == null || image == undefined;
+
   return (
     <Page>
       {isEdit ? (
-        <div className="pt-10 px-10 md:px-20">
+        <div className="px-10 pt-10 md:px-20">
           <EditBillCard
             billParam={bill}
             handleOnDoneClickCallBack={(d) => {
@@ -132,7 +135,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
           />
         </div>
       ) : (
-        <div className="pt-10 px-10 md:px-20">
+        <div className="px-10 pt-10 md:px-20">
           <div className="shadow-lg rounded-b-xl">
             <div className="flex flex-col h-full">
               <div
@@ -152,7 +155,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                       auto
                       className="mx-5"
                       onClick={() => setIsEdit(!isEdit)}
-                      icon={<PencilIcon className="h-5 w-5 text-teal-50" />}
+                      icon={<PencilIcon className="w-5 h-5 text-teal-50" />}
                     />
                   ) : (
                     <></>
@@ -161,15 +164,15 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                     <Button
                       auto
                       onClick={() => deleteBill()}
-                      icon={<TrashIcon className="h-5 w-5 text-teal-50" />}
+                      icon={<TrashIcon className="w-5 h-5 text-teal-50" />}
                     />
                   ) : (
                     <></>
                   )}
                 </div>
               </div>
-              <div className="rounded-b-xl px-4 lg:px-8 py-4 flex flex-col items-center gap-y-1 bg-gray-800 h-full">
-                <div className="flex flex-col lg:flex-row justify-between items-start lg:w-full">
+              <div className="flex flex-col items-center h-full px-4 py-4 bg-gray-800 rounded-b-xl lg:px-8 gap-y-1">
+                <div className="flex flex-col items-start justify-between lg:flex-row lg:w-full">
                   <div className="flex flex-col px-2 lg:w-1/2">
                     <DetailRow title="Description" value={bill?.description!} />
                     <Spacer y={2} />
@@ -180,7 +183,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                     <Spacer y={2} />
                   </div>
                   <div className="flex flex-col px-2 lg:w-1/2">
-                    <div className="font-bold text-3xl text-teal-500">
+                    <div className="text-3xl font-bold text-teal-500">
                       Payment
                     </div>
                     <div className="flex flex-col">
@@ -190,10 +193,10 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-row self-end items-center justify-end">
+                <div className="flex flex-row items-center self-end justify-end">
                   <label
                     htmlFor="file-upload"
-                    className="text-white flex bold justify-center items-center transition-all bg-teal-500 hover:bg-teal-400 rounded-full px-4 py-2 font-medium h-fit"
+                    className="flex items-center justify-center px-4 py-2 font-medium text-white transition-all bg-teal-500 rounded-full bold hover:bg-teal-400 h-fit"
                   >
                     <input
                       id="file-upload"
@@ -203,16 +206,22 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                         setImage(e.currentTarget.files?.item(0));
                       }}
                     ></input>
-                    <span className="text-right max-w-xs text-clip overflow-hidden">
+                    <span className="max-w-xs overflow-hidden text-right text-clip">
                       {image ? parseFileName(image.name) : 'Select File'}
                     </span>
                   </label>
                   <Spacer x={1} />
                   <button
-                    className={
-                      'text-white flex justify-center items-center transition-all bg-teal-500 hover:bg-teal-400 rounded-full px-4 py-2 font-medium h-fit'
-                    }
+                    className={cx(
+                      ' flex justify-center items-center transition-all  rounded-full px-4 py-2 font-medium h-fit',
+                      {
+                        'text-white bg-teal-500 hover:bg-teal-400':
+                          !fileNotAttached,
+                        'text-gray-300 bg-gray-500': fileNotAttached,
+                      },
+                    )}
                     onClick={() => onUpload()}
+                    disabled={fileNotAttached}
                   >
                     Upload
                   </button>
@@ -233,10 +242,10 @@ interface DetailRowProps {
 const DetailRow: React.FC<DetailRowProps> = ({ title, value }) => {
   return (
     <div className="flex flex-col items-start">
-      <div className="font-bold text-base md:text-3xl text-teal-500">
+      <div className="text-base font-bold text-teal-500 md:text-3xl">
         {title}
       </div>
-      <div className="font-bold text-base md:text-xl py-2 text-white">
+      <div className="py-2 text-base font-bold text-white md:text-xl">
         {value}
       </div>
     </div>
@@ -251,20 +260,39 @@ const UserRow: React.FC<UserRowProp> = ({ u, userId }) => {
   const house = useHouse();
 
   const getUserFromId = (uid: String) => {
-    console.log('house.users');
+    console.log(u);
 
     console.log(house.users);
     return house.users?.find((u) => u.firebaseId === uid)?.name;
   };
 
+  const proofFileId = u.proof;
+
   return (
-    <div key={u.id} className="flex flex-col w-full items-start py-2">
-      <div className="font-bold text-base md:text-xl text-white">
+    <div key={u.id} className="flex flex-col items-start w-full py-2">
+      <div className="text-base font-bold text-white md:text-xl">
         {getUserFromId(u.id)}
       </div>
-      <div className="flex flex-row w-full justify-between items-start">
-        <div className="font-bold text-base md:text-2xl text-white">
-          {u.paid ? <>Paid</> : <>${u.amount}</>}
+      <div className="flex flex-row items-start justify-between w-full">
+        <div className="flex flex-row text-base font-bold text-white md:text-2xl">
+          {u.paid ? <>Paid - </> : <>${u.amount}</>}
+          {proofFileId && (
+            <div className="flex flex-row">
+              <button
+                className="flex flex-row items-center justify-center w-20 ml-1 font-semibold text-white rounded-md hover:bg-gray-500"
+                onClick={() => {
+                  const proofFileLink =
+                    'https://firebasestorage.googleapis.com/v0/b/flat-split.appspot.com/o/' +
+                    proofFileId +
+                    '?alt=media';
+                  window.open(proofFileLink, '_blank');
+                }}
+              >
+                Proof
+                <ExternalLinkIcon className="w-5 mt-1" />
+              </button>
+            </div>
+          )}
         </div>
         {userId === u.id ? <></> : <div className=""></div>}
       </div>
