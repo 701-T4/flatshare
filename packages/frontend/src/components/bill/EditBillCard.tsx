@@ -48,20 +48,21 @@ const EditBillCard: React.FC<EditBillCardProps> = ({
           </div>
         </div>
       </div>
-      <div className="flex flex-col align-items-center text-white bg-gray-800 rounded-b-xl lg:px-8">
-        <div className="flex flex-row justify-items-center">
-          <div className="self-center mr-3 ml-4">Title</div>
-          <input
-            className="appearance-none  rounded-lg pl-3  h-5 w-[12rem] text-black self-center"
-            type="text"
+      <div className="flex flex-col align-items-center p-4 text-white bg-gray-800 rounded-b-xl lg:px-8">
+        <div className="flex flex-col justify-items-start align-items-start">
+          <div className="mr-3 ">Title</div>
+          <Textarea
+            maxRows={1}
+            className="appearance-none w-full rounded-lg text-black"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />
         </div>
-        <div className="flex flex-row justify-items-center">
-          <div className="self-center mr-3">Details</div>
+        <div className="flex flex-col justify-items-start align-items-start">
+          <div className="mr-3">Details</div>
           <Textarea
             size="lg"
+            className="w-full"
             animated={false}
             value={detail}
             onChange={(e) => setDetail(e.target.value)}
