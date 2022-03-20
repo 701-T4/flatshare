@@ -13,12 +13,12 @@ import {
 
 const noteType = [{ name: 'Normal' }, { name: 'Secret' }, { name: 'WiFi' }];
 
-interface NewNoteModalProps {
+interface EditNoteModalProps {
   createNoteVisible: boolean;
   setCreateNoteVisible(value: boolean): void;
 }
 
-const NewNoteModal: React.FC<NewNoteModalProps> = ({
+const EditNoteModal: React.FC<EditNoteModalProps> = ({
   createNoteVisible,
   setCreateNoteVisible,
 }) => {
@@ -38,7 +38,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
     >
       <Modal.Header>
         <Text b size={22}>
-          Create a New Note
+          Edit Note
         </Text>
       </Modal.Header>
       <Modal.Body>
@@ -52,6 +52,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
           placeholder="Enter your note header"
           size="xl"
           color="primary"
+          value="Get the Note Name here"
         ></Input>
         <Text size={'1.25rem'} margin="1.5%">
           Type
@@ -128,6 +129,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
               placeholder="Enter the username"
               size="xl"
               color="primary"
+              value="Joe123"
             ></Input>
             <Text size={'1.25rem'} margin="1.5%">
               Password
@@ -139,6 +141,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
               placeholder="Enter the password"
               size="xl"
               color="primary"
+              value="PassPass"
             ></Input>
           </Container>
         ) : null}
@@ -156,17 +159,18 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
               placeholder="Enter your note here"
               size="xl"
               color="primary"
+              value="This is where the long description will go ...... blah blah blah"
             ></Textarea>
           </Container>
         ) : null}
       </Modal.Body>
       <Modal.Footer>
         <Button size="md" className="sm: text-lg">
-          Create
+          Save
         </Button>
       </Modal.Footer>
     </Modal>
   );
 };
 
-export default NewNoteModal;
+export default EditNoteModal;
