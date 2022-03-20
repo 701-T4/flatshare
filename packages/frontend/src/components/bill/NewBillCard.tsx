@@ -45,10 +45,10 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
   useEffect(() => {
     setUnixTime(billInfo.dueDate.getTime());
     setFlatmateNum(users?.length ? users.length : 1);
-    setSplitCost(Number(billInfo.totalCost) / flatmateNum + '');
-  }, [billInfo, flatmateNum, users?.length]);
+  }, [billInfo, flatmateNum, users?.length, isEvenlySplit]);
 
   const handleEvenlyButton = (e: React.MouseEvent<HTMLButtonElement>) => {
+    setSplitCost(Number(billInfo.totalCost) / flatmateNum + '');
     setIsEvenlySplit(!isEvenlySplit);
   };
 
@@ -99,7 +99,7 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
             <div className="self-center">
               Total Cost: $
               <input
-                className="appearance-none  rounded-lg pl-1 ml-2 h-5 w-[10rem] text-black"
+                className="appearance-none rounded-lg p-1 pl-2 ml-2 text-black"
                 type="number"
                 value={billInfo.totalCost}
                 onChange={(e) =>
@@ -113,8 +113,9 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
             <div className="self-center whitespace-nowrap">
               Due Date:
               <DatePicker
-                className="appearance-none  rounded-lg pl-1 ml-2 h-5 w-[10rem] text-black"
+                className="appearance-none rounded-lg p-1 pl-2 ml-2 text-black"
                 selected={billInfo.dueDate}
+                dateFormat="MMMM d, yyyy"
                 onChange={(date: Date) =>
                   setBillInfo((prev) => ({
                     ...prev,
@@ -135,12 +136,12 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-row justify-between h-full px-4 py-4 bg-gray-800 rounded-b-xl lg:px-8">
-          <div className="flex flex-col text-white gap-y-3">
-            <div className="flex flex-row justify-between">
-              <div className="self-center mr-3 ml-4">Title</div>
+        <div className="flex flex-row gap-x-4 h-full px-4 py-4 bg-gray-800 rounded-b-xl lg:px-8">
+          <div className="flex flex-col flex-grow text-white gap-y-3">
+            <div className="flex flex-col gap-y-0.5">
+              <div className="mr-3 font-bold">Title</div>
               <input
-                className="appearance-none  rounded-lg pl-3  h-5 w-[12rem] text-black self-center"
+                className="appearance-none rounded-lg p-2 text-black"
                 type="text"
                 value={billInfo.title}
                 onChange={(e) =>
@@ -151,8 +152,8 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
                 }
               />
             </div>
-            <div className="flex flex-row justify-items-center">
-              <div className="self-center mr-3">Details</div>
+            <div className="flex flex-col gap-y-0.5">
+              <div className="font-bold">Details</div>
               <Textarea
                 size="lg"
                 animated={false}
@@ -163,38 +164,37 @@ const NewBillCard: React.FC<NewBillCardProps> = () => {
                     detail: e.target.value,
                   }))
                 }
-              ></Textarea>
+              />
             </div>
             <Button
               size="xs"
               rounded
               className="w-auto h-10 p-5 mt-1 mb-1 text-base"
               onClick={handleEvenlyButton}
-              flat={isEvenlySplit}
             >
               Split Evenly
             </Button>
           </div>
-          <div className="flex flex-wrap gap-5 ml-4">
-            {users?.map((person, index) => {
-              return (
-                <div className="p-4 font-bold bg-gradient-to-r from-amber-400 to-amber-600 rounded-xl self-center w-[15rem]">
-                  <div
-                    key={index + person.name}
-                    className="flex self-center justify-between text-white"
-                  >
+          <div className="grid md:grid-cols-2 grid-cols-1 gap-4 h-4 ml-4">
+            {users?.map((person, index) => (
+              <div className=" font-bold rounded-xl">
+                <div
+                  key={index + person.name}
+                  className="flex flex-col gap-0.5 whitespace-nowrap text-white"
+                >
+                  <span className="text-ellipsis max-w-[2rem]">
                     {person.name}
-                    <input
-                      className="appearance-none  rounded-lg pl-1 ml-2 h-5 w-[9rem] text-black self-center "
-                      type="text"
-                      name={person.name}
-                      value={isEvenlySplit ? splitCost : undefined}
-                      onChange={handlePersonalCostChange}
-                    />
-                  </div>
+                  </span>
+                  <input
+                    className="appearance-none p-2 rounded-lg text-black"
+                    type="number"
+                    name={person.name}
+                    value={splitCost}
+                    onChange={handlePersonalCostChange}
+                  />
                 </div>
-              );
-            })}
+              </div>
+            ))}
           </div>
         </div>
       </div>
