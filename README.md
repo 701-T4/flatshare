@@ -6,7 +6,7 @@
 <h4 align="center">Flat management made simple.</h4>
 
 <p align="center">
-  <img alt="GitHub" src="https://img.shields.io/github/license/701-T4/flatshare?style=flat-square">
+  <img alt="GitHub" src="https://img.shields.io/badge/license-MIT-blue">
   <img alt="GitHub Workflow Status" src="https://img.shields.io/github/workflow/status/701-T4/flatshare/PR%20Check?label=tests&logo=github&style=flat-square">
   <img alt="GitHub repo size" src="https://img.shields.io/github/repo-size/701-T4/flatshare?style=flat-square">
   <img alt="GitHub Repo stars" src="https://img.shields.io/github/stars/701-T4/flatshare?logo=github&style=flat-square">
@@ -51,14 +51,15 @@ $ cd flatshare
 
 # Install dependencies
 $ yarn install
+All third party dependencies used in this project are attributed in the LICENSE-3RD-PARTY files. The files are generated automatically when there is an update to the dependencies used.
 
 # Run the app
 $ yarn start
 ```
 
 by default your application will be hosted at `http://localhost:3000`, while the
-api will be hosted at `http://localhost:4200/api`. If using the Firebase auth 
-emulator, this will be hosted at `http://localhost:4000/auth`.These can be changed 
+api will be hosted at `http://localhost:4200/api`. If using the Firebase auth
+emulator, this will be hosted at `http://localhost:4000/auth`.These can be changed
 in the config/environment values. See the `contributing` section below for more
 details on running the app.
 
