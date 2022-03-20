@@ -56,7 +56,6 @@ function validateKeys(filePath) {
     ...Object.keys(environmentFileObject),
   ];
   const templateKeys = Object.keys(templateObject);
-  console.debug(`${environmentKeys}, ${templateKeys}`);
 
   // Checks the current environment contains all the required keys from the template
   const isValidated = templateKeys.every((key) =>
