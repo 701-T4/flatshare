@@ -6,7 +6,6 @@ import { useAuth } from '../../hooks/useAuth';
 import { Button } from '@nextui-org/react';
 import { useNavigate } from 'react-router';
 import NewBillCard from '../../components/bill/NewBillCard';
-import { Collapse } from '@nextui-org/react';
 import { useApiMutation } from '../../hooks/useApi';
 import { useApi } from '../../hooks/useApi';
 

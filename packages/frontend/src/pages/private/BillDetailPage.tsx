@@ -137,7 +137,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
     navigate('/bills', { replace: true });
   };
 
-  const fileNotAttached = image == null || image == undefined;
+  const fileNotAttached = image === null || image === undefined;
 
   return (
     <Page>

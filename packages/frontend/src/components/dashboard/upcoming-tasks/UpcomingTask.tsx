@@ -1,7 +1,6 @@
 import React from 'react';
 import cx from 'classnames';
 import { CheckCircleIcon } from '@heroicons/react/outline';
-import { Switch } from '@nextui-org/react';
 import { ChevronDoubleRightIcon } from '@heroicons/react/outline';
 
 const Variation = {
