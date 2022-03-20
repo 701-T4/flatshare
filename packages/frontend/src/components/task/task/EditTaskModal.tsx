@@ -4,6 +4,7 @@ import AssigneeSelectionList from './AssigneeSelectionList';
 import { useApiMutation } from '../../../hooks/useApi';
 import ErrorModal from './ErrorModal';
 import { useHouse } from '../../../hooks/useHouse';
+import { useNavigate } from 'react-router-dom';
 
 interface EditAndCreateTaskModalProps {
   visible: boolean;
@@ -32,6 +33,7 @@ const EditTaskModal: React.FC<EditAndCreateTaskModalProps> = ({
     currentSelectedPeople,
   );
   const [visibleErrorModal, setVisibleErrorModal] = React.useState(false);
+  const setNavigate = useNavigate();
 
   const houseContext = useHouse();
   const pool: { name: string }[] = [];
@@ -54,7 +56,13 @@ const EditTaskModal: React.FC<EditAndCreateTaskModalProps> = ({
         pool: checkBoxValues,
       },
     });
-    result.name === taskName ? setVisible(false) : setVisibleErrorModal(true);
+
+    if (result.name === taskName) {
+      setVisible(false);
+      setNavigate('/tasks');
+    } else {
+      setVisibleErrorModal(true);
+    }
   };
 
   return (

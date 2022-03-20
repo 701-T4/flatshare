@@ -1,5 +1,5 @@
 import { getAuth } from 'firebase/auth';
-import React, { useCallback } from 'react';
+import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Page from '../../components/common/layout/Page';
 import UnderlinedText from '../../components/dashboard/GradientUnderlinedText';
@@ -88,9 +88,7 @@ const TaskPage: React.FC<TaskPageProps> = () => {
               isComplete: true,
             },
           });
-          console.log('start mutate');
           await mutate();
-          console.log('run mutate');
         }}
       />
     </div>
@@ -100,7 +98,6 @@ const TaskPage: React.FC<TaskPageProps> = () => {
 
   // Hook for the Join Button Modal to be configured
   const openModalHandler = () => {
-    console.log('open create modal clicked');
     setVisibleCreateModal(true);
   };
 
@@ -130,6 +127,7 @@ const TaskPage: React.FC<TaskPageProps> = () => {
       <CreateTaskModal
         visible={visibleCreateModal}
         setVisible={setVisibleCreateModal}
+        refetchFromApi={mutate}
       />
     </Page>
   );

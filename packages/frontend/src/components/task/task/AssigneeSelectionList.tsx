@@ -18,7 +18,6 @@ const AssigneeSelectionList: React.FC<AssigneeSelectionListProps> = ({
         color="success"
         value={checkBoxValues}
         onChange={(event) => {
-          console.log(event);
           setCheckBoxValues(event);
         }}
       >

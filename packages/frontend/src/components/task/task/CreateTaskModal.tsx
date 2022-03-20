@@ -16,6 +16,7 @@ import { useHouse } from '../../../hooks/useHouse';
 interface CreateTaskModalProps {
   visible: boolean;
   setVisible(value: boolean): void;
+  refetchFromApi: () => void;
 }
 
 interface CreatTaskState {
@@ -39,6 +40,7 @@ const initialValue: CreatTaskState = {
 const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
   visible,
   setVisible,
+  refetchFromApi,
 }) => {
   const [newTask, setNewTask] = useState(initialValue);
   const [checkBoxValues, setCheckBoxValues] = useState<string[]>([]);
@@ -63,9 +65,12 @@ const CreateTaskModal: React.FC<CreateTaskModalProps> = ({
         ...newTask,
       },
     });
-    result.name === newTask.name
-      ? setVisible(false)
-      : setVisibleErrorModal(true);
+    if (result.name === newTask.name) {
+      refetchFromApi();
+      setVisible(false);
+    } else {
+      setVisibleErrorModal(true);
+    }
   };
 
   return (

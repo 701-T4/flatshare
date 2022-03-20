@@ -46,15 +46,10 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
   return (
     <Page>
       <div className="flex flex-col h-max ">
-        <div
-          className="mb-8 "
-          onClick={() => {
-            setNavigate('/tasks');
-          }}
-        >
+        <div className="mb-8 ">
           <ReturnButton
             onClick={() => {
-              console.log('return clicked');
+              setNavigate('/tasks');
             }}
           />
         </div>
