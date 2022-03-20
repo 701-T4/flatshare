@@ -50,7 +50,7 @@ export class BillController {
   @ApiBadRequestResponse({ description: 'User is not in a house' })
   async getBills(@User() user: DecodedIdToken): Promise<BillsResponseDto> {
     const houseID = (await this.userStoreService.findOneByFirebaseId(user.uid))
-      .house;
+      ?.house;
 
     if (!houseID) {
       throw new HttpException('user is not in a house', HttpStatus.BAD_REQUEST);
