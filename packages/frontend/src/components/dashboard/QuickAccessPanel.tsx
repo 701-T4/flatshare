@@ -9,9 +9,10 @@ import { useNavigate } from 'react-router';
 interface QuickAccessPanelProps {}
 
 const QuickAccessPanel: React.FC<QuickAccessPanelProps> = () => {
-  const setNavigate = useNavigate();
+  const navigate = useNavigate();
+
   return (
-    <div className="md:grid md:grid-cols-2 md:grid-rows-2 flex flex-col gap-4">
+    <div className="flex flex-col gap-4 md:grid md:grid-cols-2 md:grid-rows-2">
       <TopAction
         // https://unsplash.com/photos/PCDlE94JjcI
         img={house}
@@ -19,6 +20,7 @@ const QuickAccessPanel: React.FC<QuickAccessPanelProps> = () => {
         twGradientStart="from-emerald-400"
         twGradientEnd="to-green-800"
         twOpacity="opacity-80"
+        onClick={() => navigate('/bills')}
         description="Split bills with your flatmates."
       />
       <TopAction
@@ -28,7 +30,7 @@ const QuickAccessPanel: React.FC<QuickAccessPanelProps> = () => {
         twGradientStart="from-blue-700"
         twGradientEnd="to-green-800"
         twOpacity="opacity-80"
-        onClick={() => setNavigate('/tasks')}
+        onClick={() => navigate('/tasks')}
         description="Decide who should do what chores."
       />
       <TopAction

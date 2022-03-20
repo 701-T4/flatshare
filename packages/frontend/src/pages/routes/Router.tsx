@@ -21,7 +21,11 @@ const Router: React.FC<RouterProps> = () => {
   return (
     <>
       {displayLoading ? createPortal(<LoaderPage />, document.body) : <></>}{' '}
-      {signedIn ? <AuthenticatedRoutes /> : <UnauthenticatedRoutes />}
+      {!authLoaded ? null : signedIn ? (
+        <AuthenticatedRoutes />
+      ) : (
+        <UnauthenticatedRoutes />
+      )}
     </>
   );
 };

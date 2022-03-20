@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import { Test, TestingModule } from '@nestjs/testing';
 import { House } from '../../db/house/house.schema';
 import { User } from '../../db/user/user.schema';
