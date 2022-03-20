@@ -121,9 +121,11 @@ export class TasksController {
 
       const updatedTasksDto: TaskResponseDto[] = updatedTasksForHouse.map(
         (task) => {
-          const { name, description, dueDate, interval, assigned, pool } = task;
+          const { id, name, description, dueDate, interval, assigned, pool } =
+            task;
 
           return {
+            id,
             name,
             description,
             dueDate,

@@ -9,6 +9,7 @@ import ReturnButton from '../../components/task/task/ReturnButton';
 import { useApiMutation } from '../../hooks/useApi';
 import { useAuth } from '../../hooks/useAuth';
 import { useHouse } from '../../hooks/useHouse';
+import { useTask } from '../../hooks/useTask';
 import cleaning from '../../res/dashboard/cleaning.webp';
 
 interface TaskDetailPageProps {}
@@ -32,6 +33,9 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
   const house = useHouse();
   const { user } = useAuth();
   let enabled = house.owner === user?.uid;
+
+  const tasks = useTask();
+  console.log(tasks);
 
   const deleteTask = useApiMutation('/api/v1/house/tasks/{id}', {
     method: 'delete',
