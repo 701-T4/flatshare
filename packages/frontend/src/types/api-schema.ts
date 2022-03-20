@@ -33,6 +33,7 @@ export interface paths {
     post: operations['BillController_createBill'];
   };
   '/api/v1/house/bills/{id}': {
+    get: operations['BillController_getBill'];
     put: operations['BillController_updateBill'];
     delete: operations['BillController_deleteBill'];
   };
@@ -350,6 +351,23 @@ export interface operations {
       content: {
         'application/json': components['schemas']['CreateBillDto'];
       };
+    };
+  };
+  BillController_getBill: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** Bills retrieved successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['BillResponseDto'];
+        };
+      };
+      /** Not the bill owner */
+      403: unknown;
     };
   };
   BillController_updateBill: {

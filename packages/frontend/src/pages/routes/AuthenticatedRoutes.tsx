@@ -17,6 +17,10 @@ const AuthenticatedRoutes: React.FC<AuthenticatedRoutesProps> = () => {
   useLocalStorageJoinCode();
   useFullLoader(() => !!dataLoading);
 
+  if (dataLoading) {
+    return null;
+  }
+
   if (!name) {
     return (
       <Routes>
@@ -30,8 +34,8 @@ const AuthenticatedRoutes: React.FC<AuthenticatedRoutesProps> = () => {
     <Routes>
       <Route path="dashboard" element={<DashboardPage />} />
       <Route path="bills">
-        <Route index element={<BillSplittingPage />}></Route>
-        <Route path="detail" element={<BillDetailPage />} />
+        <Route index element={<BillSplittingPage />} />
+        <Route path=":id" element={<BillDetailPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>

@@ -1,29 +1,37 @@
-import { getAuth } from 'firebase/auth';
-import React, { useState } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import { getStorage, ref, uploadBytes } from 'firebase/storage';
-import cx from 'classnames';
+import { PencilIcon, TrashIcon } from '@heroicons/react/outline';
 import { Button, Spacer } from '@nextui-org/react';
+import cx from 'classnames';
+import { getAuth } from 'firebase/auth';
+import { getStorage, ref, uploadBytes } from 'firebase/storage';
+import React, { useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import { TrashIcon, PencilIcon } from '@heroicons/react/outline';
-import { components } from '../../types/api-schema';
-import { useApiMutation } from '../../hooks/useApi';
-import { useHouse } from '../../hooks/useHouse';
 import EditBillCard from '../../components/bill/EditBillCard';
+import Page from '../../components/common/layout/Page';
+import { useApi, useApiMutation } from '../../hooks/useApi';
+import useFullLoader from '../../hooks/useFullLoader';
+import { useHouse } from '../../hooks/useHouse';
+import { components } from '../../types/api-schema';
+
 interface BillDetailPageProps {}
-interface StateWrapper {
-  bill: components['schemas']['BillResponseDto'];
-}
+
 const BillDetailPage: React.FC<BillDetailPageProps> = () => {
-  const location = useLocation();
-  const stateWrapper = location.state as StateWrapper;
-  const bill = stateWrapper.bill;
+  const { id } = useParams();
+
+  // const bill = stateWrapper.bill;
   const [isEdit, setIsEdit] = useState(false);
   const [image, setImage] = useState<File | null | undefined>(undefined);
   const navigate = useNavigate();
   const auth = getAuth();
-  const userId = auth.currentUser?.uid;
-  const paid = bill.users.find((u) => u.id === userId)?.paid;
+
+  const {
+    data: bill,
+    loading: billLoading,
+    mutate: billMutate,
+  } = useApi('/api/v1/house/bills/{id}', {
+    method: 'get',
+    pathParams: { id: id ?? '' },
+  });
 
   // mark pay with and without proof
   const markPayBill = useApiMutation('/api/v1/house/bills/{id}/payment', {
@@ -40,6 +48,15 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
     method: 'put',
   });
 
+  useFullLoader(() => billLoading);
+
+  if (billLoading || !bill) {
+    return null;
+  }
+
+  const userId = auth.currentUser?.uid;
+  const paid = bill.users.find((u) => u.id === userId)?.paid;
+
   const isOwner = userId === bill?.owner;
 
   // upload to firebase
@@ -48,9 +65,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
     const storage = getStorage();
     const fileName = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
     const storageRef = ref(storage, fileName);
-    uploadBytes(storageRef, image!).then((snapshot) => {
-      console.log(snapshot.ref.name);
-      console.log(snapshot.ref.name);
+    uploadBytes(storageRef, image!, {}).then((snapshot) => {
       uploadProof(fileName);
     });
   };
@@ -59,7 +74,8 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
     if (paid) {
       return;
     }
-    markPayBill({
+
+    await markPayBill({
       pathParams: {
         id: bill.id,
       },
@@ -68,6 +84,8 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
         proof: undefined,
       },
     });
+
+    billMutate();
   };
 
   const uploadProof = (proof: string) => {
@@ -95,7 +113,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
   };
 
   return (
-    <>
+    <Page>
       {isEdit ? (
         <div className="pt-10 px-10 md:px-20">
           <EditBillCard
@@ -165,7 +183,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                     </div>
                     <div className="flex flex-col">
                       {bill.users.map((u) => (
-                        <UserRow u={u} userId={userId} />
+                        <UserRow key={u.id} u={u} userId={userId} />
                       ))}
                     </div>
                   </div>
@@ -202,7 +220,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
           </div>
         </div>
       )}
-    </>
+    </Page>
   );
 };
 
