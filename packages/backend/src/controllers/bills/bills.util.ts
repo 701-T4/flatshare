@@ -12,7 +12,7 @@ export class BillUtil {
     const users = await Promise.all(
       billDocument.users.map(async (u) => {
         return {
-          id: (await userStoreService.findOne(u.id)).firebaseId,
+          id: (await userStoreService.findOne(u.id))?.firebaseId,
           amount: u.amount,
           paid: u.paid,
           proof: u.proof,
@@ -20,6 +20,7 @@ export class BillUtil {
       }),
     );
     return {
+      id: billDocument._id,
       name: billDocument.name,
       description: billDocument.description,
       owner: (await userStoreService.findOne(billDocument.owner)).firebaseId,
