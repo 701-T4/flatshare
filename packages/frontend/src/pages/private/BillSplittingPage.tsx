@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import Page from '../../components/common/layout/Page';
 import UpcomingTask from '../../components/dashboard/upcoming-tasks/UpcomingTask';
 import UnderlinedText from '../../components/dashboard/GradientUnderlinedText';
@@ -50,6 +50,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
   const optimisticallyRefetchBills = useCallback(
     (newBill) => {
       const newData = { ...data! };
+      newBill.loading = true;
       newData.bills.push(newBill);
       mutate(newData);
     },
@@ -110,7 +111,12 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
         >
           New Bill
         </Button>
-        {newBill && <NewBillCard refetchBills={optimisticallyRefetchBills} />}
+        {newBill && (
+          <NewBillCard
+            refetchOptimisticBills={optimisticallyRefetchBills}
+            refetchFromApi={mutate}
+          />
+        )}
         <div className="flex flex-col gap-4">
           <UnderlinedText colorClasses="bg-gray-800">
             <div className="text-lg font-semibold">Upcoming Bills</div>
@@ -150,6 +156,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
                 completed={paid}
                 overdue={overDue}
                 twColor={UpcomingTask.Variation.red}
+                disabled={(bill as any).loading}
                 type="Bill"
                 onDetailClick={() =>
                   navigate(`/bills/${bill.id}`, { state: { bill: bill } })

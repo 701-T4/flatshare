@@ -6,7 +6,8 @@ import { useApiMutation } from '../../hooks/useApi';
 import { useHouse } from '../../hooks/useHouse';
 
 interface NewBillCardProps {
-  refetchBills: (bill: any) => void;
+  refetchOptimisticBills: (bill: any) => void;
+  refetchFromApi: () => void;
 }
 
 interface IHash {
@@ -20,13 +21,16 @@ interface Bill {
   totalCost: number;
 }
 
-const NewBillCard: React.FC<NewBillCardProps> = ({ refetchBills }) => {
+const NewBillCard: React.FC<NewBillCardProps> = ({
+  refetchOptimisticBills,
+  refetchFromApi,
+}) => {
   const [unixTime, setUnixTime] = useState(0);
   const [flatmateNum, setFlatmateNum] = useState(6);
   const { users } = useHouse();
   const [costHash, setCostHash] = useState<IHash>({});
   const [billInfo, setBillInfo] = useState<Bill>({
-    title: ' ',
+    title: '',
     detail: '',
     dueDate: new Date(),
     totalCost: 0,
@@ -95,8 +99,9 @@ const NewBillCard: React.FC<NewBillCardProps> = ({ refetchBills }) => {
       body: bill,
     };
 
-    refetchBills(bill);
+    refetchOptimisticBills(bill);
     await createBill(billBody);
+    refetchFromApi();
   };
 
   return (
@@ -139,7 +144,7 @@ const NewBillCard: React.FC<NewBillCardProps> = ({ refetchBills }) => {
                 rounded
                 className="w-auto h-10 mt-1 mb-1 text-base"
                 onClick={handleDoneButton}
-                disabled={Math.abs(billInfo.totalCost) - splitSum! > 0.01}
+                disabled={Math.abs(billInfo.totalCost - splitSum!) > 0.01}
               >
                 Done
               </Button>

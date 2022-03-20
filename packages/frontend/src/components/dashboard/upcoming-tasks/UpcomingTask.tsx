@@ -21,6 +21,7 @@ interface UpcomingTaskProps {
   past?: boolean;
   onCompleteClick?: () => void;
   onDetailClick?: () => void;
+  disabled?: boolean;
 }
 
 const UpcomingTask: React.FC<UpcomingTaskProps> & {
@@ -35,9 +36,11 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
   past,
   onCompleteClick,
   onDetailClick,
+  disabled,
 }) => {
   const clickWrapper = () => {
-    if (completed) {
+    if (disabled) {
+      return;
     }
     onCompleteClick?.();
   };
@@ -49,6 +52,7 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
           className={cx(
             twColor,
             'text-left rounded-t-xl px-4 py-1 text-white font-semibold text-lg',
+            { [Variation.gray]: disabled },
           )}
         >
           <div className="flex flex-row justify-between">
@@ -57,6 +61,7 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
               <button
                 className="flex items-center justify-center w-16 text-sm font-semibold text-white rounded-md hover:bg-red-500"
                 onClick={onDetailClick}
+                disabled={disabled}
               >
                 Detail
                 <ChevronDoubleRightIcon className="w-4" />
@@ -81,10 +86,11 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
             </div>
             <button
               className={cx(
-                'text-white flex justify-center items-center transition-all bg-teal-500 hover:bg-teal-400 rounded-full px-4 py-2 font-medium h-fit',
+                'text-white flex justify-center items-center transition-all bg-teal-500 hover:bg-teal-400 rounded-full px-4 py-2 font-medium h-fit disabled:bg-gray-500',
                 { 'w-16': completed, 'w-32': !completed },
               )}
               onClick={clickWrapper}
+              disabled={disabled}
             >
               {completed ? <CheckCircleIcon className="w-6" /> : <>Complete</>}
             </button>

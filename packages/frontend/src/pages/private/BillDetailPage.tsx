@@ -1,4 +1,5 @@
 import {
+  CheckCircleIcon,
   CloudUploadIcon,
   PencilIcon,
   TrashIcon,
@@ -170,7 +171,14 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                 <div className="flex flex-row items-center">
                   {/* <Switch className="mr-5"></Switch> */}
                   <Button auto onClick={() => completeBill()}>
-                    {paid ? 'paid' : 'Complete'}
+                    {paid ? (
+                      <div className="flex">
+                        <CheckCircleIcon className="w-8 p-1" />
+                        Paid
+                      </div>
+                    ) : (
+                      'Complete'
+                    )}
                   </Button>
                   {isOwner ? (
                     <Button
