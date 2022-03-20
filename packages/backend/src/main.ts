@@ -7,7 +7,10 @@ import configureEnvironmentFiles from './scripts/configure-env';
 
 async function bootstrap() {
   // Verifying the configuration of environment files
-  configureEnvironmentFiles(process.env.NODE_ENV);
+  const isValidated = configureEnvironmentFiles(process.env.NODE_ENV);
+  if (!isValidated) {
+    return;
+  }
 
   const app = await NestFactory.create(AppModule, { cors: true });
 
