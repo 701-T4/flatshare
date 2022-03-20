@@ -38,25 +38,32 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
         >
           {type}
         </div>
-        <div className="rounded-b-xl px-4 lg:px-8 py-4 flex flex-col gap-y-1 bg-gray-800 h-full">
-          <div className="flex justify-between items-center">
+        <div className="flex flex-col h-full px-4 py-4 bg-gray-800 rounded-b-xl lg:px-8 gap-y-1">
+          <div className="flex items-center justify-between">
             <div>
-              <div className="font-bold text-base md:text-xl text-teal-500">
+              <div className="text-base font-bold text-teal-500 md:text-xl">
                 {title}
               </div>
-              <div className="font-medium text-xs md:text-sm text-white">
+              <div className="text-xs font-medium text-white md:text-sm">
                 {dueString}
               </div>
             </div>
-            <button
-              className={cx(
-                'text-white flex justify-center items-center transition-all bg-teal-500 hover:bg-teal-400 rounded-full px-4 py-2 font-medium h-fit',
-                { 'w-16': completed, 'w-32': !completed },
-              )}
-              onClick={clickWrapper}
-            >
-              {completed ? <CheckCircleIcon className="w-6" /> : <>Complete</>}
-            </button>
+            {/* prevent event bubbling for complete operation */}
+            <div onClick={(e) => e.stopPropagation()}>
+              <button
+                className={cx(
+                  'text-white flex justify-center items-center transition-all bg-teal-500 hover:bg-teal-400 rounded-full px-4 py-2 font-medium h-fit',
+                  { 'w-16': completed, 'w-32': !completed },
+                )}
+                onClick={clickWrapper}
+              >
+                {completed ? (
+                  <CheckCircleIcon className="w-6" />
+                ) : (
+                  <>Complete</>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>

@@ -50,23 +50,20 @@ const TaskPage: React.FC<TaskPageProps> = () => {
   });
 
   const getTaskCard = (task: Task, color: string, key: string) => (
-    <div onClick={() => setNavigate('/tasks/1')}>
-      {/* prevent event bubbling for complete operation*/}
-      <div onClick={(e) => e.stopPropagation()}>
-        <UpcomingTask
-          key={key}
-          title={task.name}
-          dueString={task.dueDate}
-          twColor={color}
-          type="Task"
-          completed={task.isComplete}
-          // todo update task status when done
-          onCompleteClick={() => {
-            console.log(task);
-            console.log('completed this task');
-          }}
-        />
-      </div>
+    <div className="cursor-pointer" onClick={() => setNavigate('/tasks/1')}>
+      <UpcomingTask
+        key={key}
+        title={task.name}
+        dueString={task.dueDate}
+        twColor={color}
+        type="Task"
+        completed={task.isComplete}
+        // todo update task status when done
+        onCompleteClick={() => {
+          console.log(task);
+          console.log('completed this task');
+        }}
+      />
     </div>
   );
 
