@@ -92,23 +92,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
   return (
     <Page>
       <div className="flex flex-col gap-4">
-        <Collapse
-          arrowIcon=" "
-          disabled
-          className="border-0"
-          expanded={newBill}
-          title={
-            <Button
-              aria-label="New bill"
-              className="w-16 my-3 bg-teal-500"
-              onClick={() => setNewBill(!newBill)}
-            >
-              New Bill
-            </Button>
-          }
-        >
-          <NewBillCard />
-        </Collapse>
+        <NewBillCard />
         <div className="flex flex-col gap-4">
           <UnderlinedText colorClasses="bg-gray-800">
             <div className="text-lg font-semibold">Upcoming Bills</div>
@@ -181,6 +165,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
               <div className="flex flex-col gap-4 mt-4 md:grid md:grid-cols-2">
                 {pastBill.map((bill, index) => (
                   <UpcomingTask
+                    key={index}
                     title={bill.name}
                     dueString="Done"
                     twColor={UpcomingTask.Variation.gray}
