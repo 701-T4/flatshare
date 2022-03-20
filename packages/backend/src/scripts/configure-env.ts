@@ -1,5 +1,5 @@
-import * as fs from 'fs';
 import * as dotenv from 'dotenv';
+import * as fs from 'fs';
 
 const PATH_DEV = './.env.development';
 const PATH_PROD = './.env.production';
@@ -17,7 +17,7 @@ function validateEnvironmentFile(filePath) {
     return validateKeys(filePath);
   } catch (error) {
     console.error(
-      `An unexpected error ${error} is encountered \n'${filePath}' file does not exist, creating from '${filePath}.template '`,
+      `'${filePath}' file does not exist, creating from '${filePath}.template '`,
     );
 
     // copy the data from template file and paste to wanted files
@@ -25,10 +25,7 @@ function validateEnvironmentFile(filePath) {
 
     fs.writeFileSync(filePath, data);
 
-    console.log(
-      `'${filePath}' file created successfully \n Please start it again.`,
-    );
-    return false;
+    return validateKeys(filePath);
   }
 }
 
@@ -50,19 +47,19 @@ function validateKeys(filePath) {
   const environmentConfig = Buffer.from(data);
   const templateConfig = Buffer.from(dataTemplate);
 
-  const environmentObject = dotenv.parse(environmentConfig);
+  const environmentFileObject = dotenv.parse(environmentConfig);
+  const environmentObject = process.env;
   const templateObject = dotenv.parse(templateConfig);
 
-  const environmentKeys = Object.keys(environmentObject);
+  const environmentKeys = [
+    ...Object.keys(environmentObject),
+    ...Object.keys(environmentFileObject),
+  ];
   const templateKeys = Object.keys(templateObject);
 
-  console.log(
-    `Key comparsions result - environment : [${environmentKeys}] template : [${templateKeys}]`,
-  );
-
   // Checks the current environment contains all the required keys from the template
-  const isValidated = environmentKeys.every((key) =>
-    templateKeys.includes(key),
+  const isValidated = templateKeys.every((key) =>
+    environmentKeys.includes(key),
   );
 
   if (!isValidated) {
@@ -81,11 +78,9 @@ function validateKeys(filePath) {
  * Verfiy the current environment files for development and production
  */
 function configureEnvironmentFiles(nodeEnvironment: string): boolean {
-  const isEnvironmentValidated =
-    nodeEnvironment === 'development'
-      ? validateEnvironmentFile(PATH_DEV)
-      : validateEnvironmentFile(PATH_PROD);
-  return isEnvironmentValidated;
+  return nodeEnvironment === 'development'
+    ? validateEnvironmentFile(PATH_DEV)
+    : validateEnvironmentFile(PATH_PROD);
 }
 
 export default configureEnvironmentFiles;

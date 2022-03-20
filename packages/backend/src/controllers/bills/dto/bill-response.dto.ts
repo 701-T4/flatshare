@@ -1,6 +1,10 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { BillUser } from './create-bill.dto';
 
 export class BillResponseDto {
+  @ApiProperty()
+  id: string;
+
   @ApiProperty()
   name: string;
 
@@ -13,7 +17,7 @@ export class BillResponseDto {
   @ApiProperty()
   due: number;
 
-  @ApiProperty()
+  @ApiProperty({ type: [BillUser] })
   users: {
     id: string;
     amount: number;
@@ -23,6 +27,8 @@ export class BillResponseDto {
 }
 
 export class BillsResponseDto {
-  @ApiProperty()
+  @ApiProperty({
+    type: [BillResponseDto],
+  })
   bills: BillResponseDto[];
 }

@@ -59,7 +59,7 @@ describe('NoteStoreService', () => {
   it('should return all notes', async () => {
     jest.spyOn(model, 'find').mockReturnValue({
       exec: jest.fn().mockResolvedValueOnce(notesArray),
-    } as any);
+    } as never);
     const notes = await service.findAll();
     expect(notes).toEqual(notesArray);
   });
