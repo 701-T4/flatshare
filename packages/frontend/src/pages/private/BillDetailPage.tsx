@@ -1,4 +1,8 @@
-import { PencilIcon, TrashIcon } from '@heroicons/react/outline';
+import {
+  CloudUploadIcon,
+  PencilIcon,
+  TrashIcon,
+} from '@heroicons/react/outline';
 import { Button, Spacer } from '@nextui-org/react';
 import cx from 'classnames';
 import { getAuth } from 'firebase/auth';
@@ -13,6 +17,7 @@ import useFullLoader from '../../hooks/useFullLoader';
 import { useHouse } from '../../hooks/useHouse';
 import { components } from '../../types/api-schema';
 import { ExternalLinkIcon } from '@heroicons/react/outline';
+import { useAlert } from '../../components/common/util/CornerAlert';
 
 const getFirebaseUrl = (proofFileId: string) =>
   'https://firebasestorage.googleapis.com/v0/b/flat-split.appspot.com/o/' +
@@ -29,6 +34,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
   const [image, setImage] = useState<File | null | undefined>(undefined);
   const navigate = useNavigate();
   const auth = getAuth();
+  const { createAlert, resetAlert } = useAlert();
 
   const {
     data: bill,
@@ -71,11 +77,19 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
     const storage = getStorage();
     const fileName = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
     const storageRef = ref(storage, fileName);
-    uploadBytes(storageRef, image!, {}).then((snapshot) => {
-      uploadProof(fileName);
+
+    createAlert({
+      icon: <CloudUploadIcon />,
+      message: 'Your proof is being uploaded!',
+      mode: 'info',
+    });
+
+    uploadBytes(storageRef, image!, {}).then(async (snapshot) => {
       const optimistic = { ...bill };
       bill.users.find((u) => u.id === userId)!.proof = getFirebaseUrl(fileName);
       billMutate(optimistic);
+      await uploadProof(fileName);
+      resetAlert();
     });
   };
 
@@ -99,8 +113,8 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
     });
   };
 
-  const uploadProof = (proof: string) => {
-    markPayBill({
+  const uploadProof = async (proof: string) => {
+    await markPayBill({
       pathParams: {
         id: bill.id,
       },
