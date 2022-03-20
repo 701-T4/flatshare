@@ -2,6 +2,7 @@ import React from 'react';
 import cx from 'classnames';
 import { CheckCircleIcon } from '@heroicons/react/outline';
 import { Switch } from '@nextui-org/react';
+import { ChevronDoubleRightIcon } from '@heroicons/react/outline';
 
 const Variation = {
   red: 'bg-gradient-to-r from-red-400 to-red-600',
@@ -16,11 +17,11 @@ interface UpcomingTaskProps {
   twColor?: string;
   dueString?: string;
   overdue?: boolean;
-  paid?: boolean;
   type: 'Task' | 'Bill';
   completed?: boolean;
+  past?: boolean;
   onCompleteClick?: () => void;
-  onToggleSwitch?: () => void;
+  onDetailClick?: () => void;
 }
 
 const UpcomingTask: React.FC<UpcomingTaskProps> & {
@@ -29,12 +30,12 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
   title,
   dueString,
   overdue,
-  paid,
   twColor,
   type,
   completed,
+  past,
   onCompleteClick,
-  onToggleSwitch,
+  onDetailClick,
 }) => {
   const clickWrapper = () => {
     if (completed) {
@@ -53,13 +54,14 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
         >
           <div className="flex flex-row justify-between">
             {type}
-            {type === 'Bill' && !completed && (
-              <Switch
-                checked={paid}
-                className="self-end mb-1 mr-5"
-                size="sm"
-                onChange={onToggleSwitch}
-              />
+            {type === 'Bill' && !past && (
+              <button
+                className="flex items-center justify-center w-16 text-sm font-semibold text-white rounded-md hover:bg-red-500"
+                onClick={onDetailClick}
+              >
+                Detail
+                <ChevronDoubleRightIcon className="w-4" />
+              </button>
             )}
           </div>
         </div>
@@ -85,11 +87,7 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
               )}
               onClick={clickWrapper}
             >
-              {completed ? (
-                <CheckCircleIcon className="w-6" />
-              ) : (
-                <>{type === 'Bill' ? 'Detail' : 'Complete'}</>
-              )}
+              {completed ? <CheckCircleIcon className="w-6" /> : <>Complete</>}
             </button>
           </div>
         </div>

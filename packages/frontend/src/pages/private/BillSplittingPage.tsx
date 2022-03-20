@@ -92,7 +92,14 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
   return (
     <Page>
       <div className="flex flex-col gap-4">
-        <NewBillCard refetchBills={mutate} />
+        <Button
+          aria-label="New bill"
+          className="w-16 my-3 bg-teal-500"
+          onClick={() => setNewBill(!newBill)}
+        >
+          New Bill
+        </Button>
+        {newBill && <NewBillCard refetchBills={mutate} />}
         <div className="flex flex-col gap-4">
           <UnderlinedText colorClasses="bg-gray-800">
             <div className="text-lg font-semibold">Upcoming Bills</div>
@@ -129,15 +136,15 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
                 }, ${dueDate.getDate()} ${month[dueDate.getMonth()]} ${
                   overDue ? 'OVERDUE!!!' : ''
                 }`}
+                completed={paid}
                 overdue={overDue}
-                paid={paid}
                 twColor={UpcomingTask.Variation.red}
                 type="Bill"
-                onCompleteClick={() =>
+                onDetailClick={() =>
                   navigate(`/bills/${bill.id}`, { state: { bill: bill } })
                 }
-                onToggleSwitch={async () => {
-                  const response = markPayBill({
+                onCompleteClick={async () => {
+                  markPayBill({
                     pathParams: {
                       id: bill.id,
                     },
@@ -146,7 +153,6 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
                       proof: undefined,
                     },
                   });
-                  console.log(response);
                 }}
               />
             );
@@ -171,6 +177,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
                     twColor={UpcomingTask.Variation.gray}
                     type="Bill"
                     completed
+                    past
                   />
                 ))}
               </div>
