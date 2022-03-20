@@ -14,6 +14,11 @@ import { useHouse } from '../../hooks/useHouse';
 import { components } from '../../types/api-schema';
 import { ExternalLinkIcon } from '@heroicons/react/outline';
 
+const getFirebaseUrl = (proofFileId: string) =>
+  'https://firebasestorage.googleapis.com/v0/b/flat-split.appspot.com/o/' +
+  proofFileId +
+  '?alt=media';
+
 interface BillDetailPageProps {}
 
 const BillDetailPage: React.FC<BillDetailPageProps> = () => {
@@ -68,6 +73,9 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
     const storageRef = ref(storage, fileName);
     uploadBytes(storageRef, image!, {}).then((snapshot) => {
       uploadProof(fileName);
+      const optimistic = { ...bill };
+      bill.users.find((u) => u.id === userId)!.proof = getFirebaseUrl(fileName);
+      billMutate(optimistic);
     });
   };
 
@@ -281,10 +289,7 @@ const UserRow: React.FC<UserRowProp> = ({ u, userId }) => {
               <button
                 className="flex flex-row items-center justify-center w-20 ml-1 font-semibold text-white rounded-md hover:bg-gray-500"
                 onClick={() => {
-                  const proofFileLink =
-                    'https://firebasestorage.googleapis.com/v0/b/flat-split.appspot.com/o/' +
-                    proofFileId +
-                    '?alt=media';
+                  const proofFileLink = getFirebaseUrl(proofFileId);
                   window.open(proofFileLink, '_blank');
                 }}
               >
