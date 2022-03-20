@@ -1,16 +1,18 @@
 import { PlusIcon } from '@heroicons/react/outline';
 
-interface CreateNewTaskButton {
+interface CreateNewTaskButtonProps {
   onClick: () => void;
 }
 
-const CreateNewTaskButton: React.FC<CreateNewTaskButton> = ({ onClick }) => {
+const CreateNewTaskButton: React.FC<CreateNewTaskButtonProps> = ({
+  onClick,
+}) => {
   return (
     <div
-      className="items-center gap-x-1 flex -m-1 px-2 py-1 rounded-lg bg-opacity-0 hover:bg-opacity-5 bg-gray-700 cursor-pointer transition-all"
+      className="flex items-center px-2 py-1 -m-1 transition-all bg-gray-700 bg-opacity-0 rounded-lg cursor-pointer gap-x-1 hover:bg-opacity-5"
       onClick={onClick}
     >
-      <span className="text-md font-semibold">Create</span>
+      <span className="font-semibold text-md">Create</span>
       <PlusIcon className="w-6" />
     </div>
   );
