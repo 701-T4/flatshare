@@ -4,7 +4,6 @@ import { useNavigate, useParams } from 'react-router-dom';
 import Page from '../../components/common/layout/Page';
 import DeleteButton from '../../components/task/task/DeleteButton';
 import EditTaskModal from '../../components/task/task/EditTaskModal';
-import ErrorModal from '../../components/task/task/ErrorModal';
 import ReturnButton from '../../components/task/task/ReturnButton';
 import { useApiMutation } from '../../hooks/useApi';
 import { useAuth } from '../../hooks/useAuth';
@@ -20,7 +19,6 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
   const setNavigate = useNavigate();
 
   const [visibleEditModal, setVisibleEditModal] = React.useState(false);
-  const [visibleErrorModal, setVisibleErrorModal] = React.useState(false);
 
   //Enable the delete button if the house owner is the same as the user
   const house = useHouse();
@@ -28,8 +26,6 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
   let enabled = house.owner === user?.uid;
 
   const tasks = useTask();
-  console.log(tasks);
-  console.log(typeof tasks);
   const taskDetail = tasks.tasks?.find((task) => task.id === id);
 
   const deleteTask = useApiMutation('/api/v1/house/tasks/{id}', {
@@ -41,10 +37,8 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
   };
 
   const deleteTaskHandler = async () => {
-    const result = await deleteTask({ pathParams: { id: id } });
-    result.statusCode === 204
-      ? setNavigate('/tasks')
-      : setVisibleErrorModal(true);
+    deleteTask({ pathParams: { id: id } });
+    setNavigate('/tasks');
   };
 
   return (
@@ -104,11 +98,6 @@ const TaskPage: React.FC<TaskDetailPageProps> = () => {
         currentTaskDescription={taskDetail?.description as string}
         currentSelectedPeople={taskDetail?.pool as string[]}
         userId={id}
-      />
-      <ErrorModal
-        visibleErrorModal={visibleErrorModal}
-        setVisibleErrorModal={setVisibleErrorModal}
-        errorMessage="Cannot detele the task."
       />
     </Page>
   );
