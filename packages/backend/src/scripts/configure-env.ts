@@ -51,15 +51,16 @@ function validateKeys(filePath) {
   const environmentObject = process.env;
   const templateObject = dotenv.parse(templateConfig);
 
-  const environmentKeys = {
-    ...environmentObject,
+  const environmentKeys = [
+    ...Object.keys(environmentObject),
     ...Object.keys(environmentFileObject),
-  };
+  ];
   const templateKeys = Object.keys(templateObject);
+  console.debug(`${environmentKeys}, ${templateKeys}`);
 
   // Checks the current environment contains all the required keys from the template
-  const isValidated = environmentKeys.every((key) =>
-    templateKeys.includes(key),
+  const isValidated = templateKeys.every((key) =>
+    environmentKeys.includes(key),
   );
 
   if (!isValidated) {
