@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useCallback, useMemo, useState } from 'react';
 import Page from '../../components/common/layout/Page';
 import UpcomingTask from '../../components/dashboard/upcoming-tasks/UpcomingTask';
 import UnderlinedText from '../../components/dashboard/GradientUnderlinedText';
@@ -47,6 +47,15 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
   const markPayBill = useApiMutation('/api/v1/house/bills/{id}/payment', {
     method: 'put',
   });
+
+  const optimisticallyRefetchBills = useCallback(
+    (newBill) => {
+      const newData = { ...data! };
+      newData.bills.push(newBill);
+      mutate(newData);
+    },
+    [data, mutate],
+  );
 
   /**
    * A example of a bill JSON return from a server request
@@ -102,7 +111,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
         >
           New Bill
         </Button>
-        {newBill && <NewBillCard refetchBills={mutate} />}
+        {newBill && <NewBillCard refetchBills={optimisticallyRefetchBills} />}
         <div className="flex flex-col gap-4">
           <UnderlinedText colorClasses="bg-gray-800">
             <div className="text-lg font-semibold">Upcoming Bills</div>

@@ -1,23 +1,23 @@
 import { Button, Textarea } from '@nextui-org/react';
 import DatePicker from 'react-datepicker';
 import 'react-datepicker/dist/react-datepicker.css';
-import React, { useEffect, useMemo, useReducer, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { useApiMutation } from '../../hooks/useApi';
 import { useHouse } from '../../hooks/useHouse';
 
 interface NewBillCardProps {
-  refetchBills: () => void;
+  refetchBills: (bill: any) => void;
 }
 
 interface IHash {
-  [name: string]: string;
+  [name: string]: number;
 }
 
 interface Bill {
   title: string;
   detail: string;
   dueDate: Date;
-  totalCost: string;
+  totalCost: number;
 }
 
 const NewBillCard: React.FC<NewBillCardProps> = ({ refetchBills }) => {
@@ -29,20 +29,18 @@ const NewBillCard: React.FC<NewBillCardProps> = ({ refetchBills }) => {
     title: ' ',
     detail: '',
     dueDate: new Date(),
-    totalCost: '0',
+    totalCost: 0,
   });
 
   const createBill = useApiMutation('/api/v1/house/bills', {
     method: 'post',
   });
 
-  let idHash: IHash = {};
-
   useEffect(() => {
     users?.forEach((user) => {
-      setCostHash((prev) => ({ ...prev, [user.name]: '0' }));
+      setCostHash((prev) => ({ ...prev, [user.name]: 0 }));
     });
-  }, []);
+  }, [users]);
 
   useEffect(() => {
     setUnixTime(billInfo.dueDate.getTime());
@@ -50,23 +48,22 @@ const NewBillCard: React.FC<NewBillCardProps> = ({ refetchBills }) => {
   }, [billInfo, flatmateNum, users?.length]);
 
   const splitSum = useMemo(
-    () =>
-      users?.reduce(
-        (prev, current) => Number(costHash[current.name]) + prev,
-        0,
-      ),
+    () => users?.reduce((prev, current) => costHash[current.name] + prev, 0),
     [costHash, users],
   );
 
   const handleEvenlyButton = (e: React.MouseEvent<HTMLButtonElement>) => {
-    const split = Number(billInfo.totalCost) / flatmateNum + '';
+    const split = billInfo.totalCost / flatmateNum;
     users?.forEach((user) => {
       setCostHash((prev) => ({ ...prev, [user.name]: split }));
     });
   };
 
   const handlePersonalCostChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCostHash((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    setCostHash((prev) => ({
+      ...prev,
+      [e.target.name]: Number(e.target.value),
+    }));
   };
 
   const handleDoneButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -77,7 +74,7 @@ const NewBillCard: React.FC<NewBillCardProps> = ({ refetchBills }) => {
       users: [
         {
           id: users ? users[0].firebaseId : '0',
-          amount: users ? Number(costHash[users[0].name]) : 0,
+          amount: users ? costHash[users[0].name] : 0,
           paid: false,
         },
       ],
@@ -86,7 +83,7 @@ const NewBillCard: React.FC<NewBillCardProps> = ({ refetchBills }) => {
     users?.forEach((user, index) => {
       let newPayment = {
         id: user.firebaseId,
-        amount: Number(costHash[user.name]),
+        amount: costHash[user.name],
         paid: false,
       };
       if (index !== 0) {
@@ -98,8 +95,8 @@ const NewBillCard: React.FC<NewBillCardProps> = ({ refetchBills }) => {
       body: bill,
     };
 
+    refetchBills(bill);
     await createBill(billBody);
-    refetchBills();
   };
 
   return (
@@ -117,7 +114,7 @@ const NewBillCard: React.FC<NewBillCardProps> = ({ refetchBills }) => {
                 onChange={(e) =>
                   setBillInfo((prev) => ({
                     ...prev,
-                    totalCost: e.target.value,
+                    totalCost: Number(e.target.value),
                   }))
                 }
               />
@@ -142,9 +139,7 @@ const NewBillCard: React.FC<NewBillCardProps> = ({ refetchBills }) => {
                 rounded
                 className="w-auto h-10 mt-1 mb-1 text-base"
                 onClick={handleDoneButton}
-                disabled={
-                  Math.abs(Number(billInfo.totalCost) - splitSum!) > 0.01
-                }
+                disabled={Math.abs(billInfo.totalCost) - splitSum! > 0.01}
               >
                 Done
               </Button>
