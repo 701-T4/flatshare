@@ -21,7 +21,7 @@ import { ExternalLinkIcon } from '@heroicons/react/outline';
 import { useAlert } from '../../components/common/util/CornerAlert';
 
 const getFirebaseUrl = (proofFileId: string) =>
-  'https://firebasestorage.googleapis.com/v0/b/flat-split.appspot.com/o/' +
+  'https://firebasestorage.googleapis.com/v0/b/flatshare-c8e5c.appspot.com/o/' +
   proofFileId +
   '?alt=media';
 
