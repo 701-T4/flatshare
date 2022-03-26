@@ -139,7 +139,7 @@ const IssuesPage: React.FC<IssuesPageProps> = () => {
                 disabled={(bill as any).loading}
                 type="Bill"
                 onDetailClick={() =>
-                  navigate(`/bills/${bill.id}`, { state: { bill: bill } })
+                  navigate(`/issues/${bill.id}`, { state: { bill: bill } })
                 }
                 onCompleteClick={async () => {
                   const optimisticBills = { ...data! };
