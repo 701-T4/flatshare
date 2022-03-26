@@ -11,7 +11,6 @@ import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { v4 as uuidv4 } from 'uuid';
-import EditBillCard from '../../components/bill/EditBillCard';
 import EditIssueCard from '../../components/issue/EditIssueCard';
 import Page from '../../components/common/layout/Page';
 import { useApi, useApiMutation } from '../../hooks/useApi';
