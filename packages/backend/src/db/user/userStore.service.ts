@@ -34,6 +34,11 @@ export class UserStoreService {
     return user._id;
   }
 
+  async getUserIdFromFirebaseId(id: string): Promise<mongoose.Types.ObjectId> {
+    const user = await this.userModel.findOne({ firebaseId: id });
+    return user._id;
+  }
+
   async update(
     firebaseId: string,
     updateUserModel: Partial<UserModel>,
