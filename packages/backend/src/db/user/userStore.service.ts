@@ -29,6 +29,11 @@ export class UserStoreService {
     return this.userModel.findOne({ firebaseId: firebaseId }).exec();
   }
 
+  async getUserIdFromFirebaseId(id: string): Promise<mongoose.Types.ObjectId> {
+    const user = await this.userModel.findOne({ firebaseId: id });
+    return user._id;
+  }
+
   async update(
     id: string,
     updateUserModel: Partial<UserModel>,
@@ -45,7 +50,7 @@ export class UserStoreService {
       .exec();
   }
 
-  async delete(id: string) {
+  async delete(id: string): Promise<UserDocument> {
     return this.userModel.findByIdAndRemove({ _id: id }).exec();
   }
 }
