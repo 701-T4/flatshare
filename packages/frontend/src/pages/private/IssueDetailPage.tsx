@@ -223,39 +223,6 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-row items-center self-end justify-end">
-                  <label
-                    htmlFor="file-upload"
-                    className="flex items-center justify-center px-4 py-2 font-medium text-white transition-all bg-teal-500 rounded-full bold hover:bg-teal-400 h-fit"
-                  >
-                    <input
-                      id="file-upload"
-                      hidden
-                      type={'file'}
-                      onChange={(e) => {
-                        setImage(e.currentTarget.files?.item(0));
-                      }}
-                    ></input>
-                    <span className="max-w-xs overflow-hidden text-right text-clip">
-                      {image ? parseFileName(image.name) : 'Select File'}
-                    </span>
-                  </label>
-                  <Spacer x={1} />
-                  <button
-                    className={cx(
-                      ' flex justify-center items-center transition-all  rounded-full px-4 py-2 font-medium h-fit',
-                      {
-                        'text-white bg-teal-500 hover:bg-teal-400':
-                          !fileNotAttached,
-                        'text-gray-300 bg-gray-500': fileNotAttached,
-                      },
-                    )}
-                    onClick={() => onUpload()}
-                    disabled={fileNotAttached}
-                  >
-                    Upload
-                  </button>
-                </div>
               </div>
             </div>
           </div>
@@ -302,26 +269,6 @@ const UserRow: React.FC<UserRowProp> = ({ u, userId }) => {
     <div key={u.id} className="flex flex-col items-start w-full py-2">
       <div className="text-base font-bold text-white md:text-xl">
         {getUserFromId(u.id)}
-      </div>
-      <div className="flex flex-row items-start justify-between w-full">
-        <div className="flex flex-row text-base font-bold text-white md:text-2xl">
-          {u.paid ? <>Resolved - </> : <>${u.amount}</>}
-          {proofFileId && (
-            <div className="flex flex-row">
-              <button
-                className="flex flex-row items-center justify-center w-20 ml-1 font-semibold text-white rounded-md hover:bg-gray-500"
-                onClick={() => {
-                  const proofFileLink = getFirebaseUrl(proofFileId);
-                  window.open(proofFileLink, '_blank');
-                }}
-              >
-                Proof
-                <ExternalLinkIcon className="w-5 mt-1" />
-              </button>
-            </div>
-          )}
-        </div>
-        {userId === u.id ? <></> : <div className=""></div>}
       </div>
     </div>
   );
