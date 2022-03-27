@@ -5,10 +5,10 @@ export type IssueDocument = Issue & Document;
 
 @Schema()
 export class Issue {
-  @Prop()
+  @Prop({ required: true })
   name: string;
 
-  @Prop()
+  @Prop({ required: true })
   description: string;
 
   @Prop({ type: Types.ObjectId, ref: 'House' })
@@ -17,10 +17,10 @@ export class Issue {
   @Prop({ type: Types.ObjectId, ref: 'User' })
   logger: Types.ObjectId;
 
-  @Prop()
+  @Prop({ type: Date, default: new Date() })
   loggedDate: Date;
 
-  @Prop()
+  @Prop({ default: false })
   resolved: boolean;
 }
 
