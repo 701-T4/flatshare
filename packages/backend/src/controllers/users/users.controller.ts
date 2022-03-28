@@ -55,13 +55,24 @@ export class UsersController {
     if (existingUserDoc) {
       throw new HttpException('user already exists', HttpStatus.CONFLICT);
     }
-    const createdUserDoc = await this.userStoreService.create(createUserDto);
+    const createdUserDoc = await this.userStoreService.create({
+      name: createUserDto.name,
+      firebaseId: createUserDto.firebaseId,
+      rentPercentage: 0,
+      contact: '',
+      dateJoined: null,
+      contractEndingDate: null,
+    });
     const houseDoc = await this.houseStoreService.findOne(createdUserDoc.house);
 
     return {
       name: createdUserDoc.name,
       firebaseId: createdUserDoc.firebaseId,
       house: houseDoc?.code,
+      rentPercentage: createdUserDoc.rentPercentage,
+      contact: createdUserDoc.contact,
+      dateJoined: createdUserDoc.dateJoined,
+      contractEndingDate: createdUserDoc.contractEndingDate,
     };
   }
 
@@ -79,6 +90,10 @@ export class UsersController {
       name: userDoc.name,
       firebaseId: userDoc.firebaseId,
       house: houseDoc?.code,
+      rentPercentage: userDoc.rentPercentage,
+      contact: userDoc.contact,
+      dateJoined: userDoc.dateJoined,
+      contractEndingDate: userDoc.contractEndingDate,
     };
   }
 

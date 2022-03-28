@@ -45,7 +45,7 @@ export class UserStoreService {
       .exec();
   }
 
-  async delete(id: string) {
+  async delete(id: string): Promise<UserDocument> {
     return this.userModel.findByIdAndRemove({ _id: id }).exec();
   }
 }
