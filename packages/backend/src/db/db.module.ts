@@ -10,6 +10,8 @@ import { NoteStoreService } from './note/noteStore.service';
 import { Note, NoteSchema } from './note/note.schema';
 import { BillStoreService } from './bill/billStore.service';
 import { Bill, BillSchema } from './bill/bill.schema';
+import { Issue, IssueSchema } from './issue/issue.schema';
+import { IssueStoreService } from './issue/issueStore.service';
 
 @Module({
   imports: [
@@ -18,6 +20,7 @@ import { Bill, BillSchema } from './bill/bill.schema';
     MongooseModule.forFeature([{ name: Task.name, schema: TaskSchema }]),
     MongooseModule.forFeature([{ name: Bill.name, schema: BillSchema }]),
     MongooseModule.forFeature([{ name: Note.name, schema: NoteSchema }]),
+    MongooseModule.forFeature([{ name: Issue.name, schema: IssueSchema }]),
   ],
   providers: [
     UserStoreService,
@@ -25,6 +28,7 @@ import { Bill, BillSchema } from './bill/bill.schema';
     BillStoreService,
     NoteStoreService,
     TaskStoreService,
+    IssueStoreService,
   ],
   exports: [
     MongooseModule,
@@ -33,6 +37,7 @@ import { Bill, BillSchema } from './bill/bill.schema';
     TaskStoreService,
     BillStoreService,
     NoteStoreService,
+    IssueStoreService,
   ],
 })
 export class DbModule {}

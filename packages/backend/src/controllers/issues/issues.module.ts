@@ -9,7 +9,7 @@ import { IssueUtil } from './issues.util';
   imports: [DbModule],
   providers: [IssueUtil, FirebaseAuthStrategy],
 })
-export class BillModule {
+export class IssueModule {
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor() {}
 }
