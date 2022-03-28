@@ -1,13 +1,26 @@
 import { Collapse, Text } from '@nextui-org/react';
 import React, { useContext } from 'react';
 import OccupantForm from './OccupantForm';
-import { OccupantCardProps, PanelContext } from './OccupantPanel';
+import { PanelContext } from './OccupantPanel';
+
+export interface OccupantCardProps {
+  name: string;
+  firebaseId: string;
+  contact?: string;
+  percentageOfRent?: number;
+  dateJoined?: Date;
+  contractEndDate?: Date;
+}
 
 const OccupantCard: React.FC<OccupantCardProps> = (props) => {
   const { totalRent } = useContext(PanelContext);
 
   const OccupantSummary: React.FC = () => {
-    const rentToPay = (totalRent * (props.percentageOfRent * 0.01)).toFixed(2);
+    const rentToPay = (
+      totalRent *
+      (props.percentageOfRent || 0) *
+      0.01
+    ).toFixed(2);
     return (
       <>
         <Text color={'secondary'} size={20}>

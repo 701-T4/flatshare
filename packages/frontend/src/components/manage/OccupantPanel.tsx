@@ -1,24 +1,20 @@
 import { Text } from '@nextui-org/react';
 import React from 'react';
-import OccupantCard from './OccupantCard';
+import OccupantCard, { OccupantCardProps } from './OccupantCard';
 
 interface OccupantPanelProps {
   cards: OccupantCardProps[];
-  config: OccupantPanelConfig;
-}
-
-export interface OccupantCardProps {
-  name: string;
-  _id: string;
-  contact: string;
-  percentageOfRent: number;
-  dateJoined: string;
-  contractEndDate: string;
+  ownerView: boolean;
+  totalRent: number;
+  onSaveOccupant: (occupantDetails: OccupantCardProps) => void;
+  onDeleteOccupant: (firebaseId: string) => void;
 }
 
 interface OccupantPanelConfig {
   ownerView: boolean;
   totalRent: number;
+  onSaveOccupant: (occupantDetails: OccupantCardProps) => void;
+  onDeleteOccupant: (firebaseId: string) => void;
 }
 
 export const PanelContext = React.createContext<OccupantPanelConfig>(
@@ -26,8 +22,12 @@ export const PanelContext = React.createContext<OccupantPanelConfig>(
 );
 
 const OccupantPanel: React.FC<OccupantPanelProps> = (props) => {
+  const { cards, ownerView, totalRent, onSaveOccupant, onDeleteOccupant } =
+    props;
   return (
-    <PanelContext.Provider value={props.config}>
+    <PanelContext.Provider
+      value={{ ownerView, totalRent, onSaveOccupant, onDeleteOccupant }}
+    >
       <Text
         size={24}
         weight={'bold'}
@@ -37,7 +37,7 @@ const OccupantPanel: React.FC<OccupantPanelProps> = (props) => {
         Occupants
         <div className="bg-black h-0.5 w-full" />
       </Text>
-      {props.cards.map((card) => (
+      {cards.map((card) => (
         <OccupantCard {...card} />
       ))}
     </PanelContext.Provider>
