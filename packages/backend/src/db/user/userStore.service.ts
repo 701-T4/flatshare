@@ -26,7 +26,7 @@ export class UserStoreService {
   }
 
   async findOneByFirebaseId(firebaseId: string): Promise<UserDocument> {
-    return this.userModel.findOne({ firebaseId: firebaseId }).exec();
+    return this.userModel.findOne({ firebaseId: { $eq: firebaseId } }).exec();
   }
 
   async getUserIdFromFirebaseId(id: string): Promise<mongoose.Types.ObjectId> {
