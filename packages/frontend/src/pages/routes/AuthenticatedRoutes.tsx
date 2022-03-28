@@ -13,6 +13,7 @@ import {
   ExclamationCircleIcon,
   InformationCircleIcon,
 } from '@heroicons/react/outline';
+import ManageFlatPage from '../private/ManageFlatPage';
 
 interface AuthenticatedRoutesProps {}
 
@@ -98,6 +99,9 @@ const AuthenticatedRoutes: React.FC<AuthenticatedRoutesProps> = () => {
       <Route path="bills">
         <Route index element={<BillSplittingPage />} />
         <Route path=":id" element={<BillDetailPage />} />
+      </Route>
+      <Route path="manage">
+        <Route index element={<ManageFlatPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
