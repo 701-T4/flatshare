@@ -1,7 +1,9 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
-import { Types } from 'mongoose';
 
 export class IssueResponseDto {
+  @ApiProperty()
+  id: string;
+
   @ApiProperty()
   name: string;
 
@@ -9,13 +11,10 @@ export class IssueResponseDto {
   description: string;
 
   @ApiProperty()
-  house: Types.ObjectId;
-
-  @ApiProperty()
-  logger: Types.ObjectId;
+  logger: string;
 
   @ApiPropertyOptional()
-  loggedDate: Date;
+  loggedDate: number;
 
   @ApiProperty()
   resolved: boolean;
