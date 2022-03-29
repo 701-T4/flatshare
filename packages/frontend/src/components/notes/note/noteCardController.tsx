@@ -54,34 +54,42 @@ const NoteCardController: React.FC<NoteCardControllerProps> = () => {
         {
           title: 'Orange',
           type: 'Secret',
+          desc: 'I don\'t know what the contents of description is, so I\'m just ramdomly type something.',
         },
         {
           title: 'Hello',
           type: 'Normal',
+          desc: 'I don\'t know what the contents of description is, so I\'m just ramdomly type something.',
         },
         {
           title: 'Hello',
           type: 'Normal',
+          desc: 'I don\'t know what the contents of description is, so I\'m just ramdomly type something.',
         },
         {
           title: 'Hello',
           type: 'Normal',
+          desc: 'I don\'t know what the contents of description is, so I\'m just ramdomly type something.',
         },
         {
           title: 'Hello',
           type: 'Wifi',
+          desc: 'I don\'t know what the contents of description is, so I\'m just ramdomly type something.',
         },
         {
           title: 'Hello',
           type: 'Normal',
+          desc: 'I don\'t know what the contents of description is, so I\'m just ramdomly type something.',
         },
         {
           title: 'Hello',
           type: 'Normal',
+          desc: 'I don\'t know what the contents of description is, so I\'m just ramdomly type something.',
         },
         {
           title: 'Hello',
           type: 'Plain',
+          desc: 'I don\'t know what the contents of description is, so I\'m just ramdomly type something.',
         },
       ],
     };
