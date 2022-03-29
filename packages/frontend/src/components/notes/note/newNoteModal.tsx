@@ -36,12 +36,12 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
       open={createNoteVisible}
       onClose={closeNoteHandler}
     >
-      <Modal.Header>
+      <Modal.Header css={{ cursor: 'auto' }}>
         <Text b size={22}>
           Create a New Note
         </Text>
       </Modal.Header>
-      <Modal.Body>
+      <Modal.Body css={{ cursor: 'auto' }}>
         <Text size={'1.25rem'} margin="1.5%">
           Note Name
         </Text>
@@ -160,7 +160,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
           </Container>
         ) : null}
       </Modal.Body>
-      <Modal.Footer>
+      <Modal.Footer css={{ cursor: 'auto' }}>
         <Button size="md" className="sm: text-lg">
           Create
         </Button>
