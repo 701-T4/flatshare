@@ -7,6 +7,7 @@ import DashboardPage from '../private/DashboardPage';
 import ManageAccountPage from '../private/ManageAccountPage';
 import BillSplittingPage from '../private/BillSplittingPage';
 import BillDetailPage from '../private/BillDetailPage';
+import NotesPage from '../private/NotesPage';
 import { useApiMutation } from '../../hooks/useApi';
 import { useAlert } from '../../components/common/util/CornerAlert';
 import {
@@ -98,6 +99,9 @@ const AuthenticatedRoutes: React.FC<AuthenticatedRoutesProps> = () => {
       <Route path="bills">
         <Route index element={<BillSplittingPage />} />
         <Route path=":id" element={<BillDetailPage />} />
+      </Route>
+      <Route path="notes">
+        <Route index element={<NotesPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
