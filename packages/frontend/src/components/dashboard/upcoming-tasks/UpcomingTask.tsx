@@ -16,7 +16,7 @@ interface UpcomingTaskProps {
   twColor?: string;
   dueString?: string;
   overdue?: boolean;
-  type: 'Task' | 'Bill';
+  type: 'Task' | 'Bill' | 'Issue';
   completed?: boolean;
   past?: boolean;
   onCompleteClick?: () => void;
