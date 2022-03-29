@@ -1,4 +1,4 @@
-import { DocumentAddIcon, EyeIcon, QrcodeIcon } from '@heroicons/react/outline';
+import { EyeIcon, QrcodeIcon } from '@heroicons/react/outline';
 import { WifiIcon } from '@heroicons/react/solid';
 import {
   Avatar,

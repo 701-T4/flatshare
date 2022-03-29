@@ -1,5 +1,5 @@
-import { DocumentAddIcon, EyeIcon, QrcodeIcon } from '@heroicons/react/outline';
-import { LinkIcon, WifiIcon } from '@heroicons/react/solid';
+import { EyeIcon } from '@heroicons/react/outline';
+import { WifiIcon } from '@heroicons/react/solid';
 import {
   Avatar,
   Button,

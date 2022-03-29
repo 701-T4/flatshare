@@ -27,18 +27,13 @@ const NoteCardController: React.FC<NoteCardControllerProps> = () => {
   // change to api call
   const getWifiNote = () => {
     return {
-      username: 'alakazam',
-      password: 'batman',
+      username: 'batman',
+      password: 'alakazam',
       encryption: 'WEP',
       loading: false,
     };
   };
-  const {
-    username: username,
-    loading: loading,
-    password: password,
-    encryption: encryption,
-  } = getWifiNote();
+  const { username, loading, password, encryption } = getWifiNote();
 
   const getPlainandSecretNote = () => {
     return {
@@ -46,7 +41,7 @@ const NoteCardController: React.FC<NoteCardControllerProps> = () => {
       data: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Vestibulum leo tellus, viverra vitae fermentum vitae, mollis laoreet tortor. Donec mattis velit sit amet mauris laoreet porttitor. Vestibulum sem ante, consequat in risus nec, pellentesque gravida lectus. Duis ornare scelerisque risus. Duis blandit pellentesque dolor vel sodales. Proin rutrum, purus ac varius tristique, leo mauris suscipit mauris, nec pellentesque lorem enim eu nunc. Pellentesque fringilla augue non massa cursus, at ultricies arcu porta. Mauris at felis ultrices quam elementum rhoncus. Etiam in risus auctor, tristique felis quis, rutrum odio. Pellentesque nulla nibh, ornare sit amet ultricies eu, convallis eu diam. Phasellus sed pellentesque mi, vel dapibus nulla. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Lorem ipsum dolor sit amet, consectetur adipiscing elit.',
     };
   };
-  const { data: data, loading: loading1 } = getPlainandSecretNote();
+  const { data, loading: loading1 } = getPlainandSecretNote();
 
   const getNotes = () => {
     return {
@@ -54,47 +49,47 @@ const NoteCardController: React.FC<NoteCardControllerProps> = () => {
         {
           title: 'Orange',
           type: 'Secret',
-          desc: 'I don\'t know what the contents of description is, so I\'m just ramdomly type something.',
+          desc: "I don't know what the contents of description is, so I'm just ramdomly type something.",
         },
         {
           title: 'Hello',
           type: 'Normal',
-          desc: 'I don\'t know what the contents of description is, so I\'m just ramdomly type something.',
+          desc: "I don't know what the contents of description is, so I'm just ramdomly type something.",
         },
         {
           title: 'Hello',
           type: 'Normal',
-          desc: 'I don\'t know what the contents of description is, so I\'m just ramdomly type something.',
+          desc: "I don't know what the contents of description is, so I'm just ramdomly type something.",
         },
         {
           title: 'Hello',
           type: 'Normal',
-          desc: 'I don\'t know what the contents of description is, so I\'m just ramdomly type something.',
+          desc: "I don't know what the contents of description is, so I'm just ramdomly type something.",
         },
         {
           title: 'Hello',
           type: 'Wifi',
-          desc: 'I don\'t know what the contents of description is, so I\'m just ramdomly type something.',
+          desc: "I don't know what the contents of description is, so I'm just ramdomly type something.",
         },
         {
           title: 'Hello',
           type: 'Normal',
-          desc: 'I don\'t know what the contents of description is, so I\'m just ramdomly type something.',
+          desc: "I don't know what the contents of description is, so I'm just ramdomly type something.",
         },
         {
           title: 'Hello',
           type: 'Normal',
-          desc: 'I don\'t know what the contents of description is, so I\'m just ramdomly type something.',
+          desc: "I don't know what the contents of description is, so I'm just ramdomly type something.",
         },
         {
           title: 'Hello',
           type: 'Plain',
-          desc: 'I don\'t know what the contents of description is, so I\'m just ramdomly type something.',
+          desc: "I don't know what the contents of description is, so I'm just ramdomly type something.",
         },
       ],
     };
   };
-  const { list: list } = getNotes();
+  const { list } = getNotes();
 
   return (
     <div>

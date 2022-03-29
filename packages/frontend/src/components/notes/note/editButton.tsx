@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { DocumentAddIcon, PlusIcon } from '@heroicons/react/outline';
+import { DocumentAddIcon } from '@heroicons/react/outline';
 import { Avatar } from '@nextui-org/react';
 import EditNoteModal from './editNoteModal';
 

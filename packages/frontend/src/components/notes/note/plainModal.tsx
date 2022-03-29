@@ -1,15 +1,12 @@
-import { DocumentAddIcon } from '@heroicons/react/outline';
 import { DocumentIcon } from '@heroicons/react/solid';
 import {
   Avatar,
   Button,
   Container,
-  Input,
   Modal,
   Spacer,
   Text,
 } from '@nextui-org/react';
-import React, { useState } from 'react';
 import EditButton from './editButton';
 
 interface PlainModalProps {
