@@ -34,8 +34,8 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = () => {
   return (
     <div className="h-screen overflow-y-auto bg-gradient-to-b from-land_page_bg_start to-land_page_bg_end">
       <div className="flex flex-row items-center justify-between p-12">
-        <div className="flex flex-row items-center justify-start gap-12">
-          <div className="w-24 h-12 bg-center bg-no-repeat bg-contain bg-logo" />
+        <div className="flex flex-row items-center justify-start gap-2 sm:gap-12">
+          <div className="w-12 h-6 sm:w-24 sm:h-12 bg-center bg-no-repeat bg-contain bg-logo" />
           <Text h1 size={50} color="white" weight="bold">
             FlatShare
           </Text>
@@ -54,7 +54,7 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = () => {
           className="float-right m-5"
         />
       </div>
-      <Container className="absolute top-1/2 left-1/2 -translate-x-[10%] -translate-y-1/2">
+      <Container className="absolute top-1/3 left-1/4 sm:top-1/2 sm:left-1/2 sm:-translate-x-[10%] sm:-translate-y-1/2">
         <Button
           className="p-10"
           color="secondary"

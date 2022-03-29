@@ -1,14 +1,14 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
-export default class UserResponseDto {
+export default class UpdateUserDto {
   @ApiProperty()
   name?: string;
 
-  @ApiPropertyOptional()
-  house?: string;
-
   @ApiProperty()
   firebaseId: string;
+
+  @ApiPropertyOptional()
+  house?: string;
 
   @ApiPropertyOptional()
   rentPercentage?: number;
