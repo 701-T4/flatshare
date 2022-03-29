@@ -73,6 +73,10 @@ export class HouseController {
           name: owner.name,
           house: house.code,
           firebaseId: owner.firebaseId,
+          rentPercentage: owner.rentPercentage,
+          contact: owner.contact,
+          dateJoined: owner.dateJoined,
+          contractEndingDate: owner.contractEndingDate,
         },
       ],
     };
