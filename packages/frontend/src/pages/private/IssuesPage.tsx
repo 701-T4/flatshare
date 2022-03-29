@@ -140,7 +140,7 @@ const IssuesPage: React.FC<IssuesPageProps> = () => {
                     title={issue.name}
                     dueString="Done" // @TODO: check that "dueString" is how we want it formatted
                     twColor={UpcomingTask.Variation.gray}
-                    type="Bill" // @TODO: make a "issue" type.
+                    type="Issue"
                     completed
                     past
                   />
