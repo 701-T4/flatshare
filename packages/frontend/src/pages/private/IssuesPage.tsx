@@ -2,58 +2,57 @@ import React, { useCallback, useMemo, useState } from 'react';
 import Page from '../../components/common/layout/Page';
 import UpcomingTask from '../../components/dashboard/upcoming-tasks/UpcomingTask';
 import UnderlinedText from '../../components/dashboard/GradientUnderlinedText';
-import { useAuth } from '../../hooks/useAuth';
+// import { useAuth } from '../../hooks/useAuth';
 import { Button } from '@nextui-org/react';
 import { useNavigate } from 'react-router';
-import { useApiMutation } from '../../hooks/useApi';
+// import { useApiMutation } from '../../hooks/useApi';
 import { useApi } from '../../hooks/useApi';
 import NewIssueCard from '../../components/issue/NewIssueCard';
 
 interface IssuesPageProps {}
 
-const days = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-];
-const month = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December',
-];
+/* 
+
+  CREATE ISSUE:
+  {      
+    name: string;
+    description: string;
+    house: string; // @TODO CHECK
+    logger: string;
+    resolved: boolean;
+  }
+
+ Issue response:
+  {      
+    id: string;
+    name: string;
+    description: string;
+    logger: string;
+    loggedDate: number;
+    resolved: boolean;
+  }
+
+*/
 
 const IssuesPage: React.FC<IssuesPageProps> = () => {
-  const { user } = useAuth();
+  // const { user } = useAuth();
   const navigate = useNavigate();
 
   /* TODO: UPDATE THIS SECTION WHEN API IS READY */
 
-  const { data, mutate } = useApi('/api/v1/house/bills', {
+  const { data, mutate } = useApi('/api/v1/house/issues', {
     method: 'get',
   });
 
-  const markPayBill = useApiMutation('/api/v1/house/bills/{id}/payment', {
-    method: 'put',
-  });
+  // const markPayBill = useApiMutation('/api/v1/house/bills/{id}/payment', {
+  //   method: 'put',
+  // });
 
   const optimisticallyRefetchBills = useCallback(
     (newIssue) => {
       const newData = { ...data! };
       newIssue.loading = true;
-      newData.bills.push(newIssue);
+      newData.issues.push(newIssue);
       mutate(newData);
     },
     [data, mutate],
@@ -63,21 +62,17 @@ const IssuesPage: React.FC<IssuesPageProps> = () => {
 
   const [newIssue, setNewIssue] = useState(false);
 
-  const pastBill: {
+  const pastIssue: {
     id: string;
     name: string;
     description: string;
-    owner: string;
-    due: number;
-    users: {
-      id: string;
-      amount: number;
-      paid: boolean;
-      proof?: string | undefined;
-    }[];
+    logger: string;
+    loggedDate: number;
+    resolved: boolean;
   }[] = [];
-  const sortedBills = useMemo(
-    () => data?.bills.sort((a, b) => a.due - b.due),
+
+  const sortedIssues = useMemo(
+    () => data?.issues.sort((a, b) => a.loggedDate - b.loggedDate),
     [data],
   );
 
@@ -97,91 +92,55 @@ const IssuesPage: React.FC<IssuesPageProps> = () => {
             refetchFromApi={mutate}
           />
         )}
+
         <div className="flex flex-col gap-4">
           <UnderlinedText colorClasses="bg-gray-800">
-            <div className="text-lg font-semibold">Upcoming Bills</div>
+            <div className="text-lg font-semibold">Upcoming Issues</div>
           </UnderlinedText>
-          {sortedBills?.map((bill, index) => {
-            // Check if this bill is a past bill by check whether all user is paid
-            if (
-              bill.users.every((user) => {
-                if (user.paid) return true;
-                else return false;
-              })
-            ) {
-              pastBill.push(bill);
+          {sortedIssues?.map((issue, index) => {
+            // Check if this issue is a past issue by checking whether it has been marked as resolved
+            if (issue.resolved) {
+              pastIssue.push(issue);
               return null;
             }
-
-            var amount, paid: boolean | undefined;
-            for (let index in bill.users)
-              if (bill.users[index].id.toString() === user?.uid) {
-                amount = bill.users[index].amount;
-                paid = bill.users[index].paid;
-              }
-
-            const dueDate = new Date(bill.due);
-            const overDue = bill.due < Date.now();
 
             return (
               <UpcomingTask
                 key={index}
-                title={`${bill.name} - $${amount}`}
-                // Format the date, display as for exmaple: Due Monday, 14 March
-                dueString={`Due ${
-                  days[dueDate.getDay()]
-                }, ${dueDate.getDate()} ${month[dueDate.getMonth()]} ${
-                  overDue ? 'OVERDUE!!!' : ''
-                }`}
-                completed={paid}
-                overdue={overDue}
-                twColor={UpcomingTask.Variation.red}
-                disabled={(bill as any).loading}
-                type="Bill"
+                title={issue.name}
+                dueString={issue.loggedDate + ''} // @TODO: convert to date
+                completed={issue.resolved}
+                twColor={UpcomingTask.Variation.red} // @TODO: decide on colour
+                disabled={(issue as any).loading}
+                type="Bill" // @TODO: change how this behaves
                 onDetailClick={() =>
-                  navigate(`/issues/${bill.id}`, { state: { bill: bill } })
+                  navigate(`/issues/${issue.id}`, { state: { issue: issue } })
                 }
                 onCompleteClick={async () => {
-                  const optimisticBills = { ...data! };
-                  const currentBill = optimisticBills.bills![index].users.find(
-                    (u) => u.id === user!.uid,
-                  )!;
-                  currentBill.paid = !currentBill.paid;
-
-                  mutate(optimisticBills);
-
-                  await markPayBill({
-                    pathParams: {
-                      id: bill.id,
-                    },
-                    body: {
-                      paid: !paid,
-                      proof: undefined,
-                    },
-                  });
+                  // @TODO: send an update to mark this as resolved, do optimistic update stuff.
                 }}
               />
             );
           })}
-          {/* If every bill is past bill, display no upcoming bill message */}
-          {data?.bills.length === pastBill.length && (
+          {data?.issues.length === pastIssue.length && (
             <div className="flex flex-col items-center py-5 text-xl font-semibold text-gray-300">
-              No Upcoming Bill
+              No Current Issues
             </div>
           )}
+
           <UnderlinedText className="pt-10" colorClasses="bg-gray-800">
-            <div className="text-lg font-semibold">Past Bills</div>
+            <div className="text-lg font-semibold">Past Issues</div>
           </UnderlinedText>
-          {pastBill.length !== 0 ? (
+          {pastIssue.length !== 0 ? (
             <>
               <div className="flex flex-col gap-4 mt-4 md:grid md:grid-cols-2">
-                {pastBill.map((bill, index) => (
+                {pastIssue.map((issue, index) => (
                   <UpcomingTask
                     key={index}
-                    title={bill.name}
-                    dueString="Done"
+                    title={issue.name}
+                    dueString="Done" // @TODO: check that "dueString" is how we want it formatted
                     twColor={UpcomingTask.Variation.gray}
-                    type="Bill"
+                    type="Bill" // @TODO: make a "issue" type.
                     completed
                     past
                   />
@@ -197,7 +156,7 @@ const IssuesPage: React.FC<IssuesPageProps> = () => {
             </>
           ) : (
             <div className="flex flex-col items-center py-5 text-xl font-semibold text-gray-300">
-              No Past Bill
+              No Resolved Issues
             </div>
           )}
         </div>
