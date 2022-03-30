@@ -4,6 +4,9 @@ import UnderlinedText from '../../components/dashboard/GradientUnderlinedText';
 import { useHouse } from '../../hooks/useHouse';
 import { useAuth } from '../../hooks/useAuth';
 import HouseSettings from '../../components/manage/HouseSettings';
+import OccupantPanel from '../../components/manage/OccupantPanel';
+import { OccupantCardProps } from '../../components/manage/OccupantCard';
+import LoaderPage from '../public/LoaderPage';
 
 interface ManageFlatPageProps {}
 
@@ -16,26 +19,50 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
 
   return (
     <Page>
-      <div className="flex flex-col gap-4">
-        <UnderlinedText colorClasses="bg-gray-800">
-          <div className="text-lg font-semibold">
-            {house.name || 'Your Flat'}
-          </div>
-        </UnderlinedText>
-        <HouseSettings
-          ownerView={true}
-          houseName={house.name || 'Your Flat'}
-          totalRent={house.rent}
-          maxNumOccupants={house.maxOccupants}
-          address={house.address}
-          ownerContactNum={house.email}
-          onUpdateHouse={() => {}}
-        />
+      {house.dataLoading ? (
+        <LoaderPage />
+      ) : (
+        <div className="flex flex-col gap-4">
+          <UnderlinedText colorClasses="bg-gray-800">
+            <div className="text-lg font-semibold">
+              {house.name || 'Your Flat'}
+            </div>
+          </UnderlinedText>
+          <HouseSettings
+            ownerView={user?.uid === house.owner}
+            houseName={house.name || 'Your Flat'}
+            totalRent={house.rent}
+            maxNumOccupants={house.maxOccupants}
+            address={house.address}
+            ownerContactNum={house.email}
+            onUpdateHouse={() => {}}
+          />
 
-        <UnderlinedText className="pt-10" colorClasses="bg-gray-800">
-          <div className="text-lg font-semibold">Past Bills</div>
-        </UnderlinedText>
-      </div>
+          <UnderlinedText className="pt-10" colorClasses="bg-gray-800">
+            <div className="text-lg font-semibold">Past Bills</div>
+          </UnderlinedText>
+          <OccupantPanel
+            cards={
+              house.users
+                ? house.users?.map((u) => {
+                    return {
+                      name: u.name,
+                      firebaseId: u.firebaseId,
+                      contact: u.contact,
+                      rentPercentage: u.rentPercentage,
+                      dateJoined: u.dateJoined,
+                      contractEndingDate: u.contractEndingDate,
+                    };
+                  })
+                : []
+            }
+            ownerView={user?.uid === house.owner}
+            totalRent={house.rent || 0}
+            onSaveOccupant={() => {}}
+            onDeleteOccupant={() => {}}
+          />
+        </div>
+      )}
     </Page>
   );
 };
