@@ -39,7 +39,7 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
   });
 
   // mark pay with and without proof
-  const markPayBill = useApiMutation('/api/v1/house/bills/{id}/payment', {
+  const markPayBill = useApiMutation('/api/v1/house/issues/{id}/resolve', {
     method: 'put',
   });
 
@@ -76,8 +76,7 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
         id: bill.id,
       },
       body: {
-        paid: true,
-        proof: undefined,
+        resolved: true,
       },
     });
   };

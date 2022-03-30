@@ -60,6 +60,9 @@ export interface paths {
     put: operations['IssueController_updateIssue'];
     delete: operations['IssueController_deleteIssue'];
   };
+  '/api/v1/house/issues/{id}/resolve': {
+    put: operations['IssueController_resolveIssue'];
+  };
 }
 
 export interface components {
@@ -187,6 +190,9 @@ export interface components {
     UpdateIssueDto: {
       name: string;
       description: string;
+      resolved: boolean;
+    };
+    ResolveIssueDto: {
       resolved: boolean;
     };
   };
@@ -607,6 +613,28 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': components['schemas']['UpdateIssueDto'];
+      };
+    };
+  };
+  IssueController_resolveIssue: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** Issue updated successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['IssueResponseDto'];
+        };
+      };
+      /** Not the issue owner */
+      403: unknown;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ResolveIssueDto'];
       };
     };
   };
