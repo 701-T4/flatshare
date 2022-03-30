@@ -1,8 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Test, TestingModule } from '@nestjs/testing';
 import { getModelToken } from '@nestjs/mongoose';
-import { AnnouncementStoreService } from './AnnouncementStore.service';
-import { Announcement } from './Announcement.schema';
+import { AnnouncementStoreService } from './announcementStore.service';
+import { Announcement } from './announcement.schema';
 import { Model } from 'mongoose';
 
 const mockAnnouncement = {
