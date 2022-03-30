@@ -29,7 +29,7 @@ const OccupantPanel: React.FC<OccupantPanelProps> = (props) => {
       value={{ ownerView, totalRent, onSaveOccupant, onDeleteOccupant }}
     >
       {cards.map((card) => (
-        <OccupantCard {...card} />
+        <OccupantCard {...card} key={card.firebaseId} />
       ))}
     </PanelContext.Provider>
   );
