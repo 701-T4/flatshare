@@ -1,29 +1,23 @@
 import {
   CheckCircleIcon,
-  CloudUploadIcon,
   PencilIcon,
   TrashIcon,
 } from '@heroicons/react/outline';
 import { Button, Spacer } from '@nextui-org/react';
 import cx from 'classnames';
 import { getAuth } from 'firebase/auth';
-import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import React, { useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { v4 as uuidv4 } from 'uuid';
 import EditIssueCard from '../../components/issue/EditIssueCard';
 import Page from '../../components/common/layout/Page';
 import { useApi, useApiMutation } from '../../hooks/useApi';
 import useFullLoader from '../../hooks/useFullLoader';
 import { useHouse } from '../../hooks/useHouse';
-import { components } from '../../types/api-schema';
-import { ExternalLinkIcon } from '@heroicons/react/outline';
-import { useAlert } from '../../components/common/util/CornerAlert';
 
-const getFirebaseUrl = (proofFileId: string) =>
-  'https://firebasestorage.googleapis.com/v0/b/flatshare-c8e5c.appspot.com/o/' +
-  proofFileId +
-  '?alt=media';
+// const getFirebaseUrl = (proofFileId: string) =>
+//   'https://firebasestorage.googleapis.com/v0/b/flatshare-c8e5c.appspot.com/o/' +
+//   proofFileId +
+//   '?alt=media';
 
 interface IssueDetailPageProps {}
 
@@ -32,10 +26,8 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
 
   // const bill = stateWrapper.bill;
   const [isEdit, setIsEdit] = useState(false);
-  const [image, setImage] = useState<File | null | undefined>(undefined);
   const navigate = useNavigate();
   const auth = getAuth();
-  const { createAlert, resetAlert } = useAlert();
 
   const {
     data: bill,
@@ -90,24 +82,10 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
     });
   };
 
-  const uploadProof = async (proof: string) => {
-    await markPayBill({
-      pathParams: {
-        id: bill.id,
-      },
-      body: {
-        paid: true,
-        proof: proof,
-      },
-    });
-  };
-
   const deleteBill = async () => {
     deleteBillCall({ pathParams: { id: bill.id } });
     navigate('/bills', { replace: true });
   };
-
-  const fileNotAttached = image === null || image === undefined;
 
   return (
     <Page>
