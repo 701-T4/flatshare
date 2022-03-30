@@ -2,10 +2,9 @@ import React, { useCallback, useMemo, useState } from 'react';
 import Page from '../../components/common/layout/Page';
 import UpcomingTask from '../../components/dashboard/upcoming-tasks/UpcomingTask';
 import UnderlinedText from '../../components/dashboard/GradientUnderlinedText';
-// import { useAuth } from '../../hooks/useAuth';
 import { Button } from '@nextui-org/react';
 import { useNavigate } from 'react-router';
-// import { useApiMutation } from '../../hooks/useApi';
+import { useApiMutation } from '../../hooks/useApi';
 import { useApi } from '../../hooks/useApi';
 import NewIssueCard from '../../components/issue/NewIssueCard';
 
@@ -35,18 +34,18 @@ interface IssuesPageProps {}
 */
 
 const IssuesPage: React.FC<IssuesPageProps> = () => {
-  // const { user } = useAuth();
   const navigate = useNavigate();
-
-  /* TODO: UPDATE THIS SECTION WHEN API IS READY */
 
   const { data, mutate } = useApi('/api/v1/house/issues', {
     method: 'get',
   });
-  // TODO: ask backend to make an issues/{id}/resolved endpoint?
-  // const markResolvedIssue = useApiMutation('/api/v1/house/issues/{id}/resolved', {
-  //   method: 'put',
-  // });
+
+  const markIssueResolved = useApiMutation(
+    '/api/v1/house/issues/{id}/resolve',
+    {
+      method: 'put',
+    },
+  );
 
   const optimisticallyRefetchIssues = useCallback(
     (newIssue) => {
@@ -57,8 +56,6 @@ const IssuesPage: React.FC<IssuesPageProps> = () => {
     },
     [data, mutate],
   );
-
-  /* ---------------------------------------------- */
 
   const [newIssue, setNewIssue] = useState(false);
 
@@ -95,7 +92,7 @@ const IssuesPage: React.FC<IssuesPageProps> = () => {
 
         <div className="flex flex-col gap-4">
           <UnderlinedText colorClasses="bg-gray-800">
-            <div className="text-lg font-semibold">Upcoming Issues</div>
+            <div className="text-lg font-semibold">Unresolved Issues</div>
           </UnderlinedText>
           {sortedIssues?.map((issue, index) => {
             // Check if this issue is a past issue by checking whether it has been marked as resolved
@@ -117,19 +114,31 @@ const IssuesPage: React.FC<IssuesPageProps> = () => {
                   navigate(`/issues/${issue.id}`, { state: { issue: issue } })
                 }
                 onCompleteClick={async () => {
-                  // @TODO: send an update to mark this as resolved, do optimistic update stuff.
+                  const optimisticIssues = { ...data! };
+                  const currentIssue = optimisticIssues.issues![index];
+                  currentIssue.resolved = !currentIssue.resolved;
+                  mutate(optimisticIssues);
+
+                  await markIssueResolved({
+                    pathParams: {
+                      id: issue.id,
+                    },
+                    body: {
+                      resolved: true,
+                    },
+                  });
                 }}
               />
             );
           })}
           {data?.issues.length === pastIssue.length && (
             <div className="flex flex-col items-center py-5 text-xl font-semibold text-gray-300">
-              No Current Issues
+              No Unresolved Issues
             </div>
           )}
 
           <UnderlinedText className="pt-10" colorClasses="bg-gray-800">
-            <div className="text-lg font-semibold">Past Issues</div>
+            <div className="text-lg font-semibold">Resolved Issues</div>
           </UnderlinedText>
           {pastIssue.length !== 0 ? (
             <>
@@ -146,13 +155,6 @@ const IssuesPage: React.FC<IssuesPageProps> = () => {
                   />
                 ))}
               </div>
-
-              <Button
-                aria-label="Load more past bill"
-                className="w-16 mt-3 bg-gray-500"
-              >
-                Load More
-              </Button>
             </>
           ) : (
             <div className="flex flex-col items-center py-5 text-xl font-semibold text-gray-300">
