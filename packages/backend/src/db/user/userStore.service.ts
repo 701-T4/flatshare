@@ -26,14 +26,21 @@ export class UserStoreService {
   }
 
   async findOneByFirebaseId(firebaseId: string): Promise<UserDocument> {
-    return this.userModel.findOne({ firebaseId: firebaseId }).exec();
+    return this.userModel.findOne({ firebaseId: { $eq: firebaseId } }).exec();
+  }
+
+  async getUserIdFromFirebaseId(id: string): Promise<mongoose.Types.ObjectId> {
+    const user = await this.userModel.findOne({ firebaseId: id });
+    return user._id;
   }
 
   async update(
-    id: string,
+    firebaseId: string,
     updateUserModel: Partial<UserModel>,
   ): Promise<UserDocument> {
-    return this.userModel.findOneAndUpdate({ _id: id }, updateUserModel).exec();
+    return this.userModel
+      .findOneAndUpdate({ firebaseId: firebaseId }, updateUserModel)
+      .exec();
   }
 
   async updateByFirebaseId(
@@ -45,7 +52,7 @@ export class UserStoreService {
       .exec();
   }
 
-  async delete(id: string) {
+  async delete(id: string): Promise<UserDocument> {
     return this.userModel.findByIdAndRemove({ _id: id }).exec();
   }
 }

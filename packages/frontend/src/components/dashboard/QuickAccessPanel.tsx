@@ -50,6 +50,7 @@ const QuickAccessPanel: React.FC<QuickAccessPanelProps> = () => {
         twGradientEnd="to-red-700"
         twOpacity="opacity-80"
         description="Miscellaneous notes about your flat."
+        onClick={() => navigate('/notes')}
       />
     </div>
   );

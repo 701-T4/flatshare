@@ -7,6 +7,7 @@ import DashboardPage from '../private/DashboardPage';
 import ManageAccountPage from '../private/ManageAccountPage';
 import BillSplittingPage from '../private/BillSplittingPage';
 import BillDetailPage from '../private/BillDetailPage';
+import NotesPage from '../private/NotesPage';
 import { useApiMutation } from '../../hooks/useApi';
 import { useAlert } from '../../components/common/util/CornerAlert';
 import {

@@ -87,6 +87,8 @@ describe('HouseStoreService', () => {
       email: 'whatever@gmail.com',
       address: 'Mars',
       code: 'lol',
+      rent: '1000',
+      maxOccupants: '3',
       owner: null,
       users: [],
     });
