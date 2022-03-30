@@ -9,7 +9,7 @@ interface billModification {
 }
 
 interface EditIssueCardProps {
-  billParam: components['schemas']['BillResponseDto'];
+  billParam: components['schemas']['IssueResponseDto'];
   handleOnDoneClickCallBack: React.Dispatch<billModification>;
 }
 

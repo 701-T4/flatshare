@@ -41,7 +41,7 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
     data: bill,
     loading: billLoading,
     mutate: billMutate,
-  } = useApi('/api/v1/house/bills/{id}', {
+  } = useApi('/api/v1/house/issues/{id}', {
     method: 'get',
     pathParams: { id: id ?? '' },
   });
@@ -68,39 +68,15 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
   }
 
   const userId = auth.currentUser?.uid;
-  const paid = bill.users.find((u) => u.id === userId)?.paid;
-
-  const isOwner = userId === bill?.owner;
-
-  // upload to firebase
-  const onUpload = async () => {
-    // Create a root reference
-    const storage = getStorage();
-    const fileName = uuidv4(); // ⇨ '9b1deb4d-3b7d-4bad-9bdd-2b0d7b3dcb6d'
-    const storageRef = ref(storage, fileName);
-
-    createAlert({
-      icon: <CloudUploadIcon />,
-      message: 'Your proof is being uploaded!',
-      mode: 'info',
-    });
-
-    uploadBytes(storageRef, image!, {}).then(async (snapshot) => {
-      const optimistic = { ...bill };
-      bill.users.find((u) => u.id === userId)!.proof = getFirebaseUrl(fileName);
-      billMutate(optimistic);
-      await uploadProof(fileName);
-      resetAlert();
-    });
-  };
+  const resolved = bill?.resolved;
+  const isOwner = userId === bill?.logger;
 
   const completeBill = async () => {
-    if (paid) {
+    if (resolved) {
       return;
     }
 
     const optimistic = { ...bill };
-    bill.users.find((u) => u.id === userId)!.paid = true;
     billMutate(optimistic);
 
     await markPayBill({
@@ -124,13 +100,6 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
         proof: proof,
       },
     });
-  };
-
-  const parseFileName = (fileName: String) => {
-    if (fileName.length < 22) {
-      return fileName;
-    }
-    return fileName.slice(0, 10) + '...' + fileName.slice(-10);
   };
 
   const deleteBill = async () => {
@@ -171,7 +140,7 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
                 <div className="flex flex-row items-center">
                   {/* <Switch className="mr-5"></Switch> */}
                   <Button auto onClick={() => completeBill()}>
-                    {paid ? (
+                    {resolved ? (
                       <div className="flex">
                         <CheckCircleIcon className="w-8 p-1" />
                         Resolved
@@ -208,7 +177,7 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
                     <Spacer y={2} />
                     <DetailRow
                       title="Log Date"
-                      value={new Date(bill.due).toDateString()}
+                      value={new Date(bill?.loggedDate).toDateString()}
                     />
                     <Spacer y={2} />
                   </div>
@@ -217,9 +186,7 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
                       Issued By
                     </div>
                     <div className="flex flex-col">
-                      {bill.users.map((u) => (
-                        <UserRow key={u.id} u={u} userId={userId} />
-                      ))}
+                      <UserRow key={userId} userId={userId} />
                     </div>
                   </div>
                 </div>
@@ -249,26 +216,20 @@ const DetailRow: React.FC<DetailRowProps> = ({ title, value }) => {
   );
 };
 interface UserRowProp {
-  u: components['schemas']['BillUser'];
   userId: string | undefined;
 }
 
-const UserRow: React.FC<UserRowProp> = ({ u, userId }) => {
+const UserRow: React.FC<UserRowProp> = ({ userId }) => {
   const house = useHouse();
 
-  const getUserFromId = (uid: String) => {
-    console.log(u);
-
+  const getUserFromId = (uid: string | undefined) => {
     console.log(house.users);
     return house.users?.find((u) => u.firebaseId === uid)?.name;
   };
-
-  const proofFileId = u.proof;
-
   return (
-    <div key={u.id} className="flex flex-col items-start w-full py-2">
+    <div key={userId} className="flex flex-col items-start w-full py-2">
       <div className="text-base font-bold text-white md:text-xl">
-        {getUserFromId(u.id)}
+        {getUserFromId(userId)}
       </div>
     </div>
   );
