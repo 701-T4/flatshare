@@ -7,20 +7,18 @@ export interface OccupantCardProps {
   name: string;
   firebaseId: string;
   contact?: string;
-  percentageOfRent?: number;
+  rentPercentage?: number;
   dateJoined?: Date;
-  contractEndDate?: Date;
+  contractEndingDate?: Date;
 }
 
 const OccupantCard: React.FC<OccupantCardProps> = (props) => {
   const { totalRent } = useContext(PanelContext);
 
   const OccupantSummary: React.FC = () => {
-    const rentToPay = (
-      totalRent *
-      (props.percentageOfRent || 0) *
-      0.01
-    ).toFixed(2);
+    const rentToPay = (totalRent * (props.rentPercentage || 0) * 0.01).toFixed(
+      2,
+    );
     return (
       <>
         <Text color={'secondary'} size={20}>

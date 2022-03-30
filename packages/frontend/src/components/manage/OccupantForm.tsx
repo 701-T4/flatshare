@@ -16,11 +16,13 @@ export const InputContext = React.createContext<InputContextInterface>(
 
 const OccupantForm: React.FC<OccupantCardProps> = (props) => {
   const [percentage, setPercentage] = useState<number>(
-    props.percentageOfRent || 0,
+    props.rentPercentage || 0,
   );
   const [contact, setContact] = useState<string>(props.contact || '');
   const [joinDate, setJoinDate] = useState<Date>(props.dateJoined as Date);
-  const [endDate, setEndDate] = useState<Date>(props.contractEndDate as Date);
+  const [endDate, setEndDate] = useState<Date>(
+    props.contractEndingDate as Date,
+  );
 
   const { ownerView, onSaveOccupant, onDeleteOccupant } =
     useContext(PanelContext);
@@ -33,7 +35,7 @@ const OccupantForm: React.FC<OccupantCardProps> = (props) => {
           </Text>
           <Input
             readOnly={!ownerView}
-            initialValue={props.percentageOfRent?.toString()}
+            initialValue={props.rentPercentage?.toString()}
             aria-label={'Percentage of rent to pay'}
             onChange={(e) => setPercentage(Number(e.target.value))}
             color="secondary"
@@ -96,9 +98,9 @@ const OccupantForm: React.FC<OccupantCardProps> = (props) => {
               onClick={() => {
                 const newOccupantData: OccupantCardProps = { ...props };
                 newOccupantData.contact = contact;
-                newOccupantData.contractEndDate = endDate;
+                newOccupantData.contractEndingDate = endDate;
                 newOccupantData.dateJoined = joinDate;
-                newOccupantData.percentageOfRent = percentage;
+                newOccupantData.rentPercentage = percentage;
                 onSaveOccupant(newOccupantData);
               }}
               className="inline-block ml-4 bg-btn_green"
