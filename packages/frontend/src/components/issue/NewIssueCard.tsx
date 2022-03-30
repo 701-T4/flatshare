@@ -32,8 +32,6 @@ const NewIssueCard: React.FC<NewIssueCardProps> = ({
       name: issueInfo.title,
       description: issueInfo.detail,
       resolved: issueInfo.resolved,
-      house: '0', // this is assigned in the backend
-      logger: '0', // this is assigned in the backend
     };
 
     let issueBody = {

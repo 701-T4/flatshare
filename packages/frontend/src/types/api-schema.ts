@@ -183,8 +183,6 @@ export interface components {
     CreateIssueDto: {
       name: string;
       description: string;
-      house: string; // @TODO CHECK
-      logger: string;
       resolved: boolean;
     };
     UpdateIssueDto: {
