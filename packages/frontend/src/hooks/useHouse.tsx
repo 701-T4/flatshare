@@ -7,6 +7,8 @@ interface House {
   address: string;
   code: string;
   owner: string;
+  maxOccupants: number;
+  rent: number;
 
   users: {
     name: string;
