@@ -8,9 +8,9 @@ export default class UpdateHouseDto {
   @ApiPropertyOptional()
   address: string;
   @ApiPropertyOptional()
-  rent: string;
+  rent: number;
   @ApiPropertyOptional()
-  maxOccupants: string;
+  maxOccupants: number;
   @ApiProperty({ required: true })
   code: string;
   @ApiPropertyOptional()

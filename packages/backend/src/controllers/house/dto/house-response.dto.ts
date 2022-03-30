@@ -9,9 +9,9 @@ export default class HouseResponseDto {
   @ApiPropertyOptional()
   address: string;
   @ApiPropertyOptional()
-  rent: string;
+  rent: number;
   @ApiPropertyOptional()
-  maxOccupants: string;
+  maxOccupants: number;
   @ApiProperty({ required: true })
   code: string;
   @ApiProperty({ required: true })

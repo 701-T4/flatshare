@@ -15,10 +15,10 @@ export class House {
   address: string;
 
   @Prop()
-  rent: string;
+  rent: number;
 
   @Prop()
-  maxOccupants: string;
+  maxOccupants: number;
 
   @Prop({ unique: true })
   code: string;
@@ -36,8 +36,8 @@ export class HouseModel {
   readonly name: string;
   readonly email: string;
   readonly address: string;
-  rent: string;
-  maxOccupants: string;
+  rent: number;
+  maxOccupants: number;
   code: string;
   owner: Types.ObjectId;
   users: Array<Types.ObjectId> = [];
