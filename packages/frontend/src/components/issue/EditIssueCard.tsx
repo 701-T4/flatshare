@@ -2,7 +2,6 @@ import { Button, Textarea } from '@nextui-org/react';
 import 'react-datepicker/dist/react-datepicker.css';
 import React, { useState } from 'react';
 import { components } from '../../types/api-schema';
-import { ResolvedConfigFileName } from 'typescript';
 
 interface billModification {
   name: string;
