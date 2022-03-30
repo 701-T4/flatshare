@@ -79,7 +79,7 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
         <LoaderPage />
       ) : (
         <div className="flex flex-col gap-4">
-          <UnderlinedText colorClasses="bg-gray-800">
+          <UnderlinedText className="text-teal-500 " colorClasses="bg-gray-800">
             <div className="text-lg font-semibold">
               {house.name || 'Your Flat'}
             </div>
@@ -94,7 +94,10 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
             onUpdateHouse={onSaveHouseInfo}
           />
 
-          <UnderlinedText className="pt-10" colorClasses="bg-gray-800">
+          <UnderlinedText
+            className="pt-10 text-teal-500 "
+            colorClasses="bg-gray-800"
+          >
             <div className="text-lg font-semibold">Past Bills</div>
           </UnderlinedText>
           <OccupantPanel
