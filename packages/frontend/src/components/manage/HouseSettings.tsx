@@ -9,7 +9,7 @@ import {
 } from '@nextui-org/react';
 import React, { useState } from 'react';
 
-interface HouseSettingsProps {
+export interface HouseSettingsProps {
   ownerView: boolean;
   houseName: string;
   totalRent?: number;

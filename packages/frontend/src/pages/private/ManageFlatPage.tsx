@@ -7,6 +7,9 @@ import HouseSettings from '../../components/manage/HouseSettings';
 import OccupantPanel from '../../components/manage/OccupantPanel';
 import { OccupantCardProps } from '../../components/manage/OccupantCard';
 import LoaderPage from '../public/LoaderPage';
+import { useApiMutation } from '../../hooks/useApi';
+import { components } from '../../types/api-schema';
+import { HouseSettingsProps } from '../../components/manage/HouseSettings';
 
 interface ManageFlatPageProps {}
 
@@ -16,6 +19,26 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
 
   console.log('house', house);
   console.log('user', user);
+
+  const saveHouseInfo = useApiMutation('/api/v1/house/update', {
+    method: 'put',
+  });
+
+  const onSaveHouseInfo = async (data: HouseSettingsProps) => {
+    const newData: components['schemas']['UpdateHouseDto'] = {
+      code: house.code!,
+      address: data.address,
+      name: data.houseName,
+      maxOccupants: data.maxNumOccupants,
+      email: data.ownerContactNum,
+      rent: data.totalRent,
+    };
+    await saveHouseInfo({ body: newData });
+  };
+
+  const onSaveOccupants = async (occupantDetails: OccupantCardProps) => {};
+
+  const onDeleteOccupant = async (firebaseId: string) => {};
 
   return (
     <Page>
@@ -35,7 +58,7 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
             maxNumOccupants={house.maxOccupants}
             address={house.address}
             ownerContactNum={house.email}
-            onUpdateHouse={() => {}}
+            onUpdateHouse={onSaveHouseInfo}
           />
 
           <UnderlinedText className="pt-10" colorClasses="bg-gray-800">
@@ -50,16 +73,20 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
                       firebaseId: u.firebaseId,
                       contact: u.contact,
                       rentPercentage: u.rentPercentage,
-                      dateJoined: u.dateJoined,
-                      contractEndingDate: u.contractEndingDate,
+                      dateJoined: u.dateJoined
+                        ? new Date(u.dateJoined)
+                        : undefined,
+                      contractEndingDate: u.contractEndingDate
+                        ? new Date(u.contractEndingDate)
+                        : undefined,
                     };
                   })
                 : []
             }
             ownerView={user?.uid === house.owner}
             totalRent={house.rent || 0}
-            onSaveOccupant={() => {}}
-            onDeleteOccupant={() => {}}
+            onSaveOccupant={onSaveOccupants}
+            onDeleteOccupant={onDeleteOccupant}
           />
         </div>
       )}
