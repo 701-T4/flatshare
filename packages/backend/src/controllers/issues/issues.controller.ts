@@ -139,7 +139,7 @@ export class IssueController {
     description: 'Issue resolved successfully',
     type: IssueResponseDto,
   })
-  async updateBillPayment(
+  async updateIssueResolved(
     @Param('id') id: string,
     @Body() resolveIssueDto: ResolveIssueDto,
     @User() user: DecodedIdToken,
