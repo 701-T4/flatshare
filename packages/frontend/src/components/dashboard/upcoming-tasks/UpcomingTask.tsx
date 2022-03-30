@@ -45,6 +45,13 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
     onCompleteClick?.();
   };
 
+  const includeDetailsLink = ['Bill', 'Issue'];
+
+  let completeText = 'Complete';
+  if (type === 'Issue') {
+    completeText = 'Resolve';
+  }
+
   return (
     <div className="shadow-lg rounded-b-xl">
       <div className="flex flex-col h-full">
@@ -57,7 +64,7 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
         >
           <div className="flex flex-row justify-between">
             {type}
-            {type === 'Bill' && !past && (
+            {includeDetailsLink.includes(type) && !past && (
               <button
                 className="flex items-center justify-center w-16 text-sm font-semibold text-white rounded-md hover:bg-red-500"
                 onClick={onDetailClick}
@@ -92,7 +99,11 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
               onClick={clickWrapper}
               disabled={disabled}
             >
-              {completed ? <CheckCircleIcon className="w-6" /> : <>Complete</>}
+              {completed ? (
+                <CheckCircleIcon className="w-6" />
+              ) : (
+                <>{completeText}</>
+              )}
             </button>
           </div>
         </div>

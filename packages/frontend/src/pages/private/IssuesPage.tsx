@@ -95,21 +95,20 @@ const IssuesPage: React.FC<IssuesPageProps> = () => {
             <div className="text-lg font-semibold">Unresolved Issues</div>
           </UnderlinedText>
           {sortedIssues?.map((issue, index) => {
-            // Check if this issue is a past issue by checking whether it has been marked as resolved
             if (issue.resolved) {
               pastIssue.push(issue);
               return null;
             }
-
+            const date = new Date(issue.loggedDate);
             return (
               <UpcomingTask
                 key={index}
                 title={issue.name}
-                dueString={issue.loggedDate + ''} // @TODO: convert to date
+                dueString={`Logged on ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`}
                 completed={issue.resolved}
                 twColor={UpcomingTask.Variation.red} // @TODO: decide on colour
                 disabled={(issue as any).loading}
-                type="Bill" // @TODO: change how this behaves
+                type="Issue"
                 onDetailClick={() =>
                   navigate(`/issues/${issue.id}`, { state: { issue: issue } })
                 }
@@ -147,7 +146,7 @@ const IssuesPage: React.FC<IssuesPageProps> = () => {
                   <UpcomingTask
                     key={index}
                     title={issue.name}
-                    dueString="Done" // @TODO: check that "dueString" is how we want it formatted
+                    dueString="Resolved"
                     twColor={UpcomingTask.Variation.gray}
                     type="Issue"
                     completed
