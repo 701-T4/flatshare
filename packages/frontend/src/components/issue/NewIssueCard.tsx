@@ -1,27 +1,48 @@
 import { Button, Textarea } from '@nextui-org/react';
 import React, { useState } from 'react';
+import { useApiMutation } from '../../hooks/useApi';
 
 interface NewIssueCardProps {
-  refetchOptimisticBills: (bill: any) => void;
+  refetchOptimisticIssues: (issue: any) => void;
   refetchFromApi: () => void;
 }
 
 interface Issue {
   title: string;
   detail: string;
+  resolved: boolean;
 }
 
 const NewIssueCard: React.FC<NewIssueCardProps> = ({
-  refetchOptimisticBills,
+  refetchOptimisticIssues,
   refetchFromApi,
 }) => {
   const [issueInfo, setIssueInfo] = useState<Issue>({
     title: '',
     detail: '',
+    resolved: false,
+  });
+
+  const createIssue = useApiMutation('/api/v1/house/issues', {
+    method: 'post',
   });
 
   const handleDoneButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    // @TODO when we have api call
+    let issue = {
+      name: issueInfo.title,
+      description: issueInfo.detail,
+      resolved: issueInfo.resolved,
+      house: '0', // this is assigned in the backend
+      logger: '0', // this is assigned in the backend
+    };
+
+    let issueBody = {
+      body: issue,
+    };
+
+    refetchOptimisticIssues(issue);
+    await createIssue(issueBody);
+    refetchFromApi();
   };
 
   return (

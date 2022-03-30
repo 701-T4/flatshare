@@ -43,12 +43,12 @@ const IssuesPage: React.FC<IssuesPageProps> = () => {
   const { data, mutate } = useApi('/api/v1/house/issues', {
     method: 'get',
   });
-
-  // const markPayBill = useApiMutation('/api/v1/house/bills/{id}/payment', {
+  // TODO: ask backend to make an issues/{id}/resolved endpoint?
+  // const markResolvedIssue = useApiMutation('/api/v1/house/issues/{id}/resolved', {
   //   method: 'put',
   // });
 
-  const optimisticallyRefetchBills = useCallback(
+  const optimisticallyRefetchIssues = useCallback(
     (newIssue) => {
       const newData = { ...data! };
       newIssue.loading = true;
@@ -88,7 +88,7 @@ const IssuesPage: React.FC<IssuesPageProps> = () => {
         </Button>
         {newIssue && (
           <NewIssueCard
-            refetchOptimisticBills={optimisticallyRefetchBills}
+            refetchOptimisticIssues={optimisticallyRefetchIssues}
             refetchFromApi={mutate}
           />
         )}
