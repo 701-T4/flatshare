@@ -14,9 +14,9 @@ interface House {
     name: string;
     house?: string;
     firebaseId: string;
-    contractEndingDate?: Date;
+    contractEndingDate?: string;
     rentPercentage?: number;
-    dateJoined?: Date;
+    dateJoined?: string;
     contact?: string;
   }[];
 }
