@@ -44,12 +44,12 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
   });
 
   // delete bill
-  const deleteBillCall = useApiMutation('/api/v1/house/bills/{id}', {
+  const deleteBillCall = useApiMutation('/api/v1/house/issues/{id}', {
     method: 'delete',
   });
 
   // edit bill
-  const editBillCall = useApiMutation('/api/v1/house/bills/{id}', {
+  const editBillCall = useApiMutation('/api/v1/house/issues/{id}', {
     method: 'put',
   });
 
@@ -84,7 +84,7 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
 
   const deleteBill = async () => {
     deleteBillCall({ pathParams: { id: bill.id } });
-    navigate('/bills', { replace: true });
+    navigate('/issues', { replace: true });
   };
 
   return (
@@ -98,7 +98,11 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
                 pathParams: {
                   id: bill.id,
                 },
-                body: { description: d.description, name: d.name },
+                body: {
+                  description: d.description,
+                  name: d.name,
+                  resolved: d.resolved,
+                },
               });
               navigate('/issues');
             }}

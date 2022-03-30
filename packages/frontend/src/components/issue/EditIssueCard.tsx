@@ -2,10 +2,12 @@ import { Button, Textarea } from '@nextui-org/react';
 import 'react-datepicker/dist/react-datepicker.css';
 import React, { useState } from 'react';
 import { components } from '../../types/api-schema';
+import { ResolvedConfigFileName } from 'typescript';
 
 interface billModification {
   name: string;
   description: string;
+  resolved: boolean;
 }
 
 interface EditIssueCardProps {
@@ -19,11 +21,13 @@ const EditIssueCard: React.FC<EditIssueCardProps> = ({
 }) => {
   const [title, setTitle] = useState(billParam.name);
   const [detail, setDetail] = useState(billParam.description);
+  const [resolve, setResolve] = useState(billParam.resolved);
 
   const handleDoneButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     let bill = {
       name: title,
       description: detail,
+      resolved: resolve,
     };
     handleOnDoneClickCallBack(bill);
   };
