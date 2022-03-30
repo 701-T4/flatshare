@@ -9,6 +9,7 @@ export interface paths {
   };
   '/api/v1/user': {
     get: operations['UsersController_currentUser'];
+    put: operations['UsersController_updateUser'];
     /** User must be linked to a firebase ID */
     post: operations['UsersController_create'];
   };
@@ -19,6 +20,9 @@ export interface paths {
     get: operations['HouseController_get'];
     put: operations['HouseController_joinHouse'];
     post: operations['HouseController_create'];
+  };
+  '/api/v1/house/update': {
+    put: operations['HouseController_updateHouse'];
   };
   '/api/v1/house/note': {
     get: operations['NoteController_get'];
@@ -51,6 +55,15 @@ export interface paths {
   '/api/v1/house/tasks/{id}/completed': {
     put: operations['TasksController_markTaskAsComplete'];
   };
+  '/api/v1/house/issues': {
+    get: operations['IssueController_getIssues'];
+    post: operations['IssueController_createIssue'];
+  };
+  '/api/v1/house/issues/{id}': {
+    get: operations['IssueController_getIssue'];
+    put: operations['IssueController_updateIssue'];
+    delete: operations['IssueController_deleteIssue'];
+  };
 }
 
 export interface components {
@@ -63,11 +76,34 @@ export interface components {
     CreateUserDto: {
       name: string;
       firebaseId: string;
+      rentPercentage?: number;
+      contact?: string;
+      /** Format: date-time */
+      dateJoined?: string;
+      /** Format: date-time */
+      contractEndingDate?: string;
     };
     UserResponseDto: {
       name: string;
       house?: string;
       firebaseId: string;
+      rentPercentage?: number;
+      contact?: string;
+      /** Format: date-time */
+      dateJoined?: string;
+      /** Format: date-time */
+      contractEndingDate?: string;
+    };
+    UpdateUserDto: {
+      name: string;
+      firebaseId: string;
+      house?: string;
+      rentPercentage?: number;
+      contact?: string;
+      /** Format: date-time */
+      dateJoined?: string;
+      /** Format: date-time */
+      contractEndingDate?: string;
     };
     UserTasksResponseDto: {
       tasks?: string[];
@@ -81,12 +117,24 @@ export interface components {
       name?: string;
       email?: string;
       address?: string;
+      rent?: string;
+      maxOccupants?: string;
       code: string;
       owner: string;
       users: components['schemas']['UserResponseDto'][];
     };
     JoinHouseDto: {
       houseCode: string;
+    };
+    UpdateHouseDto: {
+      name?: string;
+      email?: string;
+      address?: string;
+      rent?: string;
+      maxOccupants?: string;
+      code: string;
+      owner?: string;
+      users?: string[];
     };
     CreateNoteDto: {
       name: string;
@@ -157,6 +205,29 @@ export interface components {
       description?: string;
       pool?: string[];
     };
+    IssueResponseDto: {
+      id: string;
+      name: string;
+      description: string;
+      logger: string;
+      loggedDate?: number;
+      resolved: boolean;
+    };
+    IssuesResponseDto: {
+      issues: components['schemas']['IssueResponseDto'][];
+    };
+    CreateIssueDto: {
+      name: string;
+      description: string;
+      house: components['schemas']['ObjectId'];
+      logger: components['schemas']['ObjectId'];
+      resolved: boolean;
+    };
+    UpdateIssueDto: {
+      name: string;
+      description: string;
+      resolved: boolean;
+    };
   };
 }
 
@@ -180,6 +251,24 @@ export interface operations {
         content: {
           'application/json': components['schemas']['UserResponseDto'];
         };
+      };
+    };
+  };
+  UsersController_updateUser: {
+    parameters: {};
+    responses: {
+      /** user details updated successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['UserResponseDto'];
+        };
+      };
+      /** user details are invalid */
+      400: unknown;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateUserDto'];
       };
     };
   };
@@ -259,6 +348,24 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': components['schemas']['CreateHouseDto'];
+      };
+    };
+  };
+  HouseController_updateHouse: {
+    parameters: {};
+    responses: {
+      /** house details updated successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['HouseResponseDto'];
+        };
+      };
+      /** failed to update house details */
+      400: unknown;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateHouseDto'];
       };
     };
   };
@@ -366,8 +473,8 @@ export interface operations {
           'application/json': components['schemas']['BillResponseDto'];
         };
       };
-      /** Not the bill owner */
-      403: unknown;
+      /** User is not in a house */
+      400: unknown;
     };
   };
   BillController_updateBill: {
@@ -508,6 +615,87 @@ export interface operations {
       content: {
         'application/json': components['schemas']['CompleteTaskDto'];
       };
+    };
+  };
+  IssueController_getIssues: {
+    parameters: {};
+    responses: {
+      /** Issues retrieved successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['IssuesResponseDto'];
+        };
+      };
+      /** User is not in a house */
+      400: unknown;
+    };
+  };
+  IssueController_createIssue: {
+    parameters: {};
+    responses: {
+      /** Issue created successfully */
+      201: {
+        content: {
+          'application/json': components['schemas']['IssueResponseDto'];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateIssueDto'];
+      };
+    };
+  };
+  IssueController_getIssue: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** Issue retrieved successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['IssueResponseDto'];
+        };
+      };
+      /** User is not in a house */
+      400: unknown;
+    };
+  };
+  IssueController_updateIssue: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** Issue updated successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['IssueResponseDto'];
+        };
+      };
+      /** Not the issue logger */
+      403: unknown;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateIssueDto'];
+      };
+    };
+  };
+  IssueController_deleteIssue: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** Issue deleted successfully */
+      204: never;
+      /** Not the issue logger */
+      403: unknown;
     };
   };
 }
