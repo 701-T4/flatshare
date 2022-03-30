@@ -17,9 +17,6 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
   const house = useHouse();
   const { user } = useAuth();
 
-  console.log('house', house);
-  console.log('user', user);
-
   const saveHouseInfo = useApiMutation('/api/v1/house/update', {
     method: 'put',
   });
@@ -71,7 +68,7 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
         code: house.code!,
         users: house.users
           .map((user) => user.firebaseId)
-          .filter((id) => id === firebaseId),
+          .filter((id) => id !== firebaseId),
       },
     });
   };
