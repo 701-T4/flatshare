@@ -28,15 +28,6 @@ const OccupantPanel: React.FC<OccupantPanelProps> = (props) => {
     <PanelContext.Provider
       value={{ ownerView, totalRent, onSaveOccupant, onDeleteOccupant }}
     >
-      <Text
-        size={24}
-        weight={'bold'}
-        color={'primary'}
-        className="ml-5 inline-block"
-      >
-        Occupants
-        <div className="bg-black h-0.5 w-full" />
-      </Text>
       {cards.map((card) => (
         <OccupantCard {...card} />
       ))}
