@@ -24,6 +24,10 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
     method: 'put',
   });
 
+  const updateOccupantInfo = useApiMutation('/api/v1/user', {
+    method: 'put',
+  });
+
   const onSaveHouseInfo = async (data: HouseSettingsProps) => {
     const newData: components['schemas']['UpdateHouseDto'] = {
       code: house.code!,
@@ -36,9 +40,41 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
     await saveHouseInfo({ body: newData });
   };
 
-  const onSaveOccupants = async (occupantDetails: OccupantCardProps) => {};
+  const onSaveOccupants = async (occupantDetails: OccupantCardProps) => {
+    const newData: components['schemas']['UpdateUserDto'] = {
+      house: house.code!,
+      firebaseId: occupantDetails.firebaseId!,
+      name: occupantDetails.name,
+      rentPercentage: occupantDetails.rentPercentage,
+      contact: occupantDetails.contact,
+      //TODO update this once backend no longer strictly requires a date
+      dateJoined:
+        occupantDetails.dateJoined?.toDateString() ||
+        new Date(0).toDateString(),
+      contractEndingDate:
+        occupantDetails.contractEndingDate?.toDateString() ||
+        new Date(0).toDateString(),
+    };
 
-  const onDeleteOccupant = async (firebaseId: string) => {};
+    console.log(newData);
+    await updateOccupantInfo({ body: newData });
+  };
+
+  const onDeleteOccupant = async (firebaseId: string) => {
+    if (!house || !house.users) {
+      console.log('Cannot access house, or users');
+      return;
+    }
+
+    await saveHouseInfo({
+      body: {
+        code: house.code!,
+        users: house.users
+          .map((user) => user.firebaseId)
+          .filter((id) => id === firebaseId),
+      },
+    });
+  };
 
   return (
     <Page>
