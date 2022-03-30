@@ -8,5 +8,8 @@ export class CreateIssueDto {
   description: string;
 
   @ApiProperty()
+  image: string;
+
+  @ApiProperty()
   resolved: boolean;
 }

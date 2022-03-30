@@ -10,6 +10,7 @@ const CURRENT_DATE = new Date();
 const mockIssue = {
   name: 'My Toilet Broke!',
   description: 'I tried to flush and now everything is on fire.',
+  image: '',
   house: null,
   logger: null,
   loggedDate: CURRENT_DATE,
@@ -24,6 +25,7 @@ describe('IssueStoreService', () => {
     {
       name: 'My Toilet Broke!',
       description: 'I tried to flush and now everything is on fire.',
+      image: '',
       house: null,
       logger: null,
       loggedDate: new Date(),
@@ -32,6 +34,7 @@ describe('IssueStoreService', () => {
     {
       name: 'The Fan Broke!',
       description: 'I tried to cool down and now everything is on fire.',
+      image: '',
       house: null,
       logger: null,
       loggedDate: new Date(),
@@ -86,6 +89,7 @@ describe('IssueStoreService', () => {
       Promise.resolve({
         name: 'My Toilet Broke!',
         description: 'I tried to flush and now everything is on fire.',
+        image: '',
         house: null,
         logger: null,
         loggedDate: CURRENT_DATE,
@@ -95,6 +99,7 @@ describe('IssueStoreService', () => {
     const newIssue = await service.create({
       name: 'My Toilet Broke!',
       description: 'I tried to flush and now everything is on fire.',
+      image: '',
       house: null,
       logger: null,
       loggedDate: CURRENT_DATE,

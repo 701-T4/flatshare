@@ -86,6 +86,7 @@ export class IssueController {
     const issueModel: IssueModel = {
       name: createIssueDto.name,
       description: createIssueDto.description,
+      image: createIssueDto.image,
       house: logger.house,
       logger: logger._id,
       loggedDate: currentDate,
@@ -95,6 +96,7 @@ export class IssueController {
     return {
       id: issue._id,
       name: issue.name,
+      image: issue.image,
       description: issue.description,
       logger: logger.firebaseId,
       loggedDate: issue.loggedDate.getTime(),
