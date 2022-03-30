@@ -9,6 +9,9 @@ export class CreateIssueDto {
   description: string;
 
   @ApiProperty()
+  image: string;
+
+  @ApiProperty()
   house: Types.ObjectId;
 
   @ApiProperty()

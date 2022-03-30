@@ -12,6 +12,7 @@ export class IssueUtil {
     return {
       id: issueDocument._id,
       name: issueDocument.name,
+      image: issueDocument.image,
       description: issueDocument.description,
       logger: (await userStoreService.findOne(issueDocument.logger)).firebaseId,
       loggedDate: issueDocument.loggedDate.getTime(),
