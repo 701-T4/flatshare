@@ -13,6 +13,18 @@ export class User {
 
   @Prop({ unique: true })
   firebaseId: string;
+
+  @Prop()
+  rentPercentage: number;
+
+  @Prop()
+  contact: string;
+
+  @Prop()
+  dateJoined: Date;
+
+  @Prop()
+  contractEndingDate: Date;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
@@ -21,4 +33,8 @@ export class UserModel {
   name: string;
   house?: Types.ObjectId;
   firebaseId: string;
+  rentPercentage?: number;
+  contact?: string;
+  dateJoined?: Date;
+  contractEndingDate?: Date;
 }
