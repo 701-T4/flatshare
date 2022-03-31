@@ -64,6 +64,7 @@ const NotesGrid: React.FC<NotesGridProps> = ({ Notes }) => {
         encryption={'L'}
         qrvisible={qrvisible}
         setQRVisible={setQRVisible}
+        title={activeName}
       />
 
       <SecretModal
@@ -71,6 +72,7 @@ const NotesGrid: React.FC<NotesGridProps> = ({ Notes }) => {
         setVisible={setSecretVisible}
         loading={loading}
         data={activeValue}
+        title={activeName}
       />
 
       <Grid.Container gap={2} justify="center">

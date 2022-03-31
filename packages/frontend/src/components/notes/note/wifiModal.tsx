@@ -23,6 +23,7 @@ interface WifiModalProps {
   encryption: string;
   qrCodeText: string;
   qrvisible: boolean;
+  title: string;
   setQRVisible(value: boolean): void;
 }
 
@@ -37,6 +38,7 @@ const WifiModal: React.FC<WifiModalProps> = ({
   qrCodeText,
   qrvisible,
   setQRVisible,
+  title,
 }) => {
   const closeHandler = () => {
     setVisible(false);
@@ -94,7 +96,7 @@ const WifiModal: React.FC<WifiModalProps> = ({
               color="primary"
             />
             <Text b size={18} span css={{ ml: 8 }}>
-              House Wifi
+              {title}
             </Text>
             {loading || qrvisible ? <></> : <EditButton />}
           </Container>
