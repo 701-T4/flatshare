@@ -33,12 +33,11 @@ const OccupantCard: React.FC<OccupantCardProps> = (props) => {
 
   return (
     <>
-      <Collapse.Group splitted>
+      <Collapse.Group splitted style={{ padding: 0 }}>
         <Collapse
           // background color cannot be overridden with css prop nor tailwind className
           style={{ backgroundColor: '#1D2530' }}
           title={<OccupantSummary />}
-          css={{ size: '$tiny' }}
         >
           <OccupantForm {...props} />
         </Collapse>

@@ -98,7 +98,7 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
             className="pt-10 text-teal-500 "
             colorClasses="bg-gray-800"
           >
-            <div className="text-lg font-semibold">Past Bills</div>
+            <div className="text-lg font-semibold">Occupants</div>
           </UnderlinedText>
           <OccupantPanel
             cards={
