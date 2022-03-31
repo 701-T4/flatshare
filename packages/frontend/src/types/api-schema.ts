@@ -51,6 +51,18 @@ export interface paths {
   '/api/v1/house/tasks/{id}/completed': {
     put: operations['TasksController_markTaskAsComplete'];
   };
+  '/api/v1/house/issues': {
+    get: operations['IssueController_getIssues'];
+    post: operations['IssueController_createIssue'];
+  };
+  '/api/v1/house/issues/{id}': {
+    get: operations['IssueController_getIssue'];
+    put: operations['IssueController_updateIssue'];
+    delete: operations['IssueController_deleteIssue'];
+  };
+  '/api/v1/house/issues/{id}/resolve': {
+    put: operations['IssueController_resolveIssue'];
+  };
 }
 
 export interface components {
@@ -156,6 +168,32 @@ export interface components {
       name?: string;
       description?: string;
       pool?: string[];
+    };
+    IssueResponseDto: {
+      id: string;
+      name: string;
+      description: string;
+      image: string;
+      logger: string;
+      loggedDate: number;
+      resolved: boolean;
+    };
+    IssuesResponseDto: {
+      issues: components['schemas']['IssueResponseDto'][];
+    };
+    CreateIssueDto: {
+      name: string;
+      description: string;
+      resolved: boolean;
+    };
+    UpdateIssueDto: {
+      name: string;
+      description: string;
+      resolved: boolean;
+      image: string;
+    };
+    ResolveIssueDto: {
+      resolved: boolean;
     };
   };
 }
@@ -508,6 +546,109 @@ export interface operations {
       content: {
         'application/json': components['schemas']['CompleteTaskDto'];
       };
+    };
+  };
+  IssueController_getIssues: {
+    parameters: {};
+    responses: {
+      /** Issues retrieved successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['IssuesResponseDto'];
+        };
+      };
+      /** User is not in a house */
+      400: unknown;
+    };
+  };
+  IssueController_createIssue: {
+    parameters: {};
+    responses: {
+      /** issue created successfully */
+      201: {
+        content: {
+          'application/json': components['schemas']['IssueResponseDto'];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateIssueDto'];
+      };
+    };
+  };
+  IssueController_getIssue: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** Issues retrieved successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['IssueResponseDto'];
+        };
+      };
+      /** Not the issue owner */
+      403: unknown;
+    };
+  };
+  IssueController_updateIssue: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** Issue updated successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['IssueResponseDto'];
+        };
+      };
+      /** Not the issue owner */
+      403: unknown;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateIssueDto'];
+      };
+    };
+  };
+  IssueController_resolveIssue: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** Issue updated successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['IssueResponseDto'];
+        };
+      };
+      /** Not the issue owner */
+      403: unknown;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ResolveIssueDto'];
+      };
+    };
+  };
+  IssueController_deleteIssue: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** Issue deleted successfully */
+      204: never;
+      /** Not the Issue owner */
+      403: unknown;
     };
   };
 }
