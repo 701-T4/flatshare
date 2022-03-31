@@ -11,6 +11,9 @@ export class Issue {
   @Prop({ required: true })
   description: string;
 
+  @Prop({ default: '' })
+  image: string;
+
   @Prop({ type: Types.ObjectId, ref: 'House' })
   house: Types.ObjectId;
 
@@ -29,6 +32,7 @@ export const IssueSchema = SchemaFactory.createForClass(Issue);
 export class IssueModel {
   name: string;
   description: string;
+  image: string;
   house: Types.ObjectId;
   logger: Types.ObjectId;
   loggedDate: Date;

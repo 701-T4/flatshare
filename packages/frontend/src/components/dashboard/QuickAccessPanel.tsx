@@ -3,6 +3,7 @@ import TopAction from './TopAction';
 import house from '../../res/dashboard/house.webp';
 import cleaning from '../../res/dashboard/cleaning.webp';
 import cogs from '../../res/dashboard/cogs.webp';
+import repair from '../../res/dashboard/repair.webp';
 import notes from '../../res/dashboard/post-notes.webp';
 import { useNavigate } from 'react-router';
 
@@ -50,6 +51,16 @@ const QuickAccessPanel: React.FC<QuickAccessPanelProps> = () => {
         twOpacity="opacity-80"
         description="Miscellaneous notes about your flat."
         onClick={() => navigate('/notes')}
+      />
+      <TopAction
+        // https://unsplash.com/photos/cGXdjyP6-NU
+        img={repair}
+        title="Maintenance Issues"
+        twGradientStart="from-blue-700"
+        twGradientEnd="to-green-800"
+        twOpacity="opacity-80"
+        onClick={() => navigate('/issues')}
+        description="Keep track of issues around the flat."
       />
     </div>
   );

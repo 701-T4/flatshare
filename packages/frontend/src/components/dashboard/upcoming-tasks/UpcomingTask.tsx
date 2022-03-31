@@ -9,6 +9,7 @@ const Variation = {
   teal: 'bg-gradient-to-r from-teal-400 to-teal-600',
   purple: 'bg-gradient-to-r from-purple-400 to-purple-600',
   gray: 'bg-gradient-to-r from-gray-600 to-gray-400',
+  blue: 'bg-gradient-to-r from-blue-500 to-teal-700',
 };
 
 interface UpcomingTaskProps {
@@ -16,7 +17,7 @@ interface UpcomingTaskProps {
   twColor?: string;
   dueString?: string;
   overdue?: boolean;
-  type: 'Task' | 'Bill';
+  type: 'Task' | 'Bill' | 'Issue';
   completed?: boolean;
   past?: boolean;
   onCompleteClick?: () => void;
@@ -45,6 +46,13 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
     onCompleteClick?.();
   };
 
+  const includeDetailsLink = ['Bill', 'Issue'];
+
+  let completeText = 'Complete';
+  if (type === 'Issue') {
+    completeText = 'Resolve';
+  }
+
   return (
     <div className="shadow-lg rounded-b-xl">
       <div className="flex flex-col h-full">
@@ -57,7 +65,7 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
         >
           <div className="flex flex-row justify-between">
             {type}
-            {type === 'Bill' && !past && (
+            {includeDetailsLink.includes(type) && !past && (
               <button
                 className="flex items-center justify-center w-16 text-sm font-semibold text-white rounded-md hover:bg-red-500"
                 onClick={onDetailClick}
@@ -92,7 +100,11 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
               onClick={clickWrapper}
               disabled={disabled}
             >
-              {completed ? <CheckCircleIcon className="w-6" /> : <>Complete</>}
+              {completed ? (
+                <CheckCircleIcon className="w-6" />
+              ) : (
+                <>{completeText}</>
+              )}
             </button>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
 export class UpdateIssueDto {
   @ApiProperty()
@@ -8,5 +8,8 @@ export class UpdateIssueDto {
   description: string;
 
   @ApiProperty()
+  image: string;
+
+  @ApiPropertyOptional()
   resolved: boolean;
 }

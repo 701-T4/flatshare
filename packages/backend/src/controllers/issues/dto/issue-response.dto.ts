@@ -11,6 +11,9 @@ export class IssueResponseDto {
   description: string;
 
   @ApiProperty()
+  image: string;
+
+  @ApiProperty()
   logger: string;
 
   @ApiPropertyOptional()
