@@ -3,32 +3,32 @@ import 'react-datepicker/dist/react-datepicker.css';
 import React, { useState } from 'react';
 import { components } from '../../types/api-schema';
 
-interface billModification {
+interface issueModification {
   name: string;
   description: string;
   resolved: boolean;
 }
 
 interface EditIssueCardProps {
-  billParam: components['schemas']['IssueResponseDto'];
-  handleOnDoneClickCallBack: React.Dispatch<billModification>;
+  issueParam: components['schemas']['IssueResponseDto'];
+  handleOnDoneClickCallBack: React.Dispatch<issueModification>;
 }
 
 const EditIssueCard: React.FC<EditIssueCardProps> = ({
-  billParam,
+  issueParam,
   handleOnDoneClickCallBack,
 }) => {
-  const [title, setTitle] = useState(billParam.name);
-  const [detail, setDetail] = useState(billParam.description);
-  const [resolve, setResolve] = useState(billParam.resolved);
+  const [title, setTitle] = useState(issueParam.name);
+  const [detail, setDetail] = useState(issueParam.description);
+  const [resolve, setResolve] = useState(issueParam.resolved);
 
   const handleDoneButton = (e: React.MouseEvent<HTMLButtonElement>) => {
-    let bill = {
+    let issue = {
       name: title,
       description: detail,
       resolved: resolve,
     };
-    handleOnDoneClickCallBack(bill);
+    handleOnDoneClickCallBack(issue);
   };
 
   return (

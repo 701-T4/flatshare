@@ -24,56 +24,58 @@ interface IssueDetailPageProps {}
 const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
   const { id } = useParams();
 
-  // const bill = stateWrapper.bill;
   const [isEdit, setIsEdit] = useState(false);
   const navigate = useNavigate();
   const auth = getAuth();
 
   const {
-    data: bill,
-    loading: billLoading,
-    mutate: billMutate,
+    data: issue,
+    loading: issueLoading,
+    mutate: issueMutate,
   } = useApi('/api/v1/house/issues/{id}', {
     method: 'get',
     pathParams: { id: id ?? '' },
   });
 
   // mark pay with and without proof
-  const markPayBill = useApiMutation('/api/v1/house/issues/{id}/resolve', {
-    method: 'put',
-  });
+  const markIssueResolved = useApiMutation(
+    '/api/v1/house/issues/{id}/resolve',
+    {
+      method: 'put',
+    },
+  );
 
-  // delete bill
-  const deleteBillCall = useApiMutation('/api/v1/house/issues/{id}', {
+  // delete issue
+  const deleteIssueCall = useApiMutation('/api/v1/house/issues/{id}', {
     method: 'delete',
   });
 
-  // edit bill
-  const editBillCall = useApiMutation('/api/v1/house/issues/{id}', {
+  // edit issue
+  const editIssueCall = useApiMutation('/api/v1/house/issues/{id}', {
     method: 'put',
   });
 
-  useFullLoader(() => billLoading);
+  useFullLoader(() => issueLoading);
 
-  if (billLoading || !bill) {
+  if (issueLoading || !issue) {
     return null;
   }
 
   const userId = auth.currentUser?.uid;
-  const resolved = bill?.resolved;
-  const isOwner = userId === bill?.logger;
+  const resolved = issue?.resolved;
+  const isOwner = userId === issue?.logger;
 
-  const completeBill = async () => {
+  const completeIssue = async () => {
     if (resolved) {
       return;
     }
 
-    const optimistic = { ...bill };
-    billMutate(optimistic);
+    const optimistic = { ...issue };
+    issueMutate(optimistic);
 
-    await markPayBill({
+    await markIssueResolved({
       pathParams: {
-        id: bill.id,
+        id: issue.id,
       },
       body: {
         resolved: true,
@@ -81,8 +83,8 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
     });
   };
 
-  const deleteBill = async () => {
-    deleteBillCall({ pathParams: { id: bill.id } });
+  const deleteIssue = async () => {
+    deleteIssueCall({ pathParams: { id: issue.id } });
     navigate('/issues', { replace: true });
   };
 
@@ -91,11 +93,11 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
       {isEdit ? (
         <div className="px-10 pt-10 md:px-20">
           <EditIssueCard
-            billParam={bill}
+            issueParam={issue}
             handleOnDoneClickCallBack={(d) => {
-              editBillCall({
+              editIssueCall({
                 pathParams: {
-                  id: bill.id,
+                  id: issue.id,
                 },
                 body: {
                   description: d.description,
@@ -117,10 +119,10 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
                   'flex flex-row text-left items-center justify-between rounded-t-xl px-10 py-10 text-white font-semibold lg:text-3xl',
                 )}
               >
-                {bill?.name}
+                {issue?.name}
                 <div className="flex flex-row items-center">
                   {/* <Switch className="mr-5"></Switch> */}
-                  <Button auto onClick={() => completeBill()}>
+                  <Button auto onClick={() => completeIssue()}>
                     {resolved ? (
                       <div className="flex">
                         <CheckCircleIcon className="w-8 p-1" />
@@ -143,7 +145,7 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
                   {isOwner ? (
                     <Button
                       auto
-                      onClick={() => deleteBill()}
+                      onClick={() => deleteIssue()}
                       icon={<TrashIcon className="w-5 h-5 text-teal-50" />}
                     />
                   ) : (
@@ -154,11 +156,14 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
               <div className="flex flex-col items-center h-full px-4 py-4 bg-gray-800 rounded-b-xl lg:px-8 gap-y-1">
                 <div className="flex flex-col items-start justify-between lg:flex-row lg:w-full">
                   <div className="flex flex-col px-2 lg:w-1/2">
-                    <DetailRow title="Description" value={bill?.description!} />
+                    <DetailRow
+                      title="Description"
+                      value={issue?.description!}
+                    />
                     <Spacer y={2} />
                     <DetailRow
                       title="Log Date"
-                      value={new Date(bill?.loggedDate).toDateString()}
+                      value={new Date(issue?.loggedDate).toDateString()}
                     />
                     <Spacer y={2} />
                   </div>
