@@ -5,7 +5,6 @@ import {
   Col,
   Button,
   FormElement,
-  Text,
 } from '@nextui-org/react';
 import React, { useState } from 'react';
 
