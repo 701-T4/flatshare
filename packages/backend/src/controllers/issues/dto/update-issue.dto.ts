@@ -10,6 +10,6 @@ export class UpdateIssueDto {
   @ApiProperty()
   image: string;
 
-  @ApiProperty()
+  @ApiPropertyOptional()
   resolved: boolean;
 }

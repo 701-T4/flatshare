@@ -136,7 +136,7 @@ export class IssueController {
   }
 
   @Put(':id/resolve')
-  @ApiOperation({ summary: 'Mark a user as having reesolved an issue.' })
+  @ApiOperation({ summary: 'Mark a user as having resolved an issue.' })
   @ApiOkResponse({
     description: 'Issue resolved successfully',
     type: IssueResponseDto,
