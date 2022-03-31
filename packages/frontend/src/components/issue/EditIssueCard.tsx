@@ -21,15 +21,13 @@ const EditIssueCard: React.FC<EditIssueCardProps> = ({
 }) => {
   const [title, setTitle] = useState(issueParam.name);
   const [detail, setDetail] = useState(issueParam.description);
-  const [resolve, setResolve] = useState(issueParam.resolved);
-  const [image, setImage] = useState(issueParam.image);
 
   const handleDoneButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     let issue = {
       name: title,
       description: detail,
-      resolved: resolve,
-      image: image,
+      resolved: issueParam.resolved,
+      image: issueParam.image,
     };
     handleOnDoneClickCallBack(issue);
   };
@@ -37,7 +35,7 @@ const EditIssueCard: React.FC<EditIssueCardProps> = ({
   return (
     <div className="shadow-lg rounded-b-xl">
       <div className="flex flex-col h-full">
-        <div className="px-4 py-1 text-lg font-semibold text-left text-white bg-gradient-to-r from-amber-400 to-amber-600 rounded-t-xl">
+        <div className="px-4 py-1 text-lg font-semibold text-left text-white bg-gradient-to-r from-blue-500 to-teal-700 rounded-t-xl">
           <div className="flex flex-row flex-wrap justify-between">
             <div className="self-center">Issue</div>
 

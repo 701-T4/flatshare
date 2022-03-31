@@ -9,6 +9,7 @@ const Variation = {
   teal: 'bg-gradient-to-r from-teal-400 to-teal-600',
   purple: 'bg-gradient-to-r from-purple-400 to-purple-600',
   gray: 'bg-gradient-to-r from-gray-600 to-gray-400',
+  blue: 'bg-gradient-to-r from-blue-500 to-teal-700',
 };
 
 interface UpcomingTaskProps {

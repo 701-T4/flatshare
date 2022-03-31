@@ -46,9 +46,12 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
   const auth = getAuth();
 
   // mark pay with and without proof
-  const markPayIssue = useApiMutation('/api/v1/house/issues/{id}/resolve', {
-    method: 'put',
-  });
+  const markIssueResolved = useApiMutation(
+    '/api/v1/house/issues/{id}/resolve',
+    {
+      method: 'put',
+    },
+  );
 
   // delete issue
   const deleteIssueCall = useApiMutation('/api/v1/house/issues/{id}', {
@@ -78,7 +81,7 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
     const optimistic = { ...issue };
     issueMutate(optimistic);
 
-    await markPayIssue({
+    await markIssueResolved({
       pathParams: {
         id: issue.id,
       },
@@ -165,7 +168,7 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
             <div className="flex flex-col h-full">
               <div
                 className={cx(
-                  'bg-gradient-to-r from-red-400 to-red-600', //TODO to be extracted
+                  'bg-gradient-to-r from-blue-500 to-teal-700',
                   'flex flex-row text-left items-center justify-between rounded-t-xl px-10 py-10 text-white font-semibold lg:text-3xl',
                 )}
               >

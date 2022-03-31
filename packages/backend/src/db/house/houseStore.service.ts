@@ -42,6 +42,10 @@ export class HouseStoreService {
         name: user['name'],
         house: house.code,
         firebaseId: user['firebaseId'],
+        rentPercentage: user['rentPercentage'],
+        contact: user[`contact`],
+        dateJoined: user[`dateJoined`],
+        contractEndingDate: user[`contractEndingDate`],
       };
       userList.push(userDto);
     }
