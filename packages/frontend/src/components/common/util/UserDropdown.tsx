@@ -12,6 +12,8 @@ import { usePopper } from 'react-popper';
 import { useAuth } from '../../../hooks/useAuth';
 import { auth } from '../../../services/firebase';
 import { useAlert } from './CornerAlert';
+// import profilePicutre from '..\..\..\src\res\svg\anon_profile_picture.svg'
+import profilePicutre from '../../../res/svg/anon_profile_picture.svg';
 
 const iconClass = 'bg-teal-100 text-teal-500 rounded-lg p-2.5';
 
@@ -83,10 +85,10 @@ const UserDropdown: React.FC = () => {
                 <span>{user?.email}</span>
               </div>
               <img
-                src={user?.photoURL ?? ''}
+                src={user?.photoURL ?? profilePicutre}
                 referrerPolicy="no-referrer"
                 alt="User Avatar"
-                className="rounded-full w-12"
+                className="w-12"
               />
               <ChevronDownIcon className="w-4" />
             </div>
