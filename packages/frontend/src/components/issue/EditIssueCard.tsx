@@ -33,7 +33,7 @@ const EditIssueCard: React.FC<EditIssueCardProps> = ({
   return (
     <div className="shadow-lg rounded-b-xl">
       <div className="flex flex-col h-full">
-        <div className="px-4 py-1 text-lg font-semibold text-left text-white bg-gradient-to-r from-amber-400 to-amber-600 rounded-t-xl">
+        <div className="px-4 py-1 text-lg font-semibold text-left text-white bg-gradient-to-r from-blue-500 to-teal-700 rounded-t-xl">
           <div className="flex flex-row flex-wrap justify-between">
             <div className="self-center">Issue</div>
 
