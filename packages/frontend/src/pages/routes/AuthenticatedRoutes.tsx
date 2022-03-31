@@ -102,6 +102,7 @@ const AuthenticatedRoutes: React.FC<AuthenticatedRoutesProps> = () => {
         <Route path=":id" element={<BillDetailPage />} />
       </Route>
       <Route path="manage-flat" element={<ManageFlatPage />} />
+      <Route path="notes" element={<NotesPage />} />
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   );
