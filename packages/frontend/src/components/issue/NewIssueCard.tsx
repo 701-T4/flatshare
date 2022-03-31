@@ -55,7 +55,7 @@ const NewIssueCard: React.FC<NewIssueCardProps> = ({
                 rounded
                 className="w-auto h-10 mt-1 mb-1 text-base"
                 onClick={handleDoneButton}
-                disabled={issueInfo.title === ''}
+                disabled={issueInfo.title === '' || issueInfo.detail === ''}
               >
                 Done
               </Button>
@@ -70,6 +70,7 @@ const NewIssueCard: React.FC<NewIssueCardProps> = ({
               <input
                 className="appearance-none rounded-lg p-2 text-black"
                 type="text"
+                placeholder="e.g. The sink exploded"
                 value={issueInfo.title}
                 onChange={(e) =>
                   setIssueInfo((prev) => ({
@@ -85,6 +86,7 @@ const NewIssueCard: React.FC<NewIssueCardProps> = ({
                 size="lg"
                 animated={false}
                 value={issueInfo.detail}
+                placeholder="Details could include what happened, who has been contacted, what needs to be done..."
                 onChange={(e) =>
                   setIssueInfo((prev) => ({
                     ...prev,

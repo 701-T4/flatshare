@@ -20,13 +20,12 @@ const EditIssueCard: React.FC<EditIssueCardProps> = ({
 }) => {
   const [title, setTitle] = useState(issueParam.name);
   const [detail, setDetail] = useState(issueParam.description);
-  const [resolve, setResolve] = useState(issueParam.resolved);
 
   const handleDoneButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     let issue = {
       name: title,
       description: detail,
-      resolved: resolve,
+      resolved: issueParam.resolved,
     };
     handleOnDoneClickCallBack(issue);
   };
