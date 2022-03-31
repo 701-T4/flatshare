@@ -14,6 +14,12 @@ export class House {
   @Prop()
   address: string;
 
+  @Prop()
+  rent: string;
+
+  @Prop()
+  maxOccupants: string;
+
   @Prop({ unique: true })
   code: string;
 
@@ -30,6 +36,8 @@ export class HouseModel {
   readonly name: string;
   readonly email: string;
   readonly address: string;
+  rent: string;
+  maxOccupants: string;
   code: string;
   owner: Types.ObjectId;
   users: Array<Types.ObjectId> = [];
