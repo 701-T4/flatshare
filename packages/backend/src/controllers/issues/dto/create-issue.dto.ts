@@ -1,4 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Types } from 'mongoose';
 
 export class CreateIssueDto {
   @ApiProperty()
@@ -6,6 +7,12 @@ export class CreateIssueDto {
 
   @ApiProperty()
   description: string;
+
+  @ApiProperty()
+  house: Types.ObjectId;
+
+  @ApiProperty()
+  logger: Types.ObjectId;
 
   @ApiProperty()
   resolved: boolean;
