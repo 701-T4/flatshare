@@ -115,7 +115,7 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
             <div className="flex flex-col h-full">
               <div
                 className={cx(
-                  'bg-gradient-to-r from-red-400 to-red-600', //TODO to be extracted
+                  'bg-gradient-to-r from-blue-500 to-teal-700',
                   'flex flex-row text-left items-center justify-between rounded-t-xl px-10 py-10 text-white font-semibold lg:text-3xl',
                 )}
               >

@@ -26,11 +26,12 @@ const QuickAccessPanel: React.FC<QuickAccessPanelProps> = () => {
       <TopAction
         // https://unsplash.com/photos/SnKfmC1I9fU
         img={cleaning}
-        title="Chores"
+        title="Maintenance Issues"
         twGradientStart="from-blue-700"
         twGradientEnd="to-green-800"
         twOpacity="opacity-80"
-        description="Decide who should do what chores."
+        onClick={() => navigate('/issues')}
+        description="Keep track of issues around the flat."
       />
       <TopAction
         // https://unsplash.com/photos/u_RiRTA_TtY

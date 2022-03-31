@@ -106,7 +106,7 @@ const IssuesPage: React.FC<IssuesPageProps> = () => {
                 title={issue.name}
                 dueString={`Logged on ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`}
                 completed={issue.resolved}
-                twColor={UpcomingTask.Variation.red} // @TODO: decide on colour
+                twColor={UpcomingTask.Variation.blue} // @TODO: decide on colour
                 disabled={(issue as any).loading}
                 type="Issue"
                 onDetailClick={() =>
