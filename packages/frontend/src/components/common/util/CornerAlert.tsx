@@ -123,6 +123,7 @@ export const CornerAlert: React.FC<CornerAlertProps> = ({
   return (
     <div
       className={`transition-all duration-300 ease-out ${topClassValue} left-14 z-50 fixed`}
+      data-cy="corner-alert"
     >
       <div className="bg-gradient-to-r from-blue-400 to-emerald-500 p-px rounded">
         <div

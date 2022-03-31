@@ -20,3 +20,33 @@ Running with Docker will ensure that users can quickly get environment up and ru
 2. Ensure you have Docker running. You can set it to run on device startup in Docker Desktop so you can forget about it. If you are unable to install Docker Desktop, you can use the command `dockerd` to start Docker.
 3. Build the Docker image using `docker build -f Dockerfile -t frontend .`
 4. Run `docker run -it -p 80:3000 frontend` to run the frontend in a docker container.
+
+# Testing with Cypress
+
+To start running tests, ensure Cypress is installed locally as a dev dependency.
+
+```bash
+$ yarn add cypress --dev
+```
+
+## Running tests
+
+There are two methods to run frontend integration tests.
+
+1. Run tests using Cypress Test Runner
+
+```bash
+$ yarn run cypress open
+```
+
+2. Run all tests from the command line
+
+```bash
+$ yarn run cypress run
+```
+
+## Configurations
+
+Current configurations set Cypress to not take screenshots on test fails nor capture video of tests during `yarn run cypress run`.
+
+To change or add to these configurations, modify `cypress.json`.

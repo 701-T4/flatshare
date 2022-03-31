@@ -45,6 +45,7 @@ const JoinHouseModal: React.FC<CreateHouseModalProps> = ({
         aria-labelledby="modal-title"
         open={joinVisible}
         onClose={closeJoinHandler}
+        data-cy="join-house-modal"
       >
         <Modal.Header>
           <Text id="modal-title" size={'1.75rem'}>
@@ -61,6 +62,7 @@ const JoinHouseModal: React.FC<CreateHouseModalProps> = ({
             size="xl"
             placeholder="House Code"
             onChange={(e) => setHouseCode(e.target.value)}
+            data-cy="house-code-input"
           />
         </Modal.Body>
         <Modal.Footer>
@@ -70,6 +72,7 @@ const JoinHouseModal: React.FC<CreateHouseModalProps> = ({
               handleJoiningHouse();
             }}
             size="lg"
+            data-cy="join-house-button"
           >
             Submit
           </Button>

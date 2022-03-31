@@ -83,6 +83,10 @@ const AuthenticatedRoutes: React.FC<AuthenticatedRoutesProps> = () => {
     return null;
   }
 
+  if (dataLoading) {
+    return null;
+  }
+
   if (!name) {
     return (
       <Routes>

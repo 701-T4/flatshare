@@ -47,6 +47,7 @@ const CreateHouseModal: React.FC<CreateHouseModalProps> = ({
         open={createVisible}
         width={'50%'}
         onClose={closeCreateHandler}
+        data-cy="create-house-modal"
       >
         <Modal.Header>
           <Text id="modal-title-create" size={'1.75rem'}>
@@ -70,6 +71,7 @@ const CreateHouseModal: React.FC<CreateHouseModalProps> = ({
                 name: e.target.value,
               }))
             }
+            data-cy="house-name-input"
           />
           <Text size={'1.25rem'} margin="2%">
             Address
@@ -87,6 +89,7 @@ const CreateHouseModal: React.FC<CreateHouseModalProps> = ({
                 address: e.target.value,
               }))
             }
+            data-cy="house-address-input"
           />
           <Text size={'1.25rem'} margin="2%">
             Phone Number
@@ -104,11 +107,17 @@ const CreateHouseModal: React.FC<CreateHouseModalProps> = ({
                 phone: e.target.value,
               }))
             }
+            data-cy="house-phone-input"
           />
         </Modal.Body>
 
         <Modal.Footer>
-          <Button auto onClick={handleCreatingHouse} size="lg">
+          <Button
+            auto
+            onClick={handleCreatingHouse}
+            size="lg"
+            data-cy="create-house-button"
+          >
             Create!
           </Button>
         </Modal.Footer>

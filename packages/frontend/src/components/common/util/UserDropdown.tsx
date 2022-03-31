@@ -66,7 +66,7 @@ const UserDropdown: React.FC = () => {
   );
 
   return (
-    <Popover className="relative">
+    <Popover className="relative" data-cy="user-popover">
       {({ open }) => (
         <>
           <Popover.Button
@@ -105,6 +105,7 @@ const UserDropdown: React.FC = () => {
               ref={setPopperElement}
               style={styles.popper}
               {...attributes.popper}
+              data-cy="user-dropdown"
             >
               <div className="overflow-hidden rounded-lg shadow-lg ring-1 ring-black ring-opacity-5">
                 <div className="relative grid gap-8 bg-white p-7 lg:grid-cols-1">
@@ -113,6 +114,7 @@ const UserDropdown: React.FC = () => {
                       key={item.name}
                       onClick={item.action}
                       className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-50 text-left"
+                      data-cy="dropdown-option"
                     >
                       <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 text-white sm:h-12 sm:w-12">
                         <item.icon aria-hidden="true" />
