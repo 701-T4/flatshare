@@ -11,7 +11,15 @@ import {
   Textarea,
 } from '@nextui-org/react';
 
-const noteType = [{ name: 'Normal' }, { name: 'Secret' }, { name: 'WiFi' }];
+const NORMAL_TYPE = 'Normal';
+const SECRET_TYPE = 'Secret';
+const WIFI_TYPE = 'WiFi';
+
+const noteType = [
+  { name: NORMAL_TYPE },
+  { name: SECRET_TYPE },
+  { name: WIFI_TYPE },
+];
 
 interface NewNoteModalProps {
   createNoteVisible: boolean;
@@ -27,6 +35,8 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
   const [selected, setSelected] = useState(noteType[0]);
 
   const [showWifiInputs, setShowWifiInputs] = useState(false);
+
+  const [showSecretInputs, setShowSecretInputs] = useState(false);
 
   return (
     <Modal
@@ -61,8 +71,10 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
           value={selected}
           onChange={(e) => {
             setSelected(e);
-            if (e.name === 'WiFi') setShowWifiInputs(true);
+            if (e.name === WIFI_TYPE) setShowWifiInputs(true);
             else setShowWifiInputs(false);
+            if (e.name === SECRET_TYPE) setShowSecretInputs(true);
+            else setShowSecretInputs(false);
           }}
         >
           <div className="relative mt-1">
@@ -147,6 +159,12 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
 
         {!showWifiInputs ? (
           <Container direction="column" display="flex" css={{ p: 0 }}>
+            {showSecretInputs && (
+              <Text size={'1rem'} margin="0% 0% 0% 1.5%" color="red">
+                Warning: Secrets are not protected by a password. Be aware that
+                all information stored will be accesible to your flatmates.
+              </Text>
+            )}
             <Text size={'1.25rem'} margin="1.5%">
               Description
             </Text>
