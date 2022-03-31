@@ -57,7 +57,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
     type: NoteTypes.PLAIN,
   });
 
-  const { data, mutate } = useApi('/api/v1/house/note', { method: 'get' });
+  // const { data, mutate } = useApi('/api/v1/house/note', { method: 'get' });
 
   const createNote = useApiMutation('/api/v1/house/note', { method: 'post' });
 
@@ -65,7 +65,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
     try {
       const { name, value, type } = newNoteDetails;
       await createNote({ body: { name, value, type } });
-      mutate();
+      // mutate();
       setCreateNoteVisible(false);
     } catch (e) {}
   }
