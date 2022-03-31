@@ -173,6 +173,7 @@ export interface components {
       id: string;
       name: string;
       description: string;
+      image: string;
       logger: string;
       loggedDate: number;
       resolved: boolean;
@@ -189,6 +190,7 @@ export interface components {
       name: string;
       description: string;
       resolved: boolean;
+      image: string;
     };
     ResolveIssueDto: {
       resolved: boolean;
