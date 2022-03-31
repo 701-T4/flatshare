@@ -13,7 +13,8 @@ interface PlainModalProps {
   visible: boolean;
   setVisible(value: boolean): void;
   loading: boolean;
-  data: string;
+  data: string | undefined;
+  title: string;
 }
 
 const PlainModal: React.FC<PlainModalProps> = ({
@@ -21,6 +22,7 @@ const PlainModal: React.FC<PlainModalProps> = ({
   setVisible,
   loading,
   data,
+  title,
 }) => {
   const closeHandler = () => {
     setVisible(false);
@@ -49,7 +51,7 @@ const PlainModal: React.FC<PlainModalProps> = ({
               color="primary"
             />
             <Text b size={18} span css={{ ml: 8 }}>
-              Plain Note
+              {title}
             </Text>
             {loading ? <></> : <EditButton />}
           </Container>
@@ -65,7 +67,7 @@ const PlainModal: React.FC<PlainModalProps> = ({
               justify="space-between"
               css={{ p: 0 }}
             >
-              <Text id="modal-description">{data}</Text>
+              <Text id="modal-title">{data}</Text>
             </Container>
           )}
         </Modal.Body>
