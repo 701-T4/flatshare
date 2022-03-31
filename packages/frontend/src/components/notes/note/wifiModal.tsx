@@ -43,6 +43,7 @@ const WifiModal: React.FC<WifiModalProps> = ({
   const closeHandler = () => {
     setVisible(false);
     setQRVisible(false);
+    setPasswordShown(false);
   };
 
   const qrCodeHandler = (e: any) => {
