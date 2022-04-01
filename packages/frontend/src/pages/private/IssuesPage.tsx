@@ -74,7 +74,7 @@ const IssuesPage: React.FC<IssuesPageProps> = () => {
   );
 
   return (
-    <Page>
+    <Page backpath="/dashboard">
       <div className="flex flex-col gap-4">
         <Button
           aria-label="New Issue"

@@ -141,7 +141,7 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
   };
 
   return (
-    <Page>
+    <Page backpath="/issues">
       {isEdit ? (
         <div className="px-10 pt-10 md:px-20">
           <EditIssueCard
