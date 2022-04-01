@@ -10,6 +10,8 @@ import {
   Text,
   Textarea,
 } from '@nextui-org/react';
+import { useApiMutation } from '../../../hooks/useApi';
+// import { useNavigate } from 'react-router-dom';
 
 const NORMAL_TYPE = 'Normal';
 const SECRET_TYPE = 'Secret';
@@ -38,6 +40,37 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
 
   const [showSecretInputs, setShowSecretInputs] = useState(false);
 
+  enum NoteTypes {
+    PLAIN = 'PLAIN',
+    SECRET = 'SECRET',
+    WIFI = 'WIFI',
+  }
+
+  interface NewNoteDetails {
+    name: string;
+    value: string;
+    type: "PLAIN" | "SECRET" | "WIFI";
+  }
+
+  const [newNoteDetails, setNoteDetails] = useState<NewNoteDetails>({
+    name: '',
+    value: '',
+    type: NoteTypes.PLAIN,
+  });
+
+  // const { data, mutate } = useApi('/api/v1/house/note', { method: 'get' });
+
+  const createNote = useApiMutation('/api/v1/house/note', { method: 'post' });
+
+  async function onClickCreate() {
+    try {
+      const { name, value, type } = newNoteDetails;
+      await createNote({ body: { name, value, type } });
+      // mutate();
+      setCreateNoteVisible(false);
+    } catch (e) {}
+  }
+
   return (
     <Modal
       closeButton
@@ -62,6 +95,12 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
           placeholder="Enter your note header"
           size="xl"
           color="primary"
+          onChange={(e) =>
+            setNoteDetails((prevState) => ({
+              ...prevState,
+              name: e.target.value,
+            }))
+          }
         ></Input>
         <Text size={'1.25rem'} margin="1.5%">
           Type
@@ -75,6 +114,18 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
             else setShowWifiInputs(false);
             if (e.name === SECRET_TYPE) setShowSecretInputs(true);
             else setShowSecretInputs(false);
+            if (e.name === NORMAL_TYPE) setNoteDetails((prevState) => ({
+              ...prevState,
+              type: NoteTypes.PLAIN,
+            }));
+            if (e.name === WIFI_TYPE) setNoteDetails((prevState) => ({
+              ...prevState,
+              type: NoteTypes.WIFI,
+            }));
+            if (e.name === SECRET_TYPE) setNoteDetails((prevState) => ({
+              ...prevState,
+              type: NoteTypes.SECRET,
+            }));
           }}
         >
           <div className="relative mt-1">
@@ -174,12 +225,18 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
               placeholder="Enter your note here"
               size="xl"
               color="primary"
+              onChange={(e) =>
+                setNoteDetails((prevState) => ({
+                  ...prevState,
+                  value: e.target.value,
+                }))
+              }
             ></Textarea>
           </Container>
         ) : null}
       </Modal.Body>
       <Modal.Footer css={{ cursor: 'auto' }}>
-        <Button size="md" className="sm: text-lg">
+        <Button size="md" className="sm: text-lg" onClick={onClickCreate}>
           Create
         </Button>
       </Modal.Footer>
