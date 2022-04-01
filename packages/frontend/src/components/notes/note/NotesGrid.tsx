@@ -58,8 +58,7 @@ const NotesGrid: React.FC<NotesGridProps> = ({ Notes }) => {
         setQrCodeText={setQrCodeText}
         qrCodeText={qrCodeText}
         loading={loading}
-        userName={wifiuser}
-        password={wifipass}
+        value={activeValue}
         encryption={'L'}
         qrvisible={qrvisible}
         setQRVisible={setQRVisible}

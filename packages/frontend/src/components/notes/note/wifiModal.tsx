@@ -18,8 +18,7 @@ interface WifiModalProps {
   setVisible(value: boolean): void;
   setQrCodeText(value: string): void;
   loading: boolean;
-  userName: string;
-  password: string;
+  value: string;
   encryption: string;
   qrCodeText: string;
   qrvisible: boolean;
@@ -32,8 +31,7 @@ const WifiModal: React.FC<WifiModalProps> = ({
   setVisible,
   setQrCodeText,
   loading,
-  userName,
-  password,
+  value,
   encryption,
   qrCodeText,
   qrvisible,
@@ -50,8 +48,10 @@ const WifiModal: React.FC<WifiModalProps> = ({
     e.preventDefault();
     setQRVisible(!qrvisible);
     setQrCodeText(
-      `WIFI:T:${encryption};S:${userName};${
-        encryption !== 'nopass' ? `P:${password};` : ''
+      `WIFI:T:${encryption};S:${value.substring(0, value.indexOf(':'))};${
+        encryption !== 'nopass'
+          ? `P:${value.substring(value.indexOf(':') + 1)};`
+          : ''
       }`,
     );
     return false;
@@ -104,7 +104,7 @@ const WifiModal: React.FC<WifiModalProps> = ({
             ) : (
               <EditButton
                 activeTitle={title}
-                activeValue={userName}
+                activeValue={value}
                 activeType={'WiFi'}
               />
             )}
@@ -133,13 +133,13 @@ const WifiModal: React.FC<WifiModalProps> = ({
                     label="Username"
                     readOnly
                     width="86%"
-                    initialValue={userName}
+                    initialValue={value.substring(0, value.indexOf(':'))}
                   />
                   <Input
                     label="Password"
                     width="86%"
                     type={passwordShown ? 'text' : 'password'}
-                    initialValue={password}
+                    initialValue={value.substring(value.indexOf(':') + 1)}
                   />
                   {unHideButton()}
                 </Container>

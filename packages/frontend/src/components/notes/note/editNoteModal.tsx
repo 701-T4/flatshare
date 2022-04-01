@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Fragment } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
+import { useApiMutation } from '../../../hooks/useApi';
 import {
   Button,
   Container,
@@ -30,7 +31,30 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
 }) => {
   const closeNoteHandler = () => setEditNoteVisible(false);
   const [selected, setSelected] = useState(activeType);
-  const [showWifiInputs, setShowWifiInputs] = useState(false);
+  const [showWifiInputs, setShowWifiInputs] = useState(activeType === 'WiFi');
+  interface tempNote {
+    title: string;
+    value: string;
+    type: string;
+  }
+  const [editedNote, setEditedNote] = useState<tempNote>({
+    title: 'string;',
+    value: 'string;',
+    type: 'string;',
+  });
+
+  const editNote = useApiMutation('/api/v1/house/note/{id}', { method: 'put' });
+
+  const saveCaller = async () => {
+    await editNote({
+      pathParams: { id: 1 ?? '' },
+      body: {
+        name: editedNote.title,
+        value: editedNote.value,
+        type: editedNote.type as 'PLAIN' | 'SECRET' | 'WIFI',
+      },
+    });
+  };
 
   return (
     <Modal
@@ -58,6 +82,12 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
           color="primary"
           initialValue={activeTitle}
           contentEditable={true}
+          onChange={(e) =>
+            setEditedNote((prevState) => ({
+              ...prevState,
+              title: e.target.value,
+            }))
+          }
         ></Input>
         <Text size={'1.25rem'} margin="1.5%">
           Type
@@ -69,6 +99,32 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
             setSelected(e);
             if (e === 'WiFi') setShowWifiInputs(true);
             else setShowWifiInputs(false);
+
+            setEditedNote((prevState) => ({
+              ...prevState,
+              type: 'PLAIN',
+            }));
+
+            switch (e) {
+              case 'Normal':
+                setEditedNote((prevState) => ({
+                  ...prevState,
+                  type: 'PLAIN',
+                }));
+                break;
+              case 'Secret':
+                setEditedNote((prevState) => ({
+                  ...prevState,
+                  type: 'SECRET',
+                }));
+                break;
+              case 'WiFi':
+                setEditedNote((prevState) => ({
+                  ...prevState,
+                  type: 'WIFI',
+                }));
+                break;
+            }
           }}
         >
           <div className="relative mt-1">
@@ -134,7 +190,7 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
               placeholder="Enter the username"
               size="xl"
               color="primary"
-              initialValue="Joe123"
+              initialValue={activeValue.substring(0, activeValue.indexOf(':'))}
             ></Input>
             <Text size={'1.25rem'} margin="1.5%">
               Password
@@ -146,7 +202,7 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
               placeholder="Enter the password"
               size="xl"
               color="primary"
-              initialValue="PassPass"
+              initialValue={activeValue.substring(activeValue.indexOf(':') + 1)}
             ></Input>
           </Container>
         ) : null}
@@ -165,12 +221,24 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
               size="xl"
               color="primary"
               initialValue={activeValue}
+              onChange={(e) =>
+                setEditedNote((prevState) => ({
+                  ...prevState,
+                  value: e.target.value,
+                }))
+              }
             ></Textarea>
           </Container>
         ) : null}
       </Modal.Body>
       <Modal.Footer>
-        <Button size="md" className="sm: text-lg">
+        <Button
+          size="md"
+          className="sm: text-lg"
+          onClick={(event) => {
+            saveCaller();
+          }}
+        >
           Save
         </Button>
       </Modal.Footer>
