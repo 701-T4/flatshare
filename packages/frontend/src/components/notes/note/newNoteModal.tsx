@@ -74,7 +74,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
 
   async function onClickCreate() {
     try {
-      if (newNoteDetails.type==NoteTypes.WIFI){
+      if (newNoteDetails.type===NoteTypes.WIFI){
         newNoteDetails.value = newWifiDetails.username + " + " + newWifiDetails.passward;
       }
       const { name, value, type } = newNoteDetails;
