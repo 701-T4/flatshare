@@ -45,6 +45,9 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
   const [showWifiInputs, setShowWifiInputs] = useState(
     activeType === NoteTypes.WIFI,
   );
+  const [showSecretInputs, setShowSecretInputs] = useState(
+    activeType === NoteTypes.SECRET,
+  );
   interface tempNote {
     title: string;
     value: string;
@@ -118,6 +121,8 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
             setSelected(e);
             if (e === WIFI_TYPE_TEXT) setShowWifiInputs(true);
             else setShowWifiInputs(false);
+            if (e === SECRET_TYPE_TEXT) setShowSecretInputs(true);
+            else setShowSecretInputs(false);
 
             setEditedNote((prevState) => ({
               ...prevState,
@@ -230,6 +235,12 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
 
         {!showWifiInputs ? (
           <Container direction="column" display="flex" css={{ p: 0 }}>
+            {showSecretInputs && (
+              <Text size={'1rem'} margin="0% 0% 0% 1.5%" color="red">
+                Warning: Secrets are not protected by a password. Be aware that
+                all information stored will be accesible to your flatmates.
+              </Text>
+            )}
             <Text size={'1.25rem'} margin="1.5%">
               Description
             </Text>
