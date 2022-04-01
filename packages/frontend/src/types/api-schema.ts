@@ -9,6 +9,7 @@ export interface paths {
   };
   '/api/v1/user': {
     get: operations['UsersController_currentUser'];
+    put: operations['UsersController_updateUser'];
     /** User must be linked to a firebase ID */
     post: operations['UsersController_create'];
   };
@@ -19,6 +20,9 @@ export interface paths {
     get: operations['HouseController_get'];
     put: operations['HouseController_joinHouse'];
     post: operations['HouseController_create'];
+  };
+  '/api/v1/house/update': {
+    put: operations['HouseController_updateHouse'];
   };
   '/api/v1/house/note': {
     get: operations['NoteController_get'];
@@ -61,7 +65,11 @@ export interface paths {
     delete: operations['IssueController_deleteIssue'];
   };
   '/api/v1/house/issues/{id}/resolve': {
-    put: operations['IssueController_resolveIssue'];
+    put: operations['IssueController_updateIssueResolved'];
+  };
+  '/api/v1/house/announcements': {
+    get: operations['AnnouncementController_getAnnouncements'];
+    post: operations['AnnouncementController_createAnnouncement'];
   };
 }
 
@@ -75,11 +83,34 @@ export interface components {
     CreateUserDto: {
       name: string;
       firebaseId: string;
+      rentPercentage?: number;
+      contact?: string;
+      /** Format: date-time */
+      dateJoined?: string;
+      /** Format: date-time */
+      contractEndingDate?: string;
     };
     UserResponseDto: {
       name: string;
       house?: string;
       firebaseId: string;
+      rentPercentage?: number;
+      contact?: string;
+      /** Format: date-time */
+      dateJoined?: string;
+      /** Format: date-time */
+      contractEndingDate?: string;
+    };
+    UpdateUserDto: {
+      name: string;
+      firebaseId: string;
+      house?: string;
+      rentPercentage?: number;
+      contact?: string;
+      /** Format: date-time */
+      dateJoined?: string;
+      /** Format: date-time */
+      contractEndingDate?: string;
     };
     UserTasksResponseDto: {
       tasks?: string[];
@@ -89,16 +120,37 @@ export interface components {
       email: string;
       address: string;
     };
+    AnnouncementResponseDto: {
+      title?: string;
+      description?: string;
+      author: string;
+      houseCode: string;
+      /** Format: date-time */
+      dateCreated: string;
+    };
     HouseResponseDto: {
       name?: string;
       email?: string;
       address?: string;
+      rent?: string;
+      maxOccupants?: string;
       code: string;
       owner: string;
       users: components['schemas']['UserResponseDto'][];
+      latestAnnouncement?: components['schemas']['AnnouncementResponseDto'];
     };
     JoinHouseDto: {
       houseCode: string;
+    };
+    UpdateHouseDto: {
+      name?: string;
+      email?: string;
+      address?: string;
+      rent?: string;
+      maxOccupants?: string;
+      code: string;
+      owner?: string;
+      users?: string[];
     };
     CreateNoteDto: {
       name: string;
@@ -179,7 +231,7 @@ export interface components {
       description: string;
       image: string;
       logger: string;
-      loggedDate: number;
+      loggedDate?: number;
       resolved: boolean;
     };
     IssuesResponseDto: {
@@ -188,16 +240,24 @@ export interface components {
     CreateIssueDto: {
       name: string;
       description: string;
+      image: string;
       resolved: boolean;
     };
     UpdateIssueDto: {
       name: string;
       description: string;
-      resolved: boolean;
       image: string;
+      resolved?: boolean;
     };
     ResolveIssueDto: {
       resolved: boolean;
+    };
+    CreateAnnouncementDto: {
+      title: string;
+      description: string;
+    };
+    AnnouncementsResponseDto: {
+      announcements: components['schemas']['AnnouncementResponseDto'][];
     };
   };
 }
@@ -222,6 +282,24 @@ export interface operations {
         content: {
           'application/json': components['schemas']['UserResponseDto'];
         };
+      };
+    };
+  };
+  UsersController_updateUser: {
+    parameters: {};
+    responses: {
+      /** user details updated successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['UserResponseDto'];
+        };
+      };
+      /** user details are invalid */
+      400: unknown;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateUserDto'];
       };
     };
   };
@@ -301,6 +379,24 @@ export interface operations {
     requestBody: {
       content: {
         'application/json': components['schemas']['CreateHouseDto'];
+      };
+    };
+  };
+  HouseController_updateHouse: {
+    parameters: {};
+    responses: {
+      /** house details updated successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['HouseResponseDto'];
+        };
+      };
+      /** failed to update house details */
+      400: unknown;
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['UpdateHouseDto'];
       };
     };
   };
@@ -408,8 +504,8 @@ export interface operations {
           'application/json': components['schemas']['BillResponseDto'];
         };
       };
-      /** Not the bill owner */
-      403: unknown;
+      /** User is not in a house */
+      400: unknown;
     };
   };
   BillController_updateBill: {
@@ -568,7 +664,7 @@ export interface operations {
   IssueController_createIssue: {
     parameters: {};
     responses: {
-      /** issue created successfully */
+      /** Issue created successfully */
       201: {
         content: {
           'application/json': components['schemas']['IssueResponseDto'];
@@ -588,14 +684,14 @@ export interface operations {
       };
     };
     responses: {
-      /** Issues retrieved successfully */
+      /** Issue retrieved successfully */
       200: {
         content: {
           'application/json': components['schemas']['IssueResponseDto'];
         };
       };
-      /** Not the issue owner */
-      403: unknown;
+      /** User is not in a house */
+      400: unknown;
     };
   };
   IssueController_updateIssue: {
@@ -611,34 +707,12 @@ export interface operations {
           'application/json': components['schemas']['IssueResponseDto'];
         };
       };
-      /** Not the issue owner */
+      /** Not the issue logger */
       403: unknown;
     };
     requestBody: {
       content: {
         'application/json': components['schemas']['UpdateIssueDto'];
-      };
-    };
-  };
-  IssueController_resolveIssue: {
-    parameters: {
-      path: {
-        id: string;
-      };
-    };
-    responses: {
-      /** Issue updated successfully */
-      200: {
-        content: {
-          'application/json': components['schemas']['IssueResponseDto'];
-        };
-      };
-      /** Not the issue owner */
-      403: unknown;
-    };
-    requestBody: {
-      content: {
-        'application/json': components['schemas']['ResolveIssueDto'];
       };
     };
   };
@@ -651,8 +725,55 @@ export interface operations {
     responses: {
       /** Issue deleted successfully */
       204: never;
-      /** Not the Issue owner */
+      /** Not the issue logger */
       403: unknown;
+    };
+  };
+  IssueController_updateIssueResolved: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** Issue resolved successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['IssueResponseDto'];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ResolveIssueDto'];
+      };
+    };
+  };
+  AnnouncementController_getAnnouncements: {
+    parameters: {};
+    responses: {
+      /** announcements fetched successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['AnnouncementsResponseDto'];
+        };
+      };
+    };
+  };
+  AnnouncementController_createAnnouncement: {
+    parameters: {};
+    responses: {
+      /** announcement created successfully */
+      201: {
+        content: {
+          'application/json': components['schemas']['AnnouncementResponseDto'];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateAnnouncementDto'];
+      };
     };
   };
 }

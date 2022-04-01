@@ -32,6 +32,7 @@ const NewIssueCard: React.FC<NewIssueCardProps> = ({
       name: issueInfo.title,
       description: issueInfo.detail,
       resolved: issueInfo.resolved,
+      image: '',
     };
 
     let issueBody = {
@@ -63,12 +64,12 @@ const NewIssueCard: React.FC<NewIssueCardProps> = ({
           </div>
         </div>
 
-        <div className="flex flex-row gap-x-4 h-full px-4 py-4 bg-gray-800 rounded-b-xl lg:px-8">
-          <div className="flex flex-col flex-grow text-white gap-y-3 mb-1">
+        <div className="flex flex-row h-full px-4 py-4 bg-gray-800 gap-x-4 rounded-b-xl lg:px-8">
+          <div className="flex flex-col flex-grow mb-1 text-white gap-y-3">
             <div className="flex flex-col gap-y-0.5">
               <div className="mr-3 font-bold">Title</div>
               <input
-                className="appearance-none rounded-lg p-2 text-black"
+                className="p-2 text-black rounded-lg appearance-none"
                 type="text"
                 placeholder="e.g. The sink exploded"
                 value={issueInfo.title}

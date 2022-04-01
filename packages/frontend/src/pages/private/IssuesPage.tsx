@@ -10,10 +10,10 @@ import NewIssueCard from '../../components/issue/NewIssueCard';
 
 interface IssuesPageProps {}
 
-/* 
+/*
 
   CREATE ISSUE:
-  {      
+  {
     name: string;
     description: string;
     house: string; // @TODO CHECK
@@ -22,7 +22,7 @@ interface IssuesPageProps {}
   }
 
  Issue response:
-  {      
+  {
     id: string;
     name: string;
     description: string;
@@ -64,12 +64,12 @@ const IssuesPage: React.FC<IssuesPageProps> = () => {
     name: string;
     description: string;
     logger: string;
-    loggedDate: number;
+    loggedDate?: number | undefined;
     resolved: boolean;
   }[] = [];
 
   const sortedIssues = useMemo(
-    () => data?.issues.sort((a, b) => a.loggedDate - b.loggedDate),
+    () => data?.issues.sort((a, b) => a.loggedDate! - b.loggedDate!),
     [data],
   );
 
@@ -99,7 +99,7 @@ const IssuesPage: React.FC<IssuesPageProps> = () => {
               pastIssue.push(issue);
               return null;
             }
-            const date = new Date(issue.loggedDate);
+            const date = new Date(String(issue.loggedDate));
             return (
               <UpcomingTask
                 key={index}

@@ -5,6 +5,7 @@ import cleaning from '../../res/dashboard/cleaning.webp';
 import cogs from '../../res/dashboard/cogs.webp';
 import repair from '../../res/dashboard/repair.webp';
 import notes from '../../res/dashboard/post-notes.webp';
+import announcement from '../../res/dashboard/announcement.webp';
 import { useNavigate } from 'react-router';
 
 interface QuickAccessPanelProps {}
@@ -61,6 +62,16 @@ const QuickAccessPanel: React.FC<QuickAccessPanelProps> = () => {
         twOpacity="opacity-80"
         onClick={() => navigate('/issues')}
         description="Keep track of issues around the flat."
+      />
+      <TopAction
+        // https://unsplash.com/photos/QRKJwE6yfJo
+        img={announcement}
+        title="Announcements"
+        twGradientStart="from-red-500"
+        twGradientEnd="to-red-800"
+        twOpacity="opacity-80"
+        onClick={() => navigate('/announcement')}
+        description="Important notices from your mates"
       />
     </div>
   );

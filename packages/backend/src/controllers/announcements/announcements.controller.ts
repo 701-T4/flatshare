@@ -19,7 +19,10 @@ import { HouseStoreService } from '../../db/house/houseStore.service';
 import { AnnouncementStoreService } from '../../db/announcement/announcementStore.service';
 import { User } from '../../util/user.decorator';
 import { CreateAnnouncementDto } from './dto/create-announcement.dto';
-import { AnnouncementResponseDto } from './dto/announcement-response.dto';
+import {
+  AnnouncementResponseDto,
+  AnnouncementsResponseDto,
+} from './dto/announcement-response.dto';
 import { AnnouncementUtil } from './announcements.util';
 import { Auth } from '../../util/auth.decorator';
 
@@ -81,11 +84,11 @@ export class AnnouncementController {
   @ApiOperation({ summary: 'Get all announcements in users house' })
   @ApiOkResponse({
     description: 'announcements fetched successfully',
-    type: AnnouncementResponseDto,
+    type: AnnouncementsResponseDto,
   })
   async getAnnouncements(
     @User() user: DecodedIdToken,
-  ): Promise<AnnouncementResponseDto[]> {
+  ): Promise<AnnouncementsResponseDto> {
     const requester = await this.userStoreService.findOneByFirebaseId(user.uid);
     if (!requester.house) {
       throw new HttpException('user is not in a house', HttpStatus.NOT_FOUND);
@@ -104,6 +107,6 @@ export class AnnouncementController {
       }),
     );
 
-    return announcementDTOs;
+    return { announcements: announcementDTOs };
   }
 }
