@@ -141,7 +141,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
   const fileNotAttached = image === null || image === undefined;
 
   return (
-    <Page>
+    <Page backpath="/bills">
       {isEdit ? (
         <div className="px-10 pt-10 md:px-20">
           <EditBillCard
