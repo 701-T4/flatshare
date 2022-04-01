@@ -39,18 +39,16 @@ export class AnnouncementController {
     @User() user: DecodedIdToken,
   ): Promise<AnnouncementResponseDto> {
     const author = await this.userStoreService.findOneByFirebaseId(user.uid);
-
     if (!author.house) {
       throw new HttpException('user is not in a house', HttpStatus.NOT_FOUND);
     }
 
+    const house = await this.houseStoreService.findOne(author.house);
     const announcementModel: AnnouncementModel = {
       title: createAnnouncementDto.title,
       description: createAnnouncementDto.description,
       author: author._id,
-      houseCode: await (
-        await this.houseStoreService.findOne(author.house)
-      ).code,
+      houseCode: house.code,
     };
 
     const announcement = await this.announcementStoreService.create(
@@ -61,6 +59,10 @@ export class AnnouncementController {
         'announcement could not be created',
         HttpStatus.BAD_REQUEST,
       );
+    } else {
+      await this.houseStoreService.update(house._id, {
+        latestAnnouncement: announcement._id,
+      });
     }
 
     return this.announcementUtil.convertAnnouncementDocumentToResponseDTO(
