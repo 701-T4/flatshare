@@ -227,7 +227,7 @@ export interface components {
       description: string;
       image: string;
       logger: string;
-      loggedDate: number;
+      loggedDate?: number;
       resolved: boolean;
     };
     IssuesResponseDto: {
@@ -236,6 +236,7 @@ export interface components {
     CreateIssueDto: {
       name: string;
       description: string;
+      image: string;
       resolved: boolean;
     };
     UpdateIssueDto: {

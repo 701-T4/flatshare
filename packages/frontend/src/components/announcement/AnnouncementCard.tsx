@@ -16,7 +16,6 @@ const AnnouncementCard: React.FC<AnnouncementCardProps> = (props) => {
         css={{
           backgroundColor: '#1D2530',
           borderRadius: '13px',
-          padding: '4px',
         }}
       >
         <div className="flex justify-between">

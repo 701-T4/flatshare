@@ -216,7 +216,7 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
                     <Spacer y={2} />
                     <DetailRow
                       title="Log Date"
-                      value={new Date(issue?.loggedDate).toDateString()}
+                      value={new Date(String(issue?.loggedDate)).toDateString()}
                     />
                     <Spacer y={2} />
                   </div>
