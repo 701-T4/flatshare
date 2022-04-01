@@ -8,6 +8,7 @@ import {
   Text,
 } from '@nextui-org/react';
 import EditButton from './editButton';
+import { NoteTypes } from './noteCardController';
 
 interface PlainModalProps {
   visible: boolean;
@@ -15,6 +16,7 @@ interface PlainModalProps {
   loading: boolean;
   data: string;
   title: string;
+  id: string;
 }
 
 const PlainModal: React.FC<PlainModalProps> = ({
@@ -23,6 +25,7 @@ const PlainModal: React.FC<PlainModalProps> = ({
   loading,
   data,
   title,
+  id,
 }) => {
   const closeHandler = () => {
     setVisible(false);
@@ -59,7 +62,8 @@ const PlainModal: React.FC<PlainModalProps> = ({
               <EditButton
                 activeTitle={title}
                 activeValue={data}
-                activeType={'Normal'}
+                activeType={NoteTypes.PLAIN}
+                activeId={id}
               />
             )}
           </Container>

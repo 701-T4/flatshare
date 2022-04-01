@@ -23,9 +23,10 @@ import { Auth } from '../../util/auth.decorator';
 import { User } from '../../util/user.decorator';
 import { DecodedIdToken } from 'firebase-admin/auth';
 import { NoteStoreService } from '../../db/note/noteStore.service';
-import NoteResponseDto from './dto/note-response.dto';
+import { NoteResponseDto, NotesResponseDto } from './dto/note-response.dto';
 import { CreateNoteDto } from './dto/create-note.dto';
 import { UpdateNoteDto } from './dto/update-note.dto';
+import { NoteUtil } from './note.utils';
 
 @ApiTags('notes')
 @Controller('/api/v1/house/note')
@@ -35,6 +36,7 @@ export class NoteController {
     private readonly houseStoreService: HouseStoreService,
     private readonly userStoreService: UserStoreService,
     private readonly noteStoreService: NoteStoreService,
+    private readonly noteUtil: NoteUtil,
   ) {}
 
   @Post('/')
@@ -54,7 +56,8 @@ export class NoteController {
     if (userDoc?.house) {
       const houseDoc = await this.houseStoreService.findOne(userDoc.house);
       createNoteDto.house = houseDoc._id;
-      return this.noteStoreService.create(createNoteDto);
+      const note = await this.noteStoreService.create(createNoteDto);
+      return this.noteUtil.covertNoteDocumentToResponseDTO(note);
     }
     throw new HttpException(
       'user does not belong to a house',
@@ -69,10 +72,18 @@ export class NoteController {
     description: 'notes retrieved successfully',
     type: [NoteResponseDto],
   })
-  async get(@User() user: DecodedIdToken): Promise<NoteResponseDto[] | null> {
+  async get(@User() user: DecodedIdToken): Promise<NotesResponseDto> {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
     if (userDoc?.house) {
-      return this.noteStoreService.findAllByHouse(userDoc.house._id);
+      return {
+        notes: await Promise.all(
+          (
+            await this.noteStoreService.findAllByHouse(userDoc.house._id)
+          ).map((note) => {
+            return this.noteUtil.covertNoteDocumentToResponseDTO(note);
+          }),
+        ),
+      };
     }
     throw new HttpException(
       'user does not belong to a house',
@@ -90,7 +101,8 @@ export class NoteController {
     @Param('id') id: string,
     @Body() updateNoteDto: UpdateNoteDto,
   ): Promise<NoteResponseDto> {
-    return this.noteStoreService.update(id, updateNoteDto);
+    const note = await this.noteStoreService.update(id, updateNoteDto);
+    return this.noteUtil.covertNoteDocumentToResponseDTO(note);
   }
 
   @Delete('/:id')

@@ -7,12 +7,14 @@ interface EditButtonProps {
   activeTitle: string;
   activeValue: string;
   activeType: string;
+  activeId: string;
 }
 
 const EditButton: React.FC<EditButtonProps> = ({
   activeTitle,
   activeValue,
   activeType,
+  activeId,
 }) => {
   const [editNoteVisible, setEditNoteVisible] = useState(false);
   const editNoteHandler = () => setEditNoteVisible(true);
@@ -31,6 +33,7 @@ const EditButton: React.FC<EditButtonProps> = ({
         activeTitle={activeTitle}
         activeValue={activeValue}
         activeType={activeType}
+        activeId={activeId}
         editNoteVisible={editNoteVisible}
         setEditNoteVisible={setEditNoteVisible}
       />

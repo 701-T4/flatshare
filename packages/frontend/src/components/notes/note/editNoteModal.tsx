@@ -12,7 +12,7 @@ import {
   Textarea,
 } from '@nextui-org/react';
 
-const noteType = ['Normal', 'Secret', 'WiFi'];
+const noteType = ['PLAIN', 'SECRET', 'WiFi'];
 
 interface EditNoteModalProps {
   editNoteVisible: boolean;
@@ -20,6 +20,7 @@ interface EditNoteModalProps {
   activeTitle: string;
   activeValue: string;
   activeType: string;
+  activeId: string;
 }
 
 const EditNoteModal: React.FC<EditNoteModalProps> = ({
@@ -28,6 +29,7 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
   activeTitle,
   activeValue,
   activeType,
+  activeId,
 }) => {
   const closeNoteHandler = () => setEditNoteVisible(false);
   const [selected, setSelected] = useState(activeType);
@@ -38,16 +40,17 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
     type: string;
   }
   const [editedNote, setEditedNote] = useState<tempNote>({
-    title: 'string;',
-    value: 'string;',
-    type: 'string;',
+    title: activeTitle,
+    value: activeValue,
+    type: activeType,
   });
 
   const editNote = useApiMutation('/api/v1/house/note/{id}', { method: 'put' });
 
   const saveCaller = async () => {
+    console.log(editedNote);
     await editNote({
-      pathParams: { id: 1 ?? '' },
+      pathParams: { id: activeId },
       body: {
         name: editedNote.title,
         value: editedNote.value,

@@ -5,8 +5,9 @@ import PlainModal from './plainModal';
 import SecretModal from './secretModal';
 
 interface NotesGridProps {
-  Notes:
+  notes:
     | {
+        id: string;
         name: string;
         value: string;
         type: string;
@@ -15,12 +16,13 @@ interface NotesGridProps {
     | undefined;
 }
 
-const NotesGrid: React.FC<NotesGridProps> = ({ Notes }) => {
+const NotesGrid: React.FC<NotesGridProps> = ({ notes }) => {
   const [plainvisible, setPlainVisible] = useState(false);
   const [secretvisible, setSecretVisible] = useState(false);
   const [wifivisible, setWifiVisible] = useState(false);
   const [activeName, setActiveName] = useState('');
   const [activeValue, setActiveValue] = useState('');
+  const [activeId, setActiveId] = useState('');
   const [qrCodeText, setQrCodeText] = useState('');
   const [qrvisible, setQRVisible] = useState(false);
   const [loading] = useState(false);
@@ -46,6 +48,7 @@ const NotesGrid: React.FC<NotesGridProps> = ({ Notes }) => {
         loading={loading}
         data={activeValue}
         title={activeName}
+        id={activeId}
       />
 
       <WifiModal
@@ -59,6 +62,7 @@ const NotesGrid: React.FC<NotesGridProps> = ({ Notes }) => {
         qrvisible={qrvisible}
         setQRVisible={setQRVisible}
         title={activeName}
+        id={activeId}
       />
 
       <SecretModal
@@ -67,10 +71,11 @@ const NotesGrid: React.FC<NotesGridProps> = ({ Notes }) => {
         loading={loading}
         data={activeValue}
         title={activeName}
+        id={activeId}
       />
 
       <Grid.Container gap={2} justify="center">
-        {Notes?.map((item, index) => (
+        {notes?.map((item, index) => (
           <Grid xs={18} md={6} sm={6} key={index}>
             <Card
               color="secondary"
@@ -79,6 +84,7 @@ const NotesGrid: React.FC<NotesGridProps> = ({ Notes }) => {
               onClick={(event) => {
                 setActiveName(item.name);
                 setActiveValue(item.value);
+                setActiveId(item.id);
                 onClickCard(item);
               }}
             >
@@ -92,6 +98,7 @@ const NotesGrid: React.FC<NotesGridProps> = ({ Notes }) => {
                 weight="semibold"
               >
                 {item.type}
+                {item.id}
               </Text>
             </Card>
           </Grid>
