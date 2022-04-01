@@ -19,8 +19,6 @@ const NotesGrid: React.FC<NotesGridProps> = ({ Notes }) => {
   const [plainvisible, setPlainVisible] = useState(false);
   const [secretvisible, setSecretVisible] = useState(false);
   const [wifivisible, setWifiVisible] = useState(false);
-  const [wifipass, setWifiPass] = useState('');
-  const [wifiuser, setWifiUser] = useState('');
   const [activeName, setActiveName] = useState('');
   const [activeValue, setActiveValue] = useState('');
   const [qrCodeText, setQrCodeText] = useState('');
@@ -35,8 +33,6 @@ const NotesGrid: React.FC<NotesGridProps> = ({ Notes }) => {
         setSecretVisible(true);
         break;
       case 'WIFI':
-        setWifiUser(item.value.substring(0, item.value.indexOf(':')));
-        setWifiPass(item.value.substring(item.value.indexOf(':') + 1));
         setWifiVisible(true);
         break;
     }
