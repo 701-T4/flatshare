@@ -11,21 +11,25 @@ import {
   Textarea,
 } from '@nextui-org/react';
 
-const noteType = [{ name: 'Normal' }, { name: 'Secret' }, { name: 'WiFi' }];
+const noteType = ['Normal', 'Secret', 'WiFi'];
 
 interface EditNoteModalProps {
-  createNoteVisible: boolean;
-  setCreateNoteVisible(value: boolean): void;
+  editNoteVisible: boolean;
+  setEditNoteVisible(value: boolean): void;
+  activeTitle: string;
+  activeValue: string;
+  activeType: string;
 }
 
 const EditNoteModal: React.FC<EditNoteModalProps> = ({
-  createNoteVisible,
-  setCreateNoteVisible,
+  editNoteVisible,
+  setEditNoteVisible,
+  activeTitle,
+  activeValue,
+  activeType,
 }) => {
-  const closeNoteHandler = () => setCreateNoteVisible(false);
-
-  const [selected, setSelected] = useState(noteType[0]);
-
+  const closeNoteHandler = () => setEditNoteVisible(false);
+  const [selected, setSelected] = useState(activeType);
   const [showWifiInputs, setShowWifiInputs] = useState(false);
 
   return (
@@ -33,7 +37,7 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
       closeButton
       blur
       width="75%"
-      open={createNoteVisible}
+      open={editNoteVisible}
       onClose={closeNoteHandler}
     >
       <Modal.Header>
@@ -49,10 +53,11 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
           aria-label="note name"
           clearable
           bordered
-          placeholder="Enter your note header"
+          placeholder="Note Name"
           size="xl"
           color="primary"
-          value="Get the Note Name here"
+          initialValue={activeTitle}
+          contentEditable={true}
         ></Input>
         <Text size={'1.25rem'} margin="1.5%">
           Type
@@ -62,13 +67,13 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
           value={selected}
           onChange={(e) => {
             setSelected(e);
-            if (e.name === 'WiFi') setShowWifiInputs(true);
+            if (e === 'WiFi') setShowWifiInputs(true);
             else setShowWifiInputs(false);
           }}
         >
           <div className="relative mt-1">
             <Listbox.Button className="h-12 relative w-full py-1 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default sm:text-xl">
-              <span className="block truncate">{selected.name}</span>
+              <span className="block truncate">{selected}</span>
               <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <SelectorIcon
                   className="w-5 h-5 text-teal-400"
@@ -99,7 +104,7 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
                             selected ? 'font-medium' : 'font-normal'
                           }`}
                         >
-                          {note.name}
+                          {note}
                         </span>
                         {selected ? (
                           <span className="absolute inset-y-0 left-0 flex items-center pl-2 text-teal-300">
@@ -129,7 +134,7 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
               placeholder="Enter the username"
               size="xl"
               color="primary"
-              value="Joe123"
+              initialValue="Joe123"
             ></Input>
             <Text size={'1.25rem'} margin="1.5%">
               Password
@@ -141,7 +146,7 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
               placeholder="Enter the password"
               size="xl"
               color="primary"
-              value="PassPass"
+              initialValue="PassPass"
             ></Input>
           </Container>
         ) : null}
@@ -159,7 +164,7 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
               placeholder="Enter your note here"
               size="xl"
               color="primary"
-              value="This is where the long description will go ...... blah blah blah"
+              initialValue={activeValue}
             ></Textarea>
           </Container>
         ) : null}

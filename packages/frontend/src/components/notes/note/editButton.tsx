@@ -3,11 +3,19 @@ import { DocumentAddIcon } from '@heroicons/react/outline';
 import { Avatar } from '@nextui-org/react';
 import EditNoteModal from './editNoteModal';
 
-interface EditButtonProps {}
+interface EditButtonProps {
+  activeTitle: string;
+  activeValue: string;
+  activeType: string;
+}
 
-const EditButton: React.FC<EditButtonProps> = () => {
-  const [createNoteVisible, setCreateNoteVisible] = useState(false);
-  const createNoteHandler = () => setCreateNoteVisible(true);
+const EditButton: React.FC<EditButtonProps> = ({
+  activeTitle,
+  activeValue,
+  activeType,
+}) => {
+  const [editNoteVisible, setEditNoteVisible] = useState(false);
+  const editNoteHandler = () => setEditNoteVisible(true);
 
   return (
     <div>
@@ -17,11 +25,14 @@ const EditButton: React.FC<EditButtonProps> = () => {
         css={{ p: 10 }}
         as="button"
         pointer
-        onClick={createNoteHandler}
+        onClick={editNoteHandler}
       />
       <EditNoteModal
-        createNoteVisible={createNoteVisible}
-        setCreateNoteVisible={setCreateNoteVisible}
+        activeTitle={activeTitle}
+        activeValue={activeValue}
+        activeType={activeType}
+        editNoteVisible={editNoteVisible}
+        setEditNoteVisible={setEditNoteVisible}
       />
     </div>
   );

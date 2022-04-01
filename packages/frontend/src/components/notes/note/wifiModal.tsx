@@ -75,7 +75,7 @@ const WifiModal: React.FC<WifiModalProps> = ({
       />
     );
   };
-
+  //TODO: NEED TO FIX EditButton RETURNING USERNAME AS DATA
   return (
     <div>
       <Modal
@@ -99,7 +99,15 @@ const WifiModal: React.FC<WifiModalProps> = ({
             <Text b size={18} span css={{ ml: 8 }}>
               {title}
             </Text>
-            {loading || qrvisible ? <></> : <EditButton />}
+            {loading || qrvisible ? (
+              <></>
+            ) : (
+              <EditButton
+                activeTitle={title}
+                activeValue={userName}
+                activeType={'WiFi'}
+              />
+            )}
           </Container>
         </Modal.Header>
         <Modal.Body>

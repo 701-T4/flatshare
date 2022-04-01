@@ -27,7 +27,6 @@ const NotesGrid: React.FC<NotesGridProps> = ({ Notes }) => {
   const [qrvisible, setQRVisible] = useState(false);
   const [loading] = useState(false);
   const onClickCard = (item: any) => {
-    // NEED TO CHANGE SO TYPES WORK PROPERLY
     switch (item.type) {
       case 'PLAIN':
         setPlainVisible(true);
