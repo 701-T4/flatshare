@@ -75,7 +75,7 @@ const WifiModal: React.FC<WifiModalProps> = ({
       />
     );
   };
-  //TODO: NEED TO FIX EditButton RETURNING USERNAME AS DATA
+
   return (
     <div>
       <Modal
