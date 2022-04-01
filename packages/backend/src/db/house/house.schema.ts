@@ -28,6 +28,9 @@ export class House {
 
   @Prop({ type: [{ type: Types.ObjectId, ref: 'User' }] })
   users: Array<Types.ObjectId> = [];
+
+  @Prop({ type: Types.ObjectId, ref: 'Announcement' })
+  latestAnnouncement?: Types.ObjectId;
 }
 
 export const HouseSchema = SchemaFactory.createForClass(House);
@@ -41,4 +44,5 @@ export class HouseModel {
   code: string;
   owner: Types.ObjectId;
   users: Array<Types.ObjectId> = [];
+  latestAnnouncement?: Types.ObjectId;
 }

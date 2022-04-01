@@ -17,10 +17,12 @@ import {
 } from '@nestjs/swagger';
 import { UserStoreService } from '../../db/user/userStore.service';
 import { HouseStoreService } from '../../db/house/houseStore.service';
+import { AnnouncementStoreService } from '../../db/announcement/announcementStore.service';
 import { Auth } from '../../util/auth.decorator';
 import { CreateHouseDto } from './dto/create-house.dto';
 import HouseResponseDto from './dto/house-response.dto';
 import { HouseUtil } from './house.util';
+import { AnnouncementUtil } from '../announcements/announcements.util';
 import { User } from '../../util/user.decorator';
 import { DecodedIdToken } from 'firebase-admin/auth';
 import { JoinHouseDto } from './dto/join-house.dto';
@@ -33,6 +35,8 @@ export class HouseController {
   constructor(
     private readonly houseStoreService: HouseStoreService,
     private readonly userStoreService: UserStoreService,
+    private readonly announcementStoreService: AnnouncementStoreService,
+    private readonly announcementUtil: AnnouncementUtil,
     private readonly houseUtil: HouseUtil,
   ) {}
 
@@ -56,6 +60,7 @@ export class HouseController {
       maxOccupants: null,
       owner: owner._id,
       users: [owner._id],
+      latestAnnouncement: null,
     });
     await this.userStoreService.updateByFirebaseId(user.uid, {
       house: house._id,
@@ -79,6 +84,7 @@ export class HouseController {
           contractEndingDate: owner.contractEndingDate,
         },
       ],
+      latestAnnouncement: null,
     };
   }
 
@@ -95,6 +101,19 @@ export class HouseController {
       const house = await this.houseStoreService.findOne(userDoc.house);
       const owner = await this.userStoreService.findOne(house.owner);
       const userList = await this.houseStoreService.getUserDto(house.id);
+
+      let latestAnnouncementDto = null;
+      if (house.latestAnnouncement != null) {
+        const announcementDoc = await this.announcementStoreService.findOne(
+          house.latestAnnouncement,
+        );
+        latestAnnouncementDto =
+          await this.announcementUtil.convertAnnouncementDocumentToResponseDTO(
+            announcementDoc,
+            this.userStoreService,
+          );
+      }
+
       if (house != undefined) {
         return {
           name: house.name,
@@ -105,6 +124,7 @@ export class HouseController {
           code: house.code,
           owner: owner.firebaseId,
           users: userList,
+          latestAnnouncement: latestAnnouncementDto,
         };
       }
     }
