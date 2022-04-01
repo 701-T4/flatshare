@@ -60,6 +60,7 @@ export class HouseController {
       maxOccupants: null,
       owner: owner._id,
       users: [owner._id],
+      latestAnnouncement: null,
     });
     await this.userStoreService.updateByFirebaseId(user.uid, {
       house: house._id,
@@ -100,14 +101,18 @@ export class HouseController {
       const house = await this.houseStoreService.findOne(userDoc.house);
       const owner = await this.userStoreService.findOne(house.owner);
       const userList = await this.houseStoreService.getUserDto(house.id);
-      const announcementDoc = await this.announcementStoreService.findOne(
-        house.latestAnnouncement,
-      );
-      const latestAnnouncement =
-        await this.announcementUtil.convertAnnouncementDocumentToResponseDTO(
-          announcementDoc,
-          this.userStoreService,
+
+      let latestAnnouncementDto = null;
+      if (house.latestAnnouncement != null) {
+        const announcementDoc = await this.announcementStoreService.findOne(
+          house.latestAnnouncement,
         );
+        latestAnnouncementDto =
+          await this.announcementUtil.convertAnnouncementDocumentToResponseDTO(
+            announcementDoc,
+            this.userStoreService,
+          );
+      }
 
       if (house != undefined) {
         return {
@@ -119,7 +124,7 @@ export class HouseController {
           code: house.code,
           owner: owner.firebaseId,
           users: userList,
-          latestAnnouncement: latestAnnouncement,
+          latestAnnouncement: latestAnnouncementDto,
         };
       }
     }

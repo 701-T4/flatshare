@@ -30,7 +30,7 @@ export class House {
   users: Array<Types.ObjectId> = [];
 
   @Prop({ type: Types.ObjectId, ref: 'Announcement' })
-  latestAnnouncement: Types.ObjectId;
+  latestAnnouncement?: Types.ObjectId;
 }
 
 export const HouseSchema = SchemaFactory.createForClass(House);
