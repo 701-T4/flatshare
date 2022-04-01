@@ -12,6 +12,7 @@ import {
 import React, { useState } from 'react';
 import QRCode from 'react-qr-code';
 import EditButton from './editButton';
+import { NoteTypes } from './noteCardController';
 
 interface WifiModalProps {
   visible: boolean;
@@ -19,10 +20,13 @@ interface WifiModalProps {
   setQrCodeText(value: string): void;
   loading: boolean;
   value: string;
+  setValue(value: string): void;
   encryption: string;
   qrCodeText: string;
   qrvisible: boolean;
   title: string;
+  setTitle(value: string): void;
+  id: string;
   setQRVisible(value: boolean): void;
 }
 
@@ -32,11 +36,14 @@ const WifiModal: React.FC<WifiModalProps> = ({
   setQrCodeText,
   loading,
   value,
+  setValue,
   encryption,
   qrCodeText,
   qrvisible,
   setQRVisible,
   title,
+  setTitle,
+  id,
 }) => {
   const closeHandler = () => {
     setVisible(false);
@@ -104,8 +111,11 @@ const WifiModal: React.FC<WifiModalProps> = ({
             ) : (
               <EditButton
                 activeTitle={title}
+                setTitle={setTitle}
                 activeValue={value}
-                activeType={'WiFi'}
+                setValue={setValue}
+                activeType={NoteTypes.WIFI}
+                activeId={id}
               />
             )}
           </Container>

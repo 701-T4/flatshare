@@ -11,21 +11,28 @@ import {
 } from '@nextui-org/react';
 import React, { useState } from 'react';
 import EditButton from './editButton';
+import { NoteTypes } from './noteCardController';
 
 interface SecretModalProps {
   visible: boolean;
   setVisible(value: boolean): void;
   loading: boolean;
-  data: string;
+  value: string;
+  setValue(value: string): void;
   title: string;
+  setTitle(value: string): void;
+  id: string;
 }
 
 const SecretModal: React.FC<SecretModalProps> = ({
   visible,
   setVisible,
   loading,
-  data,
+  value,
+  setValue,
   title,
+  setTitle,
+  id,
 }) => {
   const [passwordShown, setPasswordShown] = useState(true);
 
@@ -67,8 +74,11 @@ const SecretModal: React.FC<SecretModalProps> = ({
             ) : (
               <EditButton
                 activeTitle={title}
-                activeValue={data}
-                activeType={'Secret'}
+                setTitle={setTitle}
+                activeValue={value}
+                setValue={setValue}
+                activeType={NoteTypes.SECRET}
+                activeId={id}
               />
             )}
           </Container>
@@ -89,10 +99,10 @@ const SecretModal: React.FC<SecretModalProps> = ({
                   readOnly
                   width="100%"
                   type={passwordShown ? 'password' : 'text'}
-                  initialValue={data}
+                  initialValue={value}
                 />
               ) : (
-                <Text id="modal-description">{data}</Text>
+                <Text id="modal-description">{value}</Text>
               )}
             </Container>
           )}

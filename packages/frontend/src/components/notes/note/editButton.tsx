@@ -5,14 +5,20 @@ import EditNoteModal from './editNoteModal';
 
 interface EditButtonProps {
   activeTitle: string;
+  setTitle: (value: string) => void;
   activeValue: string;
+  setValue: (value: string) => void;
   activeType: string;
+  activeId: string;
 }
 
 const EditButton: React.FC<EditButtonProps> = ({
   activeTitle,
+  setTitle,
   activeValue,
+  setValue,
   activeType,
+  activeId,
 }) => {
   const [editNoteVisible, setEditNoteVisible] = useState(false);
   const editNoteHandler = () => setEditNoteVisible(true);
@@ -29,8 +35,11 @@ const EditButton: React.FC<EditButtonProps> = ({
       />
       <EditNoteModal
         activeTitle={activeTitle}
+        setTitle={setTitle}
         activeValue={activeValue}
+        setValue={setValue}
         activeType={activeType}
+        activeId={activeId}
         editNoteVisible={editNoteVisible}
         setEditNoteVisible={setEditNoteVisible}
       />
