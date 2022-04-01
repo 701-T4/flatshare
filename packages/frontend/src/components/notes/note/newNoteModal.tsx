@@ -47,7 +47,6 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
   }
 
   interface NewNoteDetails {
-    [x: string]: any;
     name: string;
     value: string;
     type: "PLAIN" | "SECRET" | "WIFI";
