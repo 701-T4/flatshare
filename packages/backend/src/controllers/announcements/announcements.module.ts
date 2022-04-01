@@ -1,8 +1,8 @@
 import { Module } from '@nestjs/common';
-import { AnnouncementUtil } from './announcements.util';
 import { AnnouncementController } from './announcements.controller';
 import { DbModule } from '../../db/db.module';
 import { FirebaseAuthStrategy } from '../../guards/firebase.auth';
+import { AnnouncementUtil } from './announcements.util';
 
 @Module({
   controllers: [AnnouncementController],

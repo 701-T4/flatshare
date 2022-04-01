@@ -12,6 +12,11 @@ import { BillStoreService } from './bill/billStore.service';
 import { Bill, BillSchema } from './bill/bill.schema';
 import { Issue, IssueSchema } from './issue/issue.schema';
 import { IssueStoreService } from './issue/issueStore.service';
+import {
+  Announcement,
+  AnnouncementSchema,
+} from './announcement/announcement.schema';
+import { AnnouncementStoreService } from './announcement/announcementStore.service';
 
 @Module({
   imports: [
@@ -21,6 +26,9 @@ import { IssueStoreService } from './issue/issueStore.service';
     MongooseModule.forFeature([{ name: Bill.name, schema: BillSchema }]),
     MongooseModule.forFeature([{ name: Note.name, schema: NoteSchema }]),
     MongooseModule.forFeature([{ name: Issue.name, schema: IssueSchema }]),
+    MongooseModule.forFeature([
+      { name: Announcement.name, schema: AnnouncementSchema },
+    ]),
   ],
   providers: [
     UserStoreService,
@@ -29,6 +37,7 @@ import { IssueStoreService } from './issue/issueStore.service';
     NoteStoreService,
     TaskStoreService,
     IssueStoreService,
+    AnnouncementStoreService,
   ],
   exports: [
     MongooseModule,
@@ -38,6 +47,7 @@ import { IssueStoreService } from './issue/issueStore.service';
     BillStoreService,
     NoteStoreService,
     IssueStoreService,
+    AnnouncementStoreService,
   ],
 })
 export class DbModule {}
