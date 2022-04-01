@@ -1,11 +1,11 @@
 import { Injectable } from '@nestjs/common';
-import { AnnouncementDocument } from 'src/db/announcement/announcement.schema';
+import { AnnouncementDocument } from '../../db/announcement/announcement.schema';
 import { AnnouncementResponseDto } from './dto/announcement-response.dto';
-import { UserStoreService } from 'src/db/user/userStore.service';
+import { UserStoreService } from '../..//db/user/userStore.service';
 
 @Injectable()
 export class AnnouncementUtil {
-  async converAnnouncementDocumentToResponseDTO(
+  async convertAnnouncementDocumentToResponseDTO(
     announcementDocument: AnnouncementDocument,
     userStoreService: UserStoreService,
   ): Promise<AnnouncementResponseDto> {
@@ -15,6 +15,7 @@ export class AnnouncementUtil {
       author: (await userStoreService.findOne(announcementDocument.author))
         .name,
       houseCode: announcementDocument.houseCode,
+      dateCreated: announcementDocument._id.getTimestamp(),
     };
   }
 }

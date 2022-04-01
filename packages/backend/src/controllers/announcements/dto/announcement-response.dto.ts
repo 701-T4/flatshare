@@ -12,11 +12,14 @@ export class AnnouncementResponseDto {
 
   @ApiProperty()
   houseCode: string;
+
+  @ApiProperty()
+  dateCreated: Date;
 }
 
 export class AnnouncementsResponseDto {
   @ApiProperty({
     type: [AnnouncementResponseDto],
   })
-  issues: AnnouncementResponseDto[];
+  announcements: AnnouncementResponseDto[];
 }
