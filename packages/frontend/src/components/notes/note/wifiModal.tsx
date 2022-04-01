@@ -147,6 +147,7 @@ const WifiModal: React.FC<WifiModalProps> = ({
                   />
                   <Input
                     label="Password"
+                    readOnly
                     width="86%"
                     type={passwordShown ? 'text' : 'password'}
                     initialValue={value.substring(value.indexOf(' + ') + 3)}
