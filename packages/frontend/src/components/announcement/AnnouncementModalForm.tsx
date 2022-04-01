@@ -1,12 +1,13 @@
-import { Button, Input, Modal, Text, Textarea } from '@nextui-org/react';
-import React, { FormEvent, useRef, useState } from 'react';
+import { Button, Modal } from '@nextui-org/react';
+import React, { useRef } from 'react';
 
 interface AnnouncementModalFormProps {
+  visible: boolean;
+  setVisible: React.Dispatch<React.SetStateAction<boolean>>;
   onSaveAnnouncement: (title: string, detail: string) => void;
 }
 
 const AnnouncementModalForm: React.FC<AnnouncementModalFormProps> = (props) => {
-  const [visible, setVisible] = useState(false);
   const titleRef = useRef() as React.MutableRefObject<HTMLInputElement>;
   const detailRef = useRef() as React.MutableRefObject<HTMLInputElement>;
 
@@ -15,19 +16,16 @@ const AnnouncementModalForm: React.FC<AnnouncementModalFormProps> = (props) => {
       titleRef.current.textContent || '',
       detailRef.current.textContent || '',
     );
-    setVisible(false);
+    props.setVisible(false);
   };
 
   return (
     <>
-      <Button className="bg-btn_green" onClick={() => setVisible(true)}>
-        New Announcement
-      </Button>
       <Modal
         scroll
         closeButton
-        open={visible}
-        onClose={() => setVisible(false)}
+        open={props.visible}
+        onClose={() => props.setVisible(false)}
         width={'70%'}
       >
         <Modal.Header>
