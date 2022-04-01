@@ -8,7 +8,7 @@ import { Model } from 'mongoose';
 const mockAnnouncement = {
   title: 'title #1',
   description: 'description #1',
-  author: 'author #1',
+  author: null,
   houseCode: 'code #1',
 };
 
@@ -20,19 +20,19 @@ describe('AnnouncementStoreService', () => {
     {
       title: 'title #1',
       description: 'description #1',
-      author: 'author #1',
+      author: null,
       houseCode: 'code #1',
     },
     {
       title: 'title #2',
       description: 'description #2',
-      author: 'author #2',
+      author: null,
       houseCode: 'code #1',
     },
     {
       title: 'title #3',
       description: 'description #3',
-      author: 'author #3',
+      author: null,
       houseCode: 'code #3',
     },
   ];
@@ -76,14 +76,14 @@ describe('AnnouncementStoreService', () => {
       Promise.resolve({
         title: 'title #1',
         description: 'description #1',
-        author: 'author #1',
+        author: null,
         houseCode: 'code #1',
       }),
     );
     const newAnnouncement = await service.create({
       title: 'title #1',
       description: 'description #1',
-      author: 'author #1',
+      author: null,
       houseCode: 'code #1',
     });
     expect(newAnnouncement).toEqual(mockAnnouncement);
