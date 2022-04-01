@@ -13,7 +13,7 @@ interface PlainModalProps {
   visible: boolean;
   setVisible(value: boolean): void;
   loading: boolean;
-  data: string | undefined;
+  data: string;
   title: string;
 }
 
@@ -53,7 +53,15 @@ const PlainModal: React.FC<PlainModalProps> = ({
             <Text b size={18} span css={{ ml: 8 }}>
               {title}
             </Text>
-            {loading ? <></> : <EditButton />}
+            {loading ? (
+              <></>
+            ) : (
+              <EditButton
+                activeTitle={title}
+                activeValue={data}
+                activeType={'Normal'}
+              />
+            )}
           </Container>
         </Modal.Header>
         <Modal.Body>

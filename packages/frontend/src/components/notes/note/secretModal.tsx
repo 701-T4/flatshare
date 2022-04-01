@@ -17,6 +17,7 @@ interface SecretModalProps {
   setVisible(value: boolean): void;
   loading: boolean;
   data: string;
+  title: string;
 }
 
 const SecretModal: React.FC<SecretModalProps> = ({
@@ -24,6 +25,7 @@ const SecretModal: React.FC<SecretModalProps> = ({
   setVisible,
   loading,
   data,
+  title,
 }) => {
   const [passwordShown, setPasswordShown] = useState(true);
 
@@ -58,9 +60,17 @@ const SecretModal: React.FC<SecretModalProps> = ({
               color="primary"
             />
             <Text b size={18} span css={{ ml: 8 }}>
-              Secret
+              {title}
             </Text>
-            {loading ? <></> : <EditButton />}
+            {loading ? (
+              <></>
+            ) : (
+              <EditButton
+                activeTitle={title}
+                activeValue={data}
+                activeType={'Secret'}
+              />
+            )}
           </Container>
         </Modal.Header>
         <Modal.Body>

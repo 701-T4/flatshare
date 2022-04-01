@@ -18,11 +18,11 @@ interface WifiModalProps {
   setVisible(value: boolean): void;
   setQrCodeText(value: string): void;
   loading: boolean;
-  userName: string;
-  password: string;
+  value: string;
   encryption: string;
   qrCodeText: string;
   qrvisible: boolean;
+  title: string;
   setQRVisible(value: boolean): void;
 }
 
@@ -31,24 +31,27 @@ const WifiModal: React.FC<WifiModalProps> = ({
   setVisible,
   setQrCodeText,
   loading,
-  userName,
-  password,
+  value,
   encryption,
   qrCodeText,
   qrvisible,
   setQRVisible,
+  title,
 }) => {
   const closeHandler = () => {
     setVisible(false);
     setQRVisible(false);
+    setPasswordShown(false);
   };
 
   const qrCodeHandler = (e: any) => {
     e.preventDefault();
     setQRVisible(!qrvisible);
     setQrCodeText(
-      `WIFI:T:${encryption};S:${userName};${
-        encryption !== 'nopass' ? `P:${password};` : ''
+      `WIFI:T:${encryption};S:${value.substring(0, value.indexOf(':'))};${
+        encryption !== 'nopass'
+          ? `P:${value.substring(value.indexOf(':') + 1)};`
+          : ''
       }`,
     );
     return false;
@@ -94,9 +97,17 @@ const WifiModal: React.FC<WifiModalProps> = ({
               color="primary"
             />
             <Text b size={18} span css={{ ml: 8 }}>
-              House Wifi
+              {title}
             </Text>
-            {loading || qrvisible ? <></> : <EditButton />}
+            {loading || qrvisible ? (
+              <></>
+            ) : (
+              <EditButton
+                activeTitle={title}
+                activeValue={value}
+                activeType={'WiFi'}
+              />
+            )}
           </Container>
         </Modal.Header>
         <Modal.Body>
@@ -122,13 +133,13 @@ const WifiModal: React.FC<WifiModalProps> = ({
                     label="Username"
                     readOnly
                     width="86%"
-                    initialValue={userName}
+                    initialValue={value.substring(0, value.indexOf(':'))}
                   />
                   <Input
                     label="Password"
                     width="86%"
                     type={passwordShown ? 'text' : 'password'}
-                    initialValue={password}
+                    initialValue={value.substring(value.indexOf(':') + 1)}
                   />
                   {unHideButton()}
                 </Container>
