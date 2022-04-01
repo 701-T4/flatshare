@@ -105,7 +105,6 @@ const NotesGrid: React.FC<NotesGridProps> = ({ notes }) => {
                 weight="semibold"
               >
                 {item.type}
-                {item.id}
               </Text>
             </Card>
           </Grid>
