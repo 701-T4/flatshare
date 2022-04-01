@@ -86,7 +86,7 @@ export class IssueController {
     const issueModel: IssueModel = {
       name: createIssueDto.name,
       description: createIssueDto.description,
-      image: createIssueDto.image,
+      image: createIssueDto.image ? createIssueDto.image : undefined, //Sets image to undefined if null so that default value will be set
       house: logger.house,
       logger: logger._id,
       loggedDate: currentDate,

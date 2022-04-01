@@ -185,6 +185,7 @@ export interface components {
       name: string;
       description: string;
       resolved: boolean;
+      image: string;
     };
     UpdateIssueDto: {
       name: string;
