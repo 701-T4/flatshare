@@ -3,25 +3,27 @@ import React from 'react';
 
 interface DashboardAnnouncementProps {
   onViewAll: () => void;
+  title: string;
+  time: Date;
+  user: string;
+  description: string;
 }
 
 const DashboardAnnouncement: React.FC<DashboardAnnouncementProps> = ({
   onViewAll,
+  title,
+  time,
+  user,
+  description,
 }) => {
   return (
-    <div className="rounded-xl p-6 mb-6 bg-gray-800  w-full flex flex-row justify-between text-white space-x-6">
+    <div className="rounded-xl p-6 mb-6 bg-gray-800  w-full flex flex-row justify-between text-white space-x-8">
       <div className="flex flex-col h-full max-w-full overflow-hidden">
-        <h3 className="text-xl font-bold tracking-normal mb-2">
-          Flat agreement rules
-        </h3>
+        <h3 className="text-xl font-bold tracking-normal mb-2">{title}</h3>
         <p className="text-xs mb-3">
-          {'Time'}, {'Username'}
+          {time.toLocaleString()}, {user}
         </p>
-        <p className="truncate ...">
-          {
-            'Description Description Description Description Description Description Description Description Description Description DescriptionDescriptionDescriptionDescription Description '
-          }
-        </p>
+        <p className="truncate ...">{description}</p>
       </div>
       <Button
         aria-label="View All Announcements"
