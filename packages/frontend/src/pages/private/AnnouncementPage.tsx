@@ -8,9 +8,9 @@ import { useApi, useApiMutation } from '../../hooks/useApi';
 interface AnnouncementResponseProp {
   title?: string | undefined;
   description?: string | undefined;
-  author?: string;
-  houseCode?: string;
-  dateCreated?: string;
+  author: string;
+  houseCode: string;
+  dateCreated: string;
 }
 
 const AnnouncementPage: React.FC = () => {
@@ -66,10 +66,8 @@ const AnnouncementPage: React.FC = () => {
                     key={index}
                     title={announcement.title!}
                     detail={announcement.description!}
-                    time={new Date(
-                      announcement.dateCreated!,
-                    ).toLocaleDateString()}
-                    userName={announcement.author!}
+                    time={new Date(announcement.dateCreated).toLocaleString()}
+                    userName={announcement.author}
                   />
                 );
               })
