@@ -4,8 +4,14 @@ import {
   Body,
   HttpException,
   HttpStatus,
+  Get,
 } from '@nestjs/common';
-import { ApiCreatedResponse, ApiOperation, ApiTags } from '@nestjs/swagger';
+import {
+  ApiCreatedResponse,
+  ApiOkResponse,
+  ApiOperation,
+  ApiTags,
+} from '@nestjs/swagger';
 import { DecodedIdToken } from 'firebase-admin/auth';
 import { AnnouncementModel } from '../../db/announcement/announcement.schema';
 import { UserStoreService } from '../../db/user/userStore.service';
@@ -69,5 +75,35 @@ export class AnnouncementController {
       announcement,
       this.userStoreService,
     );
+  }
+
+  @Get()
+  @ApiOperation({ summary: 'Get all announcements in users house' })
+  @ApiOkResponse({
+    description: 'announcements fetched successfully',
+    type: AnnouncementResponseDto,
+  })
+  async getAnnouncements(
+    @User() user: DecodedIdToken,
+  ): Promise<AnnouncementResponseDto[]> {
+    const requester = await this.userStoreService.findOneByFirebaseId(user.uid);
+    if (!requester.house) {
+      throw new HttpException('user is not in a house', HttpStatus.NOT_FOUND);
+    }
+
+    const house = await this.houseStoreService.findOne(requester.house);
+    const announcements =
+      await this.announcementStoreService.findAllByHouseCode(house.code);
+
+    const announcementDTOs = await Promise.all(
+      announcements.map((announcement) => {
+        return this.announcementUtil.convertAnnouncementDocumentToResponseDTO(
+          announcement,
+          this.userStoreService,
+        );
+      }),
+    );
+
+    return announcementDTOs;
   }
 }
