@@ -8,7 +8,7 @@ import { NoteStoreService } from '../../db/note/noteStore.service';
 import { UserStoreService } from '../../db/user/userStore.service';
 import { NoteController } from './note.controller';
 import { getModelToken } from '@nestjs/mongoose';
-
+import { NoteUtil } from './note.utils';
 import { mockModel } from '../../util/testing.utils';
 
 describe('HouseController', () => {
@@ -36,6 +36,7 @@ describe('HouseController', () => {
           provide: getModelToken(Note.name),
           useValue: mockModel,
         },
+        NoteUtil,
       ],
     }).compile();
 
