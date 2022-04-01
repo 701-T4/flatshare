@@ -92,6 +92,6 @@ describe('announcementsController', () => {
       .mockResolvedValue([mockAnnouncement] as AnnouncementDocument[]);
 
     const returned = await controller.getAnnouncements(userToken);
-    expect(returned).toEqual([mockAnnouncement]);
+    expect(returned).toEqual({ announcements: [mockAnnouncement] });
   });
 });
