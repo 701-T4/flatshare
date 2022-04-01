@@ -7,11 +7,6 @@ import { v4 as uuidv4 } from 'uuid';
 import { CloudUploadIcon } from '@heroicons/react/outline';
 import { useAlert } from '../../components/common/util/CornerAlert';
 
-const getFirebaseUrl = (proofFileId: string) =>
-  'https://firebasestorage.googleapis.com/v0/b/flatshare-c8e5c.appspot.com/o/' +
-  proofFileId +
-  '?alt=media';
-
 interface NewIssueCardProps {
   refetchOptimisticIssues: (issue: any) => void;
   refetchFromApi: () => void;
@@ -39,7 +34,7 @@ const NewIssueCard: React.FC<NewIssueCardProps> = ({
     method: 'post',
   });
 
-  const { createAlert, resetAlert } = useAlert();
+  const { createAlert } = useAlert();
 
   const handleDoneButton = async (e: React.MouseEvent<HTMLButtonElement>) => {
     const issue = {
