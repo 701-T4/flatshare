@@ -26,6 +26,7 @@ const NotesGrid: React.FC<NotesGridProps> = ({ notes }) => {
   const [qrCodeText, setQrCodeText] = useState('');
   const [qrvisible, setQRVisible] = useState(false);
   const [loading] = useState(false);
+
   const onClickCard = (item: any) => {
     switch (item.type) {
       case 'PLAIN':
@@ -46,8 +47,10 @@ const NotesGrid: React.FC<NotesGridProps> = ({ notes }) => {
         visible={plainvisible}
         setVisible={setPlainVisible}
         loading={loading}
-        data={activeValue}
+        value={activeValue}
+        setValue={setActiveValue}
         title={activeName}
+        setTitle={setActiveName}
         id={activeId}
       />
 
@@ -58,10 +61,12 @@ const NotesGrid: React.FC<NotesGridProps> = ({ notes }) => {
         qrCodeText={qrCodeText}
         loading={loading}
         value={activeValue}
+        setValue={setActiveValue}
         encryption={'L'}
         qrvisible={qrvisible}
         setQRVisible={setQRVisible}
         title={activeName}
+        setTitle={setActiveName}
         id={activeId}
       />
 
@@ -69,8 +74,10 @@ const NotesGrid: React.FC<NotesGridProps> = ({ notes }) => {
         visible={secretvisible}
         setVisible={setSecretVisible}
         loading={loading}
-        data={activeValue}
+        value={activeValue}
+        setValue={setActiveValue}
         title={activeName}
+        setTitle={setActiveName}
         id={activeId}
       />
 

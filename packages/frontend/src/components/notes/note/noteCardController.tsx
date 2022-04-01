@@ -14,8 +14,6 @@ export enum NoteTypes {
 const NoteCardController: React.FC<NoteCardControllerProps> = () => {
   const { data, mutate } = useApi('/api/v1/house/note', { method: 'get' });
 
-  console.log(data);
-
   const createNote = useApiMutation('/api/v1/house/note', { method: 'post' });
 
   // temp data to test api fetch works

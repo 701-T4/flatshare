@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Fragment } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
-import { useApiMutation } from '../../../hooks/useApi';
+import { useApi, useApiMutation } from '../../../hooks/useApi';
 import {
   Button,
   Container,
@@ -11,14 +11,21 @@ import {
   Text,
   Textarea,
 } from '@nextui-org/react';
+import { NoteTypes } from './noteCardController';
 
-const noteType = ['PLAIN', 'SECRET', 'WiFi'];
+const PLAIN_TYPE_TEXT = 'Plain';
+const SECRET_TYPE_TEXT = 'Secret';
+const WIFI_TYPE_TEXT = 'WiFi';
+
+const noteType = [PLAIN_TYPE_TEXT, SECRET_TYPE_TEXT, WIFI_TYPE_TEXT];
 
 interface EditNoteModalProps {
   editNoteVisible: boolean;
   setEditNoteVisible(value: boolean): void;
   activeTitle: string;
+  setTitle: (value: string) => void;
   activeValue: string;
+  setValue: (value: string) => void;
   activeType: string;
   activeId: string;
 }
@@ -27,13 +34,17 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
   editNoteVisible,
   setEditNoteVisible,
   activeTitle,
+  setTitle,
   activeValue,
+  setValue,
   activeType,
   activeId,
 }) => {
   const closeNoteHandler = () => setEditNoteVisible(false);
   const [selected, setSelected] = useState(activeType);
-  const [showWifiInputs, setShowWifiInputs] = useState(activeType === 'WiFi');
+  const [showWifiInputs, setShowWifiInputs] = useState(
+    activeType === WIFI_TYPE_TEXT,
+  );
   interface tempNote {
     title: string;
     value: string;
@@ -47,8 +58,9 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
 
   const editNote = useApiMutation('/api/v1/house/note/{id}', { method: 'put' });
 
-  const saveCaller = async () => {
-    console.log(editedNote);
+  const { mutate } = useApi('/api/v1/house/note', { method: 'get' });
+
+  const handleSave = async () => {
     await editNote({
       pathParams: { id: activeId },
       body: {
@@ -57,6 +69,10 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
         type: editedNote.type as 'PLAIN' | 'SECRET' | 'WIFI',
       },
     });
+    mutate();
+    setValue(editedNote.value);
+    setTitle(editedNote.title);
+    setEditNoteVisible(false);
   };
 
   return (
@@ -100,31 +116,31 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
           value={selected}
           onChange={(e) => {
             setSelected(e);
-            if (e === 'WiFi') setShowWifiInputs(true);
+            if (e === WIFI_TYPE_TEXT) setShowWifiInputs(true);
             else setShowWifiInputs(false);
 
             setEditedNote((prevState) => ({
               ...prevState,
-              type: 'PLAIN',
+              type: NoteTypes.PLAIN,
             }));
 
             switch (e) {
-              case 'Normal':
+              case PLAIN_TYPE_TEXT:
                 setEditedNote((prevState) => ({
                   ...prevState,
-                  type: 'PLAIN',
+                  type: NoteTypes.PLAIN,
                 }));
                 break;
-              case 'Secret':
+              case SECRET_TYPE_TEXT:
                 setEditedNote((prevState) => ({
                   ...prevState,
-                  type: 'SECRET',
+                  type: NoteTypes.SECRET,
                 }));
                 break;
-              case 'WiFi':
+              case WIFI_TYPE_TEXT:
                 setEditedNote((prevState) => ({
                   ...prevState,
-                  type: 'WIFI',
+                  type: NoteTypes.WIFI,
                 }));
                 break;
             }
@@ -239,7 +255,7 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
           size="md"
           className="sm: text-lg"
           onClick={(event) => {
-            saveCaller();
+            handleSave();
           }}
         >
           Save

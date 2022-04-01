@@ -20,10 +20,12 @@ interface WifiModalProps {
   setQrCodeText(value: string): void;
   loading: boolean;
   value: string;
+  setValue(value: string): void;
   encryption: string;
   qrCodeText: string;
   qrvisible: boolean;
   title: string;
+  setTitle(value: string): void;
   id: string;
   setQRVisible(value: boolean): void;
 }
@@ -34,11 +36,13 @@ const WifiModal: React.FC<WifiModalProps> = ({
   setQrCodeText,
   loading,
   value,
+  setValue,
   encryption,
   qrCodeText,
   qrvisible,
   setQRVisible,
   title,
+  setTitle,
   id,
 }) => {
   const closeHandler = () => {
@@ -107,7 +111,9 @@ const WifiModal: React.FC<WifiModalProps> = ({
             ) : (
               <EditButton
                 activeTitle={title}
+                setTitle={setTitle}
                 activeValue={value}
+                setValue={setValue}
                 activeType={NoteTypes.WIFI}
                 activeId={id}
               />
