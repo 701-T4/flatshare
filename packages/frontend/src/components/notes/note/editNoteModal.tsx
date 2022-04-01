@@ -43,7 +43,7 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
   const closeNoteHandler = () => setEditNoteVisible(false);
   const [selected, setSelected] = useState(activeType);
   const [showWifiInputs, setShowWifiInputs] = useState(
-    activeType === WIFI_TYPE_TEXT,
+    activeType === NoteTypes.WIFI,
   );
   interface tempNote {
     title: string;
