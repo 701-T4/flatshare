@@ -75,7 +75,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
     try {
       if (newNoteDetails.type === NoteTypes.WIFI) {
         newNoteDetails.value =
-          newWifiDetails.username + ' + ' + newWifiDetails.password;
+          newWifiDetails.username + ':' + newWifiDetails.password;
       }
       const { name, value, type } = newNoteDetails;
       await createNote({ body: { name, value, type } });
