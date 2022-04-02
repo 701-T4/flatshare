@@ -5,7 +5,7 @@ import CreateHouseModal from '../../components/account/CreateHouseModal';
 import JoinHouseModal from '../../components/account/JoinHouseModal';
 import { useApi } from '../../hooks/useApi';
 import { useAuth } from '../../hooks/useAuth';
-import profilePicture from '../../res/svg/anon_profile_picture.svg';
+import profilePicture from '../../res/svg/default_avatar.svg';
 
 interface ManageAccountPageProps {}
 
@@ -41,13 +41,18 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = () => {
             FlatShare
           </h1>
         </div>
-        <Avatar
-          src={user?.photoURL ?? profilePicture}
-          color="secondary"
-          size="xl"
-          squared
-          className="float-right m-5"
-        />
+        <div className="flex flex-row items-center justify-center text-white">
+          <div className="flex-col hidden text-right md:flex">
+            <span className="font-bold -mb-1 mt-0.5">{user?.displayName}</span>
+            <span>{user?.email}</span>
+          </div>
+          <Avatar
+            src={user?.photoURL ?? profilePicture}
+            color="secondary"
+            size="xl"
+            className="float-right m-5"
+          />
+        </div>
       </div>
       <Container className="flex flex-col items-center w-full h-full translate-y-10 sm:translate-y-20 flex-nowrap justify-items-center">
         <h1 className="mb-20 text-5xl font-bold leading-tight text-center text-white">

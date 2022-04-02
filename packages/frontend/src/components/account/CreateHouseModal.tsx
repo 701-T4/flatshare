@@ -45,7 +45,7 @@ const CreateHouseModal: React.FC<CreateHouseModalProps> = ({
         closeButton
         aria-labelledby="create-modal"
         open={createVisible}
-        className="w-68"
+        className="w-full"
         onClose={closeCreateHandler}
       >
         <Modal.Header>
