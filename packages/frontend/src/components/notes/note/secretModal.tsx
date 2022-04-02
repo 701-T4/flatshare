@@ -1,5 +1,4 @@
-import { EyeIcon } from '@heroicons/react/outline';
-import { WifiIcon } from '@heroicons/react/solid';
+import { EyeIcon, LockClosedIcon } from '@heroicons/react/outline';
 import {
   Avatar,
   Button,
@@ -63,7 +62,7 @@ const SecretModal: React.FC<SecretModalProps> = ({
             css={{ p: 0 }}
           >
             <Avatar
-              icon={<WifiIcon className="h-5 w-5 text-teal-50" />}
+              icon={<LockClosedIcon className="h-5 w-5 text-teal-50" />}
               color="primary"
             />
             <Text b size={18} span css={{ ml: 8 }}>

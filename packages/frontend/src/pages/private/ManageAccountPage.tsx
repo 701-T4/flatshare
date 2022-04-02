@@ -5,6 +5,7 @@ import CreateHouseModal from '../../components/account/CreateHouseModal';
 import JoinHouseModal from '../../components/account/JoinHouseModal';
 import { useApi } from '../../hooks/useApi';
 import { useAuth } from '../../hooks/useAuth';
+import profilePicture from '../../res/svg/anon_profile_picture.svg';
 
 interface ManageAccountPageProps {}
 
@@ -41,13 +42,7 @@ const ManageAccountPage: React.FC<ManageAccountPageProps> = () => {
           </h1>
         </div>
         <Avatar
-          icon={
-            <img
-              alt="Avatar"
-              className="rounded-full"
-              src={user?.photoURL ?? ''}
-            />
-          }
+          src={user?.photoURL ?? profilePicture}
           color="secondary"
           size="xl"
           squared

@@ -41,6 +41,7 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
 
   const [isEdit, setIsEdit] = useState(false);
   const [image, setImage] = useState<File | null | undefined>(undefined);
+  const [resolvedState, setResolvedState] = useState(false);
   const { createAlert, resetAlert } = useAlert();
 
   const navigate = useNavigate();
@@ -71,15 +72,15 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
   }
 
   const userId = auth.currentUser?.uid;
-  const resolved = issue?.resolved;
   const isOwner = userId === issue?.logger;
 
   const completeIssue = async () => {
-    if (resolved) {
+    if (resolvedState) {
       return;
     }
 
     const optimistic = { ...issue };
+    setResolvedState(!resolvedState);
     issueMutate(optimistic);
 
     await markIssueResolved({
@@ -173,7 +174,7 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
                     auto
                     onClick={() => completeIssue()}
                   >
-                    {resolved ? (
+                    {resolvedState ? (
                       <div className="flex">
                         <CheckCircleIcon className="w-8 p-1" />
                         Resolved
