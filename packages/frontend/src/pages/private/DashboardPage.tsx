@@ -4,8 +4,6 @@ import DashboardAnnouncement from '../../components/dashboard/announcement/Dashb
 import UnderlinedText from '../../components/dashboard/GradientUnderlinedText';
 import InviteButtonController from '../../components/dashboard/invite/InviteButtonController';
 import QuickAccessPanel from '../../components/dashboard/QuickAccessPanel';
-import NoUpcomingTasks from '../../components/dashboard/upcoming-tasks/NoUpcomingTasks';
-import UpcomingTask from '../../components/dashboard/upcoming-tasks/UpcomingTask';
 import { useHouse } from '../../hooks/useHouse';
 import { useNavigate } from 'react-router-dom';
 
