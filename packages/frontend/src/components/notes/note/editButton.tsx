@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { DocumentAddIcon } from '@heroicons/react/outline';
-import { Avatar } from '@nextui-org/react';
+import { PencilIcon } from '@heroicons/react/outline';
+import { Button } from '@nextui-org/react';
 import EditNoteModal from './editNoteModal';
 
 interface EditButtonProps {
@@ -27,12 +27,11 @@ const EditButton: React.FC<EditButtonProps> = ({
 
   return (
     <div>
-      <Avatar
-        squared
-        icon={<DocumentAddIcon className="w-full" />}
+      <Button
+        auto
+        icon={<PencilIcon className="w-5 h-5 text-teal-50" />}
         css={{ p: 10 }}
         as="button"
-        pointer
         onClick={editNoteHandler}
       />
       <EditNoteModal
