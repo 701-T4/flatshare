@@ -242,7 +242,6 @@ export interface components {
       description: string;
       image: string;
       resolved: boolean;
-      image: string;
     };
     UpdateIssueDto: {
       name: string;
