@@ -80,7 +80,7 @@ const IssuesPage: React.FC<IssuesPageProps> = () => {
           css={{
             zIndex: 0,
           }}
-          className="w-16 my-3 bg-teal-500"
+          className="w-16 my-3 font-semibold bg-teal-500"
           onClick={() => setNewIssue(!newIssue)}
         >
           New Issue

@@ -31,8 +31,8 @@ const NotesPage: React.FC<NotesProps> = () => {
           css={{
             zIndex: 0,
           }}
-          auto
           size="md"
+          className="font-semibold bg-teal-500"
           onClick={createNoteHandler}
         >
           New Note

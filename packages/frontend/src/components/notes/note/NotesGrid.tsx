@@ -82,32 +82,38 @@ const NotesGrid: React.FC<NotesGridProps> = ({ notes }) => {
       />
 
       <Grid.Container gap={2} justify="flex-start">
-        {notes?.map((item, index) => (
-          <Grid xs={18} md={6} sm={6} key={index}>
-            <Card
-              color="secondary"
-              css={{
-                backgroundColor: '#1D2530',
-              }}
-              className="border-none shadow-md hover:shadow-sm"
-              shadow={false}
-              clickable
-              onClick={(event) => {
-                setActiveName(item.name);
-                setActiveValue(item.value);
-                setActiveId(item.id);
-                onClickCard(item);
-              }}
-            >
-              <h1 className="py-1 text-2xl font-semibold text-white">
-                {item.name}
-              </h1>
-              <p className="pb-1 text-sm font-medium tracking-normal text-teal-400 uppercase">
-                {item.type}
-              </p>
-            </Card>
-          </Grid>
-        ))}
+        {notes && notes?.length > 0 ? (
+          notes?.map((item, index) => (
+            <Grid xs={18} md={6} sm={6} key={index}>
+              <Card
+                color="secondary"
+                css={{
+                  backgroundColor: '#1D2530',
+                }}
+                className="border-none shadow-md hover:shadow-sm"
+                shadow={false}
+                clickable
+                onClick={(event) => {
+                  setActiveName(item.name);
+                  setActiveValue(item.value);
+                  setActiveId(item.id);
+                  onClickCard(item);
+                }}
+              >
+                <h1 className="py-1 text-2xl font-semibold text-white">
+                  {item.name}
+                </h1>
+                <p className="pb-1 text-sm font-medium tracking-normal text-teal-400 uppercase">
+                  {item.type}
+                </p>
+              </Card>
+            </Grid>
+          ))
+        ) : (
+          <div className="mt-3 text-xl font-semibold text-gray-300">
+            No notes found, create one now :)
+          </div>
+        )}
       </Grid.Container>
     </div>
   );

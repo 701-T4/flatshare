@@ -109,7 +109,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
           css={{
             zIndex: 0,
           }}
-          className="w-16 my-3 bg-teal-500"
+          className="w-16 my-3 font-semibold bg-teal-500"
           onClick={() => setNewBill(!newBill)}
         >
           New Bill

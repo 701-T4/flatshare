@@ -28,7 +28,7 @@ const QuickAccessPanel: React.FC<QuickAccessPanelProps> = () => {
       <TopAction
         // https://unsplash.com/photos/SnKfmC1I9fU
         img={cleaning}
-        title="Chores"
+        title="Tasks"
         twGradientStart="from-blue-700"
         twGradientEnd="to-green-800"
         twOpacity="opacity-80"

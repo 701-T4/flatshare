@@ -29,6 +29,7 @@ const DashboardAnnouncement: React.FC<DashboardAnnouncementProps> = ({
         <Button
           aria-label="View All Announcements"
           className="self-center mt-5 bg-teal-500 sm:mt-0"
+          css={{ zIndex: 0 }}
           onClick={onViewAll}
         >
           View All Announcements

@@ -52,7 +52,7 @@ const AnnouncementPage: React.FC = () => {
       <div>
         <Button
           css={{ zIndex: 0 }}
-          className="bg-teal-500"
+          className="font-semibold bg-teal-500"
           onClick={() => setModalVisible(true)}
         >
           New Announcement
@@ -77,7 +77,9 @@ const AnnouncementPage: React.FC = () => {
                 );
               })
             ) : (
-              <div>No announcements found, post one now :)</div>
+              <div className="mt-3 text-xl font-semibold text-gray-300">
+                No announcements found, post one now :)
+              </div>
             )}
           </div>
         )}
