@@ -35,6 +35,7 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
       rent: data.totalRent,
     };
     await saveHouseInfo({ body: newData });
+    window.location.reload();
   };
 
   const onSaveOccupants = async (occupantDetails: OccupantCardProps) => {
@@ -55,6 +56,7 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
 
     console.log(newData);
     await updateOccupantInfo({ body: newData });
+    window.location.reload();
   };
 
   const onDeleteOccupant = async (firebaseId: string) => {
@@ -71,6 +73,7 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
           .filter((id) => id !== firebaseId),
       },
     });
+    window.location.reload();
   };
 
   return (
