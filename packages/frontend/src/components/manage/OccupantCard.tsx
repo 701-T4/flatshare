@@ -7,20 +7,18 @@ export interface OccupantCardProps {
   name: string;
   firebaseId: string;
   contact?: string;
-  percentageOfRent?: number;
+  rentPercentage?: number;
   dateJoined?: Date;
-  contractEndDate?: Date;
+  contractEndingDate?: Date;
 }
 
 const OccupantCard: React.FC<OccupantCardProps> = (props) => {
   const { totalRent } = useContext(PanelContext);
 
   const OccupantSummary: React.FC = () => {
-    const rentToPay = (
-      totalRent *
-      (props.percentageOfRent || 0) *
-      0.01
-    ).toFixed(2);
+    const rentToPay = (totalRent * (props.rentPercentage || 0) * 0.01).toFixed(
+      2,
+    );
     return (
       <>
         <Text color={'secondary'} size={20}>
@@ -35,12 +33,11 @@ const OccupantCard: React.FC<OccupantCardProps> = (props) => {
 
   return (
     <>
-      <Collapse.Group splitted>
+      <Collapse.Group splitted style={{ padding: 0 }}>
         <Collapse
           // background color cannot be overridden with css prop nor tailwind className
           style={{ backgroundColor: '#1D2530' }}
           title={<OccupantSummary />}
-          css={{ size: '$tiny' }}
         >
           <OccupantForm {...props} />
         </Collapse>

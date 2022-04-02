@@ -70,7 +70,7 @@ export class NoteController {
   @ApiBadRequestResponse({ description: 'user does not belong to a house' })
   @ApiOkResponse({
     description: 'notes retrieved successfully',
-    type: [NoteResponseDto],
+    type: NotesResponseDto,
   })
   async get(@User() user: DecodedIdToken): Promise<NotesResponseDto> {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
