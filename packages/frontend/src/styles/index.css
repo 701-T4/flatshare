@@ -12,3 +12,7 @@ body {
 .back-ease {
   transition-timing-function: cubic-bezier(0.21, 0.76, 0.68, 1.39);
 }
+
+p.firebase-emulator-warning {
+  display: none;
+}

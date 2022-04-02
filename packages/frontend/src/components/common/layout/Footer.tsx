@@ -4,8 +4,10 @@ interface FooterProps {}
 
 const Footer: React.FC<FooterProps> = () => {
   return (
-    <div className="opacity-50 w-full mt-8">
-      <div className="w-full text-center p-4">Copyright Team 4</div>
+    <div className="w-full mt-8 opacity-50">
+      <div className="w-full p-4 text-center">
+        {'Copyright © 2022 SE701 Team 4 & Team 3'}
+      </div>
     </div>
   );
 };
