@@ -16,7 +16,7 @@ const NotesPage: React.FC<NotesProps> = () => {
   const createNoteHandler = () => setCreateNoteVisible(true);
 
   return (
-    <Page>
+    <Page backpath="/dashboard">
       <div className="flex justify-between items-center pb-1">
         <UnderlinedText colorClasses="from-gray-800 via-teal-700 to-teal-500 ">
           <div className="text-2xl font-medium">

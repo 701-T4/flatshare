@@ -132,8 +132,8 @@ export interface components {
       name?: string;
       email?: string;
       address?: string;
-      rent?: string;
-      maxOccupants?: string;
+      rent?: number;
+      maxOccupants?: number;
       code: string;
       owner: string;
       users: components['schemas']['UserResponseDto'][];
@@ -146,8 +146,8 @@ export interface components {
       name?: string;
       email?: string;
       address?: string;
-      rent?: string;
-      maxOccupants?: string;
+      rent?: number;
+      maxOccupants?: number;
       code: string;
       owner?: string;
       users?: string[];

@@ -79,6 +79,7 @@ const SecretModal: React.FC<SecretModalProps> = ({
                 setValue={setValue}
                 activeType={NoteTypes.SECRET}
                 activeId={id}
+                setVisibleModal={setVisible}
               />
             )}
           </Container>

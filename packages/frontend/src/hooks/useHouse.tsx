@@ -7,11 +7,23 @@ interface House {
   address: string;
   code: string;
   owner: string;
+  maxOccupants: number;
+  rent: number;
+  latestAnnouncement?: {
+    author: string;
+    dateCreated: string;
+    description?: string;
+    title?: string;
+  };
 
   users: {
     name: string;
     house?: string;
     firebaseId: string;
+    contractEndingDate?: string;
+    rentPercentage?: number;
+    dateJoined?: string;
+    contact?: string;
   }[];
 }
 

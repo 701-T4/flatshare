@@ -102,7 +102,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
     [data],
   );
   return (
-    <Page>
+    <Page backpath="/dashboard">
       <div className="flex flex-col gap-4">
         <Button
           aria-label="New bill"

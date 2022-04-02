@@ -19,6 +19,7 @@ import { useHouse } from '../../hooks/useHouse';
 import { components } from '../../types/api-schema';
 import { ExternalLinkIcon } from '@heroicons/react/outline';
 import { useAlert } from '../../components/common/util/CornerAlert';
+import { parseFileName } from '../../services/fileNameParser';
 
 const getFirebaseUrl = (proofFileId: string) =>
   'https://firebasestorage.googleapis.com/v0/b/flatshare-c8e5c.appspot.com/o/' +
@@ -126,13 +127,6 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
     });
   };
 
-  const parseFileName = (fileName: String) => {
-    if (fileName.length < 22) {
-      return fileName;
-    }
-    return fileName.slice(0, 10) + '...' + fileName.slice(-10);
-  };
-
   const deleteBill = async () => {
     deleteBillCall({ pathParams: { id: bill.id } });
     navigate('/bills', { replace: true });
@@ -141,7 +135,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
   const fileNotAttached = image === null || image === undefined;
 
   return (
-    <Page>
+    <Page backpath="/bills">
       {isEdit ? (
         <div className="px-10 pt-10 md:px-20">
           <EditBillCard

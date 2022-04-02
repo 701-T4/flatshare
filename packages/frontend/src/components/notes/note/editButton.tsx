@@ -10,6 +10,7 @@ interface EditButtonProps {
   setValue: (value: string) => void;
   activeType: string;
   activeId: string;
+  setVisibleModal: (value: boolean) => void;
 }
 
 const EditButton: React.FC<EditButtonProps> = ({
@@ -19,6 +20,7 @@ const EditButton: React.FC<EditButtonProps> = ({
   setValue,
   activeType,
   activeId,
+  setVisibleModal,
 }) => {
   const [editNoteVisible, setEditNoteVisible] = useState(false);
   const editNoteHandler = () => setEditNoteVisible(true);
@@ -42,6 +44,7 @@ const EditButton: React.FC<EditButtonProps> = ({
         activeId={activeId}
         editNoteVisible={editNoteVisible}
         setEditNoteVisible={setEditNoteVisible}
+        setVisibleModal={setVisibleModal}
       />
     </div>
   );

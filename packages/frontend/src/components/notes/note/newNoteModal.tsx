@@ -10,8 +10,7 @@ import {
   Text,
   Textarea,
 } from '@nextui-org/react';
-import { useApiMutation } from '../../../hooks/useApi';
-// import { useNavigate } from 'react-router-dom';
+import { useApi, useApiMutation } from '../../../hooks/useApi';
 
 const NORMAL_TYPE = 'Normal';
 const SECRET_TYPE = 'Secret';
@@ -54,7 +53,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
 
   interface NewWifiDetails {
     username: string;
-    passward: string;
+    password: string;
   }
 
   const [newNoteDetails, setNoteDetails] = useState<NewNoteDetails>({
@@ -65,10 +64,10 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
 
   const [newWifiDetails, setWifiDetails] = useState<NewWifiDetails>({
     username: '',
-    passward: '',
+    password: '',
   });
 
-  // const { data, mutate } = useApi('/api/v1/house/note', { method: 'get' });
+  const { mutate } = useApi('/api/v1/house/note', { method: 'get' });
 
   const createNote = useApiMutation('/api/v1/house/note', { method: 'post' });
 
@@ -76,11 +75,11 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
     try {
       if (newNoteDetails.type === NoteTypes.WIFI) {
         newNoteDetails.value =
-          newWifiDetails.username + ' + ' + newWifiDetails.passward;
+          newWifiDetails.username + ':' + newWifiDetails.password;
       }
       const { name, value, type } = newNoteDetails;
       await createNote({ body: { name, value, type } });
-      // mutate();
+      mutate();
       setCreateNoteVisible(false);
     } catch (e) {}
   }
@@ -146,7 +145,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
           }}
         >
           <div className="relative mt-1">
-            <Listbox.Button className="h-12 relative w-full py-1 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default sm:text-xl">
+            <Listbox.Button className="relative w-full h-12 py-1 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default sm:text-xl">
               <span className="block truncate">{selected.name}</span>
               <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <SelectorIcon
@@ -161,7 +160,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 sm:text-xl z-10">
+              <Listbox.Options className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 sm:text-xl">
                 {noteType.map((note) => (
                   <Listbox.Option
                     className={({ active }) =>
@@ -228,7 +227,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
               onChange={(e) =>
                 setWifiDetails((prevState) => ({
                   ...prevState,
-                  passward: e.target.value,
+                  password: e.target.value,
                 }))
               }
             ></Input>
@@ -265,7 +264,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
         ) : null}
       </Modal.Body>
       <Modal.Footer css={{ cursor: 'auto' }}>
-        <Button size="md" className="sm: text-lg" onClick={onClickCreate}>
+        <Button size="md" className="text-lg sm:" onClick={onClickCreate}>
           Create
         </Button>
       </Modal.Footer>

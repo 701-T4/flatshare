@@ -42,6 +42,7 @@ const QuickAccessPanel: React.FC<QuickAccessPanelProps> = () => {
         twGradientStart="from-purple-700"
         twGradientEnd="to-yellow-800"
         twOpacity="opacity-80"
+        onClick={() => navigate('/manage-flat')}
         description="Manage your flat's members and settings."
       />
       <TopAction
