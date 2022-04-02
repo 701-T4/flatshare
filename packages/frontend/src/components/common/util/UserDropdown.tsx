@@ -13,7 +13,7 @@ import { useAuth } from '../../../hooks/useAuth';
 import { auth } from '../../../services/firebase';
 import { useAlert } from './CornerAlert';
 // import profilePicutre from '..\..\..\src\res\svg\anon_profile_picture.svg'
-import profilePicutre from '../../../res/svg/anon_profile_picture.svg';
+import profilePicutre from '../../../res/svg/default_avatar.svg';
 
 const iconClass = 'bg-teal-100 text-teal-500 rounded-lg p-2.5';
 
@@ -26,18 +26,6 @@ const UserDropdown: React.FC = () => {
 
   const dropdownOptions = useMemo(
     () => [
-      {
-        name: 'Settings',
-        description: 'View and Modify your User Settings',
-        action: () => {},
-        icon: () => <CogIcon className={iconClass} />,
-      },
-      {
-        name: 'Feedback',
-        description: 'Leave Feedback on the App',
-        action: () => {},
-        icon: () => <SpeakerphoneIcon className={iconClass} />,
-      },
       {
         name: 'Github',
         description: "View the App's Source on Github",
@@ -78,7 +66,7 @@ const UserDropdown: React.FC = () => {
             ref={setReferenceElement}
           >
             <div className="flex flex-row gap-x-4">
-              <div className="hidden md:flex flex-col text-right">
+              <div className="flex-col hidden text-right md:flex">
                 <span className="font-bold -mb-1 mt-0.5">
                   {user?.displayName}
                 </span>
@@ -103,7 +91,7 @@ const UserDropdown: React.FC = () => {
             leaveTo="opacity-0 translate-y-1"
           >
             <Popover.Panel
-              className="absolute z-40 w-screen max-w-sm px-4 mt-16 transform -translate-x-2/3 md:-translate-x-[15%] sm:px-0"
+              className="absolute z-40 w-screen max-w-sm px-4 mt-16 transform -translate-x-2/3 md:-translate-x-[0%] sm:px-0"
               ref={setPopperElement}
               style={styles.popper}
               {...attributes.popper}
@@ -114,7 +102,7 @@ const UserDropdown: React.FC = () => {
                     <button
                       key={item.name}
                       onClick={item.action}
-                      className="flex items-center p-2 -m-3 transition duration-150 ease-in-out rounded-lg hover:bg-gray-50 text-left"
+                      className="flex items-center p-2 -m-3 text-left transition duration-150 ease-in-out rounded-lg hover:bg-gray-50"
                     >
                       <div className="flex items-center justify-center flex-shrink-0 w-10 h-10 text-white sm:h-12 sm:w-12">
                         <item.icon aria-hidden="true" />
