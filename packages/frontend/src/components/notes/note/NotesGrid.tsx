@@ -81,12 +81,13 @@ const NotesGrid: React.FC<NotesGridProps> = ({ notes }) => {
         id={activeId}
       />
 
-      <Grid.Container gap={2} justify="center">
+      <Grid.Container gap={2} justify="flex-start">
         {notes?.map((item, index) => (
           <Grid xs={18} md={6} sm={6} key={index}>
             <Card
               color="secondary"
-              hoverable
+              className="border-none shadow-md bg-slate-900 hover:shadow-sm"
+              shadow={false}
               clickable
               onClick={(event) => {
                 setActiveName(item.name);
@@ -95,17 +96,12 @@ const NotesGrid: React.FC<NotesGridProps> = ({ notes }) => {
                 onClickCard(item);
               }}
             >
-              <Text color="black" size={30} weight="semibold">
+              <h1 className="py-1 text-2xl font-semibold text-white">
                 {item.name}
-              </Text>
-              <Text
-                color="primary"
-                size={14}
-                transform="uppercase"
-                weight="semibold"
-              >
+              </h1>
+              <p className="pb-1 text-sm font-medium tracking-normal text-teal-400 uppercase">
                 {item.type}
-              </Text>
+              </p>
             </Card>
           </Grid>
         ))}

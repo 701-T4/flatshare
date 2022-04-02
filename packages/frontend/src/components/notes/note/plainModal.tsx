@@ -40,24 +40,20 @@ const PlainModal: React.FC<PlainModalProps> = ({
       <Modal
         closeButton
         scroll
-        width="75%"
+        width="30%"
+        className="min-w-fit"
         open={visible}
         onClose={closeHandler}
         aria-labelledby="modal-title"
       >
         <Spacer y={1} />
         <Modal.Header>
-          <Container
-            display="flex"
-            direction="row"
-            alignItems="center"
-            css={{ p: 0 }}
-          >
+          <Container className="flex flex-row items-center">
             <Avatar
-              icon={<DocumentIcon className="h-5 w-5 text-teal-50" />}
+              icon={<DocumentIcon className="w-5 h-5 text-teal-50" />}
               color="primary"
             />
-            <Text b size={18} span css={{ ml: 8 }}>
+            <Text b size={25} span css={{ ml: 8 }}>
               {title}
             </Text>
             {loading ? (
@@ -79,14 +75,10 @@ const PlainModal: React.FC<PlainModalProps> = ({
           {loading ? (
             <>Loading...</>
           ) : (
-            <Container
-              direction="row"
-              display="flex"
-              alignItems="flex-end"
-              justify="space-between"
-              css={{ p: 0 }}
-            >
-              <Text id="modal-title">{value}</Text>
+            <Container>
+              <Text className="text-lg tracking-normal" id="modal-title">
+                {value}
+              </Text>
             </Container>
           )}
         </Modal.Body>
