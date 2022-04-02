@@ -102,6 +102,16 @@ const NewBillCard: React.FC<NewBillCardProps> = ({
     refetchOptimisticBills(bill);
     await createBill(billBody);
     refetchFromApi();
+
+    setBillInfo({
+      title: '',
+      detail: '',
+      dueDate: new Date(),
+      totalCost: 0,
+    });
+    users?.forEach((user) => {
+      setCostHash((prev) => ({ ...prev, [user.name]: 0 }));
+    });
   };
 
   return (
@@ -113,7 +123,7 @@ const NewBillCard: React.FC<NewBillCardProps> = ({
             <div className="self-center text-base">
               Total Cost: $
               <input
-                className="w-7/12 p-1 pl-2 ml-2 text-black rounded-lg appearance-none sm:w-auto"
+                className="w-7/12 p-1 pl-3 ml-2 text-black rounded-lg appearance-none sm:w-auto"
                 type="number"
                 value={billInfo.totalCost}
                 onChange={(e) =>
@@ -127,7 +137,7 @@ const NewBillCard: React.FC<NewBillCardProps> = ({
             <div className="self-center text-base whitespace-nowrap">
               Due Date:
               <DatePicker
-                className="p-1 pl-2 ml-2 text-black rounded-lg appearance-none"
+                className="p-1 pl-3 ml-2 text-black rounded-lg appearance-none"
                 selected={billInfo.dueDate}
                 dateFormat="MMMM d, yyyy"
                 onChange={(date: Date) =>
@@ -155,8 +165,9 @@ const NewBillCard: React.FC<NewBillCardProps> = ({
             <div className="flex flex-col gap-y-0.5 sm:w-1/2">
               <div className="mr-3 font-bold">Title</div>
               <input
-                className="p-2 text-black rounded-lg appearance-none"
+                className="p-3 text-black rounded-lg appearance-none"
                 type="text"
+                placeholder="Title of the bill"
                 value={billInfo.title}
                 onChange={(e) =>
                   setBillInfo((prev) => ({
@@ -177,7 +188,7 @@ const NewBillCard: React.FC<NewBillCardProps> = ({
                       {person.name}
                     </span>
                     <input
-                      className="p-2 text-black rounded-lg appearance-none"
+                      className="p-3 text-black rounded-lg appearance-none"
                       type="number"
                       name={person.name}
                       value={costHash[person.name]}
@@ -191,6 +202,7 @@ const NewBillCard: React.FC<NewBillCardProps> = ({
               <div className="font-bold">Details</div>
               <Textarea
                 size="lg"
+                placeholder="Some details of this bill"
                 animated={false}
                 value={billInfo.detail}
                 onChange={(e) =>
