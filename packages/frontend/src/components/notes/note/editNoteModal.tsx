@@ -12,6 +12,7 @@ import {
   Textarea,
 } from '@nextui-org/react';
 import { NoteTypes } from './noteCardController';
+import { TrashIcon } from '@heroicons/react/outline';
 
 const PLAIN_TYPE_TEXT = 'Plain';
 const SECRET_TYPE_TEXT = 'Secret';
@@ -28,6 +29,7 @@ interface EditNoteModalProps {
   setValue: (value: string) => void;
   activeType: string;
   activeId: string;
+  setVisibleModal: (value: boolean) => void;
 }
 
 const EditNoteModal: React.FC<EditNoteModalProps> = ({
@@ -39,11 +41,15 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
   setValue,
   activeType,
   activeId,
+  setVisibleModal,
 }) => {
   const closeNoteHandler = () => setEditNoteVisible(false);
   const [selected, setSelected] = useState(activeType);
   const [showWifiInputs, setShowWifiInputs] = useState(
-    activeType === WIFI_TYPE_TEXT,
+    activeType === NoteTypes.WIFI,
+  );
+  const [showSecretInputs, setShowSecretInputs] = useState(
+    activeType === NoteTypes.SECRET,
   );
   interface tempNote {
     title: string;
@@ -58,7 +64,18 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
 
   const editNote = useApiMutation('/api/v1/house/note/{id}', { method: 'put' });
 
+  const deleteNote = useApiMutation('/api/v1/house/note/{id}', {
+    method: 'delete',
+  });
+
   const { mutate } = useApi('/api/v1/house/note', { method: 'get' });
+
+  const handleDelete = async () => {
+    setEditNoteVisible(false);
+    setVisibleModal(false);
+    mutate();
+    await deleteNote({ pathParams: { id: activeId } });
+  };
 
   const handleSave = async () => {
     await editNote({
@@ -118,6 +135,8 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
             setSelected(e);
             if (e === WIFI_TYPE_TEXT) setShowWifiInputs(true);
             else setShowWifiInputs(false);
+            if (e === SECRET_TYPE_TEXT) setShowSecretInputs(true);
+            else setShowSecretInputs(false);
 
             setEditedNote((prevState) => ({
               ...prevState,
@@ -210,6 +229,15 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
               size="xl"
               color="primary"
               initialValue={activeValue.substring(0, activeValue.indexOf(':'))}
+              onChange={(e) =>
+                setEditedNote((prevState) => ({
+                  ...prevState,
+                  value:
+                    e.target.value +
+                    ':' +
+                    prevState.value.substring(0, prevState.value.indexOf(':')),
+                }))
+              }
             ></Input>
             <Text size={'1.25rem'} margin="1.5%">
               Password
@@ -222,6 +250,15 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
               size="xl"
               color="primary"
               initialValue={activeValue.substring(activeValue.indexOf(':') + 1)}
+              onChange={(e) =>
+                setEditedNote((prevState) => ({
+                  ...prevState,
+                  value:
+                    prevState.value.substring(0, prevState.value.indexOf(':')) +
+                    ':' +
+                    e.target.value,
+                }))
+              }
             ></Input>
           </Container>
         ) : null}
@@ -230,6 +267,12 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
 
         {!showWifiInputs ? (
           <Container direction="column" display="flex" css={{ p: 0 }}>
+            {showSecretInputs && (
+              <Text size={'1rem'} margin="0% 0% 0% 1.5%" color="red">
+                Warning: Secrets are not protected by a password. Be aware that
+                all information stored will be accesible to your flatmates.
+              </Text>
+            )}
             <Text size={'1.25rem'} margin="1.5%">
               Description
             </Text>
@@ -251,6 +294,11 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
         ) : null}
       </Modal.Body>
       <Modal.Footer>
+        <Button
+          auto
+          onClick={() => handleDelete()}
+          icon={<TrashIcon className="w-5 h-5 text-teal-50" />}
+        />
         <Button
           size="md"
           className="sm: text-lg"

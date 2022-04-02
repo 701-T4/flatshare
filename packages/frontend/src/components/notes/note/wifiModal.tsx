@@ -116,6 +116,7 @@ const WifiModal: React.FC<WifiModalProps> = ({
                 setValue={setValue}
                 activeType={NoteTypes.WIFI}
                 activeId={id}
+                setVisibleModal={setVisible}
               />
             )}
           </Container>
@@ -143,13 +144,14 @@ const WifiModal: React.FC<WifiModalProps> = ({
                     label="Username"
                     readOnly
                     width="86%"
-                    initialValue={value.substring(0, value.indexOf(' + '))}
+                    value={value.substring(0, value.indexOf(':'))}
                   />
                   <Input
                     label="Password"
+                    readOnly
                     width="86%"
                     type={passwordShown ? 'text' : 'password'}
-                    initialValue={value.substring(value.indexOf(' + ') + 3)}
+                    value={value.substring(value.indexOf(':') + 1)}
                   />
                   {unHideButton()}
                 </Container>

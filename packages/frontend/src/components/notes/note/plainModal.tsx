@@ -70,6 +70,7 @@ const PlainModal: React.FC<PlainModalProps> = ({
                 setValue={setValue}
                 activeType={NoteTypes.PLAIN}
                 activeId={id}
+                setVisibleModal={setVisible}
               />
             )}
           </Container>
