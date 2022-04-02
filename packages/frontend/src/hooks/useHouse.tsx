@@ -7,6 +7,12 @@ interface House {
   address: string;
   code: string;
   owner: string;
+  latestAnnouncement?: {
+    author: string;
+    dateCreated: string;
+    description?: string;
+    title?: string;
+  };
 
   users: {
     name: string;
