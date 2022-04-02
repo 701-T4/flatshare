@@ -106,7 +106,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
       <div className="flex flex-col gap-4">
         <Button
           aria-label="New bill"
-          className="w-16 my-3 bg-teal-500"
+          className="w-16 my-3 bg-teal-500 rounded-lg"
           onClick={() => setNewBill(!newBill)}
         >
           New Bill
@@ -117,7 +117,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
             refetchFromApi={mutate}
           />
         )}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 mt-4">
           <UnderlinedText colorClasses="bg-gray-800">
             <div className="text-lg font-semibold">Upcoming Bills</div>
           </UnderlinedText>
@@ -207,13 +207,6 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
                   />
                 ))}
               </div>
-
-              <Button
-                aria-label="Load more past bill"
-                className="w-16 mt-3 bg-gray-500"
-              >
-                Load More
-              </Button>
             </>
           ) : (
             <div className="flex flex-col items-center py-5 text-xl font-semibold text-gray-300">
