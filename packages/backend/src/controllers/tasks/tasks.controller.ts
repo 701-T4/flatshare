@@ -221,7 +221,7 @@ export class TasksController {
       throw new HttpException('task not found', HttpStatus.NOT_FOUND);
     }
 
-    if (task.assigned !== user.uid) {
+    if (task.assigned !== user.name) {
       throw new HttpException(
         'user is not assigned to the task',
         HttpStatus.BAD_REQUEST,
