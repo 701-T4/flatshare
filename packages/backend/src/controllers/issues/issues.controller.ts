@@ -27,6 +27,7 @@ import { User } from '../../util/user.decorator';
 import { CreateIssueDto } from './dto/create-issue.dto';
 import { IssueResponseDto, IssuesResponseDto } from './dto/issue-response.dto';
 import { UpdateIssueDto } from './dto/update-issue.dto';
+import { ResolveIssueDto } from './dto/resolve-issue.dto';
 import { IssueUtil } from './issues.util';
 import { Auth } from '../../util/auth.decorator';
 
@@ -85,6 +86,7 @@ export class IssueController {
     const issueModel: IssueModel = {
       name: createIssueDto.name,
       description: createIssueDto.description,
+      image: createIssueDto.image,
       house: logger.house,
       logger: logger._id,
       loggedDate: currentDate,
@@ -94,6 +96,7 @@ export class IssueController {
     return {
       id: issue._id,
       name: issue.name,
+      image: issue.image,
       description: issue.description,
       logger: logger.firebaseId,
       loggedDate: issue.loggedDate.getTime(),
@@ -126,6 +129,37 @@ export class IssueController {
       issue._id,
       updateIssueDto,
     );
+    return this.issueUtil.covertIssueDocumentToResponseDTO(
+      issueDocument,
+      this.userStoreService,
+    );
+  }
+
+  @Put(':id/resolve')
+  @ApiOperation({ summary: 'Mark a user as having resolved an issue.' })
+  @ApiOkResponse({
+    description: 'Issue resolved successfully',
+    type: IssueResponseDto,
+  })
+  async updateIssueResolved(
+    @Param('id') id: string,
+    @Body() resolveIssueDto: ResolveIssueDto,
+    @User() user: DecodedIdToken,
+  ): Promise<IssueResponseDto> {
+    const issue = await this.issueStoreService.findOne(id);
+    const userObject = await this.userStoreService.findOneByFirebaseId(
+      user.uid,
+    );
+
+    if (!issue.logger.equals(userObject._id)) {
+      throw new HttpException('not the issue logger', HttpStatus.FORBIDDEN);
+    }
+
+    const issueDocument = await this.issueStoreService.update(
+      issue._id,
+      resolveIssueDto,
+    );
+
     return this.issueUtil.covertIssueDocumentToResponseDTO(
       issueDocument,
       this.userStoreService,

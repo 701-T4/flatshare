@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Fragment } from 'react';
 import { Listbox, Transition } from '@headlessui/react';
 import { CheckIcon, SelectorIcon } from '@heroicons/react/solid';
+import { useApi, useApiMutation } from '../../../hooks/useApi';
 import {
   Button,
   Container,
@@ -10,30 +11,76 @@ import {
   Text,
   Textarea,
 } from '@nextui-org/react';
+import { NoteTypes } from './noteCardController';
 
-const noteType = [{ name: 'Normal' }, { name: 'Secret' }, { name: 'WiFi' }];
+const PLAIN_TYPE_TEXT = 'Plain';
+const SECRET_TYPE_TEXT = 'Secret';
+const WIFI_TYPE_TEXT = 'WiFi';
+
+const noteType = [PLAIN_TYPE_TEXT, SECRET_TYPE_TEXT, WIFI_TYPE_TEXT];
 
 interface EditNoteModalProps {
-  createNoteVisible: boolean;
-  setCreateNoteVisible(value: boolean): void;
+  editNoteVisible: boolean;
+  setEditNoteVisible(value: boolean): void;
+  activeTitle: string;
+  setTitle: (value: string) => void;
+  activeValue: string;
+  setValue: (value: string) => void;
+  activeType: string;
+  activeId: string;
 }
 
 const EditNoteModal: React.FC<EditNoteModalProps> = ({
-  createNoteVisible,
-  setCreateNoteVisible,
+  editNoteVisible,
+  setEditNoteVisible,
+  activeTitle,
+  setTitle,
+  activeValue,
+  setValue,
+  activeType,
+  activeId,
 }) => {
-  const closeNoteHandler = () => setCreateNoteVisible(false);
+  const closeNoteHandler = () => setEditNoteVisible(false);
+  const [selected, setSelected] = useState(activeType);
+  const [showWifiInputs, setShowWifiInputs] = useState(
+    activeType === WIFI_TYPE_TEXT,
+  );
+  interface tempNote {
+    title: string;
+    value: string;
+    type: string;
+  }
+  const [editedNote, setEditedNote] = useState<tempNote>({
+    title: activeTitle,
+    value: activeValue,
+    type: activeType,
+  });
 
-  const [selected, setSelected] = useState(noteType[0]);
+  const editNote = useApiMutation('/api/v1/house/note/{id}', { method: 'put' });
 
-  const [showWifiInputs, setShowWifiInputs] = useState(false);
+  const { mutate } = useApi('/api/v1/house/note', { method: 'get' });
+
+  const handleSave = async () => {
+    await editNote({
+      pathParams: { id: activeId },
+      body: {
+        name: editedNote.title,
+        value: editedNote.value,
+        type: editedNote.type as 'PLAIN' | 'SECRET' | 'WIFI',
+      },
+    });
+    mutate();
+    setValue(editedNote.value);
+    setTitle(editedNote.title);
+    setEditNoteVisible(false);
+  };
 
   return (
     <Modal
       closeButton
       blur
       width="75%"
-      open={createNoteVisible}
+      open={editNoteVisible}
       onClose={closeNoteHandler}
     >
       <Modal.Header>
@@ -49,10 +96,17 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
           aria-label="note name"
           clearable
           bordered
-          placeholder="Enter your note header"
+          placeholder="Note Name"
           size="xl"
           color="primary"
-          value="Get the Note Name here"
+          initialValue={activeTitle}
+          contentEditable={true}
+          onChange={(e) =>
+            setEditedNote((prevState) => ({
+              ...prevState,
+              title: e.target.value,
+            }))
+          }
         ></Input>
         <Text size={'1.25rem'} margin="1.5%">
           Type
@@ -62,13 +116,39 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
           value={selected}
           onChange={(e) => {
             setSelected(e);
-            if (e.name === 'WiFi') setShowWifiInputs(true);
+            if (e === WIFI_TYPE_TEXT) setShowWifiInputs(true);
             else setShowWifiInputs(false);
+
+            setEditedNote((prevState) => ({
+              ...prevState,
+              type: NoteTypes.PLAIN,
+            }));
+
+            switch (e) {
+              case PLAIN_TYPE_TEXT:
+                setEditedNote((prevState) => ({
+                  ...prevState,
+                  type: NoteTypes.PLAIN,
+                }));
+                break;
+              case SECRET_TYPE_TEXT:
+                setEditedNote((prevState) => ({
+                  ...prevState,
+                  type: NoteTypes.SECRET,
+                }));
+                break;
+              case WIFI_TYPE_TEXT:
+                setEditedNote((prevState) => ({
+                  ...prevState,
+                  type: NoteTypes.WIFI,
+                }));
+                break;
+            }
           }}
         >
           <div className="relative mt-1">
             <Listbox.Button className="h-12 relative w-full py-1 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default sm:text-xl">
-              <span className="block truncate">{selected.name}</span>
+              <span className="block truncate">{selected}</span>
               <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <SelectorIcon
                   className="w-5 h-5 text-teal-400"
@@ -99,7 +179,7 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
                             selected ? 'font-medium' : 'font-normal'
                           }`}
                         >
-                          {note.name}
+                          {note}
                         </span>
                         {selected ? (
                           <span className="absolute inset-y-0 left-0 flex items-center pl-2 text-teal-300">
@@ -129,7 +209,7 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
               placeholder="Enter the username"
               size="xl"
               color="primary"
-              value="Joe123"
+              initialValue={activeValue.substring(0, activeValue.indexOf(':'))}
             ></Input>
             <Text size={'1.25rem'} margin="1.5%">
               Password
@@ -141,7 +221,7 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
               placeholder="Enter the password"
               size="xl"
               color="primary"
-              value="PassPass"
+              initialValue={activeValue.substring(activeValue.indexOf(':') + 1)}
             ></Input>
           </Container>
         ) : null}
@@ -159,13 +239,25 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
               placeholder="Enter your note here"
               size="xl"
               color="primary"
-              value="This is where the long description will go ...... blah blah blah"
+              initialValue={activeValue}
+              onChange={(e) =>
+                setEditedNote((prevState) => ({
+                  ...prevState,
+                  value: e.target.value,
+                }))
+              }
             ></Textarea>
           </Container>
         ) : null}
       </Modal.Body>
       <Modal.Footer>
-        <Button size="md" className="sm: text-lg">
+        <Button
+          size="md"
+          className="sm: text-lg"
+          onClick={(event) => {
+            handleSave();
+          }}
+        >
           Save
         </Button>
       </Modal.Footer>

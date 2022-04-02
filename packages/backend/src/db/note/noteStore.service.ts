@@ -28,10 +28,7 @@ export class NoteStoreService {
   async findAllByHouse(
     houseId: string | Mongoose.Types.ObjectId,
   ): Promise<NoteDocument[]> {
-    return this.noteModel
-      .find()
-      .populate({ path: 'house', match: { _id: houseId } })
-      .exec();
+    return this.noteModel.find({ house: houseId }).exec();
   }
 
   async update(

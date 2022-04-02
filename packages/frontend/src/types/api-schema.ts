@@ -64,6 +64,13 @@ export interface paths {
     put: operations['IssueController_updateIssue'];
     delete: operations['IssueController_deleteIssue'];
   };
+  '/api/v1/house/issues/{id}/resolve': {
+    put: operations['IssueController_updateIssueResolved'];
+  };
+  '/api/v1/house/announcements': {
+    get: operations['AnnouncementController_getAnnouncements'];
+    post: operations['AnnouncementController_createAnnouncement'];
+  };
 }
 
 export interface components {
@@ -113,6 +120,14 @@ export interface components {
       email: string;
       address: string;
     };
+    AnnouncementResponseDto: {
+      title?: string;
+      description?: string;
+      author: string;
+      houseCode: string;
+      /** Format: date-time */
+      dateCreated: string;
+    };
     HouseResponseDto: {
       name?: string;
       email?: string;
@@ -122,6 +137,7 @@ export interface components {
       code: string;
       owner: string;
       users: components['schemas']['UserResponseDto'][];
+      latestAnnouncement?: components['schemas']['AnnouncementResponseDto'];
     };
     JoinHouseDto: {
       houseCode: string;
@@ -144,6 +160,7 @@ export interface components {
     };
     ObjectId: { [key: string]: unknown };
     NoteResponseDto: {
+      id: string;
       name: string;
       value: string;
       type: string;
@@ -209,6 +226,7 @@ export interface components {
       id: string;
       name: string;
       description: string;
+      image: string;
       logger: string;
       loggedDate?: number;
       resolved: boolean;
@@ -219,14 +237,24 @@ export interface components {
     CreateIssueDto: {
       name: string;
       description: string;
-      house: components['schemas']['ObjectId'];
-      logger: components['schemas']['ObjectId'];
+      image: string;
       resolved: boolean;
     };
     UpdateIssueDto: {
       name: string;
       description: string;
+      image: string;
+      resolved?: boolean;
+    };
+    ResolveIssueDto: {
       resolved: boolean;
+    };
+    CreateAnnouncementDto: {
+      title: string;
+      description: string;
+    };
+    AnnouncementsResponseDto: {
+      announcements: components['schemas']['AnnouncementResponseDto'][];
     };
   };
 }
@@ -696,6 +724,53 @@ export interface operations {
       204: never;
       /** Not the issue logger */
       403: unknown;
+    };
+  };
+  IssueController_updateIssueResolved: {
+    parameters: {
+      path: {
+        id: string;
+      };
+    };
+    responses: {
+      /** Issue resolved successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['IssueResponseDto'];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['ResolveIssueDto'];
+      };
+    };
+  };
+  AnnouncementController_getAnnouncements: {
+    parameters: {};
+    responses: {
+      /** announcements fetched successfully */
+      200: {
+        content: {
+          'application/json': components['schemas']['AnnouncementsResponseDto'];
+        };
+      };
+    };
+  };
+  AnnouncementController_createAnnouncement: {
+    parameters: {};
+    responses: {
+      /** announcement created successfully */
+      201: {
+        content: {
+          'application/json': components['schemas']['AnnouncementResponseDto'];
+        };
+      };
+    };
+    requestBody: {
+      content: {
+        'application/json': components['schemas']['CreateAnnouncementDto'];
+      };
     };
   };
 }

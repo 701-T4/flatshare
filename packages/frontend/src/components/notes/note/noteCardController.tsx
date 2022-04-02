@@ -5,13 +5,13 @@ import { useApi, useApiMutation } from '../../../hooks/useApi';
 
 interface NoteCardControllerProps {}
 
-const NoteCardController: React.FC<NoteCardControllerProps> = () => {
-  enum NoteTypes {
-    PLAIN = 'PLAIN',
-    SECRET = 'SECRET',
-    WIFI = 'WIFI',
-  }
+export enum NoteTypes {
+  PLAIN = 'PLAIN',
+  SECRET = 'SECRET',
+  WIFI = 'WIFI',
+}
 
+const NoteCardController: React.FC<NoteCardControllerProps> = () => {
   const { data, mutate } = useApi('/api/v1/house/note', { method: 'get' });
 
   const createNote = useApiMutation('/api/v1/house/note', { method: 'post' });
@@ -34,7 +34,7 @@ const NoteCardController: React.FC<NoteCardControllerProps> = () => {
 
   return (
     <div>
-      <NotesModal Notes={data} />
+      <NotesModal notes={data?.notes} />
       <Button onClick={onClickTest}>Test</Button>
     </div>
   );

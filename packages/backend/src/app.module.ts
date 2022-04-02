@@ -9,6 +9,7 @@ import { IssueModule } from './controllers/issues/issues.module';
 import { MongooseModule } from '@nestjs/mongoose';
 import { PassportModule } from '@nestjs/passport';
 import { TaskModule } from './controllers/tasks/tasks.module';
+import { AnnouncementModule } from './controllers/announcements/announcements.module';
 
 @Module({
   controllers: [APIController],
@@ -28,6 +29,7 @@ import { TaskModule } from './controllers/tasks/tasks.module';
     BillModule,
     TaskModule,
     IssueModule,
+    AnnouncementModule,
   ],
 })
 export class AppModule {}

@@ -8,6 +8,8 @@ import ManageAccountPage from '../private/ManageAccountPage';
 import BillSplittingPage from '../private/BillSplittingPage';
 import BillDetailPage from '../private/BillDetailPage';
 import NotesPage from '../private/NotesPage';
+import IssuesPage from '../private/IssuesPage';
+import IssueDetailPage from '../private/IssueDetailPage';
 import { useApiMutation } from '../../hooks/useApi';
 import { useAlert } from '../../components/common/util/CornerAlert';
 import {
@@ -15,6 +17,7 @@ import {
   InformationCircleIcon,
 } from '@heroicons/react/outline';
 import ManageFlatPage from '../private/ManageFlatPage';
+import AnnouncementPage from '../private/AnnouncementPage';
 
 interface AuthenticatedRoutesProps {}
 
@@ -103,6 +106,11 @@ const AuthenticatedRoutes: React.FC<AuthenticatedRoutesProps> = () => {
       </Route>
       <Route path="manage-flat" element={<ManageFlatPage />} />
       <Route path="notes" element={<NotesPage />} />
+      <Route path="issues">
+        <Route index element={<IssuesPage />} />
+        <Route path=":id" element={<IssueDetailPage />} />
+      </Route>
+      <Route path="announcement" element={<AnnouncementPage />} />
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
   );
