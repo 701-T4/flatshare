@@ -166,6 +166,9 @@ export interface components {
       type: string;
       house: components['schemas']['ObjectId'];
     };
+    NotesResponseDto: {
+      notes: components['schemas']['NoteResponseDto'][];
+    };
     UpdateNoteDto: {
       name: string;
       value: string;
@@ -403,7 +406,7 @@ export interface operations {
       /** notes retrieved successfully */
       200: {
         content: {
-          'application/json': components['schemas']['NoteResponseDto'][];
+          'application/json': components['schemas']['NotesResponseDto'];
         };
       };
       /** user does not belong to a house */
