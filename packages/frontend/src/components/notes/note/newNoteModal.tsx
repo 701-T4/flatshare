@@ -10,8 +10,7 @@ import {
   Text,
   Textarea,
 } from '@nextui-org/react';
-import { useApiMutation } from '../../../hooks/useApi';
-// import { useNavigate } from 'react-router-dom';
+import { useApi, useApiMutation } from '../../../hooks/useApi';
 
 const NORMAL_TYPE = 'Normal';
 const SECRET_TYPE = 'Secret';
@@ -49,7 +48,12 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
   interface NewNoteDetails {
     name: string;
     value: string;
-    type: "PLAIN" | "SECRET" | "WIFI";
+    type: 'PLAIN' | 'SECRET' | 'WIFI';
+  }
+
+  interface NewWifiDetails {
+    username: string;
+    password: string;
   }
 
   const [newNoteDetails, setNoteDetails] = useState<NewNoteDetails>({
@@ -58,15 +62,24 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
     type: NoteTypes.PLAIN,
   });
 
-  // const { data, mutate } = useApi('/api/v1/house/note', { method: 'get' });
+  const [newWifiDetails, setWifiDetails] = useState<NewWifiDetails>({
+    username: '',
+    password: '',
+  });
+
+  const { mutate } = useApi('/api/v1/house/note', { method: 'get' });
 
   const createNote = useApiMutation('/api/v1/house/note', { method: 'post' });
 
   async function onClickCreate() {
     try {
+      if (newNoteDetails.type === NoteTypes.WIFI) {
+        newNoteDetails.value =
+          newWifiDetails.username + ':' + newWifiDetails.password;
+      }
       const { name, value, type } = newNoteDetails;
       await createNote({ body: { name, value, type } });
-      // mutate();
+      mutate();
       setCreateNoteVisible(false);
     } catch (e) {}
   }
@@ -114,18 +127,21 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
             else setShowWifiInputs(false);
             if (e.name === SECRET_TYPE) setShowSecretInputs(true);
             else setShowSecretInputs(false);
-            if (e.name === NORMAL_TYPE) setNoteDetails((prevState) => ({
-              ...prevState,
-              type: NoteTypes.PLAIN,
-            }));
-            if (e.name === WIFI_TYPE) setNoteDetails((prevState) => ({
-              ...prevState,
-              type: NoteTypes.WIFI,
-            }));
-            if (e.name === SECRET_TYPE) setNoteDetails((prevState) => ({
-              ...prevState,
-              type: NoteTypes.SECRET,
-            }));
+            if (e.name === NORMAL_TYPE)
+              setNoteDetails((prevState) => ({
+                ...prevState,
+                type: NoteTypes.PLAIN,
+              }));
+            if (e.name === WIFI_TYPE)
+              setNoteDetails((prevState) => ({
+                ...prevState,
+                type: NoteTypes.WIFI,
+              }));
+            if (e.name === SECRET_TYPE)
+              setNoteDetails((prevState) => ({
+                ...prevState,
+                type: NoteTypes.SECRET,
+              }));
           }}
         >
           <div className="relative mt-1">
@@ -191,6 +207,12 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
               placeholder="Enter the username"
               size="xl"
               color="primary"
+              onChange={(e) =>
+                setWifiDetails((prevState) => ({
+                  ...prevState,
+                  username: e.target.value,
+                }))
+              }
             ></Input>
             <Text size={'1.25rem'} margin="1.5%">
               Password
@@ -202,6 +224,12 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
               placeholder="Enter the password"
               size="xl"
               color="primary"
+              onChange={(e) =>
+                setWifiDetails((prevState) => ({
+                  ...prevState,
+                  password: e.target.value,
+                }))
+              }
             ></Input>
           </Container>
         ) : null}

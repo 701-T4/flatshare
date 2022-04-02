@@ -18,6 +18,7 @@ import { useHouse } from '../../hooks/useHouse';
 import { getStorage, ref, uploadBytes } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
 import { useAlert } from '../../components/common/util/CornerAlert';
+import { parseFileName } from '../../services/fileNameParser';
 
 const getFirebaseUrl = (proofFileId: string) =>
   'https://firebasestorage.googleapis.com/v0/b/flatshare-c8e5c.appspot.com/o/' +
@@ -94,13 +95,6 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
   const deleteIssue = async () => {
     deleteIssueCall({ pathParams: { id: issue.id } });
     navigate('/issues', { replace: true });
-  };
-
-  const parseFileName = (fileName: String) => {
-    if (fileName.length < 22) {
-      return fileName;
-    }
-    return fileName.slice(0, 10) + '...' + fileName.slice(-10);
   };
 
   const fileNotAttached = image === null || image === undefined;
