@@ -29,11 +29,11 @@ const DashboardPage: React.FC<DashboardProps> = () => {
           }
         />
       )}
-      <div className="flex justify-between items-center pb-1">
+      <div className="flex items-center justify-between pb-1">
         <UnderlinedText colorClasses="from-gray-800 via-teal-700 to-teal-500 ">
           <div className="text-lg font-medium">
             {'Welcome to '}
-            <span className="text-teal-500 font-semibold">{name}</span>
+            <span className="font-semibold text-teal-500">{name}</span>
           </div>
         </UnderlinedText>
         <InviteButtonController />
@@ -41,25 +41,6 @@ const DashboardPage: React.FC<DashboardProps> = () => {
       <div className="my-4">
         <QuickAccessPanel />
       </div>
-      <UnderlinedText colorClasses="bg-gray-800">
-        <div className="text-lg font-semibold">Upcoming Tasks</div>
-      </UnderlinedText>
-      <div className="mt-4 md:grid md:grid-cols-2 flex flex-col gap-4">
-        <UpcomingTask
-          title="Take out the Rubbish"
-          dueString="Due Tomorrow"
-          twColor={UpcomingTask.Variation.red}
-          type="Task"
-        />
-        <UpcomingTask
-          title="Do the Dishes"
-          dueString="Due Tomorrow"
-          twColor={UpcomingTask.Variation.amber}
-          type="Task"
-          completed
-        />
-      </div>
-      <NoUpcomingTasks />
     </Page>
   );
 };

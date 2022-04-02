@@ -48,11 +48,6 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
 
   const includeDetailsLink = ['Bill', 'Issue'];
 
-  let completeText = 'Complete';
-  if (type === 'Issue') {
-    completeText = 'Resolve';
-  }
-
   return (
     <div className="shadow-lg rounded-b-xl">
       <div className="flex flex-col h-full">
