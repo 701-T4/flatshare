@@ -23,7 +23,7 @@ const DashboardAnnouncement: React.FC<DashboardAnnouncementProps> = ({
         <p className="mb-3 text-sm font-semibold">
           {time.toLocaleString()}, {user}
         </p>
-        <p className="text-base font-normal truncate ...">{description}</p>
+        <h6 className="text-base font-normal truncate ...">{description}</h6>
       </div>
       <div className="flex justify-end w-full sm:w-auto">
         <Button
