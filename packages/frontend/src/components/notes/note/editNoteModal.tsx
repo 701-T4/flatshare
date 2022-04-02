@@ -229,6 +229,15 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
               size="xl"
               color="primary"
               initialValue={activeValue.substring(0, activeValue.indexOf(':'))}
+              onChange={(e) =>
+                setEditedNote((prevState) => ({
+                  ...prevState,
+                  value:
+                    e.target.value +
+                    ':' +
+                    prevState.value.substring(0, prevState.value.indexOf(':')),
+                }))
+              }
             ></Input>
             <Text size={'1.25rem'} margin="1.5%">
               Password
@@ -241,6 +250,15 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
               size="xl"
               color="primary"
               initialValue={activeValue.substring(activeValue.indexOf(':') + 1)}
+              onChange={(e) =>
+                setEditedNote((prevState) => ({
+                  ...prevState,
+                  value:
+                    prevState.value.substring(0, prevState.value.indexOf(':')) +
+                    ':' +
+                    e.target.value,
+                }))
+              }
             ></Input>
           </Container>
         ) : null}
