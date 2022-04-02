@@ -17,11 +17,11 @@ const NotesPage: React.FC<NotesProps> = () => {
 
   return (
     <Page backpath="/dashboard">
-      <div className="flex justify-between items-center pb-1">
+      <div className="flex items-center justify-between pb-1">
         <UnderlinedText colorClasses="from-gray-800 via-teal-700 to-teal-500 ">
-          <div className="text-2xl font-medium">
-            <span className="text-teal-500 font-semibold mr-2">{name}</span>
-            Notes Dashboard
+          <div className="text-lg font-medium">
+            <span className="mr-2 font-semibold text-teal-500">{name}</span>
+            Notes Board
           </div>
         </UnderlinedText>
         <Button
