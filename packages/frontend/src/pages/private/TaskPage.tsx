@@ -8,6 +8,8 @@ import UpcomingTask from '../../components/dashboard/upcoming-tasks/UpcomingTask
 import CreateNewTaskButton from '../../components/task/task/CreateNewTaskButton';
 import CreateTaskModal from '../../components/task/task/CreateTaskModal';
 import { useApi, useApiMutation } from '../../hooks/useApi';
+import { ExclamationIcon } from '@heroicons/react/outline';
+import { useAlert } from '../../components/common/util/CornerAlert';
 
 interface TaskPageProps {}
 
@@ -25,6 +27,7 @@ interface Task {
 const TaskPage: React.FC<TaskPageProps> = () => {
   const setNavigate = useNavigate();
   const auth = getAuth();
+  const { createAlert } = useAlert();
   const { data: res, mutate } = useApi('/api/v1/house/tasks', {
     method: 'get',
   });
@@ -81,13 +84,21 @@ const TaskPage: React.FC<TaskPageProps> = () => {
         type="Task"
         completed={task.isComplete}
         onCompleteClick={async () => {
-          await completeTask({
-            pathParams: { id: task.id },
-            body: {
-              isComplete: true,
-            },
-          });
-          mutate();
+          if (task.assigned === name) {
+            await completeTask({
+              pathParams: { id: task.id },
+              body: {
+                isComplete: true,
+              },
+            });
+            mutate();
+          } else {
+            createAlert({
+              icon: <ExclamationIcon />,
+              message: 'This task is not assigned to you',
+              mode: 'error',
+            });
+          }
         }}
       />
     </div>
