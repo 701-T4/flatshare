@@ -158,13 +158,14 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
               <div
                 className={cx(
                   'bg-gradient-to-r from-red-400 to-red-600',
-                  'flex flex-row text-left items-center justify-between rounded-t-xl px-10 py-6 text-white font-semibold text-2xl lg:text-3xl',
+                  'flex flex-row text-left items-center mt-10 justify-between rounded-t-xl px-10 py-6 text-white font-semibold text-2xl lg:text-3xl',
                 )}
               >
                 {bill?.name}
-                <div className="flex flex-row flex-wrap ml-10 sm:items-center gap-x-3 gap-y-3 sm:gap-x-5 sm:flex-nowrap">
+                <div className="flex flex-row flex-wrap ml-14 sm:items-center gap-x-3 gap-y-3 sm:gap-x-5 sm:flex-nowrap">
                   <Button
                     className="rounded-lg"
+                    css={{ width: '133px' }}
                     auto
                     onClick={() => completeBill()}
                   >
@@ -201,16 +202,14 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
               </div>
               <div className="flex flex-col h-full px-4 py-4 bg-gray-800 rounded-b-xl md:px-8 gap-y-1">
                 <div className="flex flex-col items-start justify-between py-6 pl-5 md:flex-row md:w-full">
-                  <div className="flex flex-col px-2 md:w-1/2">
+                  <div className="flex flex-col px-2 gap-y-4 sm:gap-y-10 md:w-1/2">
                     <DetailRow title="Description" value={bill?.description!} />
-                    <Spacer y={2} />
                     <DetailRow
                       title="Due"
                       value={new Date(bill.due).toDateString()}
                     />
-                    <Spacer y={2} />
                   </div>
-                  <div className="flex flex-col px-2 md:w-1/2">
+                  <div className="flex flex-col px-2 pt-4 sm:pt-0 md:w-1/2">
                     <div className="text-xl font-bold text-teal-500">
                       Payment
                     </div>

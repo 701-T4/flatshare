@@ -192,7 +192,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
               No Upcoming Bill
             </div>
           )}
-          <UnderlinedText className="pt-10" colorClasses="bg-gray-800">
+          <UnderlinedText className="pt-5" colorClasses="bg-gray-800">
             <div className="text-lg font-semibold">Past Bills</div>
           </UnderlinedText>
           {pastBill.length !== 0 ? (

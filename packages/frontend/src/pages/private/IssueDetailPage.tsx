@@ -168,10 +168,11 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
                 )}
               >
                 {issue?.name}
-                <div className="flex flex-row flex-wrap ml-10 sm:items-center gap-x-3 gap-y-3 sm:gap-x-5 sm:flex-nowrap">
+                <div className="flex flex-row flex-wrap ml-14 sm:items-center gap-x-3 gap-y-3 sm:gap-x-5 sm:flex-nowrap">
                   <Button
                     className="text-base rounded-lg"
                     auto
+                    css={{ width: '133px' }}
                     onClick={() => completeIssue()}
                   >
                     {resolvedState ? (
@@ -207,12 +208,11 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
               </div>
               <div className="flex flex-col h-full px-4 py-4 bg-gray-800 rounded-b-xl md:px-8 gap-y-1">
                 <div className="flex flex-col items-start justify-between py-6 pl-5 md:flex-row md:w-full">
-                  <div className="flex flex-col px-2 lg:w-1/2">
+                  <div className="flex flex-col px-2 gap-y-4 sm:gap-y-10 md:w-1/2">
                     <DetailRow
                       title="Description"
                       value={issue?.description!}
                     />
-                    <Spacer y={2} />
                     <DetailRow
                       title="Log Date"
                       value={
@@ -221,9 +221,8 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
                           : ''
                       }
                     />
-                    <Spacer y={2} />
                   </div>
-                  <div className="flex flex-col px-2 md:w-1/2">
+                  <div className="flex flex-col px-2 pt-4 sm:pt-0 md:w-1/2">
                     <div className="text-xl font-bold text-teal-500">
                       Issued By
                     </div>
