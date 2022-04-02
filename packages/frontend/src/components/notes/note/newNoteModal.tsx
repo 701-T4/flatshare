@@ -52,10 +52,20 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
     type: "PLAIN" | "SECRET" | "WIFI";
   }
 
+  interface NewWifiDetails {
+    username: string;
+    passward: string;
+  }
+
   const [newNoteDetails, setNoteDetails] = useState<NewNoteDetails>({
     name: '',
     value: '',
     type: NoteTypes.PLAIN,
+  });
+
+  const [newWifiDetails, setWifiDetails] = useState<NewWifiDetails>({
+    username: '',
+    passward: '',
   });
 
   // const { data, mutate } = useApi('/api/v1/house/note', { method: 'get' });
@@ -64,6 +74,9 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
 
   async function onClickCreate() {
     try {
+      if (newNoteDetails.type===NoteTypes.WIFI){
+        newNoteDetails.value = newWifiDetails.username + " + " + newWifiDetails.passward;
+      }
       const { name, value, type } = newNoteDetails;
       await createNote({ body: { name, value, type } });
       // mutate();
@@ -191,6 +204,12 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
               placeholder="Enter the username"
               size="xl"
               color="primary"
+              onChange={(e) =>
+                setWifiDetails((prevState) => ({
+                  ...prevState,
+                  username: e.target.value,
+                }))
+              }
             ></Input>
             <Text size={'1.25rem'} margin="1.5%">
               Password
@@ -202,6 +221,12 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
               placeholder="Enter the password"
               size="xl"
               color="primary"
+              onChange={(e) =>
+                setWifiDetails((prevState) => ({
+                  ...prevState,
+                  passward: e.target.value,
+                }))
+              }
             ></Input>
           </Container>
         ) : null}
