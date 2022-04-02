@@ -210,7 +210,11 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
                     <Spacer y={2} />
                     <DetailRow
                       title="Log Date"
-                      value={new Date(String(issue?.loggedDate)).toDateString()}
+                      value={
+                        issue?.loggedDate
+                          ? new Date(issue.loggedDate).toDateString()
+                          : ''
+                      }
                     />
                     <Spacer y={2} />
                   </div>
@@ -305,7 +309,6 @@ const UserRow: React.FC<UserRowProp> = ({ userId }) => {
   const house = useHouse();
 
   const getUserFromId = (uid: string | undefined) => {
-    console.log(house.users);
     return house.users?.find((u) => u.firebaseId === uid)?.name;
   };
   return (

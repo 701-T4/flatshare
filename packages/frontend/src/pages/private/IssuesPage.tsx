@@ -99,12 +99,17 @@ const IssuesPage: React.FC<IssuesPageProps> = () => {
               pastIssue.push(issue);
               return null;
             }
-            const date = new Date(String(issue.loggedDate));
+            let date = new Date();
+            if (issue.loggedDate) {
+              date = new Date(issue.loggedDate);
+            }
             return (
               <UpcomingTask
                 key={index}
                 title={issue.name}
-                dueString={`Logged on ${date.getDate()}/${date.getMonth()}/${date.getFullYear()}`}
+                dueString={`Logged on ${date.getDate()}/${
+                  date.getMonth() + 1
+                }/${date.getFullYear()}`}
                 completed={issue.resolved}
                 twColor={UpcomingTask.Variation.blue} // @TODO: decide on colour
                 disabled={(issue as any).loading}
