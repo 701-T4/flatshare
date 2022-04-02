@@ -116,6 +116,7 @@ const WifiModal: React.FC<WifiModalProps> = ({
                 setValue={setValue}
                 activeType={NoteTypes.WIFI}
                 activeId={id}
+                setVisibleModal={setVisible}
               />
             )}
           </Container>

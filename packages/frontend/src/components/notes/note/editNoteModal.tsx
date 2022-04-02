@@ -12,6 +12,7 @@ import {
   Textarea,
 } from '@nextui-org/react';
 import { NoteTypes } from './noteCardController';
+import { TrashIcon } from '@heroicons/react/outline';
 
 const PLAIN_TYPE_TEXT = 'Plain';
 const SECRET_TYPE_TEXT = 'Secret';
@@ -28,6 +29,7 @@ interface EditNoteModalProps {
   setValue: (value: string) => void;
   activeType: string;
   activeId: string;
+  setVisibleModal: (value: boolean) => void;
 }
 
 const EditNoteModal: React.FC<EditNoteModalProps> = ({
@@ -39,6 +41,7 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
   setValue,
   activeType,
   activeId,
+  setVisibleModal,
 }) => {
   const closeNoteHandler = () => setEditNoteVisible(false);
   const [selected, setSelected] = useState(activeType);
@@ -61,7 +64,18 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
 
   const editNote = useApiMutation('/api/v1/house/note/{id}', { method: 'put' });
 
+  const deleteNote = useApiMutation('/api/v1/house/note/{id}', {
+    method: 'delete',
+  });
+
   const { mutate } = useApi('/api/v1/house/note', { method: 'get' });
+
+  const handleDelete = async () => {
+    setEditNoteVisible(false);
+    setVisibleModal(false);
+    mutate();
+    await deleteNote({ pathParams: { id: activeId } });
+  };
 
   const handleSave = async () => {
     await editNote({
@@ -262,6 +276,11 @@ const EditNoteModal: React.FC<EditNoteModalProps> = ({
         ) : null}
       </Modal.Body>
       <Modal.Footer>
+        <Button
+          auto
+          onClick={() => handleDelete()}
+          icon={<TrashIcon className="w-5 h-5 text-teal-50" />}
+        />
         <Button
           size="md"
           className="sm: text-lg"
