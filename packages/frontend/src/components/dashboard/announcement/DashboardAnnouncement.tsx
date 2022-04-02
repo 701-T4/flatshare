@@ -17,7 +17,7 @@ const DashboardAnnouncement: React.FC<DashboardAnnouncementProps> = ({
   description,
 }) => {
   return (
-    <div className="flex flex-row justify-between w-full p-6 mb-6 space-x-8 text-white bg-gray-800 rounded-xl">
+    <div className="flex flex-col justify-between w-full p-6 mb-6 space-x-8 text-white bg-gray-800 sm:flex-row rounded-xl">
       <div className="flex flex-col h-full max-w-full overflow-hidden">
         <h3 className="mb-2 text-xl font-bold tracking-normal">{title}</h3>
         <p className="mb-3 text-sm font-semibold">
@@ -27,7 +27,7 @@ const DashboardAnnouncement: React.FC<DashboardAnnouncementProps> = ({
       </div>
       <Button
         aria-label="View All Announcements"
-        className="self-center bg-teal-500"
+        className="self-center mt-5 bg-teal-500 sm:mt-0"
         onClick={onViewAll}
       >
         View All Announcements
