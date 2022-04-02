@@ -11,7 +11,6 @@ import {
   Textarea,
 } from '@nextui-org/react';
 import { useApi, useApiMutation } from '../../../hooks/useApi';
-// import { useNavigate } from 'react-router-dom';
 
 const NORMAL_TYPE = 'Normal';
 const SECRET_TYPE = 'Secret';
