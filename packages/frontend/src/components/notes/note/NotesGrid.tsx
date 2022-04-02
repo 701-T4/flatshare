@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, Grid, Card } from '@nextui-org/react';
+import { Grid, Card } from '@nextui-org/react';
 import WifiModal from './wifiModal';
 import PlainModal from './plainModal';
 import SecretModal from './secretModal';

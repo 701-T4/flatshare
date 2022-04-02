@@ -3,9 +3,7 @@ import {
   CheckCircleIcon,
   ChevronDownIcon,
   CodeIcon,
-  CogIcon,
   LogoutIcon,
-  SpeakerphoneIcon,
 } from '@heroicons/react/outline';
 import React, { Fragment, useMemo, useState } from 'react';
 import { usePopper } from 'react-popper';

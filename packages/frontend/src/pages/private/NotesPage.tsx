@@ -4,7 +4,6 @@ import { useHouse } from '../../hooks/useHouse';
 import NoteCardController from '../../components/notes/note/noteCardController';
 import UnderlinedText from '../../components/dashboard/GradientUnderlinedText';
 import { Button } from '@nextui-org/react';
-import { PlusIcon } from '@heroicons/react/outline';
 import NewNoteModal from '../../components/notes/note/newNoteModal';
 
 interface NotesProps {}

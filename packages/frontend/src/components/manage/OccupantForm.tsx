@@ -1,4 +1,4 @@
-import { Container, Row, Button, Col, Text, Input } from '@nextui-org/react';
+import { Container, Button, Text, Input } from '@nextui-org/react';
 import React, { useContext, useState } from 'react';
 import ReactDatePicker from 'react-datepicker';
 import { OccupantCardProps } from './OccupantCard';

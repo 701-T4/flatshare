@@ -1,11 +1,4 @@
-import {
-  Container,
-  Row,
-  Input,
-  Col,
-  Button,
-  FormElement,
-} from '@nextui-org/react';
+import { Container, Input, Button, FormElement } from '@nextui-org/react';
 import React, { useState } from 'react';
 
 export interface HouseSettingsProps {
