@@ -2,6 +2,8 @@ import { Button, Textarea } from '@nextui-org/react';
 import 'react-datepicker/dist/react-datepicker.css';
 import React, { useState } from 'react';
 import { components } from '../../types/api-schema';
+import { useHouse } from '../../hooks/useHouse';
+import emailjs from '@emailjs/browser';
 
 interface issueModification {
   name: string;
@@ -21,6 +23,7 @@ const EditIssueCard: React.FC<EditIssueCardProps> = ({
 }) => {
   const [title, setTitle] = useState(issueParam.name);
   const [detail, setDetail] = useState(issueParam.description);
+  const { code, email } = useHouse();
 
   const handleDoneButton = (e: React.MouseEvent<HTMLButtonElement>) => {
     let issue = {
@@ -30,6 +33,26 @@ const EditIssueCard: React.FC<EditIssueCardProps> = ({
       image: issueParam.image,
     };
     handleOnDoneClickCallBack(issue);
+
+    let emailData = {
+      houseCode: code,
+      title: title,
+      description: detail,
+      toEmail: email,
+    };
+
+    const serviceID = 'default_service';
+    const templateID = 'template_4epcgia';
+    const userID = process.env.REACT_APP_EMAILJS_USER_ID;
+
+    emailjs.send(serviceID, templateID, emailData, userID).then(
+      function (response) {
+        console.log('SUCCESS!', response.status, response.text);
+      },
+      function (error) {
+        console.log('FAILED...', error);
+      },
+    );
   };
 
   return (

@@ -1,6 +1,8 @@
 import { Button, Textarea } from '@nextui-org/react';
 import React, { useState } from 'react';
 import { useApiMutation } from '../../hooks/useApi';
+import emailjs from '@emailjs/browser';
+import { useHouse } from '../../hooks/useHouse';
 
 interface NewIssueCardProps {
   refetchOptimisticIssues: (issue: any) => void;
@@ -22,6 +24,7 @@ const NewIssueCard: React.FC<NewIssueCardProps> = ({
     detail: '',
     resolved: false,
   });
+  const { code, email } = useHouse();
 
   const createIssue = useApiMutation('/api/v1/house/issues', {
     method: 'post',
@@ -42,6 +45,26 @@ const NewIssueCard: React.FC<NewIssueCardProps> = ({
     refetchOptimisticIssues(issue);
     await createIssue(issueBody);
     refetchFromApi();
+
+    let emailData = {
+      houseCode: code,
+      title: issueInfo.title,
+      description: issueInfo.detail,
+      toEmail: email,
+    };
+
+    const serviceID = 'default_service';
+    const templateID = 'template_sgoanfq';
+    const userID = process.env.REACT_APP_EMAILJS_USER_ID;
+
+    emailjs.send(serviceID, templateID, emailData, userID).then(
+      function (response) {
+        console.log('SUCCESS!', response.status, response.text);
+      },
+      function (error) {
+        console.log('FAILED...', error);
+      },
+    );
   };
 
   return (
