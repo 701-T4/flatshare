@@ -32,6 +32,7 @@ const QuickAccessPanel: React.FC<QuickAccessPanelProps> = () => {
         twGradientStart="from-blue-700"
         twGradientEnd="to-green-800"
         twOpacity="opacity-80"
+        onClick={() => navigate('/tasks')}
         description="Decide who should do what chores."
       />
       <TopAction

@@ -46,12 +46,12 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
     onCompleteClick?.();
   };
 
-  const includeDetailsLink = ['Bill', 'Issue'];
-
   let completeText = 'Complete';
   if (type === 'Issue') {
     completeText = 'Resolve';
   }
+
+  const includeDetailsLink = ['Bill', 'Issue'];
 
   return (
     <div className="shadow-lg rounded-b-xl min-w-fit">
@@ -92,23 +92,25 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
                 {dueString}
               </div>
             </div>
-            <button
-              className={cx(
-                'text-white flex ml-5 justify-center items-center transition-all rounded-full px-4 py-2 font-medium h-fit disabled:bg-gray-500',
-                {
-                  'w-14 cursor-default bg-teal-500': completed,
-                  'w-32 bg-teal-500 hover:bg-teal-400': !completed,
-                },
-              )}
-              onClick={clickWrapper}
-              disabled={disabled}
-            >
-              {completed ? (
-                <CheckCircleIcon className="w-6" />
-              ) : (
-                <>{completeText}</>
-              )}
-            </button>
+            <div onClick={(e) => e.stopPropagation()}>
+              <button
+                className={cx(
+                  'text-white flex ml-5 justify-center items-center transition-all rounded-full px-4 py-2 font-medium h-fit disabled:bg-gray-500',
+                  {
+                    'w-14 cursor-default bg-teal-500': completed,
+                    'w-32 bg-teal-500 hover:bg-teal-400': !completed,
+                  },
+                )}
+                onClick={clickWrapper}
+                disabled={disabled}
+              >
+                {completed ? (
+                  <CheckCircleIcon className="w-6" />
+                ) : (
+                  <>{completeText}</>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>
