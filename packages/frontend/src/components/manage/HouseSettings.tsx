@@ -23,9 +23,9 @@ const HouseSettings: React.FC<HouseSettingsProps> = (props) => {
     useState<HouseSettingsProps>({ ...props });
 
   return (
-    <Container xl className="rounded-xl p-6 mt-4 bg-gray-800">
-      <Row>
-        <Col>
+    <Container xl className="p-6 mt-4 bg-gray-800 rounded-xl">
+      <div className="flex flex-col gap-y-3 sm:gap-y-10 sm:pt-5 sm:flex-row sm:flex-wrap sm:gap-x-28">
+        <div className="w-full sm:w-2/6">
           <Input
             label="Total Rent:"
             type="number"
@@ -39,10 +39,11 @@ const HouseSettings: React.FC<HouseSettingsProps> = (props) => {
             }}
             color="secondary"
             labelRight={'$'}
-            width="60%"
+            // className='w-full'
+            width="100%"
           />
-        </Col>
-        <Col>
+        </div>
+        <div className="w-full sm:w-2/6">
           <Input
             label="Maximum occupancy:"
             type="number"
@@ -57,13 +58,11 @@ const HouseSettings: React.FC<HouseSettingsProps> = (props) => {
               });
             }}
             color="secondary"
-            width="60%"
+            // className='w-full'
+            width="100%"
           />
-        </Col>
-      </Row>
-
-      <Row className="mt-4">
-        <Col>
+        </div>
+        <div className="w-full sm:w-2/6">
           <Input
             label="Address:"
             type="text"
@@ -76,11 +75,12 @@ const HouseSettings: React.FC<HouseSettingsProps> = (props) => {
               });
             }}
             color="secondary"
-            width="60%"
+            // className='w-full'
+            width="100%"
           />
-        </Col>
+        </div>
 
-        <Col>
+        <div className="w-full sm:w-2/6">
           <Input
             label="Owner Contact Number:"
             type="text"
@@ -93,12 +93,13 @@ const HouseSettings: React.FC<HouseSettingsProps> = (props) => {
               });
             }}
             color="secondary"
-            width="60%"
+            // className='w-full'
+            width="100%"
           />
-        </Col>
-      </Row>
+        </div>
+      </div>
 
-      <div className="flex justify-end mt-12 mr-5 ">
+      <div className="flex justify-end w-full mt-6 mr-5 sm:mt-12 sm:w-auto ">
         {props.ownerView && (
           <>
             <Button
