@@ -10,6 +10,7 @@ export interface OccupantCardProps {
   rentPercentage?: number;
   dateJoined?: Date;
   contractEndingDate?: Date;
+  isOwner: boolean;
 }
 
 const OccupantCard: React.FC<OccupantCardProps> = (props) => {

@@ -120,45 +120,49 @@ export class UsersController {
           name: updateUserDto.name,
           contact: updateUserDto.contact,
         });
-        if (
-          updateUserDto.rentPercentage &&
-          updateUserDto.rentPercentage <= percentageLimit
-        ) {
-          await this.userStoreService.update(updateUserDto.firebaseId, {
-            rentPercentage: updateUserDto.rentPercentage,
-          });
-        } else {
-          throw new HttpException(
-            'rent percentage is invalid, should be equal or less than 100',
-            HttpStatus.BAD_REQUEST,
-          );
+
+        if (updateUserDto.rentPercentage != null) {
+          if (
+            updateUserDto.rentPercentage <= percentageLimit &&
+            updateUserDto.rentPercentage >= 0
+          ) {
+            await this.userStoreService.update(updateUserDto.firebaseId, {
+              rentPercentage: updateUserDto.rentPercentage,
+            });
+          } else {
+            throw new HttpException(
+              'rent percentage is invalid, please make sure 0 <= rentPercentage <= 100',
+              HttpStatus.BAD_REQUEST,
+            );
+          }
         }
-        if (
-          updateUserDto.dateJoined &&
-          !isNaN(new Date(updateUserDto.dateJoined).getTime())
-        ) {
-          await this.userStoreService.update(updateUserDto.firebaseId, {
-            dateJoined: updateUserDto.dateJoined,
-          });
-        } else {
-          throw new HttpException(
-            'dateJoined is invalid',
-            HttpStatus.BAD_REQUEST,
-          );
+
+        if (updateUserDto.dateJoined != null) {
+          if (!isNaN(new Date(updateUserDto.dateJoined).getTime())) {
+            await this.userStoreService.update(updateUserDto.firebaseId, {
+              dateJoined: updateUserDto.dateJoined,
+            });
+          } else {
+            throw new HttpException(
+              'dateJoined is invalid',
+              HttpStatus.BAD_REQUEST,
+            );
+          }
         }
-        if (
-          updateUserDto.contractEndingDate &&
-          !isNaN(new Date(updateUserDto.contractEndingDate).getTime())
-        ) {
-          await this.userStoreService.update(updateUserDto.firebaseId, {
-            contractEndingDate: updateUserDto.contractEndingDate,
-          });
-        } else {
-          throw new HttpException(
-            'contractEndingDate is invalid',
-            HttpStatus.BAD_REQUEST,
-          );
+
+        if (updateUserDto.contractEndingDate != null) {
+          if (!isNaN(new Date(updateUserDto.contractEndingDate).getTime())) {
+            await this.userStoreService.update(updateUserDto.firebaseId, {
+              contractEndingDate: updateUserDto.contractEndingDate,
+            });
+          } else {
+            throw new HttpException(
+              'contractEndingDate is invalid',
+              HttpStatus.BAD_REQUEST,
+            );
+          }
         }
+
         userDoc = await this.userStoreService.findOneByFirebaseId(
           updateUserDto.firebaseId,
         );
