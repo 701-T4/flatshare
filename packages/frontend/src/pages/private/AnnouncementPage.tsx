@@ -50,7 +50,11 @@ const AnnouncementPage: React.FC = () => {
   return (
     <Page backpath="/dashboard">
       <div>
-        <Button className="bg-teal-500" onClick={() => setModalVisible(true)}>
+        <Button
+          css={{ zIndex: 0 }}
+          className="bg-teal-500"
+          onClick={() => setModalVisible(true)}
+        >
           New Announcement
         </Button>
         <AnnouncementModalForm

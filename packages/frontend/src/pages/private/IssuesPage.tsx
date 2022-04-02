@@ -11,7 +11,6 @@ import NewIssueCard from '../../components/issue/NewIssueCard';
 interface IssuesPageProps {}
 
 /*
-
   CREATE ISSUE:
   {
     name: string;
@@ -78,6 +77,9 @@ const IssuesPage: React.FC<IssuesPageProps> = () => {
       <div className="flex flex-col gap-4">
         <Button
           aria-label="New Issue"
+          css={{
+            zIndex: 0,
+          }}
           className="w-16 my-3 bg-teal-500"
           onClick={() => setNewIssue(!newIssue)}
         >

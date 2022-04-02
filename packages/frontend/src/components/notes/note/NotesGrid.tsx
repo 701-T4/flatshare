@@ -86,7 +86,10 @@ const NotesGrid: React.FC<NotesGridProps> = ({ notes }) => {
           <Grid xs={18} md={6} sm={6} key={index}>
             <Card
               color="secondary"
-              className="border-none shadow-md bg-slate-800 hover:shadow-sm"
+              css={{
+                backgroundColor: '#1D2530',
+              }}
+              className="border-none shadow-md hover:shadow-sm"
               shadow={false}
               clickable
               onClick={(event) => {

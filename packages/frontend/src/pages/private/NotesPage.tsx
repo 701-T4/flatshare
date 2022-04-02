@@ -24,7 +24,14 @@ const NotesPage: React.FC<NotesProps> = () => {
             Notes Board
           </div>
         </UnderlinedText>
-        <Button auto size="md" onClick={createNoteHandler}>
+        <Button
+          css={{
+            zIndex: 0,
+          }}
+          auto
+          size="md"
+          onClick={createNoteHandler}
+        >
           New Note
         </Button>
       </div>

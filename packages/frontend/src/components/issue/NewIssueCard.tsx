@@ -124,6 +124,9 @@ const NewIssueCard: React.FC<NewIssueCardProps> = ({
             <div className="self-end">
               <Button
                 size="xs"
+                css={{
+                  zIndex: 0,
+                }}
                 className="w-auto h-10 mt-1 mb-1 text-base rounded-xl"
                 onClick={handleDoneButton}
                 disabled={issueInfo.title === '' || issueInfo.detail === ''}
