@@ -5,6 +5,8 @@ import useFullLoader from '../../hooks/useFullLoader';
 import { HouseContextProvider, useHouse } from '../../hooks/useHouse';
 import DashboardPage from '../private/DashboardPage';
 import ManageAccountPage from '../private/ManageAccountPage';
+import TaskDetailPage from '../private/TaskDetailPage';
+import TaskPage from '../private/TaskPage';
 import BillSplittingPage from '../private/BillSplittingPage';
 import BillDetailPage from '../private/BillDetailPage';
 import NotesPage from '../private/NotesPage';
@@ -100,6 +102,10 @@ const AuthenticatedRoutes: React.FC<AuthenticatedRoutesProps> = () => {
   return (
     <Routes>
       <Route path="dashboard" element={<DashboardPage />} />
+      <Route path="tasks">
+        <Route index element={<TaskPage />} />
+        <Route path=":id" element={<TaskDetailPage />} />
+      </Route>
       <Route path="bills">
         <Route index element={<BillSplittingPage />} />
         <Route path=":id" element={<BillDetailPage />} />

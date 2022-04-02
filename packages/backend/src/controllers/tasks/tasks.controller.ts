@@ -36,6 +36,7 @@ import { CompleteTaskDto } from './dto/complete-task.dto';
 import UpdateHouseTasksDto from './dto/update-house-tasks.dto';
 import { isValidObjectId } from 'mongoose';
 import { TaskResponseDto } from './dto/task-response-dto';
+import { TaskDocument } from 'src/db/task/task.schema';
 
 @ApiTags('tasks')
 @Controller('/api/v1/house/tasks')
@@ -52,12 +53,13 @@ export class TasksController {
   @ApiOperation({ summary: 'create a new task' })
   @ApiCreatedResponse({
     description: 'task created successfully',
+    type: CreateTaskDto,
   })
   @ApiBadRequestResponse({ description: 'Invalid request' })
   async createTask(
     @Body() createTaskDto: CreateTaskDto,
     @User() user: DecodedIdToken,
-  ) {
+  ): Promise<CreateTaskDto | null> {
     const userDoc = await this.userStoreService.findOneByFirebaseId(user.uid);
     if (!userDoc?.house) {
       throw new HttpException('user is not in a house', HttpStatus.BAD_REQUEST);
@@ -76,6 +78,15 @@ export class TasksController {
 
       await this.taskStoreService.create(createTaskDto);
     }
+    return {
+      name: createTaskDto.name,
+      description: createTaskDto.description,
+      dueDate: createTaskDto.dueDate,
+      interval: createTaskDto.interval,
+      pool: createTaskDto.pool,
+      lastCompleted: createTaskDto.lastCompleted,
+      assigned: createTaskDto.assigned,
+    };
   }
 
   @Get()
@@ -111,9 +122,11 @@ export class TasksController {
 
       const updatedTasksDto: TaskResponseDto[] = updatedTasksForHouse.map(
         (task) => {
-          const { name, description, dueDate, interval, assigned, pool } = task;
+          const { id, name, description, dueDate, interval, assigned, pool } =
+            task;
 
           return {
+            id,
             name,
             description,
             dueDate,
@@ -199,7 +212,7 @@ export class TasksController {
     @Body() completeTaskDto: CompleteTaskDto,
     @Param('id') id,
     @User() user: DecodedIdToken,
-  ) {
+  ): Promise<TaskDocument> {
     if (!isValidObjectId(id)) {
       throw new HttpException('task does not exist', HttpStatus.NOT_FOUND);
     }
@@ -209,7 +222,7 @@ export class TasksController {
       throw new HttpException('task not found', HttpStatus.NOT_FOUND);
     }
 
-    if (task.assigned !== user.uid) {
+    if (task.assigned !== user.name) {
       throw new HttpException(
         'user is not assigned to the task',
         HttpStatus.BAD_REQUEST,
@@ -218,6 +231,8 @@ export class TasksController {
 
     const lastCompleted = completeTaskDto.isComplete ? new Date() : null;
     this.taskStoreService.update(task._id, { lastCompleted: lastCompleted });
+    const updatedTaskDoc = this.taskStoreService.findOne(task._id);
+    return updatedTaskDoc;
   }
 
   @Put('/:id')
@@ -229,6 +244,7 @@ export class TasksController {
   @ApiOperation({ summary: 'Modify task name, description or pool' })
   @ApiResponse({
     description: 'task successfully updated.',
+    type: UpdateHouseTasksDto,
   })
   @ApiForbiddenResponse({
     description: 'user is not the owner of the house or not in the house',
@@ -240,7 +256,7 @@ export class TasksController {
     @Param('id') id,
     @User() user: DecodedIdToken,
     @Body() updateHouseTasksDto: UpdateHouseTasksDto,
-  ) {
+  ): Promise<UpdateHouseTasksDto> {
     if (!isValidObjectId(id)) {
       throw new HttpException('task does not exist', HttpStatus.NOT_FOUND);
     }
@@ -279,5 +295,6 @@ export class TasksController {
     }
 
     this.taskStoreService.update(task._id, updatedTask);
+    return updateHouseTasksDto;
   }
 }

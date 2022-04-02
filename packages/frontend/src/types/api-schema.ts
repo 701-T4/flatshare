@@ -214,8 +214,19 @@ export interface components {
       interval?: number;
       pool: string[];
     };
+    TaskResponseDto: {
+      id: string;
+      name: string;
+      description: string;
+      isComplete: boolean;
+      /** Format: date-time */
+      dueDate: string;
+      interval: number;
+      assigned: string;
+      pool: string[];
+    };
     HouseTasksResponseDto: {
-      tasks?: string[];
+      tasks?: components['schemas']['TaskResponseDto'][];
     };
     CompleteTaskDto: {
       isComplete: boolean;
@@ -580,7 +591,11 @@ export interface operations {
     parameters: {};
     responses: {
       /** task created successfully */
-      201: unknown;
+      201: {
+        content: {
+          'application/json': components['schemas']['CreateTaskDto'];
+        };
+      };
       /** Invalid request */
       400: unknown;
     };
@@ -603,7 +618,11 @@ export interface operations {
       /** task does not exist */
       404: unknown;
       /** task successfully updated. */
-      default: unknown;
+      default: {
+        content: {
+          'application/json': components['schemas']['UpdateHouseTasksDto'];
+        };
+      };
     };
     requestBody: {
       content: {

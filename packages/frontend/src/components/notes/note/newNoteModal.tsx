@@ -145,7 +145,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
           }}
         >
           <div className="relative mt-1">
-            <Listbox.Button className="h-12 relative w-full py-1 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default sm:text-xl">
+            <Listbox.Button className="relative w-full h-12 py-1 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default sm:text-xl">
               <span className="block truncate">{selected.name}</span>
               <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <SelectorIcon
@@ -160,7 +160,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 sm:text-xl z-10">
+              <Listbox.Options className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 sm:text-xl">
                 {noteType.map((note) => (
                   <Listbox.Option
                     className={({ active }) =>
@@ -264,7 +264,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
         ) : null}
       </Modal.Body>
       <Modal.Footer css={{ cursor: 'auto' }}>
-        <Button size="md" className="sm: text-lg" onClick={onClickCreate}>
+        <Button size="md" className="text-lg sm:" onClick={onClickCreate}>
           Create
         </Button>
       </Modal.Footer>
