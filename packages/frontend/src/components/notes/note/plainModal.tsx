@@ -40,8 +40,7 @@ const PlainModal: React.FC<PlainModalProps> = ({
       <Modal
         closeButton
         scroll
-        width="30%"
-        className="min-w-fit"
+        width="75%"
         open={visible}
         onClose={closeHandler}
         aria-labelledby="modal-title"
