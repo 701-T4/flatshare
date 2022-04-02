@@ -92,20 +92,22 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
                 {dueString}
               </div>
             </div>
-            <button
-              className={cx(
-                'text-white flex justify-center items-center transition-all bg-teal-500 hover:bg-teal-400 rounded-full px-4 py-2 font-medium h-fit disabled:bg-gray-500',
-                { 'w-16': completed, 'w-32': !completed },
-              )}
-              onClick={clickWrapper}
-              disabled={disabled}
-            >
-              {completed ? (
-                <CheckCircleIcon className="w-6" />
-              ) : (
-                <>{completeText}</>
-              )}
-            </button>
+            <div onClick={(e) => e.stopPropagation()}>
+              <button
+                className={cx(
+                  'text-white flex justify-center items-center transition-all bg-teal-500 hover:bg-teal-400 rounded-full px-4 py-2 font-medium h-fit disabled:bg-gray-500',
+                  { 'w-16': completed, 'w-32': !completed },
+                )}
+                onClick={clickWrapper}
+                disabled={disabled}
+              >
+                {completed ? (
+                  <CheckCircleIcon className="w-6" />
+                ) : (
+                  <>Complete</>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>

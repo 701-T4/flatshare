@@ -36,6 +36,7 @@ import { CompleteTaskDto } from './dto/complete-task.dto';
 import UpdateHouseTasksDto from './dto/update-house-tasks.dto';
 import { isValidObjectId } from 'mongoose';
 import { TaskResponseDto } from './dto/task-response-dto';
+import { TaskDocument } from 'src/db/task/task.schema';
 
 @ApiTags('tasks')
 @Controller('/api/v1/house/tasks')
@@ -211,7 +212,7 @@ export class TasksController {
     @Body() completeTaskDto: CompleteTaskDto,
     @Param('id') id,
     @User() user: DecodedIdToken,
-  ) {
+  ): Promise<TaskDocument> {
     if (!isValidObjectId(id)) {
       throw new HttpException('task does not exist', HttpStatus.NOT_FOUND);
     }
@@ -230,6 +231,8 @@ export class TasksController {
 
     const lastCompleted = completeTaskDto.isComplete ? new Date() : null;
     this.taskStoreService.update(task._id, { lastCompleted: lastCompleted });
+    const updatedTaskDoc = this.taskStoreService.findOne(task._id);
+    return updatedTaskDoc;
   }
 
   @Put('/:id')

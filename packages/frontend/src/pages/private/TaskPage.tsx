@@ -81,14 +81,13 @@ const TaskPage: React.FC<TaskPageProps> = () => {
         type="Task"
         completed={task.isComplete}
         onCompleteClick={async () => {
-          // todo bug here
           await completeTask({
             pathParams: { id: task.id },
             body: {
               isComplete: true,
             },
           });
-          await mutate();
+          mutate();
         }}
       />
     </div>
