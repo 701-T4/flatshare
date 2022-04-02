@@ -35,6 +35,7 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
       rent: data.totalRent,
     };
     await saveHouseInfo({ body: newData });
+    window.location.reload();
   };
 
   const onSaveOccupants = async (occupantDetails: OccupantCardProps) => {
@@ -44,17 +45,13 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
       name: occupantDetails.name,
       rentPercentage: occupantDetails.rentPercentage,
       contact: occupantDetails.contact,
-      //TODO update this once backend no longer strictly requires a date
-      dateJoined:
-        occupantDetails.dateJoined?.toDateString() ||
-        new Date(0).toDateString(),
-      contractEndingDate:
-        occupantDetails.contractEndingDate?.toDateString() ||
-        new Date(0).toDateString(),
+      dateJoined: occupantDetails.dateJoined?.toDateString(),
+      contractEndingDate: occupantDetails.contractEndingDate?.toDateString(),
     };
 
     console.log(newData);
     await updateOccupantInfo({ body: newData });
+    window.location.reload();
   };
 
   const onDeleteOccupant = async (firebaseId: string) => {
@@ -71,6 +68,7 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
           .filter((id) => id !== firebaseId),
       },
     });
+    window.location.reload();
   };
 
   return (
@@ -115,6 +113,7 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
                       contractEndingDate: u.contractEndingDate
                         ? new Date(u.contractEndingDate)
                         : undefined,
+                      isOwner: u.firebaseId === house.owner,
                     };
                   })
                 : []

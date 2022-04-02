@@ -41,6 +41,7 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
 
   const [isEdit, setIsEdit] = useState(false);
   const [image, setImage] = useState<File | null | undefined>(undefined);
+  const [resolvedState, setResolvedState] = useState(false);
   const { createAlert, resetAlert } = useAlert();
 
   const navigate = useNavigate();
@@ -71,15 +72,15 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
   }
 
   const userId = auth.currentUser?.uid;
-  const resolved = issue?.resolved;
   const isOwner = userId === issue?.logger;
 
   const completeIssue = async () => {
-    if (resolved) {
+    if (resolvedState) {
       return;
     }
 
     const optimistic = { ...issue };
+    setResolvedState(!resolvedState);
     issueMutate(optimistic);
 
     await markIssueResolved({
@@ -170,7 +171,7 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
                 <div className="flex flex-row items-center">
                   {/* <Switch className="mr-5"></Switch> */}
                   <Button auto onClick={() => completeIssue()}>
-                    {resolved ? (
+                    {resolvedState ? (
                       <div className="flex">
                         <CheckCircleIcon className="w-8 p-1" />
                         Resolved
@@ -210,7 +211,11 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
                     <Spacer y={2} />
                     <DetailRow
                       title="Log Date"
-                      value={new Date(String(issue?.loggedDate)).toDateString()}
+                      value={
+                        issue?.loggedDate
+                          ? new Date(issue.loggedDate).toDateString()
+                          : ''
+                      }
                     />
                     <Spacer y={2} />
                   </div>
@@ -305,7 +310,6 @@ const UserRow: React.FC<UserRowProp> = ({ userId }) => {
   const house = useHouse();
 
   const getUserFromId = (uid: string | undefined) => {
-    console.log(house.users);
     return house.users?.find((u) => u.firebaseId === uid)?.name;
   };
   return (
