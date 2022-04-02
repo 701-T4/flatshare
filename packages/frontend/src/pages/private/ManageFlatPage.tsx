@@ -45,13 +45,8 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
       name: occupantDetails.name,
       rentPercentage: occupantDetails.rentPercentage,
       contact: occupantDetails.contact,
-      //TODO update this once backend no longer strictly requires a date
-      dateJoined:
-        occupantDetails.dateJoined?.toDateString() ||
-        new Date(0).toDateString(),
-      contractEndingDate:
-        occupantDetails.contractEndingDate?.toDateString() ||
-        new Date(0).toDateString(),
+      dateJoined: occupantDetails.dateJoined?.toDateString(),
+      contractEndingDate: occupantDetails.contractEndingDate?.toDateString(),
     };
 
     console.log(newData);
@@ -118,6 +113,7 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
                       contractEndingDate: u.contractEndingDate
                         ? new Date(u.contractEndingDate)
                         : undefined,
+                      isOwner: u.firebaseId === house.owner,
                     };
                   })
                 : []
