@@ -1,6 +1,8 @@
 import { Button, Textarea } from '@nextui-org/react';
 import React, { useState } from 'react';
 import { useApiMutation } from '../../hooks/useApi';
+import emailjs from '@emailjs/browser';
+import { useHouse } from '../../hooks/useHouse';
 import { parseFileName } from '../../services/fileNameParser';
 import { getStorage, ref, uploadBytes, UploadResult } from 'firebase/storage';
 import { v4 as uuidv4 } from 'uuid';
@@ -29,6 +31,7 @@ const NewIssueCard: React.FC<NewIssueCardProps> = ({
     resolved: false,
     image: undefined,
   });
+  const { code, email } = useHouse();
 
   const createIssue = useApiMutation('/api/v1/house/issues', {
     method: 'post',
@@ -75,6 +78,26 @@ const NewIssueCard: React.FC<NewIssueCardProps> = ({
     refetchOptimisticIssues(issue);
     await createIssue(issueBody);
     refetchFromApi();
+
+    let emailData = {
+      houseCode: code,
+      title: issueInfo.title,
+      description: issueInfo.detail,
+      toEmail: email,
+    };
+
+    const serviceID = 'default_service';
+    const templateID = 'template_sgoanfq';
+    const userID = process.env.REACT_APP_EMAILJS_USER_ID;
+
+    emailjs.send(serviceID, templateID, emailData, userID).then(
+      function (response) {
+        console.log('SUCCESS!', response.status, response.text);
+      },
+      function (error) {
+        console.log('FAILED...', error);
+      },
+    );
   };
 
   const uploadImage = async (): Promise<UploadResult> => {
