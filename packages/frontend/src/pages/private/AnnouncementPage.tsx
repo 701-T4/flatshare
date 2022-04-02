@@ -47,7 +47,7 @@ const AnnouncementPage: React.FC = () => {
   }, [data]);
 
   return (
-    <Page>
+    <Page backpath="/dashboard">
       <div>
         <Button className="rounded-lg" onClick={() => setModalVisible(true)}>
           New Announcement
