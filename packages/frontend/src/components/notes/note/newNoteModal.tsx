@@ -10,8 +10,7 @@ import {
   Text,
   Textarea,
 } from '@nextui-org/react';
-import { useApiMutation } from '../../../hooks/useApi';
-// import { useNavigate } from 'react-router-dom';
+import { useApi, useApiMutation } from '../../../hooks/useApi';
 
 const NORMAL_TYPE = 'Normal';
 const SECRET_TYPE = 'Secret';
@@ -52,21 +51,35 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
     type: 'PLAIN' | 'SECRET' | 'WIFI';
   }
 
+  interface NewWifiDetails {
+    username: string;
+    password: string;
+  }
+
   const [newNoteDetails, setNoteDetails] = useState<NewNoteDetails>({
     name: '',
     value: '',
     type: NoteTypes.PLAIN,
   });
 
-  // const { data, mutate } = useApi('/api/v1/house/note', { method: 'get' });
+  const [newWifiDetails, setWifiDetails] = useState<NewWifiDetails>({
+    username: '',
+    password: '',
+  });
+
+  const { mutate } = useApi('/api/v1/house/note', { method: 'get' });
 
   const createNote = useApiMutation('/api/v1/house/note', { method: 'post' });
 
   async function onClickCreate() {
     try {
+      if (newNoteDetails.type === NoteTypes.WIFI) {
+        newNoteDetails.value =
+          newWifiDetails.username + ':' + newWifiDetails.password;
+      }
       const { name, value, type } = newNoteDetails;
       await createNote({ body: { name, value, type } });
-      // mutate();
+      mutate();
       setCreateNoteVisible(false);
     } catch (e) {}
   }
@@ -194,6 +207,12 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
               placeholder="Enter the username"
               size="xl"
               color="primary"
+              onChange={(e) =>
+                setWifiDetails((prevState) => ({
+                  ...prevState,
+                  username: e.target.value,
+                }))
+              }
             ></Input>
             <Text size={'1.25rem'} margin="1.5%">
               Password
@@ -205,6 +224,12 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
               placeholder="Enter the password"
               size="xl"
               color="primary"
+              onChange={(e) =>
+                setWifiDetails((prevState) => ({
+                  ...prevState,
+                  password: e.target.value,
+                }))
+              }
             ></Input>
           </Container>
         ) : null}

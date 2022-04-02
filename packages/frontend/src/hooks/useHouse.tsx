@@ -9,6 +9,12 @@ interface House {
   owner: string;
   maxOccupants: number;
   rent: number;
+  latestAnnouncement?: {
+    author: string;
+    dateCreated: string;
+    description?: string;
+    title?: string;
+  };
 
   users: {
     name: string;
