@@ -157,13 +157,12 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
             <div className="flex flex-col h-full">
               <div
                 className={cx(
-                  'bg-gradient-to-r from-red-400 to-red-600', //TODO to be extracted
+                  'bg-gradient-to-r from-red-400 to-red-600',
                   'flex flex-row text-left items-center justify-between rounded-t-xl px-10 py-6 text-white font-semibold text-2xl lg:text-3xl',
                 )}
               >
                 {bill?.name}
                 <div className="flex flex-row flex-wrap ml-10 sm:items-center gap-x-3 gap-y-3 sm:gap-x-5 sm:flex-nowrap">
-                  {/* <Switch className="mr-5"></Switch> */}
                   <Button
                     className="rounded-lg"
                     auto

@@ -106,7 +106,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
       <div className="flex flex-col gap-4">
         <Button
           aria-label="New bill"
-          className="w-16 my-3 bg-teal-500 rounded-lg"
+          className="w-16 my-3 bg-teal-500"
           onClick={() => setNewBill(!newBill)}
         >
           New Bill

@@ -157,19 +157,22 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
           />
         </div>
       ) : (
-        <div className="px-10 pt-10 md:px-20">
+        <div className="sm:p-20 min-w-fit">
           <div className="shadow-lg rounded-b-xl">
             <div className="flex flex-col h-full">
               <div
                 className={cx(
                   'bg-gradient-to-r from-blue-500 to-teal-700',
-                  'flex flex-row text-left items-center justify-between rounded-t-xl px-10 py-10 text-white font-semibold lg:text-3xl',
+                  'flex flex-row text-left items-center justify-between rounded-t-xl px-10 py-6 text-white font-semibold text-2xl lg:text-3xl',
                 )}
               >
                 {issue?.name}
-                <div className="flex flex-row items-center">
-                  {/* <Switch className="mr-5"></Switch> */}
-                  <Button auto onClick={() => completeIssue()}>
+                <div className="flex flex-row flex-wrap ml-10 sm:items-center gap-x-3 gap-y-3 sm:gap-x-5 sm:flex-nowrap">
+                  <Button
+                    className="text-base rounded-lg"
+                    auto
+                    onClick={() => completeIssue()}
+                  >
                     {resolved ? (
                       <div className="flex">
                         <CheckCircleIcon className="w-8 p-1" />
@@ -182,7 +185,7 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
                   {isOwner ? (
                     <Button
                       auto
-                      className="mx-5"
+                      className="rounded-lg"
                       onClick={() => setIsEdit(!isEdit)}
                       icon={<PencilIcon className="w-5 h-5 text-teal-50" />}
                     />
@@ -192,6 +195,7 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
                   {isOwner ? (
                     <Button
                       auto
+                      className="rounded-lg"
                       onClick={() => deleteIssue()}
                       icon={<TrashIcon className="w-5 h-5 text-teal-50" />}
                     />
@@ -200,8 +204,8 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
                   )}
                 </div>
               </div>
-              <div className="flex flex-col items-center h-full px-4 py-4 bg-gray-800 rounded-b-xl lg:px-8 gap-y-1">
-                <div className="flex flex-col items-start justify-between lg:flex-row lg:w-full">
+              <div className="flex flex-col h-full px-4 py-4 bg-gray-800 rounded-b-xl md:px-8 gap-y-1">
+                <div className="flex flex-col items-start justify-between py-6 pl-5 md:flex-row md:w-full">
                   <div className="flex flex-col px-2 lg:w-1/2">
                     <DetailRow
                       title="Description"
@@ -218,15 +222,15 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
                     />
                     <Spacer y={2} />
                   </div>
-                  <div className="flex flex-col px-2 lg:w-1/2">
-                    <div className="text-3xl font-bold text-teal-500">
+                  <div className="flex flex-col px-2 md:w-1/2">
+                    <div className="text-xl font-bold text-teal-500">
                       Issued By
                     </div>
                     <div className="flex flex-col">
                       <UserRow key={userId} userId={userId} />
                     </div>
                     <Spacer y={2} />
-                    <div className="text-3xl font-bold text-teal-500">
+                    <div className="text-xl font-bold text-teal-500">
                       {issue.image && (
                         <button
                           className="flex items-center font-bold rounded-md hover:bg-gray-500"
@@ -243,10 +247,10 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
                   </div>
                 </div>
 
-                <div className="flex flex-row items-center self-end justify-end">
+                <div className="flex flex-row items-center self-end justify-end px-2 mb-4">
                   <label
                     htmlFor="file-upload"
-                    className="flex items-center justify-center px-4 py-2 font-medium text-white transition-all bg-teal-500 rounded-full bold hover:bg-teal-400 h-fit"
+                    className="flex items-center justify-center px-4 py-2 font-medium text-white transition-all bg-teal-500 rounded-lg w-28 bold hover:bg-teal-400 h-fit"
                   >
                     <input
                       id="file-upload"
@@ -263,7 +267,7 @@ const IssueDetailPage: React.FC<IssueDetailPageProps> = () => {
                   <Spacer x={1} />
                   <button
                     className={cx(
-                      ' flex justify-center items-center transition-all  rounded-full px-4 py-2 font-medium h-fit',
+                      ' flex justify-center items-center transition-all rounded-lg px-4 w-28 py-2 font-medium h-fit',
                       {
                         'text-white bg-teal-500 hover:bg-teal-400':
                           !fileNotAttached,
@@ -292,9 +296,7 @@ interface DetailRowProps {
 const DetailRow: React.FC<DetailRowProps> = ({ title, value }) => {
   return (
     <div className="flex flex-col items-start">
-      <div className="text-base font-bold text-teal-500 md:text-3xl">
-        {title}
-      </div>
+      <div className="text-xl font-bold text-teal-500 md:text-xl">{title}</div>
       <div className="py-2 text-base font-bold text-white md:text-xl">
         {value}
       </div>
