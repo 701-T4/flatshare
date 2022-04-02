@@ -74,7 +74,7 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
   };
 
   return (
-    <Page>
+    <Page backpath="/dashboard">
       {house.dataLoading ? (
         <LoaderPage />
       ) : (
