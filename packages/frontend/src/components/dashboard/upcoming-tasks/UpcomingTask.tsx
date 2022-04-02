@@ -46,6 +46,11 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
     onCompleteClick?.();
   };
 
+  let completeText = 'Complete';
+  if (type === 'Issue') {
+    completeText = 'Resolve';
+  }
+
   const includeDetailsLink = ['Bill', 'Issue'];
 
   return (
@@ -99,7 +104,7 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
                 {completed ? (
                   <CheckCircleIcon className="w-6" />
                 ) : (
-                  <>Complete</>
+                  <>{completeText}</>
                 )}
               </button>
             </div>
