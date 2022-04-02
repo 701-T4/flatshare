@@ -54,7 +54,7 @@ const AnnouncementModalForm: React.FC<AnnouncementModalFormProps> = (props) => {
         <Modal.Footer>
           <div className="flex justify-end">
             <Button auto className="rounded-lg px-7" onClick={handlePublish}>
-              Publish
+              Publish!
             </Button>
           </div>
         </Modal.Footer>

@@ -11,7 +11,7 @@ const AnnouncementCard: React.FC<AnnouncementCardProps> = (props) => {
   return (
     <>
       <Card
-        className="px-3 pt-5 pb-3"
+        className="px-3 pt-5 pb-3 shadow-lg"
         shadow={false}
         css={{
           backgroundColor: '#1D2530',
