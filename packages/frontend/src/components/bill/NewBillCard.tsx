@@ -105,15 +105,15 @@ const NewBillCard: React.FC<NewBillCardProps> = ({
   };
 
   return (
-    <div className="shadow-lg rounded-b-xl">
+    <div className="shadow-lg rounded-b-xl min-w-fit">
       <div className="flex flex-col h-full">
-        <div className="px-4 py-1 text-lg font-semibold text-left text-white bg-gradient-to-r from-amber-400 to-amber-600 rounded-t-xl">
-          <div className="flex flex-row flex-wrap justify-between mx-4">
+        <div className="px-4 pt-6 pb-3 text-lg font-semibold text-left text-white lg:pt-1 lg:pb-0 bg-gradient-to-r from-amber-400 to-amber-600 rounded-t-xl">
+          <div className="flex flex-row flex-wrap justify-between mx-4 gap-y-5 gap-x-3 lg:gap-y-0">
             <div className="self-center text-xl">Bill</div>
             <div className="self-center text-base">
               Total Cost: $
               <input
-                className="p-1 pl-2 ml-2 text-black rounded-lg appearance-none"
+                className="w-7/12 p-1 pl-2 ml-2 text-black rounded-lg appearance-none sm:w-auto"
                 type="number"
                 value={billInfo.totalCost}
                 onChange={(e) =>
@@ -141,7 +141,7 @@ const NewBillCard: React.FC<NewBillCardProps> = ({
             <div className="self-end">
               <Button
                 size="xs"
-                className="w-auto h-8 my-3 text-base"
+                className="w-auto h-8 mb-2 text-base sm:my-3"
                 onClick={handleDoneButton}
                 disabled={Math.abs(billInfo.totalCost - splitSum!) > 0.01}
               >
@@ -150,9 +150,9 @@ const NewBillCard: React.FC<NewBillCardProps> = ({
             </div>
           </div>
         </div>
-        <div className="flex flex-row h-full px-4 py-4 bg-gray-800 gap-x-4 rounded-b-xl lg:px-8">
-          <div className="flex flex-col flex-grow text-white gap-y-3">
-            <div className="flex flex-col gap-y-0.5">
+        <div className="flex flex-col h-full px-4 py-4 bg-gray-800 min-w-fit gap-x-4 gap-y-5 rounded-b-xl lg:px-8">
+          <div className="flex flex-col w-full text-white sm:flex-wrap sm:justify-between sm:flex-row gap-y-3">
+            <div className="flex flex-col gap-y-0.5 sm:w-1/2">
               <div className="mr-3 font-bold">Title</div>
               <input
                 className="p-2 text-black rounded-lg appearance-none"
@@ -166,7 +166,28 @@ const NewBillCard: React.FC<NewBillCardProps> = ({
                 }
               />
             </div>
-            <div className="flex flex-col gap-y-0.5">
+            <div className="grid h-4 grid-cols-1 gap-4 mb-12 sm:mb-3 sm:w-2/5">
+              {users?.map((person, index) => (
+                <div className="font-bold rounded-xl">
+                  <div
+                    key={index + person.name}
+                    className="flex flex-col gap-0.5 whitespace-nowrap text-white"
+                  >
+                    <span className="text-ellipsis max-w-[2rem]">
+                      {person.name}
+                    </span>
+                    <input
+                      className="p-2 text-black rounded-lg appearance-none"
+                      type="number"
+                      name={person.name}
+                      value={costHash[person.name]}
+                      onChange={handlePersonalCostChange}
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+            <div className="flex flex-col gap-y-0.5 sm:w-1/2">
               <div className="font-bold">Details</div>
               <Textarea
                 size="lg"
@@ -180,35 +201,15 @@ const NewBillCard: React.FC<NewBillCardProps> = ({
                 }
               />
             </div>
-            <Button
-              size="xs"
-              className="w-auto h-10 p-5 my-3 text-base bg-teal-500"
-              onClick={handleEvenlyButton}
-            >
-              Split Evenly
-            </Button>
           </div>
-          <div className="grid h-4 grid-cols-1 gap-4 ml-4 md:grid-cols-2">
-            {users?.map((person, index) => (
-              <div className="font-bold rounded-xl">
-                <div
-                  key={index + person.name}
-                  className="flex flex-col gap-0.5 whitespace-nowrap text-white"
-                >
-                  <span className="text-ellipsis max-w-[2rem]">
-                    {person.name}
-                  </span>
-                  <input
-                    className="p-2 text-black rounded-lg appearance-none"
-                    type="number"
-                    name={person.name}
-                    value={costHash[person.name]}
-                    onChange={handlePersonalCostChange}
-                  />
-                </div>
-              </div>
-            ))}
-          </div>
+
+          <Button
+            size="xs"
+            className="w-auto h-10 p-5 my-3 text-base bg-teal-500 sm:w-1/2"
+            onClick={handleEvenlyButton}
+          >
+            Split Evenly
+          </Button>
         </div>
       </div>
     </div>

@@ -54,7 +54,7 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
   }
 
   return (
-    <div className="shadow-lg rounded-b-xl">
+    <div className="shadow-lg rounded-b-xl min-w-fit">
       <div className="flex flex-col h-full">
         <div
           className={cx(
@@ -94,7 +94,7 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
             </div>
             <button
               className={cx(
-                'text-white flex justify-center items-center transition-all rounded-full px-4 py-2 font-medium h-fit disabled:bg-gray-500',
+                'text-white flex ml-5 justify-center items-center transition-all rounded-full px-4 py-2 font-medium h-fit disabled:bg-gray-500',
                 {
                   'w-14 cursor-default bg-teal-500': completed,
                   'w-32 bg-teal-500 hover:bg-teal-400': !completed,

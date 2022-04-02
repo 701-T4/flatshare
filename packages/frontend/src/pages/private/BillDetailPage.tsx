@@ -152,7 +152,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
           />
         </div>
       ) : (
-        <div className="px-10 pt-10 md:px-20">
+        <div className="sm:p-20 min-w-fit">
           <div className="shadow-lg rounded-b-xl">
             <div className="flex flex-col h-full">
               <div
@@ -162,7 +162,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                 )}
               >
                 {bill?.name}
-                <div className="flex flex-row items-center">
+                <div className="flex flex-row flex-wrap ml-10 sm:items-center gap-x-3 gap-y-3 sm:gap-x-5 sm:flex-nowrap">
                   {/* <Switch className="mr-5"></Switch> */}
                   <Button
                     className="rounded-lg"
@@ -181,7 +181,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                   {isOwner ? (
                     <Button
                       auto
-                      className="mx-5 rounded-lg"
+                      className="rounded-lg"
                       onClick={() => setIsEdit(!isEdit)}
                       icon={<PencilIcon className="w-5 h-5 text-teal-50" />}
                     />
@@ -222,7 +222,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-row items-center self-end justify-end pr-2 mb-4">
+                <div className="flex flex-row items-center self-end justify-end px-2 mb-4">
                   <label
                     htmlFor="file-upload"
                     className="flex items-center justify-center px-4 py-2 font-medium text-white transition-all bg-teal-500 rounded-lg w-28 bold hover:bg-teal-400 h-fit"
