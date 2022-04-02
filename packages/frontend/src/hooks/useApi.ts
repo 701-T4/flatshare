@@ -192,6 +192,12 @@ const fetcher = ({
         ...headers,
       },
     });
+    if (!result.ok) {
+      const error: any = new Error(result.statusText);
+      error.info = await result.json();
+      error.status = result.status;
+      throw error;
+    }
     return await parser?.(result);
   };
 };

@@ -9,12 +9,16 @@ import TaskDetailPage from '../private/TaskDetailPage';
 import TaskPage from '../private/TaskPage';
 import BillSplittingPage from '../private/BillSplittingPage';
 import BillDetailPage from '../private/BillDetailPage';
+import NotesPage from '../private/NotesPage';
+import IssuesPage from '../private/IssuesPage';
+import IssueDetailPage from '../private/IssueDetailPage';
 import { useApiMutation } from '../../hooks/useApi';
 import { useAlert } from '../../components/common/util/CornerAlert';
 import {
   ExclamationCircleIcon,
   InformationCircleIcon,
 } from '@heroicons/react/outline';
+import AnnouncementPage from '../private/AnnouncementPage';
 
 interface AuthenticatedRoutesProps {}
 
@@ -104,6 +108,16 @@ const AuthenticatedRoutes: React.FC<AuthenticatedRoutesProps> = () => {
       <Route path="bills">
         <Route index element={<BillSplittingPage />} />
         <Route path=":id" element={<BillDetailPage />} />
+      </Route>
+      <Route path="notes">
+        <Route index element={<NotesPage />} />
+      </Route>
+      <Route path="issues">
+        <Route index element={<IssuesPage />} />
+        <Route path=":id" element={<IssueDetailPage />} />
+      </Route>
+      <Route path="announcement">
+        <Route index element={<AnnouncementPage />} />
       </Route>
       <Route path="*" element={<Navigate to="/dashboard" replace />} />
     </Routes>
