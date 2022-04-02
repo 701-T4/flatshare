@@ -7,19 +7,20 @@ import QuickAccessPanel from '../../components/dashboard/QuickAccessPanel';
 import NoUpcomingTasks from '../../components/dashboard/upcoming-tasks/NoUpcomingTasks';
 import UpcomingTask from '../../components/dashboard/upcoming-tasks/UpcomingTask';
 import { useHouse } from '../../hooks/useHouse';
+import { useNavigate } from 'react-router-dom';
 
 interface DashboardProps {}
 
 const DashboardPage: React.FC<DashboardProps> = () => {
+  const navigate = useNavigate();
+
   const { name, latestAnnouncement } = useHouse();
 
   return (
     <Page>
       {latestAnnouncement && (
         <DashboardAnnouncement
-          onViewAll={function (): void {
-            throw new Error('Function not implemented.');
-          }}
+          onViewAll={() => navigate('/announcement')}
           title={latestAnnouncement.title || 'New Announcement'}
           time={new Date(latestAnnouncement.dateCreated)}
           user={latestAnnouncement.author}
