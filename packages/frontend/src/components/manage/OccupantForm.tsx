@@ -88,12 +88,14 @@ const OccupantForm: React.FC<OccupantCardProps> = (props) => {
       <div className="flex justify-end mt-12 mr-5 ">
         {ownerView && (
           <>
-            <Button
-              onClick={() => onDeleteOccupant(props.firebaseId)}
-              className="inline-block bg-btn_red"
-            >
-              Remove Occupant
-            </Button>
+            {!props.isOwner && (
+              <Button
+                onClick={() => onDeleteOccupant(props.firebaseId)}
+                className="inline-block bg-btn_red"
+              >
+                Remove Occupant
+              </Button>
+            )}
             <Button
               onClick={() => {
                 const newOccupantData: OccupantCardProps = { ...props };
