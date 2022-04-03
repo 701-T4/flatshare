@@ -32,7 +32,6 @@ const HouseSettings: React.FC<HouseSettingsProps> = (props) => {
             }}
             color="secondary"
             labelRight={'$'}
-            // className='w-full'
             width="100%"
           />
         </div>
@@ -51,7 +50,6 @@ const HouseSettings: React.FC<HouseSettingsProps> = (props) => {
               });
             }}
             color="secondary"
-            // className='w-full'
             width="100%"
           />
         </div>
@@ -68,7 +66,6 @@ const HouseSettings: React.FC<HouseSettingsProps> = (props) => {
               });
             }}
             color="secondary"
-            // className='w-full'
             width="100%"
           />
         </div>
@@ -86,7 +83,6 @@ const HouseSettings: React.FC<HouseSettingsProps> = (props) => {
               });
             }}
             color="secondary"
-            // className='w-full'
             width="100%"
           />
         </div>

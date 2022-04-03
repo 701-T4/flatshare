@@ -10,7 +10,6 @@ import { usePopper } from 'react-popper';
 import { useAuth } from '../../../hooks/useAuth';
 import { auth } from '../../../services/firebase';
 import { useAlert } from './CornerAlert';
-// import profilePicutre from '..\..\..\src\res\svg\anon_profile_picture.svg'
 import profilePicutre from '../../../res/svg/default_avatar.svg';
 
 const iconClass = 'bg-teal-100 text-teal-500 rounded-lg p-2.5';
