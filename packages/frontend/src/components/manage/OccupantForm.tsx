@@ -1,4 +1,4 @@
-import { Container, Row, Button, Col, Text, Input } from '@nextui-org/react';
+import { Container, Button, Text, Input } from '@nextui-org/react';
 import React, { useContext, useState } from 'react';
 import ReactDatePicker from 'react-datepicker';
 import { OccupantCardProps } from './OccupantCard';
@@ -27,9 +27,9 @@ const OccupantForm: React.FC<OccupantCardProps> = (props) => {
   const { ownerView, onSaveOccupant, onDeleteOccupant } =
     useContext(PanelContext);
   return (
-    <Container xl style={{ padding: 0 }}>
-      <Row>
-        <Col>
+    <Container xl className="p-0">
+      <div className="flex flex-col gap-y-3 sm:gap-y-10 sm:pt-5 sm:flex-row sm:flex-wrap sm:gap-x-28">
+        <div className="w-full sm:w-2/6">
           <Text className="mb-1" color={'secondary'} size={15}>
             {'Percentage of rent to pay'}
           </Text>
@@ -40,10 +40,10 @@ const OccupantForm: React.FC<OccupantCardProps> = (props) => {
             onChange={(e) => setPercentage(Number(e.target.value))}
             color="secondary"
             labelRight={'%'}
-            width="60%"
+            width="100%"
           />
-        </Col>
-        <Col>
+        </div>
+        <div className="w-full sm:w-2/6">
           <Text className="mb-1" color={'secondary'} size={15}>
             {'Contact number'}
           </Text>
@@ -53,39 +53,37 @@ const OccupantForm: React.FC<OccupantCardProps> = (props) => {
             onChange={(e) => setContact(e.target.value)}
             aria-label={'Contact number'}
             color="secondary"
-            width="60%"
+            width="100%"
           />
-        </Col>
-      </Row>
-      <Row className="mt-4">
-        <Col>
+        </div>
+        <div className="w-full sm:w-2/6">
           <Text className="mb-1" color={'secondary'} size={15}>
             {'Date joined'}
           </Text>
           <ReactDatePicker
-            className="appearance-none rounded-xl h-10 p-1 pl-2 text-sm text-black w-3/5"
+            className="w-full h-10 p-1 pl-2 text-sm text-black appearance-none rounded-xl"
             selected={joinDate}
             dateFormat="MMMM d, yyyy"
             onChange={(date: Date) => setJoinDate(date)}
             popperProps={{ strategy: 'fixed' }}
             popperPlacement={'auto'}
           />
-        </Col>
-        <Col>
+        </div>
+        <div className="w-full sm:w-2/6">
           <Text className="mb-1" color={'secondary'} size={15}>
             {'Contract ending date'}
           </Text>
           <ReactDatePicker
-            className="appearance-none rounded-xl h-10 p-1 pl-2 text-sm text-black w-3/5"
+            className="w-full h-10 p-1 pl-2 text-sm text-black appearance-none rounded-xl"
             selected={endDate}
             dateFormat="MMMM d, yyyy"
             onChange={(date: Date) => setEndDate(date)}
             popperProps={{ strategy: 'fixed' }}
             popperPlacement={'auto'}
           />
-        </Col>
-      </Row>
-      <div className="flex justify-end mt-12 mr-5 ">
+        </div>
+      </div>
+      <div className="flex justify-end w-full mt-6 mr-5 sm:w-auto sm:mt-12 ">
         {ownerView && (
           <>
             {!props.isOwner && (

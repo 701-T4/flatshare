@@ -54,16 +54,16 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
   const includeDetailsLink = ['Bill', 'Issue'];
 
   return (
-    <div className="shadow-lg rounded-b-xl">
+    <div className="shadow-lg rounded-b-xl min-w-fit">
       <div className="flex flex-col h-full">
         <div
           className={cx(
             twColor,
-            'text-left rounded-t-xl px-4 py-1 text-white font-semibold text-lg',
+            'text-left rounded-t-xl px-4 py-2 text-white font-semibold text-lg',
             { [Variation.gray]: disabled },
           )}
         >
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row justify-between mx-2">
             {type}
             {includeDetailsLink.includes(type) && !past && (
               <button
@@ -95,8 +95,11 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
             <div onClick={(e) => e.stopPropagation()}>
               <button
                 className={cx(
-                  'text-white flex justify-center items-center transition-all bg-teal-500 hover:bg-teal-400 rounded-full px-4 py-2 font-medium h-fit disabled:bg-gray-500',
-                  { 'w-16': completed, 'w-32': !completed },
+                  'text-white flex ml-5 justify-center items-center transition-all rounded-full px-4 py-2 font-medium h-fit disabled:bg-gray-500',
+                  {
+                    'w-14 cursor-default bg-teal-500': completed,
+                    'w-32 bg-teal-500 hover:bg-teal-400': !completed,
+                  },
                 )}
                 onClick={clickWrapper}
                 disabled={disabled}

@@ -48,12 +48,12 @@ const EditBillCard: React.FC<EditBillCardProps> = ({
           </div>
         </div>
       </div>
-      <div className="flex flex-col align-items-center p-4 text-white bg-gray-800 rounded-b-xl lg:px-8">
+      <div className="flex flex-col p-4 text-white bg-gray-800 align-items-center rounded-b-xl lg:px-8">
         <div className="flex flex-col justify-items-start align-items-start">
           <div className="mr-3 ">Title</div>
           <Textarea
             maxRows={1}
-            className="appearance-none w-full rounded-lg text-black"
+            className="w-full text-black rounded-lg appearance-none"
             value={title}
             onChange={(e) => setTitle(e.target.value)}
           />

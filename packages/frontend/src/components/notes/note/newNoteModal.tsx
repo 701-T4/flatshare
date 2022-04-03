@@ -88,7 +88,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
     <Modal
       closeButton
       blur
-      width="75%"
+      className="w-full"
       open={createNoteVisible}
       onClose={closeNoteHandler}
     >
@@ -118,7 +118,6 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
         <Text size={'1.25rem'} margin="1.5%">
           Type
         </Text>
-        {/* This is just as a start. Will use Tailwind for this and not some ugly select tag haha */}
         <Listbox
           value={selected}
           onChange={(e) => {
@@ -145,11 +144,11 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
           }}
         >
           <div className="relative mt-1">
-            <Listbox.Button className="relative w-full h-12 py-1 pl-3 pr-10 text-left bg-white rounded-lg shadow-md cursor-default sm:text-xl">
-              <span className="block truncate">{selected.name}</span>
+            <Listbox.Button className="relative w-full py-1 pl-3 pr-10 text-left bg-white shadow-md cursor-pointer hover:text-white hover:bg-teal-400 h-14 rounded-2xl sm:text-xl">
+              <span className="block ml-2 truncate">{selected.name}</span>
               <span className="absolute inset-y-0 right-0 flex items-center pr-2 pointer-events-none">
                 <SelectorIcon
-                  className="w-5 h-5 text-teal-400"
+                  className="w-6 h-6 text-teal-500"
                   aria-hidden="true"
                 />
               </span>
@@ -160,12 +159,12 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
               leaveFrom="opacity-100"
               leaveTo="opacity-0"
             >
-              <Listbox.Options className="absolute z-10 w-full py-1 mt-1 overflow-auto text-base bg-white rounded-md shadow-lg max-h-60 sm:text-xl">
+              <Listbox.Options className="absolute z-10 w-full pt-3 pb-1 mt-1 overflow-auto text-base bg-white shadow-lg rounded-2xl max-h-60 sm:text-xl">
                 {noteType.map((note) => (
                   <Listbox.Option
                     className={({ active }) =>
-                      `cursor-default select-none relative py-2 pl-10 pr-4 ${
-                        active ? 'bg-teal-300 text-white' : 'text-gray-900'
+                      `cursor-pointer select-none relative py-2 pl-10 pr-4 ${
+                        active ? 'bg-teal-400 text-white' : 'text-gray-900'
                       }`
                     }
                     value={note}
@@ -239,10 +238,10 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
         {!showWifiInputs ? (
           <Container direction="column" display="flex" css={{ p: 0 }}>
             {showSecretInputs && (
-              <Text size={'1rem'} margin="0% 0% 0% 1.5%" color="red">
+              <p className="ml-2 text-base tracking-tight text-red-500">
                 Warning: Secrets are not protected by a password. Be aware that
                 all information stored will be accesible to your flatmates.
-              </Text>
+              </p>
             )}
             <Text size={'1.25rem'} margin="1.5%">
               Description
@@ -264,8 +263,8 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
         ) : null}
       </Modal.Body>
       <Modal.Footer css={{ cursor: 'auto' }}>
-        <Button size="md" className="text-lg sm:" onClick={onClickCreate}>
-          Create
+        <Button auto className="px-5 py-6 text-lg" onClick={onClickCreate}>
+          Create!
         </Button>
       </Modal.Footer>
     </Modal>

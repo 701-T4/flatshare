@@ -26,8 +26,8 @@ const AnnouncementModalForm: React.FC<AnnouncementModalFormProps> = (props) => {
         closeButton
         open={props.visible}
         onClose={() => props.setVisible(false)}
-        width={'50%'}
-        className="px-8 pb-6 pt-14"
+        width={'70%'}
+        className="px-3 pb-6 sm:px-8 pt-14"
       >
         <Modal.Header>
           <span
@@ -42,7 +42,7 @@ const AnnouncementModalForm: React.FC<AnnouncementModalFormProps> = (props) => {
         <Modal.Body>
           <div>
             <span
-              className="block hover:text-gray-500 h-[50vh] focus:text-black outline-none"
+              className="block hover:text-gray-500 h-[20vh] sm:h-[50vh] focus:text-black outline-none"
               suppressContentEditableWarning={true}
               contentEditable={true}
               ref={detailRef}
@@ -54,7 +54,7 @@ const AnnouncementModalForm: React.FC<AnnouncementModalFormProps> = (props) => {
         <Modal.Footer>
           <div className="flex justify-end">
             <Button auto className="rounded-lg px-7" onClick={handlePublish}>
-              Publish
+              Publish!
             </Button>
           </div>
         </Modal.Footer>

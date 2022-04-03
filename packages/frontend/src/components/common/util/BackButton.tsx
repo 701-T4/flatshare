@@ -15,10 +15,10 @@ const BackButton: React.FC<BackButtonProps> = ({ backpath }) => {
       {backpath && (
         <Button
           onClick={() => navigate(backpath)}
-          className="flex justify-center items-center py-3 h-fit -ml-11 mr-2 hover:bg-gray-700 hover:bg-opacity-5 transition-all"
+          className="flex items-center justify-center py-3 -ml-4 -mr-6 transition-all sm:mr-2 h-fit sm:-ml-11 hover:bg-gray-700 hover:bg-opacity-5"
           auto
           light
-          icon={<ChevronLeftIcon className="w-10" />}
+          icon={<ChevronLeftIcon className="w-9" />}
         />
       )}
     </div>

@@ -4,7 +4,6 @@ import { useHouse } from '../../hooks/useHouse';
 import NoteCardController from '../../components/notes/note/noteCardController';
 import UnderlinedText from '../../components/dashboard/GradientUnderlinedText';
 import { Button } from '@nextui-org/react';
-import { PlusIcon } from '@heroicons/react/outline';
 import NewNoteModal from '../../components/notes/note/newNoteModal';
 
 interface NotesProps {}
@@ -17,19 +16,26 @@ const NotesPage: React.FC<NotesProps> = () => {
 
   return (
     <Page backpath="/dashboard">
-      <div className="flex justify-between items-center pb-1">
-        <UnderlinedText colorClasses="from-gray-800 via-teal-700 to-teal-500 ">
-          <div className="text-2xl font-medium">
-            <span className="text-teal-500 font-semibold mr-2">{name}</span>
-            Notes Dashboard
+      <div className="flex items-center justify-between pb-3">
+        <UnderlinedText
+          className="mr-12 sm:mr-0"
+          colorClasses="from-gray-800 via-teal-700 to-teal-500"
+        >
+          <div className="text-lg font-medium">
+            <span className="mr-2 font-semibold text-teal-500">{name}</span>
+            <span>Notes Board</span>
           </div>
         </UnderlinedText>
         <Button
-          auto
-          size="sm"
+          css={{
+            zIndex: 0,
+          }}
+          size="md"
+          className="font-semibold bg-teal-500"
           onClick={createNoteHandler}
-          icon={<PlusIcon className="w-6 h-6" />}
-        ></Button>
+        >
+          New Note
+        </Button>
       </div>
       <NewNoteModal
         createNoteVisible={createNoteVisible}

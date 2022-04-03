@@ -98,6 +98,13 @@ const NewIssueCard: React.FC<NewIssueCardProps> = ({
         console.log('FAILED...', error);
       },
     );
+
+    setIssueInfo({
+      title: '',
+      detail: '',
+      resolved: false,
+      image: undefined,
+    });
   };
 
   const uploadImage = async (): Promise<UploadResult> => {
@@ -111,14 +118,16 @@ const NewIssueCard: React.FC<NewIssueCardProps> = ({
   return (
     <div className="shadow-lg rounded-b-xl">
       <div className="flex flex-col h-full">
-        <div className="px-4 py-1 text-lg font-semibold text-left text-white bg-gradient-to-r from-amber-400 to-amber-600 rounded-t-xl">
+        <div className="px-8 py-3 text-lg font-semibold text-left text-white bg-gradient-to-r from-amber-400 to-amber-600 rounded-t-xl">
           <div className="flex flex-row flex-wrap justify-between">
-            <div className="self-center">Issue</div>
+            <div className="self-center text-2xl">Issue</div>
             <div className="self-end">
               <Button
                 size="xs"
-                rounded
-                className="w-auto h-10 mt-1 mb-1 text-base"
+                css={{
+                  zIndex: 0,
+                }}
+                className="w-auto h-10 mt-1 mb-1 text-base rounded-xl"
                 onClick={handleDoneButton}
                 disabled={issueInfo.title === '' || issueInfo.detail === ''}
               >
@@ -129,8 +138,8 @@ const NewIssueCard: React.FC<NewIssueCardProps> = ({
         </div>
 
         <div className="flex flex-row h-full px-4 py-4 bg-gray-800 gap-x-4 rounded-b-xl lg:px-8">
-          <div className="flex flex-col flex-grow mb-1 text-white gap-y-3">
-            <div className="flex flex-col gap-y-0.5">
+          <div className="flex flex-col flex-grow my-4 text-white gap-y-5">
+            <div className="flex flex-col gap-y-1">
               <div className="mr-3 font-bold">Title</div>
               <input
                 className="p-2 text-black rounded-lg appearance-none"
@@ -145,7 +154,7 @@ const NewIssueCard: React.FC<NewIssueCardProps> = ({
                 }
               />
             </div>
-            <div className="flex flex-col gap-y-0.5">
+            <div className="flex flex-col gap-y-1">
               <div className="font-bold">Details</div>
               <Textarea
                 size="lg"
@@ -160,11 +169,11 @@ const NewIssueCard: React.FC<NewIssueCardProps> = ({
                 }
               />
             </div>
-            <div className="flex flex-col gap-y-0.5">
+            <div className="flex flex-col gap-y-3">
               <div className="font-bold">Image</div>
               <label
                 htmlFor="file-upload"
-                className="flex justify-center px-4 py-2 font-medium text-white transition-all bg-teal-500 rounded-full bold hover:bg-teal-400 h-fit w-fit"
+                className="flex justify-center px-4 py-2 font-medium text-white transition-all bg-teal-500 cursor-pointer rounded-xl bold hover:bg-teal-400 h-fit w-fit"
               >
                 <input
                   id="file-upload"

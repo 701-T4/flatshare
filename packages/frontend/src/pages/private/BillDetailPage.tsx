@@ -152,19 +152,23 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
           />
         </div>
       ) : (
-        <div className="px-10 pt-10 md:px-20">
+        <div className="sm:p-20 min-w-fit">
           <div className="shadow-lg rounded-b-xl">
             <div className="flex flex-col h-full">
               <div
                 className={cx(
-                  'bg-gradient-to-r from-red-400 to-red-600', //TODO to be extracted
-                  'flex flex-row text-left items-center justify-between rounded-t-xl px-10 py-10 text-white font-semibold lg:text-3xl',
+                  'bg-gradient-to-r from-red-400 to-red-600',
+                  'flex flex-row text-left items-center mt-10 justify-between rounded-t-xl px-10 py-6 text-white font-semibold text-2xl lg:text-3xl',
                 )}
               >
                 {bill?.name}
-                <div className="flex flex-row items-center">
-                  {/* <Switch className="mr-5"></Switch> */}
-                  <Button auto onClick={() => completeBill()}>
+                <div className="flex flex-row flex-wrap ml-14 sm:items-center gap-x-3 gap-y-3 sm:gap-x-5 sm:flex-nowrap">
+                  <Button
+                    className="rounded-lg"
+                    css={{ width: '133px' }}
+                    auto
+                    onClick={() => completeBill()}
+                  >
                     {paid ? (
                       <div className="flex">
                         <CheckCircleIcon className="w-8 p-1" />
@@ -177,7 +181,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                   {isOwner ? (
                     <Button
                       auto
-                      className="mx-5"
+                      className="rounded-lg"
                       onClick={() => setIsEdit(!isEdit)}
                       icon={<PencilIcon className="w-5 h-5 text-teal-50" />}
                     />
@@ -187,6 +191,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                   {isOwner ? (
                     <Button
                       auto
+                      className="rounded-lg"
                       onClick={() => deleteBill()}
                       icon={<TrashIcon className="w-5 h-5 text-teal-50" />}
                     />
@@ -195,19 +200,17 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                   )}
                 </div>
               </div>
-              <div className="flex flex-col items-center h-full px-4 py-4 bg-gray-800 rounded-b-xl lg:px-8 gap-y-1">
-                <div className="flex flex-col items-start justify-between lg:flex-row lg:w-full">
-                  <div className="flex flex-col px-2 lg:w-1/2">
+              <div className="flex flex-col h-full px-4 py-4 bg-gray-800 rounded-b-xl md:px-8 gap-y-1">
+                <div className="flex flex-col items-start justify-between py-6 pl-5 md:flex-row md:w-full">
+                  <div className="flex flex-col px-2 gap-y-4 sm:gap-y-10 md:w-1/2">
                     <DetailRow title="Description" value={bill?.description!} />
-                    <Spacer y={2} />
                     <DetailRow
                       title="Due"
                       value={new Date(bill.due).toDateString()}
                     />
-                    <Spacer y={2} />
                   </div>
-                  <div className="flex flex-col px-2 lg:w-1/2">
-                    <div className="text-3xl font-bold text-teal-500">
+                  <div className="flex flex-col px-2 pt-4 sm:pt-0 md:w-1/2">
+                    <div className="text-xl font-bold text-teal-500">
                       Payment
                     </div>
                     <div className="flex flex-col">
@@ -217,10 +220,10 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                     </div>
                   </div>
                 </div>
-                <div className="flex flex-row items-center self-end justify-end">
+                <div className="flex flex-row items-center self-end justify-end px-2 mb-4">
                   <label
                     htmlFor="file-upload"
-                    className="flex items-center justify-center px-4 py-2 font-medium text-white transition-all bg-teal-500 rounded-full bold hover:bg-teal-400 h-fit"
+                    className="flex items-center justify-center px-4 py-2 font-medium text-white transition-all bg-teal-500 rounded-lg w-28 bold hover:bg-teal-400 h-fit"
                   >
                     <input
                       id="file-upload"
@@ -237,7 +240,7 @@ const BillDetailPage: React.FC<BillDetailPageProps> = () => {
                   <Spacer x={1} />
                   <button
                     className={cx(
-                      ' flex justify-center items-center transition-all  rounded-full px-4 py-2 font-medium h-fit',
+                      ' flex justify-center items-center transition-all rounded-lg px-4 w-28 py-2 font-medium h-fit',
                       {
                         'text-white bg-teal-500 hover:bg-teal-400':
                           !fileNotAttached,
@@ -266,9 +269,7 @@ interface DetailRowProps {
 const DetailRow: React.FC<DetailRowProps> = ({ title, value }) => {
   return (
     <div className="flex flex-col items-start">
-      <div className="text-base font-bold text-teal-500 md:text-3xl">
-        {title}
-      </div>
+      <div className="text-xl font-bold text-teal-500 md:text-xl">{title}</div>
       <div className="py-2 text-base font-bold text-white md:text-xl">
         {value}
       </div>
@@ -298,7 +299,7 @@ const UserRow: React.FC<UserRowProp> = ({ u, userId }) => {
         {getUserFromId(u.id)}
       </div>
       <div className="flex flex-row items-start justify-between w-full">
-        <div className="flex flex-row text-base font-bold text-white md:text-2xl">
+        <div className="flex flex-row text-base font-bold text-white md:text-xl">
           {u.paid ? <>Paid - </> : <>${u.amount}</>}
           {proofFileId && (
             <div className="flex flex-row">

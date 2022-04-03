@@ -45,7 +45,7 @@ const CreateHouseModal: React.FC<CreateHouseModalProps> = ({
         closeButton
         aria-labelledby="create-modal"
         open={createVisible}
-        width={'50%'}
+        className="w-full"
         onClose={closeCreateHandler}
       >
         <Modal.Header>
@@ -89,13 +89,13 @@ const CreateHouseModal: React.FC<CreateHouseModalProps> = ({
             }
           />
           <Text size={'1.25rem'} margin="2%">
-            Phone Number
+            Email
           </Text>
           <Input
-            aria-label="phone number"
+            aria-label="email"
             clearable
             bordered
-            placeholder="Enter your phone number"
+            placeholder="Enter your email"
             size="xl"
             color="primary"
             onChange={(e) =>

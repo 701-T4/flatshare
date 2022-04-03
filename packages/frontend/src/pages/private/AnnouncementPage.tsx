@@ -26,18 +26,19 @@ const AnnouncementPage: React.FC = () => {
     method: 'post',
   });
 
+  const { data, mutate } = useApi('/api/v1/house/announcements', {
+    method: 'get',
+  });
+
   const handleOnSave = async (title: string, description: string) => {
     const data = {
       title: title,
       description: description,
     };
     await publishAnnouncement({ body: data });
-    window.location.reload();
+    mutate();
+    setModalVisible(false);
   };
-
-  const { data } = useApi('/api/v1/house/announcements', {
-    method: 'get',
-  });
 
   useEffect(() => {
     if (data !== undefined) {
@@ -49,7 +50,11 @@ const AnnouncementPage: React.FC = () => {
   return (
     <Page backpath="/dashboard">
       <div>
-        <Button className="rounded-lg" onClick={() => setModalVisible(true)}>
+        <Button
+          css={{ zIndex: 0 }}
+          className="font-semibold bg-teal-500"
+          onClick={() => setModalVisible(true)}
+        >
           New Announcement
         </Button>
         <AnnouncementModalForm
@@ -58,7 +63,7 @@ const AnnouncementPage: React.FC = () => {
           onSaveAnnouncement={handleOnSave}
         />
         {!loading && (
-          <div className="flex flex-col mt-8 gap-y-3">
+          <div className="flex flex-col mt-6 gap-y-3">
             {announcementList.length > 0 ? (
               announcementList.map((announcement, index) => {
                 return (
@@ -72,7 +77,9 @@ const AnnouncementPage: React.FC = () => {
                 );
               })
             ) : (
-              <div>No announcements found, post one now :)</div>
+              <div className="mt-3 text-xl font-semibold text-gray-300">
+                No announcements found, post one now :)
+              </div>
             )}
           </div>
         )}

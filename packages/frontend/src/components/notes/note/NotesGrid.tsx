@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Text, Grid, Card } from '@nextui-org/react';
+import { Grid, Card } from '@nextui-org/react';
 import WifiModal from './wifiModal';
 import PlainModal from './plainModal';
 import SecretModal from './secretModal';
@@ -81,34 +81,39 @@ const NotesGrid: React.FC<NotesGridProps> = ({ notes }) => {
         id={activeId}
       />
 
-      <Grid.Container gap={2} justify="center">
-        {notes?.map((item, index) => (
-          <Grid xs={18} md={6} sm={6} key={index}>
-            <Card
-              color="secondary"
-              hoverable
-              clickable
-              onClick={(event) => {
-                setActiveName(item.name);
-                setActiveValue(item.value);
-                setActiveId(item.id);
-                onClickCard(item);
-              }}
-            >
-              <Text color="black" size={30} weight="semibold">
-                {item.name}
-              </Text>
-              <Text
-                color="primary"
-                size={14}
-                transform="uppercase"
-                weight="semibold"
+      <Grid.Container gap={2} justify="flex-start">
+        {notes && notes?.length > 0 ? (
+          notes?.map((item, index) => (
+            <Grid xs={18} md={6} sm={6} key={index}>
+              <Card
+                color="secondary"
+                css={{
+                  backgroundColor: '#1D2530',
+                }}
+                className="border-none shadow-md hover:shadow-sm"
+                shadow={false}
+                clickable
+                onClick={(event) => {
+                  setActiveName(item.name);
+                  setActiveValue(item.value);
+                  setActiveId(item.id);
+                  onClickCard(item);
+                }}
               >
-                {item.type}
-              </Text>
-            </Card>
-          </Grid>
-        ))}
+                <h1 className="py-1 text-2xl font-semibold text-white">
+                  {item.name}
+                </h1>
+                <p className="pb-1 text-sm font-medium tracking-normal text-teal-400 uppercase">
+                  {item.type}
+                </p>
+              </Card>
+            </Grid>
+          ))
+        ) : (
+          <div className="mt-3 text-xl font-semibold text-gray-300">
+            No notes found, create one now :)
+          </div>
+        )}
       </Grid.Container>
     </div>
   );

@@ -112,8 +112,8 @@ const TaskPage: React.FC<TaskPageProps> = () => {
   };
 
   return (
-    <Page>
-      <div className="flex flex-row justify-end">
+    <Page backpath="/dashboard">
+      <div className="flex flex-row justify-start pb-5">
         <CreateNewTaskButton onClick={openModalHandler} />
       </div>
       <div className="flex flex-col gap-8">

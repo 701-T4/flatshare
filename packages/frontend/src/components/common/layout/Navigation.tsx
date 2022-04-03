@@ -13,10 +13,10 @@ const Navigation: React.FC<NavigationProps> = ({ backpath }) => {
   const navigate = useNavigate();
   return (
     <div className="p-4 mb-8 shadow bg-slate-50">
-      <div className="flex items-center justify-between mx-10">
+      <div className="flex items-center justify-between mr-2 sm:mx-10">
         <BackButton backpath={backpath} />
         <Button
-          className="w-auto h-auto bg-transparent"
+          className="w-auto h-auto bg-transparent sm:ml-0 "
           onClick={() => navigate('/dashboard')}
         >
           <AppLogo />

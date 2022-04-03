@@ -17,21 +17,24 @@ const DashboardAnnouncement: React.FC<DashboardAnnouncementProps> = ({
   description,
 }) => {
   return (
-    <div className="rounded-xl p-6 mb-6 bg-gray-800  w-full flex flex-row justify-between text-white space-x-8">
+    <div className="flex flex-col justify-between w-full p-6 mb-6 text-white bg-gray-800 sm:gap-x-8 sm:flex-row rounded-xl">
       <div className="flex flex-col h-full max-w-full overflow-hidden">
-        <h3 className="text-xl font-bold tracking-normal mb-2">{title}</h3>
-        <p className="text-xs mb-3">
+        <h3 className="mb-2 text-xl font-bold tracking-normal">{title}</h3>
+        <p className="mb-3 text-sm font-semibold">
           {time.toLocaleString()}, {user}
         </p>
-        <p className="truncate ...">{description}</p>
+        <h6 className="text-base font-normal truncate ...">{description}</h6>
       </div>
-      <Button
-        aria-label="View All Announcements"
-        className="bg-teal-500 self-center"
-        onClick={onViewAll}
-      >
-        View All Announcements
-      </Button>
+      <div className="flex justify-end w-full sm:w-auto">
+        <Button
+          aria-label="View All Announcements"
+          className="self-center mt-5 bg-teal-500 sm:mt-0"
+          css={{ zIndex: 0 }}
+          onClick={onViewAll}
+        >
+          View All Announcements
+        </Button>
+      </div>
     </div>
   );
 };
