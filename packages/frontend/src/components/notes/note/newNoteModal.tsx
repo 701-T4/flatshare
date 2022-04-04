@@ -12,12 +12,13 @@ import {
 } from '@nextui-org/react';
 import { useApi, useApiMutation } from '../../../hooks/useApi';
 
-const NORMAL_TYPE = 'Normal';
+const PLAIN_TYPE = 'Plain';
 const SECRET_TYPE = 'Secret';
 const WIFI_TYPE = 'WiFi';
 
 const noteType = [
-  { name: NORMAL_TYPE },
+
+  { name: PLAIN_TYPE },
   { name: SECRET_TYPE },
   { name: WIFI_TYPE },
 ];
@@ -126,7 +127,8 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
             else setShowWifiInputs(false);
             if (e.name === SECRET_TYPE) setShowSecretInputs(true);
             else setShowSecretInputs(false);
-            if (e.name === NORMAL_TYPE)
+
+            if (e.name === PLAIN_TYPE)
               setNoteDetails((prevState) => ({
                 ...prevState,
                 type: NoteTypes.PLAIN,
