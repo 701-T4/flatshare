@@ -3,6 +3,7 @@ import {
   Get,
   Post,
   Body,
+  Put,
   HttpException,
   HttpStatus,
 } from '@nestjs/common';
@@ -25,6 +26,7 @@ import UserTasksResponseDto from './dto/user-tasks-response.dto';
 import { TaskStoreService } from '../../db/task/taskStore.service';
 import { TaskUtil } from '../tasks/tasks.util';
 import { TaskResponseDto } from './dto/task-response-dto';
+import UpdateUserDto from './dto/update-user.dto';
 
 @ApiTags('users')
 @Controller('/api/v1/user')
@@ -55,13 +57,24 @@ export class UsersController {
     if (existingUserDoc) {
       throw new HttpException('user already exists', HttpStatus.CONFLICT);
     }
-    const createdUserDoc = await this.userStoreService.create(createUserDto);
+    const createdUserDoc = await this.userStoreService.create({
+      name: createUserDto.name,
+      firebaseId: createUserDto.firebaseId,
+      rentPercentage: 0,
+      contact: '',
+      dateJoined: null,
+      contractEndingDate: null,
+    });
     const houseDoc = await this.houseStoreService.findOne(createdUserDoc.house);
 
     return {
       name: createdUserDoc.name,
       firebaseId: createdUserDoc.firebaseId,
       house: houseDoc?.code,
+      rentPercentage: createdUserDoc.rentPercentage,
+      contact: createdUserDoc.contact,
+      dateJoined: createdUserDoc.dateJoined,
+      contractEndingDate: createdUserDoc.contractEndingDate,
     };
   }
 
@@ -79,7 +92,102 @@ export class UsersController {
       name: userDoc.name,
       firebaseId: userDoc.firebaseId,
       house: houseDoc?.code,
+      rentPercentage: userDoc.rentPercentage,
+      contact: userDoc.contact,
+      dateJoined: userDoc.dateJoined,
+      contractEndingDate: userDoc.contractEndingDate,
     };
+  }
+
+  @Put()
+  @Auth()
+  @ApiOperation({ summary: 'update details for a user' })
+  @ApiOkResponse({
+    description: 'user details updated successfully',
+    type: UserResponseDto,
+  })
+  @ApiBadRequestResponse({ description: 'user details are invalid' })
+  async updateUser(
+    @Body() updateUserDto: UpdateUserDto,
+  ): Promise<UserResponseDto> {
+    if (updateUserDto.firebaseId != null) {
+      const percentageLimit = 100;
+      let userDoc = await this.userStoreService.findOneByFirebaseId(
+        updateUserDto.firebaseId,
+      );
+      if (userDoc != null) {
+        await this.userStoreService.update(updateUserDto.firebaseId, {
+          name: updateUserDto.name,
+          contact: updateUserDto.contact,
+        });
+
+        if (updateUserDto.rentPercentage != null) {
+          if (
+            updateUserDto.rentPercentage <= percentageLimit &&
+            updateUserDto.rentPercentage >= 0
+          ) {
+            await this.userStoreService.update(updateUserDto.firebaseId, {
+              rentPercentage: updateUserDto.rentPercentage,
+            });
+          } else {
+            throw new HttpException(
+              'rent percentage is invalid, please make sure 0 <= rentPercentage <= 100',
+              HttpStatus.BAD_REQUEST,
+            );
+          }
+        }
+
+        if (updateUserDto.dateJoined != null) {
+          if (!isNaN(new Date(updateUserDto.dateJoined).getTime())) {
+            await this.userStoreService.update(updateUserDto.firebaseId, {
+              dateJoined: updateUserDto.dateJoined,
+            });
+          } else {
+            throw new HttpException(
+              'dateJoined is invalid',
+              HttpStatus.BAD_REQUEST,
+            );
+          }
+        }
+
+        if (updateUserDto.contractEndingDate != null) {
+          if (!isNaN(new Date(updateUserDto.contractEndingDate).getTime())) {
+            await this.userStoreService.update(updateUserDto.firebaseId, {
+              contractEndingDate: updateUserDto.contractEndingDate,
+            });
+          } else {
+            throw new HttpException(
+              'contractEndingDate is invalid',
+              HttpStatus.BAD_REQUEST,
+            );
+          }
+        }
+
+        userDoc = await this.userStoreService.findOneByFirebaseId(
+          updateUserDto.firebaseId,
+        );
+        const houseDoc = await this.houseStoreService.findOne(userDoc.house);
+        return {
+          name: userDoc.name,
+          firebaseId: userDoc.firebaseId,
+          house: houseDoc?.code,
+          rentPercentage: userDoc.rentPercentage,
+          contact: userDoc.contact,
+          dateJoined: userDoc.dateJoined,
+          contractEndingDate: userDoc.contractEndingDate,
+        };
+      } else {
+        throw new HttpException(
+          'failed to update user details',
+          HttpStatus.BAD_REQUEST,
+        );
+      }
+    } else {
+      throw new HttpException(
+        'user firebaseId is not valid',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   @Get('/tasks')

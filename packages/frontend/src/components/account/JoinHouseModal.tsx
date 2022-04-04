@@ -44,6 +44,7 @@ const JoinHouseModal: React.FC<CreateHouseModalProps> = ({
         closeButton
         aria-labelledby="modal-title"
         open={joinVisible}
+        className="w-full"
         onClose={closeJoinHandler}
       >
         <Modal.Header>

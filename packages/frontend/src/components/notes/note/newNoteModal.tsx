@@ -17,6 +17,7 @@ const SECRET_TYPE = 'Secret';
 const WIFI_TYPE = 'WiFi';
 
 const noteType = [
+
   { name: PLAIN_TYPE },
   { name: SECRET_TYPE },
   { name: WIFI_TYPE },
@@ -126,6 +127,7 @@ const NewNoteModal: React.FC<NewNoteModalProps> = ({
             else setShowWifiInputs(false);
             if (e.name === SECRET_TYPE) setShowSecretInputs(true);
             else setShowSecretInputs(false);
+
             if (e.name === PLAIN_TYPE)
               setNoteDetails((prevState) => ({
                 ...prevState,

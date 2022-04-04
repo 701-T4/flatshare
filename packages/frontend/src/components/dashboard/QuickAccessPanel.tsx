@@ -3,7 +3,9 @@ import TopAction from './TopAction';
 import house from '../../res/dashboard/house.webp';
 import cleaning from '../../res/dashboard/cleaning.webp';
 import cogs from '../../res/dashboard/cogs.webp';
+import repair from '../../res/dashboard/repair.webp';
 import notes from '../../res/dashboard/post-notes.webp';
+import announcement from '../../res/dashboard/announcement.webp';
 import { useNavigate } from 'react-router';
 
 interface QuickAccessPanelProps {}
@@ -26,10 +28,11 @@ const QuickAccessPanel: React.FC<QuickAccessPanelProps> = () => {
       <TopAction
         // https://unsplash.com/photos/SnKfmC1I9fU
         img={cleaning}
-        title="Chores"
+        title="Tasks"
         twGradientStart="from-blue-700"
         twGradientEnd="to-green-800"
         twOpacity="opacity-80"
+        onClick={() => navigate('/tasks')}
         description="Decide who should do what chores."
       />
       <TopAction
@@ -39,6 +42,7 @@ const QuickAccessPanel: React.FC<QuickAccessPanelProps> = () => {
         twGradientStart="from-purple-700"
         twGradientEnd="to-yellow-800"
         twOpacity="opacity-80"
+        onClick={() => navigate('/manage-flat')}
         description="Manage your flat's members and settings."
       />
       <TopAction
@@ -49,6 +53,27 @@ const QuickAccessPanel: React.FC<QuickAccessPanelProps> = () => {
         twGradientEnd="to-red-700"
         twOpacity="opacity-80"
         description="Miscellaneous notes about your flat."
+        onClick={() => navigate('/notes')}
+      />
+      <TopAction
+        // https://unsplash.com/photos/cGXdjyP6-NU
+        img={repair}
+        title="Maintenance Issues"
+        twGradientStart="from-blue-700"
+        twGradientEnd="to-green-800"
+        twOpacity="opacity-80"
+        onClick={() => navigate('/issues')}
+        description="Keep track of issues around the flat."
+      />
+      <TopAction
+        // https://unsplash.com/photos/QRKJwE6yfJo
+        img={announcement}
+        title="Announcements"
+        twGradientStart="from-red-500"
+        twGradientEnd="to-red-800"
+        twOpacity="opacity-80"
+        onClick={() => navigate('/announcement')}
+        description="Important notices from your mates"
       />
     </div>
   );

@@ -9,6 +9,7 @@ const Variation = {
   teal: 'bg-gradient-to-r from-teal-400 to-teal-600',
   purple: 'bg-gradient-to-r from-purple-400 to-purple-600',
   gray: 'bg-gradient-to-r from-gray-600 to-gray-400',
+  blue: 'bg-gradient-to-r from-blue-500 to-teal-700',
 };
 
 interface UpcomingTaskProps {
@@ -16,7 +17,7 @@ interface UpcomingTaskProps {
   twColor?: string;
   dueString?: string;
   overdue?: boolean;
-  type: 'Task' | 'Bill';
+  type: 'Task' | 'Bill' | 'Issue';
   completed?: boolean;
   past?: boolean;
   onCompleteClick?: () => void;
@@ -45,19 +46,26 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
     onCompleteClick?.();
   };
 
+  let completeText = 'Complete';
+  if (type === 'Issue') {
+    completeText = 'Resolve';
+  }
+
+  const includeDetailsLink = ['Bill', 'Issue'];
+
   return (
-    <div className="shadow-lg rounded-b-xl">
+    <div className="shadow-lg rounded-b-xl min-w-fit">
       <div className="flex flex-col h-full">
         <div
           className={cx(
             twColor,
-            'text-left rounded-t-xl px-4 py-1 text-white font-semibold text-lg',
+            'text-left rounded-t-xl px-4 py-2 text-white font-semibold text-lg',
             { [Variation.gray]: disabled },
           )}
         >
-          <div className="flex flex-row justify-between">
+          <div className="flex flex-row justify-between mx-2">
             {type}
-            {type === 'Bill' && !past && (
+            {includeDetailsLink.includes(type) && !past && (
               <button
                 className="flex items-center justify-center w-16 text-sm font-semibold text-white rounded-md hover:bg-red-500"
                 onClick={onDetailClick}
@@ -84,16 +92,25 @@ const UpcomingTask: React.FC<UpcomingTaskProps> & {
                 {dueString}
               </div>
             </div>
-            <button
-              className={cx(
-                'text-white flex justify-center items-center transition-all bg-teal-500 hover:bg-teal-400 rounded-full px-4 py-2 font-medium h-fit disabled:bg-gray-500',
-                { 'w-16': completed, 'w-32': !completed },
-              )}
-              onClick={clickWrapper}
-              disabled={disabled}
-            >
-              {completed ? <CheckCircleIcon className="w-6" /> : <>Complete</>}
-            </button>
+            <div onClick={(e) => e.stopPropagation()}>
+              <button
+                className={cx(
+                  'text-white flex ml-5 justify-center items-center transition-all rounded-full px-4 py-2 font-medium h-fit disabled:bg-gray-500',
+                  {
+                    'w-14 cursor-default bg-teal-500': completed,
+                    'w-32 bg-teal-500 hover:bg-teal-400': !completed,
+                  },
+                )}
+                onClick={clickWrapper}
+                disabled={disabled}
+              >
+                {completed ? (
+                  <CheckCircleIcon className="w-6" />
+                ) : (
+                  <>{completeText}</>
+                )}
+              </button>
+            </div>
           </div>
         </div>
       </div>

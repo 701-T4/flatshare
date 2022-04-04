@@ -25,5 +25,9 @@
     "setup:npm": "lerna bootstrap",
     "setup:git": "git config lfs.locksverify false",
     "license-report": "yarn licenses generate-disclaimer > LICENSE-3RD-PARTY.md && lerna run --parallel license-report"
+  },
+  "dependencies": {
+    "@emailjs/browser": "^3.5.0",
+    "firebase": "^9.6.10"
   }
 }

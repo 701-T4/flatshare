@@ -9,4 +9,16 @@ export default class UserResponseDto {
 
   @ApiProperty()
   firebaseId: string;
+
+  @ApiPropertyOptional()
+  rentPercentage?: number;
+
+  @ApiPropertyOptional()
+  contact?: string;
+
+  @ApiPropertyOptional()
+  dateJoined?: Date;
+
+  @ApiPropertyOptional()
+  contractEndingDate?: Date;
 }

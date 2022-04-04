@@ -102,11 +102,14 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
     [data],
   );
   return (
-    <Page>
+    <Page backpath="/dashboard">
       <div className="flex flex-col gap-4">
         <Button
           aria-label="New bill"
-          className="w-16 my-3 bg-teal-500"
+          css={{
+            zIndex: 0,
+          }}
+          className="w-16 my-3 font-semibold bg-teal-500"
           onClick={() => setNewBill(!newBill)}
         >
           New Bill
@@ -117,7 +120,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
             refetchFromApi={mutate}
           />
         )}
-        <div className="flex flex-col gap-4">
+        <div className="flex flex-col gap-4 mt-4">
           <UnderlinedText colorClasses="bg-gray-800">
             <div className="text-lg font-semibold">Upcoming Bills</div>
           </UnderlinedText>
@@ -189,7 +192,7 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
               No Upcoming Bill
             </div>
           )}
-          <UnderlinedText className="pt-10" colorClasses="bg-gray-800">
+          <UnderlinedText className="pt-5" colorClasses="bg-gray-800">
             <div className="text-lg font-semibold">Past Bills</div>
           </UnderlinedText>
           {pastBill.length !== 0 ? (
@@ -207,13 +210,6 @@ const BillSplittingPage: React.FC<BillSplittingPageProps> = () => {
                   />
                 ))}
               </div>
-
-              <Button
-                aria-label="Load more past bill"
-                className="w-16 mt-3 bg-gray-500"
-              >
-                Load More
-              </Button>
             </>
           ) : (
             <div className="flex flex-col items-center py-5 text-xl font-semibold text-gray-300">
