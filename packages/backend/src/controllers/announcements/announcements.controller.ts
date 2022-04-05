@@ -41,6 +41,12 @@ export class AnnouncementController {
     private readonly houseStoreService: HouseStoreService,
   ) {}
 
+  /**
+   * Create a new Announcement
+   * @param createAnnouncementDto
+   * @param user
+   * @returns AnnouncementResponseDto containing details of created Announcement
+   */
   @Post()
   @ApiOperation({ summary: 'Create a new announcement' })
   @ApiCreatedResponse({
@@ -84,6 +90,11 @@ export class AnnouncementController {
     );
   }
 
+  /**
+   * Get all Announcements for the authenticated user's house
+   * @param user
+   * @returns An array of Announcement representations
+   */
   @Get()
   @ApiOperation({ summary: 'Get all announcements in users house' })
   @ApiOkResponse({
