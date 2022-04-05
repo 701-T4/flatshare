@@ -7,6 +7,14 @@ export interface AnnouncementCardProps {
   userName: string;
 }
 
+/**
+ * This component creates an announcement card to display title and detail
+ *  of the announcement along with a timestamp and the username of the
+ *  user created the announcement.
+ * @param props Required details for announcement card, including title, detail,
+ *  time and userName.
+ */
+
 const AnnouncementCard: React.FC<AnnouncementCardProps> = (props) => {
   return (
     <>
