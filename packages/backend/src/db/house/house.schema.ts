@@ -15,7 +15,7 @@ export class House {
   address: string;
 
   @Prop()
-  rent: number;
+  rent: number; //represents the total rent per unit time to rent the house.
 
   @Prop()
   maxOccupants: number;
@@ -30,7 +30,7 @@ export class House {
   users: Array<Types.ObjectId> = [];
 
   @Prop({ type: Types.ObjectId, ref: 'Announcement' })
-  latestAnnouncement?: Types.ObjectId;
+  latestAnnouncement?: Types.ObjectId; //contains a reference to the most recently created announcement from the house.
 }
 
 export const HouseSchema = SchemaFactory.createForClass(House);

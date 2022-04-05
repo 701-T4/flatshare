@@ -16,6 +16,9 @@ import { AnnouncementController } from './announcements.controller';
 import { Types } from 'mongoose';
 import { AnnouncementResponseDto } from './dto/announcement-response.dto';
 
+/**
+ * Contains test cases for Announcement endpoints
+ */
 describe('announcementsController', () => {
   let controller: AnnouncementController;
   let userStoreService: UserStoreService;

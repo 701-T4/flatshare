@@ -26,6 +26,11 @@ import {
 import { AnnouncementUtil } from './announcements.util';
 import { Auth } from '../../util/auth.decorator';
 
+/**
+ * The AnnouncementController class contains endpoint implementations for CRUD
+ * operations related to Announcements. Endpoints are documented on Swagger.
+ * More information on Swagger can be found in the repository documentation.
+ */
 @ApiTags('announcements')
 @Controller('/api/v1/house/announcements')
 @Auth()
@@ -97,7 +102,7 @@ export class AnnouncementController {
     const house = await this.houseStoreService.findOne(requester.house);
     const announcements =
       await this.announcementStoreService.findAllByHouseCode(house.code);
-
+    //convert all retrieved announcements to DTOs
     const announcementDTOs = await Promise.all(
       announcements.map((announcement) => {
         return this.announcementUtil.convertAnnouncementDocumentToResponseDTO(

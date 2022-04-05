@@ -12,6 +12,9 @@ const mockAnnouncement = {
   houseCode: 'code #1',
 };
 
+/**
+ * Contains tests for the announcementStore.service DB access methods
+ */
 describe('AnnouncementStoreService', () => {
   let service: AnnouncementStoreService;
   let model: Model<Announcement>;

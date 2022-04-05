@@ -1,5 +1,11 @@
 import { ApiProperty, ApiPropertyOptional } from '@nestjs/swagger';
 
+/**
+ * This class represents the output object to be returned
+ * when an Announcement is requested through the API.
+ * This DTO additionally contains a dateCreated field,
+ * and contains an author name rather than an ID.
+ */
 export class AnnouncementResponseDto {
   @ApiPropertyOptional()
   title: string;
