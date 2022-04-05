@@ -18,6 +18,11 @@ import {
 } from './announcement/announcement.schema';
 import { AnnouncementStoreService } from './announcement/announcementStore.service';
 
+/**
+ * The db module is responsible for registering the schema so that the
+ * each model can be injected in its respective service class via its
+ * constructor.
+ */
 @Module({
   imports: [
     MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
