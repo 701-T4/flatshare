@@ -5,15 +5,11 @@ import { OccupantCardProps } from './OccupantCard';
 
 import { PanelContext } from './OccupantPanel';
 
-interface InputContextInterface {
-  occupantFormData: OccupantCardProps;
-  setOccupantFormData: React.Dispatch<React.SetStateAction<OccupantCardProps>>;
-}
-
-export const InputContext = React.createContext<InputContextInterface>(
-  {} as InputContextInterface,
-);
-
+/**
+ * OccupantForm is a form that contains input fields to configure occupant settings, such as contact number, rent percentage etc.
+ *
+ * @param props refer to OccupantCardProps interface.
+ */
 const OccupantForm: React.FC<OccupantCardProps> = (props) => {
   const [percentage, setPercentage] = useState<number>(
     props.rentPercentage || 0,
