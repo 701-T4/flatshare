@@ -9,6 +9,14 @@ interface DashboardAnnouncementProps {
   description: string;
 }
 
+/**
+ * This component displays the latest announcement on the dashboard above all the cards
+ * It displays the title and description of the announcement along with a time stamp and
+ * the username of the user published that announcement. It also has a 'View All Announcement'
+ * button and link to the announcement page.
+ * @param props Required details for the dashboard announcement card, including title, time, user
+ * description and a onViewAll function to go to the announcement page and view all announcements.
+ */
 const DashboardAnnouncement: React.FC<DashboardAnnouncementProps> = ({
   onViewAll,
   title,

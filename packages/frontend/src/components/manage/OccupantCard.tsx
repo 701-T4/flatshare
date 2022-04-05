@@ -3,6 +3,10 @@ import React, { useContext } from 'react';
 import OccupantForm from './OccupantForm';
 import { PanelContext } from './OccupantPanel';
 
+/**
+ * This is equivalent to the data schema of User collection in the database.
+ * (plus some extra fields)
+ */
 export interface OccupantCardProps {
   name: string;
   firebaseId: string;
@@ -13,6 +17,12 @@ export interface OccupantCardProps {
   isOwner: boolean;
 }
 
+/**
+ * A collapsible card that exposes the settings for each occupant.
+ * The only responsibility of this component is to make a collapsible component that wraps around OccupantForm
+ * @param props
+ * @returns
+ */
 const OccupantCard: React.FC<OccupantCardProps> = (props) => {
   const { totalRent } = useContext(PanelContext);
 
@@ -36,7 +46,8 @@ const OccupantCard: React.FC<OccupantCardProps> = (props) => {
     <>
       <Collapse.Group splitted style={{ padding: 0 }}>
         <Collapse
-          // background color cannot be overridden with css prop nor tailwind className
+          // background color for NextUI's Collapse component
+          // cannot be overridden with css prop nor tailwind className
           style={{ backgroundColor: '#1D2530' }}
           title={<OccupantSummary />}
         >

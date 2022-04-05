@@ -13,6 +13,11 @@ interface AnnouncementResponseProp {
   dateCreated: string;
 }
 
+/**
+ * This page allows users to publish new announcement and displays
+ * all the existing announcements in this flat. It is connected to
+ * the dashboard via the 'Announcements' card
+ */
 const AnnouncementPage: React.FC = () => {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -40,6 +45,7 @@ const AnnouncementPage: React.FC = () => {
     setModalVisible(false);
   };
 
+  /** only update when the data got from backend changed */
   useEffect(() => {
     if (data !== undefined) {
       setAnnouncementList(data.announcements);
