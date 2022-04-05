@@ -28,7 +28,8 @@ import { Auth } from '../../util/auth.decorator';
 
 /**
  * The AnnouncementController class contains endpoint implementations for CRUD
- * operations related to Announcements.
+ * operations related to Announcements. Endpoints are documented on Swagger.
+ * More information on Swagger can be found in the repository documentation.
  */
 @ApiTags('announcements')
 @Controller('/api/v1/house/announcements')
@@ -41,12 +42,6 @@ export class AnnouncementController {
     private readonly houseStoreService: HouseStoreService,
   ) {}
 
-  /**
-   * Create a new Announcement
-   * @param createAnnouncementDto
-   * @param user
-   * @returns AnnouncementResponseDto containing details of created Announcement
-   */
   @Post()
   @ApiOperation({ summary: 'Create a new announcement' })
   @ApiCreatedResponse({
@@ -90,11 +85,6 @@ export class AnnouncementController {
     );
   }
 
-  /**
-   * Get all Announcements for the authenticated user's house
-   * @param user
-   * @returns An array of Announcement representations
-   */
   @Get()
   @ApiOperation({ summary: 'Get all announcements in users house' })
   @ApiOkResponse({
@@ -112,7 +102,7 @@ export class AnnouncementController {
     const house = await this.houseStoreService.findOne(requester.house);
     const announcements =
       await this.announcementStoreService.findAllByHouseCode(house.code);
-
+    //convert all retrieved announcements to DTOs
     const announcementDTOs = await Promise.all(
       announcements.map((announcement) => {
         return this.announcementUtil.convertAnnouncementDocumentToResponseDTO(
