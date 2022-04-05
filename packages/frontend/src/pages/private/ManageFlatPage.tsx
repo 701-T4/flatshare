@@ -13,6 +13,9 @@ import { HouseSettingsProps } from '../../components/manage/HouseSettings';
 
 interface ManageFlatPageProps {}
 
+/**
+ * Comments here
+ */
 const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
   const house = useHouse();
   const { user } = useAuth();
