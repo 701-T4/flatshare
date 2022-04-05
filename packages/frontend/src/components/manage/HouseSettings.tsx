@@ -2,6 +2,8 @@ import { Container, Input, Button, FormElement } from '@nextui-org/react';
 import React, { useState } from 'react';
 
 export interface HouseSettingsProps {
+  // The `{ownerView}` boolean dictates whether or not the form is editable to its
+  // current viewer.
   ownerView: boolean;
   houseName: string;
   totalRent?: number;
@@ -11,6 +13,12 @@ export interface HouseSettingsProps {
   onUpdateHouse: Function;
 }
 
+/**
+ * This is the component which displays the general house settings on
+ * the ManageFlatPage. All house occupants have view permissions, but
+ * only the owner is allowed to edit.
+ * @param props Refer to HouseSettingsProps
+ */
 const HouseSettings: React.FC<HouseSettingsProps> = (props) => {
   const [houseSettingsData, setHouseSettingsData] =
     useState<HouseSettingsProps>({ ...props });
