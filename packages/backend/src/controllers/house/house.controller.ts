@@ -170,6 +170,15 @@ export class HouseController {
     } else throw new HttpException('code is invalid', HttpStatus.BAD_REQUEST);
   }
 
+  /**
+   * The PUT /house/update endpoint is used to update house details
+   * This naming convention was adopted due to the prior existance of
+   * the PUT /house endpoint which updates the House based on newly joined
+   * users.
+   * @param updateHouseDto
+   * @param user
+   * @returns A house DTO
+   */
   @Put('update')
   @ApiOperation({ summary: 'update the current house details' })
   @ApiOkResponse({

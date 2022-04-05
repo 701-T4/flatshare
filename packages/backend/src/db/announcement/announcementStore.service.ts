@@ -8,6 +8,11 @@ import {
   AnnouncementModel,
 } from './announcement.schema';
 
+/**
+ * The announcementStore.service class contains methods that interact with
+ * the Mongo database. These methods should be used in the controller classes
+ * to perform DB interactions.
+ */
 @Injectable()
 export class AnnouncementStoreService {
   constructor(

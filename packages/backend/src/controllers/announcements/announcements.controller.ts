@@ -26,6 +26,10 @@ import {
 import { AnnouncementUtil } from './announcements.util';
 import { Auth } from '../../util/auth.decorator';
 
+/**
+ * The AnnouncementController class contains endpoint implementations for CRUD
+ * operations related to Announcements.
+ */
 @ApiTags('announcements')
 @Controller('/api/v1/house/announcements')
 @Auth()

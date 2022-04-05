@@ -3,6 +3,9 @@ import { Document, Types } from 'mongoose';
 
 export type AnnouncementDocument = Announcement & Document;
 
+/**
+ * The Announcement schema represents an announcement made by a House member.
+ */
 @Schema({ timestamps: true })
 export class Announcement {
   @Prop()
