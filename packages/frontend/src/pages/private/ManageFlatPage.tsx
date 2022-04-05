@@ -14,22 +14,33 @@ import { HouseSettingsProps } from '../../components/manage/HouseSettings';
 interface ManageFlatPageProps {}
 
 /**
- * Comments here
+ * This is the page of the application that allows the user to
+ * manage their flat. It is connected from the dashbaord via
+ * the "Manage Flat" card
  */
 const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
   const house = useHouse();
   const { user } = useAuth();
 
+  /**
+   * Used for updating the house settings. Only accessibly by the
+   * house owner.
+   */
   const saveHouseInfo = useApiMutation('/api/v1/house/update', {
     method: 'put',
   });
 
+  /**
+   * Used for updating the information of a single occupant of the house.
+   * This is also used for deleting occupants from the house.
+   */
   const updateOccupantInfo = useApiMutation('/api/v1/user', {
     method: 'put',
   });
 
   const onSaveHouseInfo = async (data: HouseSettingsProps) => {
     const newData: components['schemas']['UpdateHouseDto'] = {
+      // House code is use to identify the flat to be updated in the backend
       code: house.code!,
       address: data.address,
       name: data.houseName,
@@ -52,7 +63,6 @@ const ManageFlatPage: React.FC<ManageFlatPageProps> = () => {
       contractEndingDate: occupantDetails.contractEndingDate?.toDateString(),
     };
 
-    console.log(newData);
     await updateOccupantInfo({ body: newData });
     window.location.reload();
   };
